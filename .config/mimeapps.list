@@ -1,0 +1,24 @@
+[Added Associations]
+application/zip=org.gnome.FileRoller.desktop;xarchiver.desktop;
+text/markdown=nvim.desktop;
+application/x-compressed-tar=xarchiver.desktop;
+application/x-xz-compressed-tar=xarchiver.desktop;
+
+[Default Applications]
+text/plain=nvim.desktop
+text/html=chromium.desktop
+image/png=feh.desktop
+image/jpeg=feh.desktop
+image/gif=feh.desktop
+video/mp4=mpv.desktop
+application/pdf=mupdf.desktop
+application/vnd.ms-powerpoint=libreoffice-impress.desktop;
+application/vnd.ms-powerpoint.presentation=libreoffice-impress.desktop;
+application/vnd.ms-powerpoint.template=libreoffice-impress.desktop;
+application/vnd.ms-word=libreoffice-writer.desktop;
+application/vnd.ms-word.document=libreoffice-writer.desktop;
+application/vnd.ms-word.template=libreoffice-writer.desktop;
+x-scheme-handler/http=chromium.desktop
+x-scheme-handler/https=chromium.desktop
+x-scheme-handler/about=chromium.desktop
+x-scheme-handler/unknown=chromium.desktop
