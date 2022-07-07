@@ -236,6 +236,8 @@ user_pref("layout.spellcheckDefault", 0);
 user_pref("extensions.screenshots.disabled", true);
 user_pref("identity.fxaccounts.enabled", false);
 user_pref("reader.parse-on-load.enabled", false);
+user_pref("javascript.options.ion", false);
+user_pref("javascript.options.baselinejit", false);
 
 /**
  * misc. personal preferences
