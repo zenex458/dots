@@ -1,7 +1,6 @@
-#do this last: make it so you only need the "setup.sh" file
 suck_less ()
 {
-	cd ~/.config/dwm &&
+	cd ~/.config/dwm
 	$perm make install &&
 	sleep 2 &&
 	cd ~/.config/slstatus &&
@@ -49,7 +48,8 @@ Arch ()
 Debian ()
 {
 	sudo apt update &&
-	$pkg neovim wget htop feh playerctl redshift libreoffice dunst libnotify4 libnotify-dev libnotify-bin scrot mupdf bc wcalc cmus yt-dlp zip unzip fuse3 network-manager mpv newsboat light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw &&
+	$pkg neovim wget curl firefox-esr htop feh playerctl redshift libreoffice libreoffice-gtk dunst libnotify4 libnotify-dev libnotify-bin scrot mupdf bc cmus tar zip unzip fuse3 ntfs-3g thunar mpv light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw make gcc nnn arandr libxrandr-dev pipewire pipewire-audio-client-libraries alsa-utils &&
+
 	suck_less &&  
 
 	postsetup 
