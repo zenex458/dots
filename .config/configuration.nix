@@ -134,6 +134,13 @@
     pulse.enable = true;
 };
 
+  nix.settings.auto-optimise-store = true;
+  
+  services.fstrim = {
+  enable = true;
+  interval = "weekly";
+  };
+
 
   networking.firewall.enable = true;
   # This value determines the NixOS release from which the default
