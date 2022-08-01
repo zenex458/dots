@@ -4,13 +4,11 @@ alias ls="ls -F"
 alias ga="git add"
 alias gc="git commit -m"
 alias gp="git push -u origin main"
-alias re="sudo reboot"
-alias slep="slock & systemctl suspend"
-alias off="sudo poweroff"
-alias add="sudo pacman -S"
-alias rem="sudo pacman -R"
-alias upd="sudo pacman -Syu"
-alias ase="sudo pacman -Ss"
+alias re="systemctl reboot"
+alias slep="xsecurelock & systemctl suspend"
+alias off="systemctl poweroff"
+alias upd="doas nix-channel --update && doas nixos-rebuild switch"
+alias remoldgen="doas nix-collect-garbage -d && upd"
 alias updoff="upd && sleep 2 && off"
 alias cat="cat -n"
 alias grep="grep -i --colour=always"
@@ -25,10 +23,16 @@ alias scro="scrot -d 5 -q 100 '%Y-%m-%d_$wx$h.jpeg'"
 alias cco="gcc -Wall"
 alias ytmp3="yt-dlp -x -o '%(title)s.%(ext)s' --audio-format mp3  --audio-quality 0 "
 alias yt="yt-dlp -o '%(title)s.%(ext)s' "
-alias mofat="sudo mount -t exfat /dev/mmcblk0p1 ~/.sdcard"
+alias mofat="doas mount -t exfat /dev/mmcblk0p1 ~/.sdcard"
 alias xdup="xrandr --output HDMI-2 --same-as eDP-1"
+alias dict="sdcv --data-dir ~/.config/stardict/web1913/ "
 
-PS1="[\w][\t]\n$ "
+function dict_def () {
+	
+	sdcv --data-dir ~/.config/stardict/web1913 $1 | less
+}
+
+PS1="[\w][\t]\nλ "
 
 HISTFILE="/tmp/.bash_history"
 HISTSIZE=1000
