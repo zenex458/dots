@@ -26,6 +26,7 @@ alias yt="yt-dlp -o '%(title)s.%(ext)s' "
 alias mofat="doas mount -t exfat /dev/mmcblk0p1 ~/.sdcard"
 alias xdup="xrandr --output HDMI-2 --same-as eDP-1"
 alias dict="sdcv --data-dir ~/.config/stardict/web1913/ "
+alias chnum="stat -c '%a %n'"
 
 function dict_def () {
 	
