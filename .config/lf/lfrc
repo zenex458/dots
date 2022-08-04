@@ -1,0 +1,82 @@
+set shell bash
+set shellopts '-eu'
+set hidden true
+set ifs "\n"
+set scrolloff 10
+map <enter> shell
+
+# execute current file (must be executable)
+map x $$f
+map X !$f
+
+# dedicated keys for file opener actions
+map o &mimeopen $f
+map O $mimeopen --ask $f
+
+cmd open ${{
+    test -L $f && f=$(readlink -f $f)
+    case $(file --mime-type $f -b) in
+        text/*) $EDITOR $fx;;
+        *) for f in $fx; do setsid $OPENER $f > /dev/null 2> /dev/null & done;;
+    esac
+}}
+
+cmd rename ${{
+	vimv
+}}
+map r rename
+
+# define a custom 'delete' command
+ cmd delete ${{
+     set -f
+     printf "$fx\n"
+     printf "delete? [y/n]"
+     read ans
+     [ "$ans" = "y" ] && rm -rf $fx
+ }}
+
+ map <delete> delete
+
+cmd extract ${{
+    set -f
+    case $f in
+        *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf $f;;
+        *.tar.gz|*.tgz) tar xzvf $f;;
+        *.tar.xz|*.txz) tar xJvf $f;;
+        *.zip) unzip $f -d out;;
+        *.rar) unrar x $f;;
+        *.7z) 7z x $f;;
+    esac
+}}
+
+map ae extract
+
+# compress current file or selected files with tar and gunzip
+cmd tar ${{
+    set -f
+    mkdir $1
+    cp -r $fx $1
+    tar czf $1.tar.gz $1
+    rm -rf $1
+}}
+
+# compress current file or selected files with zip
+cmd zip ${{
+    set -f
+    mkdir $1
+    cp -r $fx $1
+    zip -r $1.zip $1
+    rm -rf $1
+}}
+
+cmd touch ${{
+	set -f
+	touch $1
+}}
+map af push :touch<space>
+
+cmd mkdir ${{
+	set -f
+	mkdir -p $1
+}}
+map ad push :mkdir<space>
