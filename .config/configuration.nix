@@ -108,7 +108,7 @@
   tmux
   #vimv
   microcodeIntel
-  lynis
+  tela-icon-theme
   ];
 
   environment.variables.EDITOR = "nvim";
