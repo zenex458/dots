@@ -63,9 +63,9 @@ static const char *slock[] = { "slock", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ Mod1Mask,			XK_o,      spawn,	   SHCMD("playerctl next") },
-	{ Mod1Mask,			XK_i,	   spawn,	   SHCMD("playerctl previous") },
-	{ Mod1Mask, 			XK_p,	   spawn,	   SHCMD("playerctl play-pause") },
+	{ Mod1Mask,			XK_o,      spawn,	   SHCMD("cmus-remote -n") }, //next
+	{ Mod1Mask,			XK_i,	   spawn,	   SHCMD("cmus-remote -r") }, //prev
+	{ Mod1Mask, 			XK_p,	   spawn,	   SHCMD("cmus-remote -u") }, //toggle pause
 	{ Mod1Mask|ControlMask,		XK_s,	   spawn,	   SHCMD("slock & systemctl suspend") },
 	{ Mod1Mask,			XK_m,      spawn,          SHCMD("amixer sset Master toggle") },
 	{ Mod1Mask,			XK_bracketleft,  spawn,	   SHCMD("amixer sset Master 2%-") },
