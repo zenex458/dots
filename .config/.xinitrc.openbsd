@@ -1,0 +1,17 @@
+while true; do
+   batstate="`apm -a`"                    
+   batlvl="`apm -l`"                      
+                                          
+if [[ $batlvl -le "15" && $batstate -eq "0" ]]                                
+then                                      
+       notify-send -u critical "battery low! 
+  battery at $batlvl%!"                   
+fi                                        
+    sleep 120
+done &
+
+feh --no-fehbg --bg-fill '/home/zenex/Downloads/Images/sat.png' & \
+redshift -o -c ~/.config/redshift.conf & \
+dunst & \
+slstatus & \
+exec dwm
