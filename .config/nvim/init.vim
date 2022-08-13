@@ -48,7 +48,7 @@ set noshowmode
 set guicursor=n-v-c:hor50-Cursor
 set guicursor+=i:hor50-Cursor
 set statusline+=\%{toupper(g:currentmode[mode()])} 
-set statusline+=%<%f%m\ \ \ %=\ [%R%H%W%Y]\ %l/%L:%c\ %p%%
+set statusline+=%<%f%m\ \ \ %=\ %R%H%W\ %l/%L:%c\ %p%% "add %Y for file type
 "set mouse=a
 "set number
 
