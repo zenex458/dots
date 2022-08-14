@@ -24,13 +24,15 @@ alias scro="scrot -d 5 -q 100 '%Y-%m-%d_$wx$h.jpeg'"
 alias cco="gcc -Wall"
 alias ytmp3="yt-dlp -x -o '%(title)s.%(ext)s' --audio-format mp3  --audio-quality 0 "
 alias yt="yt-dlp -o '%(title)s.%(ext)s' "
-alias mofat="doas mount -t exfat /dev/mmcblk0p1 ~/.sdcard"
 alias xdup="xrandr --output HDMI-2 --same-as eDP-1"
 alias dict="sdcv --data-dir ~/.config/stardict/web1913/ "
 alias chnum="stat -c '%a %n'"
 alias tas="tmux attach-session"
 alias tls="tmux list-session"
 alias tat="tmux attach -t"
+alias mofat="udisksctl mount -b /dev/mmcblk0p1"
+alias umofat="udisksctl unmount -b /dev/mmcblk0p1"
+#alias mofat="doas mount -t exfat /dev/mmcblk0p1 ~/.sdcard"
 
 function dict_def () {
 	
