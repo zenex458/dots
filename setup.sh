@@ -1,14 +1,11 @@
 suck_less ()
 {
 	cd ~/.config/dwm
-	$perm make install &&
-	sleep 2 &&
-	cd ~/.config/slstatus &&
-	$perm make install &&
-	sleep 2 &&
-	cd ~/.config/st &&
-	$perm make install &&
-	sleep 2 &&
+	$perm make install
+	cd ~/.config/slstatus
+	$perm make install
+	cd ~/.config/st
+	$perm make install
 	cd ~/
 }
 
