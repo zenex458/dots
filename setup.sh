@@ -19,11 +19,25 @@ postsetup ()
 	$perm ufw enable &&
 	$perm ufw default deny incoming &&
 	$perm ufw default allow outgoing &&
-	sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
- 	      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' &&
-	wget https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts &&
-	$perm mv /etc/hosts /etc/hosts.old && 
-	$perm mv hosts /etc/hosts
+	read -p "Do you want vim-plug?(y/n) " vplug
+	if [[ $vplug == "y" || $vplug == "Y" ]]
+	then
+          sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+ 	      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+	else
+	  echo "vim-plugged not added"
+	fi
+
+	read -p "Do you want an ad-blocking hosts file?(y/n) " ahosts
+	if [[ $ahosts == "y" || $ahosts == "Y" ]]
+	then
+          wget https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts &&
+	  $perm mv /etc/hosts /etc/hosts.old && 
+	  $perm mv hosts /etc/hosts
+	else
+          echo "ad-blocking hosts not added"
+	fi
+
 	cp ~/dots/Downloads/FiraMono.tar.7z ~/dots/Downloads/vimix-dark.tar.7z ~/Downloads/ &&
 	cd ~/Downloads/ &&
 	7za x -so FiraMono.tar.7z | tar xf -
