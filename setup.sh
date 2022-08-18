@@ -2,8 +2,6 @@ suck_less ()
 {
 	cd ~/.config/dwm
 	$perm make install
-	cd ~/.config/slstatus
-	$perm make install
 	cd ~/.config/st
 	$perm make install
 	cd ~/
@@ -11,8 +9,6 @@ suck_less ()
 
 postsetup ()
 {
-	$perm systemctl enable ufw &&
-	$perm systemctl start ufw &&
 	$perm ufw enable &&
 	$perm ufw default deny incoming &&
 	$perm ufw default allow outgoing &&
@@ -50,12 +46,15 @@ Arch ()
 	$pkg neovim wget curl firefox htop feh thunar sudo ufw playerctl redshift libreoffice slock dunst libnotify scrot mupdf bc cmus yt-dlp zip unzip tar fuse3 ntfs-3g exfat-utils networkmanager mpv light keepassxc xorg xorg-server xorg-xinit base-devel git libx11 libxft xorg-server xorg-xinit terminus-font lua dmenu pipewire pipewire-alsa pipewire-pulse && 
 	suck_less &&
 	postsetup &&
-	sudo systemctl enable fstrim.timer
+	$perm systemctl enable fstrim.timer
+        $perm systemctl enable ufw &&
+	$perm systemctl start ufw &&
+
 }
 
 Alpine ()
 {
-	$pkg util-linux pciutils usbutils coreutils binutils findutils grep iproute2 bash bash-doc bash-completion udisks2 udisks2-doc git make gcc g++ libx11-dev libxft-dev libxinerama-dev ncurses dbus-x11 firefox adwaita-icon-theme ttf-dejavu mandoc man-pages docs gcompat alsa-utils alsa-utils-doc alsa-lib alsaconf alsa-ucm-conf pciutils neovim wget curl htop feh redshift libreoffice dunst libnotify-dev dmenu slock scrot mupdf tar zip unzip fuse3 ntfs-3g thunar mpv light keepassxc sdcv p7zip acpi ufw nnn arandr libxrandr-dev #xf86-video-intel mesa-dri-gallium libva-intel-driver kbd xf86-input-libinput setxkbmap pm-utils
+	$pkg util-linux pciutils usbutils coreutils binutils findutils grep iproute2 bash bash-doc bash-completion udisks2 udisks2-doc git make gcc g++ libx11-dev libxft-dev libxinerama-dev ncurses dbus-x11 firefox adwaita-icon-theme ttf-dejavu mandoc man-pages docs gcompat alsa-utils alsa-utils-doc alsa-lib alsaconf alsa-ucm-conf pciutils neovim wget curl htop feh redshift libreoffice dunst libnotify-dev dmenu slock scrot mupdf tar zip unzip fuse3 ntfs-3g thunar mpv light keepassxc sdcv p7zip acpi ufw nnn arandr libxrandr-dev xsetroot #xf86-video-intel mesa-dri-gallium libva-intel-driver kbd xf86-input-libinput setxkbmap pm-utils
 	$perm setup-xorg-base
         read -p "what did you call the user? " USER
 	$perm adduser $USER audio
@@ -70,11 +69,10 @@ Alpine ()
         $perm doas chmod 755 /etc/acpi/LID/00000080
 	$perm chmod +x /etc/acpi/LID/00000080
 	$perm /etc/init.d/acpid start
-	cd ~/.config/dwm
-	$perm make clean install
-	cd ~/.config/st
-	$perm make clean install
-	echo "re-login"
+	suck_less
+	postsetup
+	$perm rc-update add ufw
+	echo "####re-login####"
 
 }
 
@@ -86,7 +84,8 @@ Debian ()
 	suck_less &&  
 	sudo systemctl disable bluetooth &&
 	sudo systemctl enable fstrim.timer &&
-
+        $perm systemctl enable ufw &&
+	$perm systemctl start ufw &&
 	postsetup 
 }
 
@@ -99,6 +98,8 @@ Fedora()
 	$perm dnf install mpv cmus &&
 	$perm systemctl disable firewalld &&
 	$perm systemctl stop firewalld &&
+        $perm systemctl enable ufw &&
+	$perm systemctl start ufw &&
 	postsetup  
 }
 	
