@@ -54,7 +54,7 @@ Arch ()
 
 Alpine ()
 {
-	$pkg util-linux pciutils usbutils coreutils binutils findutils grep iproute2 bash bash-doc bash-completion udisks2 udisks2-doc git make gcc g++ libx11-dev libxft-dev libxinerama-dev ncurses dbus-x11 firefox adwaita-icon-theme ttf-dejavu mandoc man-pages docs gcompat alsa-utils alsa-utils-doc alsa-lib alsaconf alsa-ucm-conf pciutils neovim wget curl htop feh redshift libreoffice dunst libnotify-dev dmenu slock scrot mupdf tar zip unzip fuse3 ntfs-3g thunar mpv light keepassxc sdcv p7zip ufw nnn arandr libxrandr-dev xsetroot pm-utils setxkbmap libuser #xf86-video-intel mesa-dri-gallium libva-intel-driver kbd xf86-input-libinput
+	$pkg util-linux pciutils usbutils coreutils binutils findutils grep iproute2 bash bash-doc bash-completion udisks2 udisks2-doc git make gcc g++ libx11-dev libxft-dev libxinerama-dev ncurses dbus-x11 firefox adwaita-icon-theme ttf-dejavu mandoc man-pages docs gcompat alsa-utils alsa-utils-doc alsa-lib alsaconf alsa-ucm-conf pciutils neovim wget curl htop feh redshift libreoffice dunst libnotify-dev dmenu slock scrot mupdf tar zip unzip fuse3 ntfs-3g thunar mpv light keepassxc sdcv p7zip ufw nnn arandr libxrandr-dev xsetroot pm-utils setxkbmap libuser lua5.4 #xf86-video-intel mesa-dri-gallium libva-intel-driver kbd xf86-input-libinput
 	$perm setup-xorg-base
         read -p "what did you call the user? " USER
 	$perm adduser $USER audio
@@ -75,7 +75,7 @@ Alpine ()
 	$perm touch /etc/login.defs
 	$perm mkdir /etc/default
 	$perm touch /etc/default/useradd
-	echo"/bin/bash"
+	echo "/bin/bash"
 	$perm lchsh $USER
 	sleep 2
 	$perm reboot
