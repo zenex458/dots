@@ -39,7 +39,7 @@ function dict_def () {
 	sdcv --data-dir ~/.config/stardict/web1913 $1 | less
 }
 
-PS1="[\w][\t]\nλ "
+PS1="[\w][\t]\n$ "
 
 HISTFILE="/tmp/.bash_history"
 HISTSIZE=1000
