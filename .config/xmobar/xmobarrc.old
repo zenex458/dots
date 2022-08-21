@@ -10,7 +10,7 @@ Config {
    -- layout
    , sepChar =  "%"   -- delineator between plugin names and straight text
    , alignSep = "}{"  -- separator between left-right alignment
-   , template = "%UnsafeStdinReader% }{ %alsa:default:Master% | %battery% | %date%"
+   , template = "%UnsafeStdinReader% }{%mpris2% | %default:Master% | %memory% | %multicpu% | %battery% | %date%"
 
    -- general behavior
    , lowerOnStart =     True    -- send to bottom of window stack on start
@@ -21,7 +21,14 @@ Config {
    , persistent =       True    -- enable/disable hiding (True = disabled)
    , commands = 
 
-        [ Run Battery        [ "--template" , "<left>% <acstatus>"
+        [ Run MultiCpu       [ "--template" , "<total0>%"
+                             ] 10
+
+        , Run Memory         [ "--template" , "<used>"
+                             ] 10
+
+        -- battery monitor
+        , Run Battery        [ "--template" , "<left>% <acstatus>"
                              , "--" -- battery specific options
                                        -- discharging status
                                       , "-o"	, "[D]"
@@ -31,12 +38,16 @@ Config {
                                        , "-i"	, "[F]"
                              ] 500
 
-	, Run Alsa	     "default" "Master" 
+	, Run Volume	     "default" "Master" 
 			     [ "--template" , "<volume>%"
 
-			     ]	
+			     ] 400	
+	, Run Mpris2	     "cmus" 
+			     ["-t" , "<title> - <artist>"
 
-        , Run Date           "%a %d/%m %T" "date" 10
+			     ] 100
+
+        , Run Date           "%a %d/%m | %T" "date" 10
 	, Run UnsafeStdinReader
 
         ]
