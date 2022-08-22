@@ -1,5 +1,5 @@
 alias nv="nvim"
-alias n="tmux new-session "nnn""
+alias n="nnn"
 alias ls="ls -F"
 alias ga="git add"
 alias gc="git commit -m"
@@ -70,4 +70,5 @@ export _ZL_DATA='~/.local/share/.zlua'
 #xinput list | grep orbit
 #xinput list-props 15
 #xinput set-prop 15 'libinput Middle Emulation Enabled' 1
+tmux
 eval "$(lua ~/.config/z.lua --init bash)"
