@@ -8,7 +8,7 @@ import XMonad.Layout.NoBorders
 import qualified XMonad.StackSet as W
 import XMonad.Util.Loggers
 
-myTerminal = "alacritty"
+myTerminal = "alacritty -e tmux"
 
 -- myFocusFollowsMouse :: Bool
 myFocusFollowsMouse = True
@@ -25,10 +25,6 @@ myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 myNormalBorderColor = "#000000"
 
 myFocusedBorderColor = "#666666"
-
-windowCount :: X (Maybe String)
-windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
-
 ------------------------------------------------------------------------
 
 myKeys conf@(XConfig {XMonad.modMask = modm}) =
@@ -45,11 +41,16 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       ((mod1Mask, xK_i), spawn "mpc -p 6601 prev"),
       -- play/pause song
       ((mod1Mask, xK_p), spawn "mpc -p 6601 toggle"),
+      -- mute/unmute
+      ((mod1Mask, xK_m), spawn "amixer sset Master toggle"),
+      -- minus vol
+      ((mod1Mask, xK_bracketleft), spawn "amixer sset Master 2%-"),
+      -- add vol
+      ((mod1Mask, xK_bracketright), spawn "amixer sset Master 2%+"),
       -- suspend and lock screen
       ((mod1Mask .|. controlMask, xK_s), spawn "xsecurelock & systemctl suspend"),
       -- lock
       ((mod1Mask .|. controlMask, xK_l), spawn "xsecurelock"),
-      ((mod1Mask, xK_n), spawn "alacritty -e tmux new-session nnn"),
       -- spawn alsamixer
       ((modm, xK_a), spawn "alacritty -e alsamixer"),
       -- brightness up by 2
@@ -95,9 +96,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       -- Quit xmonad
       ((modm .|. shiftMask, xK_q), io (exitWith ExitSuccess)),
       -- Restart xmonad
-      ((modm .|. controlMask, xK_r), spawn "xmonad --recompile; xmonad --restart"),
-      -- Run xmessage with a summary of the default keybindings (useful for beginners)
-      ((modm .|. shiftMask, xK_slash), spawn ("echo \"" ++ help ++ "\" | xmessage -file -"))
+      ((modm .|. controlMask, xK_r), spawn "xmonad --recompile; xmonad --restart")
     ]
       ++
       -- mod-[1..9], Switch to workspace N
@@ -266,8 +265,7 @@ myBar = "xmobar"
 
 myPP =
   xmobarPP
-    { ppExtras = [windowCount],
-      ppCurrent = xmobarColor "#c6c6c6" "" . wrap "[" "]",
+    { ppCurrent = xmobarColor "#c6c6c6" "" . wrap "[" "]",
       ppTitle = xmobarColor "#c6c6c6" "" . shorten 120,
       ppSep = " ",
       ppUrgent = xmobarColor "#ff0000" "" . wrap "!" "!",
@@ -329,57 +327,3 @@ defaults =
       logHook = myLogHook,
       startupHook = myStartupHook
     }
-
--- | Finally, a copy of the default bindings in simple textual tabular format.
-help :: String
-help =
-  unlines
-    [ "The default modifier key is 'alt'. Default keybindings:",
-      "",
-      "-- launching and killing programs",
-      "mod-Shift-Enter  Launch xterminal",
-      "mod-p            Launch dmenu",
-      "mod-Shift-p      Launch gmrun",
-      "mod-Shift-c      Close/kill the focused window",
-      "mod-Space        Rotate through the available layout algorithms",
-      "mod-Shift-Space  Reset the layouts on the current workSpace to default",
-      "mod-n            Resize/refresh viewed windows to the correct size",
-      "",
-      "-- move focus up or down the window stack",
-      "mod-Tab        Move focus to the next window",
-      "mod-Shift-Tab  Move focus to the previous window",
-      "mod-j          Move focus to the next window",
-      "mod-k          Move focus to the previous window",
-      "mod-m          Move focus to the master window",
-      "",
-      "-- modifying the window order",
-      "mod-Return   Swap the focused window and the master window",
-      "mod-Shift-j  Swap the focused window with the next window",
-      "mod-Shift-k  Swap the focused window with the previous window",
-      "",
-      "-- resizing the master/slave ratio",
-      "mod-h  Shrink the master area",
-      "mod-l  Expand the master area",
-      "",
-      "-- floating layer support",
-      "mod-t  Push window back into tiling; unfloat and re-tile it",
-      "",
-      "-- increase or decrease number of windows in the master area",
-      "mod-comma  (mod-,)   Increment the number of windows in the master area",
-      "mod-period (mod-.)   Deincrement the number of windows in the master area",
-      "",
-      "-- quit, or restart",
-      "mod-Shift-q  Quit xmonad",
-      "mod-q        Restart xmonad",
-      "mod-[1..9]   Switch to workSpace N",
-      "",
-      "-- Workspaces & screens",
-      "mod-Shift-[1..9]   Move client to workspace N",
-      "mod-{w,e,r}        Switch to physical/Xinerama screens 1, 2, or 3",
-      "mod-Shift-{w,e,r}  Move client to screen 1, 2, or 3",
-      "",
-      "-- Mouse bindings: default actions bound to mouse events",
-      "mod-button1  Set the window to floating mode and move by dragging",
-      "mod-button2  Raise the window to the top of the stack",
-      "mod-button3  Set the window to floating mode and resize by dragging"
-    ]
