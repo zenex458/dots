@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 suck_less ()
 {
 	cd ~/.config/dwm
@@ -109,27 +110,15 @@ Fedora()
 	postsetup  
 }
 	
-other ()
-{
-	cp -r .xinitrc .bashrc ~/ &&
-	mkdir -p ~/Downloads/ &&
-	cp -r Downloads/* ~/Downloads &&
-	mkdir -p ~/.config &&
-	cp -r .config/* ~/.config
-	cd ~/.config/batsignal &&
-	$perm make clean install &&
-	sleep 2
-
-}
 
 read -p "Are you using sudo or doas? " perm
 
 
-cp -r .xinitrc .bashrc ~/ &&
-mkdir -p ~/Downloads/ &&
-cp -r Downloads/* ~/Downloads &&
-mkdir -p ~/.config &&
-cp -r .config/* ~/.config && 
+cp -r .xinitrc .bashrc ~/
+mkdir -p ~/Downloads/
+cp -r Downloads/* ~/Downloads
+mkdir -p ~/.config
+cp -r .config/* ~/.config
 
 echo " "
 echo "(A)rch"
@@ -146,7 +135,7 @@ case $os in
 	AL) pkg="$perm apk add" && Alpine;;
 	D)  pkg="$perm apt install" && Debian ;;
 	F)  pkg="$perm dnf install" && Fedora;;
-	Z)  other
+	Z)  exit
 	* echo "Invalid os name" && echo "your os is :" && uname -a ;;
 esac &&
 cd ~/ && echo "All done!"
