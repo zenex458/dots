@@ -76,13 +76,11 @@
   firefox
   alacritty
   xfce.thunar
-  cmus
   bashmount
   nnn
   xmobar
   htop
   feh
-  playerctl
   redshift
   libreoffice
   dunst
