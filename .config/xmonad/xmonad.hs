@@ -5,10 +5,14 @@ import XMonad
 import XMonad.Actions.FloatKeys
 import XMonad.Hooks.DynamicLog
 import XMonad.Layout.NoBorders
+import XMonad.Layout.Tabbed
 import qualified XMonad.StackSet as W
 import XMonad.Util.Loggers
+import XMonad.Layout.SubLayouts
+import XMonad.Layout.WindowNavigation
+import XMonad.Layout.Decoration
 
-myTerminal = "alacritty -e tmux"
+myTerminal = "st -e tmux"
 
 -- myFocusFollowsMouse :: Bool
 myFocusFollowsMouse = True
@@ -48,7 +52,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       -- add vol
       ((mod1Mask, xK_bracketright), spawn "amixer sset Master 2%+"),
       -- suspend and lock screen
-      ((mod1Mask .|. controlMask, xK_s), spawn "xsecurelock & systemctl suspend"),
+      ((mod1Mask .|. controlMask, xK_s), spawn "systemctl suspend && xsecurelock"),
       -- lock
       ((mod1Mask .|. controlMask, xK_l), spawn "xsecurelock"),
       -- spawn alsamixer
@@ -61,6 +65,15 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       ((modm .|. shiftMask, xK_r), spawn "redshift -o -c ~/.config/redshift.conf"),
       -- application launcher
       ((modm, xK_p), spawn "dmenu_run"),
+
+      ((modm .|. controlMask, xK_h), sendMessage $ pullGroup L),
+      ((modm .|. controlMask, xK_l), sendMessage $ pullGroup R),
+      ((modm .|. controlMask, xK_k), sendMessage $ pullGroup U),
+      ((modm .|. controlMask, xK_j), sendMessage $ pullGroup D),
+      ((modm .|. controlMask, xK_m), withFocused (sendMessage . MergeAll)),
+      ((modm .|. controlMask, xK_u), withFocused (sendMessage . UnMerge)),
+      ((modm .|. controlMask, xK_period), onGroup W.focusUp'),
+      ((modm .|. controlMask, xK_comma), onGroup W.focusDown'),
       -- close focused window
       ((modm, xK_q), kill),
       -- Rotate through the available layout algorithms
@@ -153,9 +166,22 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) =
 --
 
 -- The available layouts.  Note that each layout is separated by |||,
+myTabConfig = def { inactiveBorderColor = "#000000"
+                  , activeBorderColor = "#000000" 
+                  , activeTextColor = "#000000"
+                  , inactiveTextColor = "#666666"
+                  , activeColor = "#666666"
+                  , inactiveColor = "#000000" }
 
 -- which denotes layout choice.
-myLayout = smartBorders tiled ||| noBorders Full
+-- myLayout =  windowNavigation $ subTabbed $ smartBorders $ tiled ||| noBorders Full {-||| tabbed shrinkText myTabConfig -}
+
+myLayout = addTabs shrinkText def
+         $ subLayout [0,1,2] (tabbed shrinkText myTabConfig)
+         $ smartBorders $ Tall 1 0.2 0.5 ||| noBorders Full
+
+
+
   where
     -- default tiling algorithm partitions the screen into two panes
 
@@ -266,15 +292,16 @@ myBar = "xmobar"
 myPP =
   xmobarPP
     { ppCurrent = xmobarColor "#c6c6c6" "" . wrap "[" "]",
-      ppTitle = xmobarColor "#c6c6c6" "" . shorten 120,
+      ppTitle = xmobarColor "#c6c6c6" "",    -- . shorten 120,
       ppSep = " ",
       ppUrgent = xmobarColor "#ff0000" "" . wrap "!" "!",
-      ppOrder = \(ws : l : t : ex) -> [ws, l] ++ ex ++ [t],
-      ppLayout =
-        ( \x -> case x of
-            "Tall" -> "[]="
-            "Full" -> "[]"
-        )
+      ppOrder = \(ws : l : t : ex) -> [ws, l] ++ ex ++ [t]
+      --ppLayout =
+      --  ( \x -> case x of
+      --      "Tabbed Tall" -> "[]="
+      --      "Full" -> "[]"
+      --      "Tabbed Simplest" -> "[--]"
+      --  )
     }
 
 -- Key binding to toggle the gap for the bar.
