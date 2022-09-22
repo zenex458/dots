@@ -11,6 +11,7 @@ alias upd="doas nix-channel --update && doas nixos-rebuild switch"
 alias nixgc="nix-collect-garbage"
 alias remoldgen="doas nix-collect-garbage -d && upd"
 alias updoff="upd && sleep 2 && off"
+alias cat="cat -n"
 alias grep="grep -i --colour=always"
 alias mkdir="mkdir -pv"
 alias mv="mv -iv"
@@ -33,13 +34,17 @@ alias mofat="udisksctl mount -b /dev/mmcblk0p1"
 alias umofat="udisksctl unmount -b /dev/mmcblk0p1"
 alias sysdlist="systemctl list-unit-files --type=service --state=enabled"
 #alias mofat="doas mount -t exfat /dev/mmcblk0p1 ~/.sdcard"
+alias col="setxkbmap gb -variant colemak"
+alias gb="setxkbmap gb -variant"
+alias comp="mcs main.cs && mono main.exe"
+alias ghc="ghc -dynamic"
 
 function dict_def () {
 	
 	sdcv --data-dir ~/.config/stardict/web1913 $1 | less
 }
 
-PS1="[\w]\n$ "
+PS1="[\w]\nλ "
 
 HISTFILE="/tmp/.bash_history"
 HISTSIZE=1000
@@ -49,6 +54,7 @@ set -o vi
 bind 'set show-all-if-ambiguous on'
 bind 'TAB:menu-complete'
 
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export NNN_FCOLORS='c1e2c42e006033f7c6d6ab27'
 export NNN_BMS='h:/home/zenex;.:/home/zenex/.config;d:/home/zenex/Downloads;D:/home/zenex/Documents'
 export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rar|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)$"
