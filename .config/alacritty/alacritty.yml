@@ -20,8 +20,8 @@ font:
 colors:
   # Default colors
   primary:
-    background: '#000000' 
-    foreground: '#c6c6c6' 
+    background: '#000000' # 282828
+    foreground: '#c6c6c6' # ebdbb2
 
   cursor:
     text: '#000000'
@@ -31,26 +31,27 @@ colors:
     text: '#000000'
     background: '#777777'
 
+  # Normal colors commented are gruvbox colours
   normal:
     black:   '#000000'
-    red:     '#cd0000' 
-    green:   '#00cd00' 
-    yellow:  '#cdcd00' 
-    blue:    '#225aff'
-    magenta: '#cd00cd' 
-    cyan:    '#00cdcd' 
-    white:   '#e5e5e5' 
+    red:     '#cd0000' #cc241d
+    green:   '#00cd00' #98971a
+    yellow:  '#cdcd00' #d79921
+    blue:    '#225aff' #458588 #0000ee
+    magenta: '#cd00cd' #b16286
+    cyan:    '#00cdcd' #00cdcd
+    white:   '#e5e5e5' #bdae93
 
   # Bright colors
   bright:
-    black:   '#7f7f7f' 
-    red:     '#ff0000' 
-    green:   '#00ff00' 
-    yellow:  '#ffff00' 
-    blue:    '#5c5cff' 
-    magenta: '#ff00ff' 
-    cyan:    '#00ffff' 
-    white:   '#ffffff' 
+    black:   '#7f7f7f' #665c45
+    red:     '#ff0000' #fb4934
+    green:   '#00ff00' #b8bb26
+    yellow:  '#ffff00' #fadb2f
+    blue:    '#5c5cff' #83a598
+    magenta: '#ff00ff' #d3869b
+    cyan:    '#00ffff' #00ffff
+    white:   '#ffffff' #fbf1c7
 
 cursor:
    style:
