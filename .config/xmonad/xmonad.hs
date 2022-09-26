@@ -174,14 +174,8 @@ myTabConfig = def { inactiveBorderColor = "#000000"
                   , inactiveColor = "#000000" }
 
 -- which denotes layout choice.
---myLayout = smartBorders tiled ||| noBorders Full {-||| tabbed shrinkText myTabConfig -}
-
-myLayout = addTabs shrinkText def
-         $ subLayout [0,1,2] (tabbed shrinkText myTabConfig)
-         $ smartBorders tiled ||| noBorders Full
-
-
-
+-- sublayout for hybrid layouts
+myLayout = smartBorders tiled ||| noBorders Full ||| tabbed shrinkText myTabConfig
   where
     -- default tiling algorithm partitions the screen into two panes
 
@@ -298,8 +292,9 @@ myPP =
       ppOrder = \(ws : l : t : ex) -> [ws, l] ++ ex ++ [t],
       ppLayout =
         ( \x -> case x of
-            "Tabbed Tall" -> "[]="
-            "Tabbed Full" -> "[]"
+            "Tall" -> "[]="
+            "Full" -> "[]"
+            "Tabbed Simplest" -> "[--]"
         )
     }
 
