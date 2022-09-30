@@ -85,7 +85,7 @@
   libreoffice
   dunst
   libnotify
-  batsignal
+  #batsignal
   scrot
   mupdf
   bc
@@ -114,6 +114,7 @@
   xclip
   xsel
   httrack
+  sbcl
   ghc
   haskell-language-server
   mono
@@ -122,6 +123,9 @@
   dotnet-sdk
   vscode-extensions.ms-dotnettools.csharp
   nodejs
+  lxqt.lxqt-policykit
+  dbus
+  cpu-x
   #virt-manager
     (st.overrideAttrs (oldAttrs: rec {
     patches = [
@@ -147,7 +151,10 @@
 
   fonts.fonts = with pkgs; [
   (nerdfonts.override { fonts = [ "FiraMono"]; })
+  vistafonts
 ];
+
+  security.polkit.enable = true;
 
   security.doas.enable = true;
   security.doas.extraRules = [{
