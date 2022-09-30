@@ -6,11 +6,9 @@ Plug 'norcalli/nvim-colorizer.lua'
 Plug 'vimwiki/vimwiki'
 Plug 'vim-syntastic/syntastic'
 Plug 'jiangmiao/auto-pairs'
-Plug 'luochen1990/rainbow'
-"c#
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"haskell
 Plug 'neovimhaskell/haskell-vim'
+"Plug 'luochen1990/rainbow'
 call plug#end()
 let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
 let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
@@ -59,12 +57,12 @@ set noshowmode
 "set guicursor=n-v-c:hor50-Cursor
 "set guicursor+=i:hor50-Cursor
 set statusline+=\%{toupper(g:currentmode[mode()])} 
-set statusline+=%<%f%m\ \ \ %=\ %R%H%W\ %l/%L:%c\ %p%% "add %Y for file type
+set statusline+=%<%f%m\ \ \ %=\ %R%H%W\ %l/%L:%c::%n\ %p%% "add %Y for file type
 set guicursor=i:block-iCursor
 set guicursor+=i:blinkon100
 set guicursor+=n-v-c:blinkon100
 "set mouse=a
-"set number
+set number
 "set linebreak
 
 colorscheme dalton
@@ -78,5 +76,6 @@ map <leader>/ :noh<CR>
 map <leader>sp :setlocal spell! spelllang=en_gb<CR>
 tnoremap <Esc> <C-\><C-n>
 vmap <C-c> "+y
+map <leader>oe :bro ol<CR>
 lua require'colorizer'.setup()
 " }}}
