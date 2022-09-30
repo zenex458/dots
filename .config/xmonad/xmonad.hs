@@ -11,6 +11,7 @@ import XMonad.Util.Loggers
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.WindowNavigation
 import XMonad.Layout.Decoration
+import XMonad.Layout.ToggleLayouts
 
 myTerminal = "st -e tmux"
 
@@ -35,6 +36,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
   M.fromList $
     -- terminal
     [ ((modm, xK_Return), spawn $ XMonad.terminal conf),
+      ((mod1Mask .|. controlMask, xK_e), spawn "emacsclient -c"),
       -- normal firefox
       ((modm, xK_c), spawn "firefox"),
       -- private firefox
@@ -78,6 +80,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       ((modm, xK_q), kill),
       -- Rotate through the available layout algorithms
       ((modm, xK_space), sendMessage NextLayout),
+      ((modm, xK_m), sendMessage $ JumpToLayout "Full"), 
+      ((modm, xK_t), sendMessage $ JumpToLayout "Tall"),
       --  Reset the layouts on the current workspace to default
       ((modm .|. shiftMask, xK_space), setLayout $ XMonad.layoutHook conf),
       -- Resize viewed windows to the correct size
@@ -89,7 +93,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       -- Move focus to the previous window
       ((modm, xK_k), windows W.focusUp),
       -- Move focus to the master window
-      ((modm, xK_m), windows W.focusMaster),
+      --((modm, xK_m), windows W.focusMaster),
       -- Swap the focused window and the master window
       ((modm .|. shiftMask, xK_Return), windows W.swapMaster),
       -- Swap the focused window with the next window
@@ -101,7 +105,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       -- Expand the master area
       ((modm, xK_l), sendMessage Expand),
       -- Push window back into tiling
-      ((modm, xK_t), withFocused $ windows . W.sink),
+      ((modm .|. shiftMask, xK_t), withFocused $ windows . W.sink),
       -- Increment the number of windows in the master area
       ((modm, xK_comma), sendMessage (IncMasterN 1)),
       -- Deincrement the number of windows in the master area
