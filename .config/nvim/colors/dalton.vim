@@ -20,14 +20,14 @@ let s:palette.constant  = {'dark': "#FFEE67"}
 let s:palette.operator  = {'dark': "#F0EE00"}
 let s:palette.tag       = {'dark': "#2B7DF0"}
 let s:palette.regexp    = {'dark': "#32BCD9"}
-let s:palette.string    = {'dark': "#3BF035"}
-let s:palette.function  = {'dark': "#30DB22"}
+let s:palette.string    = {'dark': "#7df02b"} "3BF035 83cd4e
+let s:palette.function  = {'dark': "#00ff00"} "30DB22
 let s:palette.special   = {'dark': "#DEAE33"}
 let s:palette.keyword   = {'dark': "#F50C40"}
 
 let s:palette.error     = {'dark': "#FF001D"}
 let s:palette.accent    = {'dark': "#FF8F00"}
-let s:palette.panel     = {'dark': "#1b1b1b"} "14191F
+let s:palette.panel     = {'dark': "#000000"} "14191F 1b1b1b
 let s:palette.guide     = {'dark': "#2D3640"}
 let s:palette.line      = {'dark': "#1b1b1b"} "161419
 let s:palette.selection = {'dark': "#253340"}
