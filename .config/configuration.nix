@@ -46,6 +46,16 @@
     windowManager.xmonad.enable = true;
     windowManager.xmonad.enableContribAndExtras = true;
     windowManager.dwm.enable = true;
+
+       windowManager.awesome = {
+      enable = true;
+      luaModules = with pkgs.luaPackages; [
+        luarocks # is the package manager for Lua modules
+        luadbi-mysql # Database abstraction layer
+      ];
+
+    };
+
     libinput.enable = true;
     layout = "gb";
     xkbVariant = "";
@@ -70,11 +80,14 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
   neovim
+  nvi
+  #emacs
   wget
   curl
   git
   firefox
   alacritty
+  #termonad
   xfce.thunar
   bashmount
   nnn
@@ -86,13 +99,15 @@
   dunst
   libnotify
   #batsignal
-  scrot
+  #scrot
+  maim
   mupdf
   bc
   zip
   unzip
   fuse3
   mpv
+  mpg123
   keepassxc
   vimix-gtk-themes
   lxappearance
@@ -101,9 +116,10 @@
   alsa-utils
   lua
   yt-dlp
+  freetube
   gcc
   #arandr
- # sdcv
+  #sdcv
   tmux
   microcodeIntel
   tela-icon-theme
@@ -121,14 +137,30 @@
   omnisharp-roslyn
   vscode-with-extensions
   dotnet-sdk
+  #dotnet-aspnetcore
+  #dotnet-runtime
   vscode-extensions.ms-dotnettools.csharp
+  zsh
+  #openssh
   nodejs
+  gimp
+  inkscape
   lxqt.lxqt-policykit
   dbus
-  cpu-x
+  #cpu-x
+  #selenium packages
+  python39Packages.selenium
+  chromedriver
+  google-chrome
+  dotnetPackages.Nuget
+  python3Full
+  python39Packages.pip
+  #python.pkgs.pip
+  #end selenium packages
   #virt-manager
     (st.overrideAttrs (oldAttrs: rec {
     patches = [
+    /home/zenex/.config/st/st-blinking_cursor.diff
     /home/zenex/.config/st/st-bold-is-not-bright.diff
     ];
     configFile = writeText "config.def.h" (builtins.readFile /home/zenex/.config/st/config.h);
@@ -143,6 +175,11 @@
     })
 ];
 
+#  services.openssh = {
+#  enable = true;
+#  #passwordAuthentication = false;
+#  #kbdInteractiveAuthentication = false;
+#  };
 
   environment.variables.EDITOR = "nvim";
 
@@ -173,7 +210,14 @@
   interval = "weekly";
   };
 
+
+#  networking.extraHosts = let
+#    hostsPath = https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts;
+#    hostsFile = builtins.fetchurl hostsPath;
+#  in builtins.readFile "${hostsFile}";
+
   networking.firewall.enable = true;
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
