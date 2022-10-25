@@ -59,6 +59,7 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *firefox[] = { "firefox", NULL };
 static const char *lock[] = { "xsecurelock", NULL };
+//move SHCMD to commands
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -74,11 +75,14 @@ static Key keys[] = {
 	{ Mod1Mask,			XK_Prior,  spawn,          SHCMD("light -A 2") },
 	{ Mod1Mask,			XK_Next,   spawn,          SHCMD("light -U 2") },
 	{ MODKEY,			XK_a,      spawn,	   SHCMD("st -e alsamixer") },
+	{ Mod1Mask,			XK_r,      spawn, 	   SHCMD("redshift -x") },
 	{ MODKEY|ShiftMask,             XK_r,      spawn,          SHCMD("redshift -o -c ~/.config/redshift.conf") },
 	{ Mod1Mask,			XK_c,      spawn,          SHCMD("firefox -P priv") },
 	{ MODKEY,			XK_c,	   spawn,          {.v = firefox } },
 	{ Mod1Mask|ControlMask,         XK_l,      spawn,          {.v = lock } },
+	{ MODKEY|ControlMask,		XK_p,	   spawn,	   SHCMD("~/.config/cmdDmenu.sh") },
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+	{ Mod1Mask,			XK_Return, spawn,	   SHCMD("st") },
 	{ MODKEY,                       XK_Return, spawn,          SHCMD("st -e tmux") },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
