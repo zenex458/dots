@@ -135,7 +135,7 @@ case $os in
 	AL) pkg="$perm apk add" && Alpine;;
 	D)  pkg="$perm apt install" && Debian ;;
 	F)  pkg="$perm dnf install" && Fedora;;
-	Z)  exit
-	* echo "Invalid os name" && echo "your os is :" && uname -a ;;
+	Z)  exit;;
+	*)  echo "Invalid os name" && echo "your os is :" && uname -a;;
 esac &&
 cd ~/ && echo "All done!"
