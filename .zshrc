@@ -66,15 +66,14 @@ function inmans (){
 	man $1 | \grep -C1 $2
 }
 
-PS1="[\w]\n$ "
+PROMPT='[%~]
+$ '
 
-HISTFILE="/tmp/.bash_history"
-HISTSIZE=1000
-HISTFILESIZE=2000
-
-set -o vi
-bind 'set show-all-if-ambiguous on'
-bind 'TAB:menu-complete'
+HISTFILE=~/.local/share/.histfile
+HISTSIZE=100000
+SAVEHIST=100000
+unsetopt beep extendedglob
+bindkey -v
 
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export ASPNETCORE_ENVIRONMENT=Development
@@ -93,4 +92,5 @@ export QT_QPA_PLATFORMTHEME=qt5ct
 export _ZL_DATA='~/.local/share/.zlua'
 #backup tar cf - directory | 7za a -si directory.tar.7z
 #extract 7za x -so directory.tar.7z | tar xf -
-eval "$(lua ~/.config/z.lua --init bash)"
+source ~/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+eval "$(lua ~/.config/z.lua --init zsh)"
