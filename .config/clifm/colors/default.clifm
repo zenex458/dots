@@ -1,0 +1,41 @@
+# Default color scheme for clifm
+
+# FiletypeColors defines the color used for file types when listing files,
+# just as InterfaceColors defines colors for CliFM's interface and ExtColors
+# for file extensions. They all make use of the same format used by the
+# LS_COLORS environment variable. Thus, "di=01;34" means that (non-empty)
+# directories will be listed in bold blue.
+# Color codes are traditional ANSI escape sequences less the escape char and
+# the final 'm'. 8 bit, 256 colors, RGB, and hex (#rrggbb) colors are supported.
+# A detailed explanation of all these codes can be found in the manpage.
+
+FiletypeColors="bd=01;33:ca=30;41:cd=01:di=01;31:ed=02;33:ee=00;32:ef=02;33:ex=01;32:fi=0:ln=01;36:mh=30;46:nd=04;01;34:ne=02;04;34:nf=02;04;34:no=00;34;47:or=02;04;36:ow=34;42:pi=00;35:so=01;35:su=37;41:sg=30;43:st=37;44:tw=30;42:uf=02;04;37:"
+
+InterfaceColors="bm=01;36:dd=00;34:df=0:dg=00;33:dl=02;37:dn=00;02;37:dr=00;33:do=00;36:dp=00;36:dw=00;34:dxd=00;32:dxr=00;32:dz=01;31:el=01;34:em=01;34:fc=00;34:hb=00;36:hc=02;34:hd=00;36:he=00;36:hn=00;35:hp=00;36:hq=00;33:hr=00;34:hs=00;32:hv=00;32:li=01;32:mi=01;36:nm=01;32:sb=00;02;33:sc=02;36:sf=04;02;36:sh=02;35:si=01;34:sp=02;34:sx=02;32:ti=01;36:ts=04;35:tt=02;01;36:tx=0:wc=01;36:wm=01;33:wp=00;02;34:ws1=34:ws2=34:ws3=33:ws4=32:ws5=36:ws6=36:ws7=36:ws8=36:xf=01;34:xs=00;32:"
+
+# Same as FiletypeColors, but for file extensions. The format is always
+# *.EXT=COLOR
+ExtColors="*.tar=00;34:*.tgz=00;34:*.taz=00;34:*.lha=00;34:*.lz4=00;34:*.lzh=00;34:*.lzma=00;34:*.tlz=00;34:*.txz=00;34:*.tzo=00;34:*.t7z=00;34:*.zip=00;34:*.z=00;34:*.dz=00;34:*.gz=00;34:*.lrz=00;34:*.lz=00;34:*.lzo=00;34:*.xz=00;34:*.zst=00;34:*.tzst=00;34:*.bz2=00;34:*.bz=00;34:*.tbz=00;34:*.tbz2=00;34:*.tz=00;34:*.deb=00;34:*.rpm=00;34:*.rar=00;34:*.cpio=00;34:*.7z=00;34:*.rz=00;34:*.cab=00;34:*.jpg=00;34:*.JPG=00;34:*.jpeg=00;34:*.mjpg=00;34:*.mjpeg=00;34:*.gif=00;34:*.GIF=00;34:*.bmp=00;34:*.xbm=00;34:*.xpm=00;34:*.png=00;34:*.PNG=00;34:*.svg=00;34:*.pcx=00;34:*.mov=00;34:*.mpg=00;34:*.mpeg=00;34:*.m2v=00;34:*.mkv=00;34:*.webm=00;34:*.webp=00;34:*.ogm=00;34:*.mp4=00;34:*.MP4=00;34:*.m4v=00;34:*.mp4v=00;34:*.vob=00;34:*.wmv=00;34:*.flc=00;34:*.avi=00;34:*.flv=00;34:*.m4a=00;34:*.mid=00;34:*.midi=00;34:*.mp3=00;34:*.MP3=00;34:*.ogg=00;34:*.wav=00;34:*.pdf=00;34:*.PDF=00;34:*.doc=35:*.docx=35:*.xls=35:*.xlsx=35:*.ppt=34:*.pptx=34:*.odt=35:*.ods=35:*.odp=35:*.cache=02;34:*.tmp=02;34:*.temp=02;34:*.log=02;34:*.bak=02;34:*.bk=02;34:*.in=02;34:*.out=02;34:*.part=02;34:*.aux=02;34:*.c=00;34:*.c++=00;34:*.h=00;34:*.cc=00;34:*.cpp=00;34:*.h=00;34:*.h++=00;34:*.hh=00;34:*.go=00;34:*.java=00;34:*.js=00;34:*.lua=00;34:*.rb=00;34:*.rs=00;34:"
+
+DirIconColor="00;33"
+
+DividingLine="-"
+
+If set to 'true', automatically print notifications at the left
+of the prompt. If set to 'false', let the prompt string handle these notifications
+itself via escape codes. See the manpage for more information
+Notifications="true"
+
+#Prompt="\[\e[0m\][\S\[\e[0m\]]\l \A \u:\H \[\e[00;36m\]\w\n\[\e[0m\]<\z\[\e[0m\]>\[\e[0;34m\] \$\[\e[0m\] "
+
+
+Prompt="\[\e[0m\][\S\[\e[0m\]]\l \w\n\[\e[0m\]\$\[\e[0m\] "
+
+An alternative prompt to warn the user about invalid command names
+EnableWarningPrompt="true"
+
+#WarningPrompt="\[\e[00;02;32m\](!) > "
+WarningPrompt="! "
+
+FzfTabOptions="--color=16,prompt:6,fg+:-1,pointer:4,hl:5,hl+:5,gutter:-1,marker:2 --bind tab:accept,right:accept,left:abort --inline-info --layout=reverse-list"
+
