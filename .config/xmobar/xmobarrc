@@ -2,7 +2,8 @@ Config {
 
    -- appearance
    -- font =         "xft:Bitstream Vera Sans Mono:size=9:bold:antialias=true"
-   font =	    "xft:FiraMono Nerd Font:size=9:bold:antialias=true" 
+  -- font =	    "FuraMono Nerd Font Bold 9" 
+   font =	    "Hack Bold 9" 
    , bgColor =      "black"
    , fgColor =      "#c6c6c6"
    , position =     Top

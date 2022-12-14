@@ -13,7 +13,8 @@ import XMonad.Layout.WindowNavigation
 import XMonad.Layout.Decoration
 import XMonad.Layout.ToggleLayouts
 
-myTerminal = "st -e tmux"
+--myTerminal = "st -e tmux"
+myTerminal = "alacritty -e tmux"
 
 -- myFocusFollowsMouse :: Bool
 myFocusFollowsMouse = True
@@ -36,7 +37,6 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
   M.fromList $
     -- terminal
     [ ((modm, xK_Return), spawn $ XMonad.terminal conf),
-      ((mod1Mask .|. controlMask, xK_e), spawn "emacsclient -c"),
       -- normal firefox
       ((modm, xK_c), spawn "firefox"),
       -- private firefox
@@ -59,7 +59,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       -- lock
       ((mod1Mask .|. controlMask, xK_l), spawn "xsecurelock"),
       -- spawn alsamixer
-      ((modm, xK_a), spawn "st -e alsamixer"),
+      ((modm, xK_a), spawn "alacritty -e alsamixer -V all"),
       -- brightness up by 2
       ((mod1Mask, xK_Prior), spawn "light -A 2"),
       -- brightness down by 2
@@ -277,9 +277,7 @@ myLogHook = return ()
 --
 
 -- By default, do nothing.
-
 myStartupHook = return ()
-
 ------------------------------------------------------------------------
 
 -- Command to launch the bar.
