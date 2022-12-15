@@ -32,10 +32,10 @@ postsetup ()
           echo "ad-blocking hosts not added"
 	fi
 
-	cp ~/dots/Downloads/FiraMono.tar.7z ~/dots/Downloads/vimix-dark.tar.7z ~/Downloads/ &&
+	cp ~/dots/Downloads/vimix-dark.tar.7z ~/Downloads/ &&
 	cd ~/Downloads/ &&
-	7za x -so FiraMono.tar.7z | tar xf -
-	$perm mv FiraMono /usr/share/fonts/ &&
+	7za x -so hack.tar.7z | tar xf -
+	$perm mv hack /usr/share/fonts/ &&
 	7za x -so vimix-dark.tar.7z | tar xf -
 	$perm mv vimix-dark /usr/share/themes/ &&
 	rm -r vimix-dark.tar.7z FiraMono.tar.7z &&
