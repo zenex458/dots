@@ -55,7 +55,7 @@
     icon_theme = Adwaita
     icon_position = left
     min_icon_size = 32
-    max_icon_size = 128
+    max_icon_size = 64
     # Paths to default icons (only neccesary when not using recursive icon lookup)
     icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
     # Should a notification popped up from history be sticky or timeout
@@ -90,3 +90,8 @@
     timeout = 0
     # Icon for notifications with critical urgency, uncomment to enable
     #default_icon = /path/to/icon
+    
+    
+    [espeak]
+    	summary ="*"
+	script = /home/zenex/.config/dunst/sound.sh
