@@ -25,7 +25,12 @@ Xft.rgba: rgb
 URxvt*buffered: false
 URxvt*pointerBlank: true
 URxvt*pointerBlankDelay: 5
-!URxvt.perl-ext:
+URxvt*perl-ext: default,matcher
+URxvt*url-launcher: firefox
+URxvt.keysym.C-Return:   matcher:enter
+URxvt*matcher.pattern.1:  \\bwww\\.[\\w-]+\\.[\\w./?&@#-]*[\\w/-]
+URxvt*matcher.pattern.2:  \\B(/\\S+?):(\\d+)(?=:|$)
+URxvt*matcher.launcher.2: nvim +$2 $1
 !URxvt.perl-ext-common:
 
 *.foreground: #c6c6c6
