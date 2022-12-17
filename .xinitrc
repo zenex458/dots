@@ -1,9 +1,10 @@
+feh --no-fehbg --bg-fill '/home/zenex/Downloads/Images/worm.jpg' & \
+##~/.config/status.sh & \
 ~/.config/batt.sh & \
-~/.config/status.sh & \
-feh --no-fehbg --bg-fill '/home/zenex/Downloads/Images/sat.png' & \
-redshift -o -c ~/.config/redshift.conf & \
+~/.config/redshift.sh & \
 dunst & \
+xsetroot -cursor_name left_ptr & \
 lxqt-policykit-agent & \
-#batsignal -b & \ 
-# xsetroot -cursor_name left_ptr & \
-exec dwm
+urxvtd -q -o -f & \
+xrdb ~/.Xresources & \
+exec xmonad
