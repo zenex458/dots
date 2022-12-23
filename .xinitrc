@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env dash
 feh --no-fehbg --bg-fill '/home/zenex/Downloads/Images/balls.png' & \
 #~/.config/status.sh & \
 ~/.config/batt.sh & \
