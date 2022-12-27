@@ -57,14 +57,13 @@
   # Configure console keymap
   console.keyMap = "uk";
 
- #  virtualisation.libvirtd.enable = true;
- #  programs.dconf.enable = true;
+   #virtualisation.libvirtd.enable = true;
+   programs.dconf.enable = true;
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.zenex = {
     isNormalUser = true;
     description = "zenex";
     extraGroups = [ "networkmanager" "wheel" "video" "audio" ]; #libvirtd
-    shell = pkgs.zsh;
     packages = with pkgs; [];
   };
 
@@ -115,6 +114,7 @@
   nnn
   xmobar
   htop
+  bottom
   feh
   #exiftool
   redshift
@@ -142,6 +142,7 @@
   shades-of-gray-theme
   lxappearance
   dmenu
+  rofi
   xsecurelock
   alsa-utils
   lua
