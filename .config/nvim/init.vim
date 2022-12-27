@@ -19,7 +19,6 @@ Plug 'hrsh7th/vim-vsnip'
 Plug 'MrcJkb/haskell-tools.nvim'
 Plug 'nvim-lua/plenary.nvim'
 
-
 call plug#end()
 let mapleader = " "
 " }}}
