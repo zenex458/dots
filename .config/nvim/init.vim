@@ -8,10 +8,11 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'dense-analysis/ale'
+Plug 'OmniSharp/omnisharp-vim'
 Plug 'norcalli/nvim-colorizer.lua'
 "Plug 'MrcJkb/haskell-tools.nvim'
 "Plug 'nvim-lua/plenary.nvim'
-"Plug 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs'
 call plug#end()
 
 let mapleader = " "
