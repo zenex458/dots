@@ -1,13 +1,4 @@
-" vim: fdm=marker foldenable sw=4 ts=4 sts=4
-" "zo" opens, "zc" closes, "zn" disable
-" {{{ Plugins
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
-Plug 'norcalli/nvim-colorizer.lua'
-Plug 'vimwiki/vimwiki'
-Plug 'jiangmiao/auto-pairs'
-"Plug 'junegunn/fzf.vim'
-"Plug 'luochen1990/rainbow'
-"c#
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -16,13 +7,19 @@ Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
-Plug 'MrcJkb/haskell-tools.nvim'
-Plug 'nvim-lua/plenary.nvim'
-
+Plug 'dense-analysis/ale'
+Plug 'norcalli/nvim-colorizer.lua'
+"Plug 'MrcJkb/haskell-tools.nvim'
+"Plug 'nvim-lua/plenary.nvim'
+"Plug 'jiangmiao/auto-pairs'
 call plug#end()
+
 let mapleader = " "
-" }}}
-" {{{ options
+let g:OmniSharp_server_stdio = 1
+let g:OmniSharp_server_use_net6 = 1
+let g:ale_linters = {
+\ 'cs': ['OmniSharp']
+\}
 let g:currentmode={
        \ 'n'  : '[N] ',
        \ 'v'  : '[V] ',
@@ -66,12 +63,11 @@ set statusline+=%<%f%m\ \ \ %=\ %R%H%W\ %l/%L:%c\ %p%% "[%n] %Y
 "set guicursor+=n-v-c:blinkon100
 "set mouse=a
 "set linebreak
-"set number relativenumber "nu rnu
-set rnu
-
+set rnu nu
 colorscheme dalton
-" }}}
-" {{{ keybinds
+
+inoremap <expr> <Tab> pumvisible() ? '<C-n>' :                                                                                                                    
+\ getline('.')[col('.')-2] =~# '[[:alnum:].-_#$]' ? '<C-x><C-o>' : '<Tab>'
 map <leader>r :%s/
 map <leader>+ <C-w>+
 map <leader>- <C-w>-
@@ -82,11 +78,7 @@ tnoremap <Esc> <C-\><C-n>
 vmap <C-c> "+y
 map <leader>oe :bro ol<CR>
 map <leader>vh :VimwikiAll2HTML<CR>
-map <leader>gt :colorscheme gruvbox<CR>
-map <leader>nt :colorscheme dalton<CR>
 lua require'colorizer'.setup()
-" }}}
-" {{{ lua
 lua << EOF
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
@@ -101,7 +93,7 @@ require('lspconfig')['tsserver'].setup{
 }
 
 local pid = vim.fn.getpid()
-local omnisharp_bin = "OmniSharp"
+local omnisharp_bin = "/home/zenex/.local/bin/omnisharp/run"
 
 require('lspconfig')['omnisharp'].setup{
   cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) },
@@ -171,33 +163,32 @@ cmp.setup.cmdline(':', {
   })
 })
 
-
-local ht = require('haskell-tools')
-local def_opts = { noremap = true, silent = true, }
-ht.setup {
-  hls = {
-    -- See nvim-lspconfig's  suggested configuration for keymaps, etc.
-    on_attach = function(client, bufnr)
-      local opts = vim.tbl_extend('keep', def_opts, { buffer = bufnr, })
-      -- haskell-language-server relies heavily on codeLenses,
-      -- so auto-refresh (see advanced configuration) is enabled by default
-      vim.keymap.set('n', '<space>ca', vim.lsp.codelens.run, opts)
-      vim.keymap.set('n', '<space>hs', ht.hoogle.hoogle_signature, opts)
-      -- default_on_attach(client, bufnr)  -- if defined, see nvim-lspconfig
-    end,
-  },
-}
--- Suggested keymaps that do not depend on haskell-language-server
--- Toggle a GHCi repl for the current package
-vim.keymap.set('n', '<leader>rr', ht.repl.toggle, def_opts)
--- Toggle a GHCi repl for the current buffer
-vim.keymap.set('n', '<leader>rf', function()
-  ht.repl.toggle(vim.api.nvim_buf_get_name(0))
-end, def_opts)
-vim.keymap.set('n', '<leader>rq', ht.repl.quit, def_opts)
-
-
-
-
+--
+--local ht = require('haskell-tools')
+--local def_opts = { noremap = true, silent = true, }
+--ht.setup {
+--  hls = {
+--    -- See nvim-lspconfig's  suggested configuration for keymaps, etc.
+--    on_attach = function(client, bufnr)
+--      local opts = vim.tbl_extend('keep', def_opts, { buffer = bufnr, })
+--      -- haskell-language-server relies heavily on codeLenses,
+--      -- so auto-refresh (see advanced configuration) is enabled by default
+--      vim.keymap.set('n', '<space>ca', vim.lsp.codelens.run, opts)
+--      vim.keymap.set('n', '<space>hs', ht.hoogle.hoogle_signature, opts)
+--      -- default_on_attach(client, bufnr)  -- if defined, see nvim-lspconfig
+--    end,
+--  },
+--}
+---- Suggested keymaps that do not depend on haskell-language-server
+---- Toggle a GHCi repl for the current package
+--vim.keymap.set('n', '<leader>rr', ht.repl.toggle, def_opts)
+---- Toggle a GHCi repl for the current buffer
+--vim.keymap.set('n', '<leader>rf', function()
+--  ht.repl.toggle(vim.api.nvim_buf_get_name(0))
+--end, def_opts)
+--vim.keymap.set('n', '<leader>rq', ht.repl.quit, def_opts)
+--
+--
+--
+--
 EOF
-" }}}
