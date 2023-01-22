@@ -4,16 +4,15 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(custom-enabled-themes '(wheatgrass))
+; '(custom-enabled-themes '(wheatgrass))
  '(display-battery-mode t)
- '(display-line-numbers-type 'relative)
- '(display-time-mode t)
+; '(display-line-numbers-type 'relative)
  '(fringe-mode 0 nil (fringe))
- '(global-display-line-numbers-mode t)
+; '(global-display-line-numbers-mode t)
  '(menu-bar-mode nil)
  '(package-selected-packages
    '(omnisharp htmlize slime-company slime company flycheck avy which-key async rainbow-delimiters rainbow-mode evil use-package))
- '(save-place-mode t)
+; '(save-place-mode t)
  '(scroll-bar-mode nil)
  '(size-indication-mode t)
  '(tool-bar-mode nil))
@@ -22,12 +21,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "FiraCode Nerd Font Mono" :foundry "CTDB" :slant normal :weight normal :height 98 :width normal)))))
+ '(default ((t (:family "Hack Nerd Font Mono" :foundry "SRC" :slant normal :weight normal :height 113 :width normal)))))
 
 (setq
-   backup-by-copying t      ; don't clobber symlinks
+   backup-by-copying t
    backup-directory-alist
-    '(("." . "~/.emacs.d/saves/"))    ; don't litter my fs tree
+    '(("." . "~/.emacs.d/saves/"))
    delete-old-versions t
    kept-new-versions 6
    kept-old-versions 2
@@ -45,7 +44,6 @@
         use-package-expand-minimally t))
 
 (defun config-reload ()
-  "Reloads ~/.emacs.d/init.el at runtime"
   (interactive)
   (load-file (expand-file-name "~/.emacs.d/init.el")))
 (global-set-key (kbd "C-c r") 'config-reload)
@@ -57,6 +55,7 @@
                            (?\[ . ?\])
                            (?\" . ?\")
                            ))
+
 (electric-pair-mode t)
 
 (use-package rainbow-mode
@@ -64,19 +63,20 @@
   :init
   (add-hook 'prog-mode-hook 'rainbow-mode))
 
-(use-package rainbow-delimiters
-  :ensure t
-  :init
-  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+;;(use-package rainbow-delimiters
+;;  :ensure t
+;;  :init
+;;  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-(use-package async
-  :ensure t
-  :init (dired-async-mode 1))
+;;(use-package async
+;;  :ensure t
+;;  :init (dired-async-mode 1))
 
- (require 'evil)
-  (evil-mode 1)
+(require 'evil)
+(evil-mode 1)
 
 (setq evil-insert-state-cursor '(hbar)
       evil-replace-state-cursor '(box))
@@ -106,22 +106,30 @@
 (global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
 
 (defun kill-current-buffer ()
-  "Kills the current buffer."
   (interactive)
   (kill-buffer (current-buffer)))
 (global-set-key (kbd "C-x k") 'kill-current-buffer)
 
-(global-set-key (kbd "C-x b") 'ibuffer)
+(global-set-key (kbd "C-c b") 'ibuffer)
 
-(use-package avy ;;switch windows
-  :ensure t
-  :bind
-    ("M-s" . avy-goto-char))
+;;(use-package avy ;;switch windows
+;;  :ensure t
+;;  :bind
+;;    ("M-s" . avy-goto-char))
 
 (defun config-visit ()
   (interactive)
   (find-file "~/.emacs.d/init.el"))
 (global-set-key (kbd "C-c e") 'config-visit)
+
+(defun edit-todo ()
+  (interactive)
+  (find-file "~/org/todo.org"))
+(global-set-key (kbd "C-c t") 'edit-todo)
+
+
+(global-set-key (kbd "C-c c") 'flyspell-buffer)
+(global-set-key (kbd "C-c s") 'ispell)
 
 (use-package flycheck
   :ensure t
@@ -135,10 +143,10 @@
   (setq company-minimum-prefix-length 3))
 
 (with-eval-after-load 'company
-  (define-key company-active-map (kbd "M-n") nil)
-  (define-key company-active-map (kbd "M-p") nil)
-  (define-key company-active-map (kbd "C-n") #'company-select-next)
-  (define-key company-active-map (kbd "C-p") #'company-select-previous)
+;  (define-key company-active-map (kbd "M-n") nil)
+;  (define-key company-active-map (kbd "M-p") nil)
+;  (define-key company-active-map (kbd "C-n") #'company-select-next)
+;  (define-key company-active-map (kbd "C-p") #'company-select-previous)
   (define-key company-active-map (kbd "SPC") #'company-abort))
 
 
@@ -159,17 +167,13 @@
 ;(add-hook 'shell-mode-hook 'flycheck-mode)
 ;(add-hook 'shell-mode-hook 'company-mode)
 
-
 (use-package yasnippet
-  :config
-  (yas-global-mode 1))
+  :init)
 (yas-reload-all)
-(add-hook 'prog-mode-hook 'yas-minor-mode)
-
-(setq yas-snippet-dir "~/.emacs.d/snippets")
+(add-hook 'prog-mode-hook #'yas-minor-mode)
 
 (setq-default mode-line-format
-	       '("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification mode-line-position (vc-mode vc-mode) mode-line-misc-info mode-line-end-spaces))
+	       '("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification mode-line-position (vc-mode vc-mode) "" mode-line-misc-info mode-line-end-spaces))
 
 (use-package omnisharp
   :after company
@@ -178,3 +182,24 @@
   (add-to-list 'company-backends 'company-omnisharp))
 (define-key omnisharp-mode-map (kbd ".") 'omnisharp-add-dot-and-auto-complete)
 (define-key omnisharp-mode-map (kbd "<C-SPC>") 'omnisharp-auto-complete)
+
+(setq ido-everywhere t)
+(setq ido-enable-flex-matching t)
+(ido-mode t)
+
+(use-package ample-theme
+  :init (progn (load-theme 'ample t t)
+               (enable-theme 'ample))
+  :defer t
+  :ensure t)
+
+(require 'org)
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+
+(setq org-agenda-files (list "~/org/todo.org"))
+
+(setq inhibit-startup-screen t)
+(setq initial-scratch-message nil)
+(setq ispell-dictionary "british")
