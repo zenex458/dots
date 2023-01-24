@@ -1,4 +1,4 @@
-(setq gc-cons-threshold 20000000)
+(setq gc-cons-threshold 20000000) ;take of a zero if runtime is slow
 (set-face-attribute 'default nil :font "Hack Nerd Font Mono" :height 110)
 
 (use-package nyx-theme
@@ -39,6 +39,7 @@
 (eval-and-compile
   (setq use-package-always-ensure t
         use-package-expand-minimally t))
+;(setq use-package-compute-statistics t) ;then do (use-package-report)
 
 (defun config-reload ()
   (interactive)
@@ -143,12 +144,12 @@
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 3))
 
-(with-eval-after-load 'company
+;(with-eval-after-load 'company
 ;  (define-key company-active-map (kbd "M-n") nil)
 ;  (define-key company-active-map (kbd "M-p") nil)
 ;  (define-key company-active-map (kbd "C-n") #'company-select-next)
 ;  (define-key company-active-map (kbd "C-p") #'company-select-previous)
-  (define-key company-active-map (kbd "SPC") #'company-abort))
+;  (define-key company-active-map (kbd "SPC") #'company-abort))
 
 
 (add-hook 'emacs-lisp-mode-hook 'company-mode)
@@ -173,22 +174,24 @@
 (yas-reload-all)
 (add-hook 'prog-mode-hook #'yas-minor-mode)
 
-;;(setq-default mode-line-format
-;;	       '("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification mode-line-position (vc-mode vc-mode) "" mode-line-misc-info mode-line-end-spaces))
+
+(setq-default mode-line-format
+	       '("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification mode-line-position (vc-mode vc-mode) "" mode-line-misc-info mode-line-end-spaces))
 
 (use-package omnisharp
   :after company
   :config
   (add-hook 'csharp-mode-hook 'omnisharp-mode)
-  (add-to-list 'company-backends 'company-omnisharp))
-(define-key omnisharp-mode-map (kbd ".") 'omnisharp-add-dot-and-auto-complete)
-(define-key omnisharp-mode-map (kbd "<C-SPC>") 'omnisharp-auto-complete)
+  (add-to-list 'company-backends 'company-omnisharp)
+  (define-key omnisharp-mode-map (kbd ".") 'omnisharp-add-dot-and-auto-complete)
+  (define-key omnisharp-mode-map (kbd "<C-SPC>") 'omnisharp-auto-complete))
 
-(use-package ivy
-  :config
-(ivy-mode 1))
-
+;(use-package ivy
+;  :config
+;(ivy-mode 1))
+;
 (use-package ivy-rich
+  :after ivy
   :init
   (ivy-rich-mode 1))
 
