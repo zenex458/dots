@@ -32,7 +32,7 @@ postsetup ()
           echo "ad-blocking hosts not added"
 	fi
 
-        curl -LO "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/Hack.zip -o $HOME/Downloads/Hack.zip"
+        curl -LO "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/Hack.zip" -o "$HOME/Downloads/Hack.zip"
         $perm unzip "$HOME/Downloads/Hack.zip" /usr/share/fonts/Hack
 }
 
@@ -47,12 +47,11 @@ Arch ()
 Debian ()
 {
 	$perm apt update
-	$pkg neovim wget curl firefox htop feh redshift libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin scrot zathura network-manager tar zip unzip fuse3 ntfs-3g pcmanfm mpv light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw nnn gcc alsa-utils thermald tlp tmux mpd mpd ncmpcpp p7zip-full rxvt-unicode dmenu xsecurelock #intel-microcode kdeconnect libxrandr-dev arandr
+	$pkg emacs sbcl wget curl firefox-esr htop feh redshift libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin scrot zathura network-manager tar zip unzip fuse3 ntfs-3g pcmanfm light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw nnn gcc alsa-utils tlp tmux mpc mpd ncmpcpp p7zip-full dmenu xsecurelock intel-microcode libxrandr-dev arandr make trash-cli lxappearance mpv
 
 	suck_less
 	$perm systemctl disable bluetooth
 	$perm systemctl enable tlp
-	#sudo systemctl enable fstrim.timer &&
 	postsetup 
 }
 
