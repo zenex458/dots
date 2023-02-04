@@ -21,8 +21,9 @@ myWorkspaces = withScreens 2 ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 currentScreen :: X ScreenId
 currentScreen = gets (W.screen . W.current . windowset)
-isOnScreen :: ScreenId -> WindowSpace -> Bool
-isOnScreen s ws = s == unmarshallS (W.tag ws)
+--isOnScreen :: ScreenId -> WindowSpace -> Bool
+----isOnScreen s ws = s == unmarshallS (W.tag ws)
+--isOnScreen s ws = s == marshall (W.tag ws)
 
 --myWorkspaces :: [WorkspaceId]
 --myWorkspaces = map show [1 .. 9]
@@ -202,7 +203,8 @@ myPP =
       ppTitle = xmobarColor "#c6c6c6" "",    -- . shorten 120,
       ppSep = " ",
       ppUrgent = xmobarColor "#ff0000" "" . wrap "!" "!",
-      ppOrder = \(ws : l : t : ex) -> [ws, l] ++ ex ++ [t],
+      --ppOrder = \(ws : l : t : ex) -> [ws, l] ++ ex ++ [t],
+      ppOrder           = \[ws, l, _, wins] -> [ws, l, wins],
       ppExtras          = [logTitles formatFocused formatUnfocused],
       ppLayout =
         ( \x -> case x of
