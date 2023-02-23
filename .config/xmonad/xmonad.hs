@@ -6,10 +6,12 @@ import XMonad.Layout.NoBorders
 import qualified XMonad.StackSet as W
 import XMonad.Layout.WindowNavigation
 import XMonad.Layout.ToggleLayouts
-import XMonad.Layout.IndependentScreens
+--import XMonad.Layout.IndependentScreens
 import XMonad.Util.Loggers
 
-myTerminal = "urxvtc -e tmux"
+--myTerminal = "alacritty -e tmux"
+--myTerminal = "kitty"
+myTerminal = "urxvt256cc -sl 0 -e tmux"
 
 myClickJustFocuses = False
 
@@ -17,16 +19,16 @@ myBorderWidth = 1
 
 myModMask = mod4Mask
 
-myWorkspaces = withScreens 2 ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+--myWorkspaces = withScreens 2 ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
-currentScreen :: X ScreenId
-currentScreen = gets (W.screen . W.current . windowset)
+--currentScreen :: X ScreenId
+--currentScreen = gets (W.screen . W.current . windowset)
 --isOnScreen :: ScreenId -> WindowSpace -> Bool
 ----isOnScreen s ws = s == unmarshallS (W.tag ws)
 --isOnScreen s ws = s == marshall (W.tag ws)
 
---myWorkspaces :: [WorkspaceId]
---myWorkspaces = map show [1 .. 9]
+myWorkspaces :: [WorkspaceId]
+myWorkspaces = map show [1 .. 9]
 
 myNormalBorderColor = "#000000"
 
@@ -58,7 +60,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       -- lock
       ((mod1Mask .|. controlMask, xK_l), spawn "xsecurelock"),
       -- spawn alsamixer
-      ((modm, xK_a), spawn "urxvtc -e alsamixer -V all"),
+      ((modm, xK_a), spawn "kitty -e alsamixer -V all"),
       -- brightness up by 2
       ((mod1Mask, xK_Prior), spawn "light -A 2"),
       -- brightness down by 2
@@ -110,16 +112,16 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       -- mod-[1..9], Switch to workspace N
       -- mod-shift-[1..9], Move client to workspace N
 --normal
---      [ ((m .|. modm, k), windows $ f i)
---        | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9],
---          (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
---      ]
+      [ ((m .|. modm, k), windows $ f i)
+        | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9],
+          (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
+      ]
 
 
-        [ ((m .|. modm, k), windows $ onCurrentScreen f i)
-          | (i, k) <- zip (workspaces' conf) [xK_1 .. xK_9],
-            (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
-        ]
+ --       [ ((m .|. modm, k), windows $ onCurrentScreen f i)
+ --         | (i, k) <- zip (workspaces' conf) [xK_1 .. xK_9],
+ --           (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
+ --       ]
 
 
 
