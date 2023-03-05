@@ -7,6 +7,15 @@ postsetup ()
 	$perm ufw enable
 	$perm ufw default deny incoming
 	$perm ufw default allow outgoing
+
+	read -rp "Do you want xmonad?(y/n) " xmon
+	if [[ $xmon == "y" || $xmon == "Y" ]]
+	then
+            $perm dnf install xmonad
+	else
+	  echo "xmonad not added"
+	fi
+
 	read -rp "Do you want vim-plug?(y/n) " vplug
 	if [[ $vplug == "y" || $vplug == "Y" ]]
 	then
@@ -51,7 +60,7 @@ Debian ()
 
 Fedora()
 {
-	$pkg neovim emacs sbcl curl wget firefox dmenu make gcc htop feh redshift libreoffice dunst libnotify libnotify-devel scrot zathura zathura-devel zathura-plugins-all zathura-pdf-mupdf @base-x yt-dlp zip unzip fuse3 NetworkManager-tui NetworkManager-wifi light keepassxc tar nnn ufw iwl* pcmanfm alsa-firmware alsa-lib alsa-lib-devel alsa-utils xterm ntfs-3g xz libX11-devel libXft-devel libXinerama-devel xorg-x11-xinit-session rxvt-unicode tmux fzf tlp udisks udisks-devel trash-cli xsetroot dash xsecurelock lxappearance patch texlive-cantarell p7zip ffmpegthumbnailer #sway gammastep waybar
+	$pkg neovim emacs sbcl curl wget firefox dmenu make gcc htop feh redshift libreoffice dunst libnotify libnotify-devel scrot zathura zathura-devel zathura-plugins-all zathura-pdf-mupdf @base-x yt-dlp zip unzip fuse3 NetworkManager-tui NetworkManager-wifi light keepassxc tar nnn ufw iwl* pcmanfm alsa-firmware alsa-lib alsa-lib-devel alsa-utils xterm ntfs-3g xz libX11-devel libXft-devel libXinerama-devel xorg-x11-xinit-session rxvt-unicode tmux fzf tlp udisks udisks-devel trash-cli xsetroot dash xsecurelock lxappearance patch texlive-cantarell p7zip ffmpegthumbnailer redhat-rpm-config #sway gammastep waybar rpmautospec-rpm-macros
 	$perm dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 	$perm dnf upgrade
 	$perm dnf install mpv mpd mpc ncmpcpp
