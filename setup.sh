@@ -35,8 +35,11 @@ postsetup ()
           echo "ad-blocking hosts not added"
 	fi
 
-        curl -LO "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/Hack.zip" -o "$HOME/Downloads/Hack.zip"
-        $perm unzip "$HOME/Downloads/Hack.zip" /usr/share/fonts/Hack
+	cd ~/
+	git clone https://codeberg.org/zenex/looks
+	cd looks
+	$perm cp -r Future* Material* /usr/share/icons
+	$perm cp -r Hack /usr/share/fonts
 }
 
 Arch ()
