@@ -1,0 +1,20 @@
+#!/usr/bin/dash
+
+doubts (){
+    dsel=$(echo "No\nYes" | rofi -dmenu -p "Are you sure?")
+    if [ "$dsel" = "No" ]; then
+	exit
+    fi
+}
+
+
+sel=$(echo "Lock\nPoweroff\nReboot\nSleep" | rofi -dmenu -p "")
+
+case "$sel" in
+    Lock) doubts && xsecurelock;;
+    Poweroff) doubts && systemctl poweroff;;
+    Reboot) doubts && systemctl reboot;;
+    Sleep) doubts && systemctl suspend && xsecurelock;;
+    *) exit
+esac
+

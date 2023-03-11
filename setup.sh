@@ -11,7 +11,7 @@ postsetup ()
 	read -rp "Do you want xmonad?(y/n) " xmon
 	if [[ $xmon == "y" || $xmon == "Y" ]]
 	then
-            sudo $pkg install xmonad xmobar
+            sudo $pkg xmonad xmobar
 	else
 	  echo "xmonad not added"
 	fi
@@ -79,6 +79,7 @@ esac
 cp -r .xinitrc .bashrc ~/
 mkdir -p ~/Downloads/
 mkdir -p ~/.config && cp -r .config/. ~/.config
+mkdir -p --parents ~/.local/bin && cp .local/bin/. ~/.local/bin/
 Os
 
 echo "All done!"
