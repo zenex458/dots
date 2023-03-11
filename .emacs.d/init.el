@@ -1,4 +1,5 @@
-(setq gc-cons-threshold 20000000) ;take of a zero if runtime is slow
+;;(setq gc-cons-threshold 20000000) ;take of a zero if runtime is slow
+(setq gc-cons-threshold 2000000)
 (set-face-attribute 'default nil :font "Hack Nerd Font Mono" :height 110)
 
 (require 'package)
@@ -25,34 +26,34 @@
 (tool-bar-mode -1)
 (set-fringe-mode 10)
 (menu-bar-mode -1)
-(column-number-mode 1)
+;;(column-number-mode 1)
 (display-battery-mode 1)
 (size-indication-mode 1)
 (save-place-mode 1)
 
 (setq
-   backup-by-copying t
-   backup-directory-alist
-    '(("." . "~/.emacs.d/saves/"))
-   delete-old-versions t
-   kept-new-versions 6
-   kept-old-versions 2
-   version-control t)
- (setq auto-save-file-name-transforms
-        `((".*" ,"~/.emacs.d/saves" t)))
+ backup-by-copying t
+ backup-directory-alist
+ '(("." . "~/.emacs.d/saves/"))
+ delete-old-versions t
+ kept-new-versions 6
+ kept-old-versions 2
+ version-control t)
+(setq auto-save-file-name-transforms
+      `((".*" ,"~/.emacs.d/saves" t)))
 
 (defun config-reload ()
   (interactive)
   (load-file (expand-file-name "~/.emacs.d/init.el")))
 (global-set-key (kbd "C-c r") 'config-reload)
 
-
+;;smart parens if you want something more featureful
 (setq electric-pair-pairs '(
-                           (?\{ . ?\})
-                           (?\( . ?\))
-                           (?\[ . ?\])
-                           (?\" . ?\")
-                           ))
+                            (?\{ . ?\})
+                            (?\( . ?\))
+                            (?\[ . ?\])
+                            (?\" . ?\")
+                            ))
 
 (electric-pair-mode t)
 
@@ -69,19 +70,10 @@
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-;;(use-package async
-;;  :ensure t
-;;  :init (dired-async-mode 1))
-
-;(use-package evil
-;  :ensure t)
-;(require 'evil)
-;(evil-mode 1)
-;
-;(setq evil-insert-state-cursor '(hbar)
-;      evil-replace-state-cursor '(box))
-;(setq evil-want-minibuffer t)
-;(setq ring-bell-function 'ignore)
+(use-package async
+  :ensure t
+  :init (dired-async-mode 1))
+;;(setq ring-bell-function 'ignore)
 
 (setq display-time-24hr-format t)
 (display-time-mode 1)
@@ -91,7 +83,7 @@
 (use-package which-key
   :ensure t
   :config
-    (which-key-mode))
+  (which-key-mode))
 
 (defun split-and-follow-horizontally ()
   (interactive)
@@ -110,7 +102,7 @@
 (defun kill-current-buffer ()
   (interactive)
   (kill-buffer (current-buffer)))
-(global-set-key (kbd "C-x k") 'kill-current-buffer)
+;;(global-set-key (kbd "C-x k") 'kill-current-buffer)
 
 ;;(global-set-key (kbd "C-c b") 'ibuffer)
 (global-set-key (kbd "C-c b") 'counsel-switch-buffer)
@@ -127,7 +119,7 @@
 
 (defun edit-todo ()
   (interactive)
-  (find-file "~/org/todo.org"))
+  (find-file "~/Documents/Org/todo.org"))
 (global-set-key (kbd "C-c t") 'edit-todo)
 
 
@@ -187,6 +179,12 @@
   (define-key omnisharp-mode-map (kbd ".") 'omnisharp-add-dot-and-auto-complete)
   (define-key omnisharp-mode-map (kbd "<C-SPC>") 'omnisharp-auto-complete))
 
+(use-package counsel
+  :init
+  :ensure t
+  :config
+  (counsel-mode 1))
+
 (use-package ivy
   :init
   :config
@@ -197,11 +195,6 @@
   :init
   (ivy-rich-mode 1))
 
-(use-package counsel
-  :init
-  :ensure t
-  :config
-  (counsel-mode 1))
 
 (setq ido-everywhere t)
 (setq ido-enable-flex-matching t)
@@ -209,8 +202,16 @@
 (ido-mode t)
 
 (setq org-startup-indented t
-          org-pretty-entities t
-          org-hide-emphasis-markers t)
+      org-pretty-entities t
+      org-hide-emphasis-markers t)
+
+(setq-default org-display-custom-times t)
+(setq org-time-stamp-custom-formats '("<%a %b %e %Y>" . "<%a %b %e %Y %H:%M>"))
+
+(setq org-log-done 'time)
+(setq org-enforce-todo-dependencies t)
+
+(setq org-agenda-files (list "~/Documents/Org/todo.org"))
 
 (use-package beacon
   :ensure t
@@ -224,8 +225,6 @@
   :config
   (global-aggressive-indent-mode 1))
   
-
-
 (setq ispell-dictionary "british")
 (setq confirm-kill-emacs 'y-or-n-p)
 (setq-default dired-listing-switches "-alh")
@@ -233,23 +232,56 @@
 (global-auto-revert-mode t)
 (setq visible-bell t)
 (setq-default fill-column 80)
+(global-visual-line-mode t)
 (use-package gcmh
   :demand t
-  :defer t
-  
+  :defer t  
   :init
   (setq gcmh-idle-delay 5
-  			gcmh-high-cons-threshold (* 16 1024 1024))
+  	gcmh-high-cons-threshold (* 16 1024 1024))
   :config
-		(gcmh-mode))
+  (gcmh-mode))
+
 (setq frame-inhibit-implied-resize t)
+(setq delete-by-moving-to-trash t)
+
+(use-package haskell-mode
+  :hook (haskell-mode . (lambda ()
+                          (haskell-doc-mode)
+                          (turn-on-haskell-indent))))
+
+(defvar my-linum-current-line-number 0)
+
+(setq linum-format 'my-linum-relative-line-numbers)
+
+(defun my-linum-relative-line-numbers (line-number)
+  (let ((test2 (- line-number my-linum-current-line-number)))
+    (propertize
+     (number-to-string (cond ((<= test2 0) (* -1 test2))
+                             ((> test2 0) test2)))
+     'face 'linum)))
+
+(defadvice linum-update (around my-linum-update)
+  (let ((my-linum-current-line-number (line-number-at-pos)))
+    ad-do-it))
+(ad-activate 'linum-update)
+
+(global-linum-mode t)
+;;https://www.mycpu.org/emacs-relative-linum/
+;;(use-package elfeed)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(column-number-mode t)
+ '(display-battery-mode t)
+ '(display-time-mode t)
+ '(menu-bar-mode nil)
  '(package-selected-packages
-   '(ivy-rich gcmh omnisharp yasnippet slime-company slime company flycheck which-key nyx-theme evil rainbow-delimiters use-package)))
+   '(ivy-rich gcmh omnisharp yasnippet slime-company slime company flycheck which-key nyx-theme evil rainbow-delimiters use-package))
+ '(size-indication-mode t)
+ '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
