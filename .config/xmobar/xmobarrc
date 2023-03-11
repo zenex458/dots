@@ -1,6 +1,6 @@
 Config { overrideRedirect = True
-   --    , font     = "Hack Nerd Font Bold 9"
-       , font =	    "xft:Hack Nerd Font:size=9:bold" 
+       , font     = "Hack Nerd Font Bold 9"
+   --    , font =	    "xft:Hack Nerd Font:size=9:bold" 
        , bgColor  = "black"
        , fgColor  = "#bbbbbb"
        , position = Top
