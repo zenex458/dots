@@ -1,3 +1,7 @@
+;;; init.el --- Config
+;;; Commentary:
+;;; Code:
+
 ;;(setq gc-cons-threshold 20000000) ;take of a zero if runtime is slow
 (setq gc-cons-threshold 2000000)
 (set-face-attribute 'default nil :font "Hack Nerd Font Mono" :height 110)
@@ -13,14 +17,16 @@
 (eval-and-compile
   (setq use-package-always-ensure t
         use-package-expand-minimally t))
-;;(setq use-package-compute-statistics t) ;then do (use-package-report)
+;;(setq use-packagenn-compute-statistics t) ;then do (use-package-report)
 
 ;;(use-package nyx-theme
 ;;:ensure t
 ;;:config
 ;; (enable-theme 'nyx))
-(load-theme 'modus-vivendi)
 
+
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+(load-theme 'morest t)
 
 (setq inhibit-startup-screen t)
 (setq initial-scratch-message nil)
@@ -45,19 +51,21 @@
       `((".*" ,"~/.emacs.d/saves" t)))
 
 (defun config-reload ()
+  "This will load my Emacs config."
   (interactive)
   (load-file (expand-file-name "~/.emacs.d/init.el")))
 (global-set-key (kbd "C-c r") 'config-reload)
 
 ;;smart parens if you want something more featureful
-(setq electric-pair-pairs '(
-                            (?\{ . ?\})
-                            (?\( . ?\))
-                            (?\[ . ?\])
-                            (?\" . ?\")
-                            ))
+(defvar electric-pair-pairs '(
+                              (?\{ . ?\})
+                              (?\( . ?\))
+                              (?\[ . ?\])
+                              (?\" . ?\")
+                              ))
 
 (electric-pair-mode t)
+
 
 (use-package rainbow-mode
   :ensure t
@@ -77,7 +85,7 @@
   :init (dired-async-mode 1))
 ;;(setq ring-bell-function 'ignore)
 
-(setq display-time-24hr-format t)
+(defvar display-time-24hr-format t)
 (display-time-mode 1)
 
 (setq scroll-conservatively 100)
@@ -88,6 +96,7 @@
   (which-key-mode))
 
 (defun split-and-follow-horizontally ()
+  "This will split horizontally and focus will follow."
   (interactive)
   (split-window-below)
   (balance-windows)
@@ -95,6 +104,7 @@
 (global-set-key (kbd "C-x 2") 'split-and-follow-horizontally)
 
 (defun split-and-follow-vertically ()
+  "This split vertically and focus will follow."
   (interactive)
   (split-window-right)
   (balance-windows)
@@ -102,6 +112,7 @@
 (global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
 
 (defun kill-current-buffer ()
+  "This will kill the current buffer."
   (interactive)
   (kill-buffer (current-buffer)))
 ;;(global-set-key (kbd "C-x k") 'kill-current-buffer)
@@ -115,13 +126,15 @@
 ;;    ("M-s" . avy-goto-char))
 
 (defun config-visit ()
+  "Vist Emacs config."
   (interactive)
   (find-file "~/.emacs.d/init.el"))
 (global-set-key (kbd "C-c e") 'config-visit)
 
 (defun edit-todo ()
+  "Vist Org-mode Todo list."
   (interactive)
-  (find-file "~/Documents/Org/todo.org"))
+  (find-file "~/Documents/2. Notes/Org/todo.org"))
 (global-set-key (kbd "C-c t") 'edit-todo)
 
 
@@ -170,7 +183,7 @@
 
 
 (setq-default mode-line-format
-	       '("%e" mode-line-front-space mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification mode-line-position (vc-mode vc-mode) "" mode-line-misc-info mode-line-end-spaces))
+	      '("%e" mode-line-front-space mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification mode-line-position (vc-mode vc-mode) "" mode-line-misc-info mode-line-end-spaces))
 
 
 (use-package omnisharp
@@ -205,29 +218,28 @@
 
 (setq org-startup-indented t
       org-pretty-entities t
-      org-hide-emphasis-markers t)
+      org-hide-emphasis-markers t
+      org-agenda-start-on-weekday t
+      org-log-done 'time
+      org-enforce-todo-dependencies t
+      org-agenda-files (list "~/Documents/2. Notes/Org/todo.org"))
 
 (setq-default org-display-custom-times t)
-(setq org-time-stamp-custom-formats '("<%a %b %e %Y>" . "<%a %b %e %Y %H:%M>"))
-
-(setq org-log-done 'time)
-(setq org-enforce-todo-dependencies t)
-
-(setq org-agenda-files (list "~/Documents/Org/todo.org"))
+(defvar org-time-stamp-custom-formats '("<%a %b %e %Y>" . "<%a %b %e %Y %H:%M>"))
 
 (use-package beacon
   :ensure t
   :config
   (beacon-mode 1)
   (setq beacon-color "#ffffff")
-  (setq beacon-blink-duration 1))
+  (setq beacon-blink-duration 1.3))
 
 (use-package aggressive-indent
   :ensure t
   :config
   (global-aggressive-indent-mode 1))
   
-(setq ispell-dictionary "british")
+(defvar ispell-dictionary "british")
 (setq confirm-kill-emacs 'y-or-n-p)
 (setq-default dired-listing-switches "-alh")
 (global-font-lock-mode t)
@@ -237,7 +249,7 @@
 (global-visual-line-mode t)
 (use-package gcmh
   :demand t
-  :defer t  
+  :defer t
   :init
   (setq gcmh-idle-delay 5
   	gcmh-high-cons-threshold (* 16 1024 1024))
@@ -246,6 +258,8 @@
 
 (setq frame-inhibit-implied-resize t)
 (setq delete-by-moving-to-trash t)
+(setq byte-compile-warnings '(cl-functions))
+
 
 (use-package haskell-mode
   :hook (haskell-mode . (lambda ()
@@ -254,7 +268,7 @@
 
 (defvar my-linum-current-line-number 0)
 
-(setq linum-format 'my-linum-relative-line-numbers)
+(defvar linum-format 'my-linum-relative-line-numbers)
 
 (defun my-linum-relative-line-numbers (line-number)
   (let ((test2 (- line-number my-linum-current-line-number)))
@@ -270,6 +284,7 @@
 
 (global-linum-mode t)
 ;;https://www.mycpu.org/emacs-relative-linum/
+
 ;;(use-package elfeed)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -281,7 +296,7 @@
  '(display-time-mode t)
  '(menu-bar-mode nil)
  '(package-selected-packages
-   '(solarized-theme solarized color-theme-sanityinc-solarized noctilux-theme vbasense ivy-rich gcmh omnisharp yasnippet slime-company slime company flycheck which-key nyx-theme evil rainbow-delimiters use-package))
+   '(vbasense ivy-rich gcmh omnisharp yasnippet slime-company slime company flycheck which-key rainbow-delimiters use-package))
  '(size-indication-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
@@ -290,3 +305,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+;;; init.el ends here
