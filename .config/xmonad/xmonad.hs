@@ -79,8 +79,12 @@ myLayout = smartBorders tiled ||| noBorders Full
 
 myStartupHook :: X()
 --myStartupHook = spawnOn "1" "firefox"                   
-myStartupHook = spawnOnOnce "1" "firefox"
-
+myStartupHook = do
+  spawnOnOnce "1" "firefox"
+  spawnOnce "feh --no-fehbg --bg-fill '/home/zenex/Downloads/Images/borest.jpg'"
+  spawnOnce "urxvtd -q -o -f"
+  spawnOnce "xrdb ~/.config/.Xresources"
+  spawnOnce "setxkbmap -option altwin:swap_lalt_lwin,altwin:ctrl_alt_win"
   
 scratchpads = [
 -- run htop in xterm, find it by title, use default floating window placement
