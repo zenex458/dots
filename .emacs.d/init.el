@@ -17,6 +17,19 @@
 (eval-and-compile
   (setq use-package-always-ensure t
         use-package-expand-minimally t))
+
+
+(use-package auto-package-update
+  :defer 10
+  :config
+  ;; Delete residual old versions
+  (setq auto-package-update-delete-old-versions t)
+  ;; Do not bother me when updates have taken place.
+  (setq auto-package-update-hide-results t)
+  ;; Update installed packages at startup if there is an update pending.
+  (auto-package-update-maybe))
+
+
 ;;(setq use-packagenn-compute-statistics t) ;then do (use-package-report)
 
 ;;(use-package nyx-theme
@@ -56,15 +69,17 @@
   (load-file (expand-file-name "~/.emacs.d/init.el")))
 (global-set-key (kbd "C-c r") 'config-reload)
 
-;;smart parens if you want something more featureful
-(defvar electric-pair-pairs '(
-                              (?\{ . ?\})
-                              (?\( . ?\))
-                              (?\[ . ?\])
-                              (?\" . ?\")
-                              ))
 
-(electric-pair-mode t)
+;;smartparens
+;;paredit
+;;(defvar electric-pair-pairs '(
+;;                              (?\{ . ?\})
+;;                              (?\( . ?\))
+;;                              (?\[ . ?\])
+;;                              (?\" . ?\")
+;;                              ))
+;;
+;;(electric-pair-mode t)
 
 
 (use-package rainbow-mode
@@ -149,17 +164,15 @@
   :ensure t
   :config
   (setq company-idle-delay 0)
-  (setq company-minimum-prefix-length 3))
+  (setq company-minimum-prefix-length 3)
+  (add-hook 'emacs-lisp-mode-hook 'company-mode))
 
-;(with-eval-after-load 'company
-;  (define-key company-active-map (kbd "M-n") nil)
-;  (define-key company-active-map (kbd "M-p") nil)
-;  (define-key company-active-map (kbd "C-n") #'company-select-next)
-;  (define-key company-active-map (kbd "C-p") #'company-select-previous)
-;  (define-key company-active-map (kbd "SPC") #'company-abort))
-
-
-(add-hook 'emacs-lisp-mode-hook 'company-mode)
+;;(with-eval-after-load 'company
+;;  (define-key company-active-map (kbd "M-n") nil)
+;;  (define-key company-active-map (kbd "M-p") nil)
+;;  (define-key company-active-map (kbd "C-n") #'company-select-next)
+;;  (define-key company-active-map (kbd "C-p") #'company-select-previous)
+;;  (define-key company-active-map (kbd "SPC") #'company-abort))
 
 (use-package slime
   :ensure t
@@ -177,13 +190,14 @@
 ;(add-hook 'shell-mode-hook 'company-mode)
 
 (use-package yasnippet
-  :init)
-(yas-reload-all)
-(add-hook 'prog-mode-hook #'yas-minor-mode)
+  :init
+  :config
+  (yas-reload-all)
+  (add-hook 'prog-mode-hook #'yas-minor-mode))
 
 
 (setq-default mode-line-format
-	      '("%e" mode-line-front-space mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification mode-line-position (vc-mode vc-mode) "" mode-line-misc-info mode-line-end-spaces))
+	          '("%e" mode-line-front-space mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification mode-line-position (vc-mode vc-mode) " " mode-line-misc-info mode-line-end-spaces))
 
 
 (use-package omnisharp
@@ -228,14 +242,12 @@
 (defvar org-time-stamp-custom-formats '("<%a %b %e %Y>" . "<%a %b %e %Y %H:%M>"))
 
 (use-package beacon
-  :ensure t
   :config
   (beacon-mode 1)
   (setq beacon-color "#ffffff")
   (setq beacon-blink-duration 1.3))
 
 (use-package aggressive-indent
-  :ensure t
   :config
   (global-aggressive-indent-mode 1))
   
@@ -247,19 +259,23 @@
 (setq visible-bell t)
 (setq-default fill-column 80)
 (global-visual-line-mode t)
+
 (use-package gcmh
   :demand t
   :defer t
   :init
   (setq gcmh-idle-delay 5
-  	gcmh-high-cons-threshold (* 16 1024 1024))
+  	    gcmh-high-cons-threshold (* 16 1024 1024))
   :config
   (gcmh-mode))
 
-(setq frame-inhibit-implied-resize t)
+;;(setq frame-inhibit-implied-resize t)
 (setq delete-by-moving-to-trash t)
-(setq byte-compile-warnings '(cl-functions))
-
+(setq-default indicate-empty-lines t)
+(setq-default indicate-buffer-boundaries 'left)
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+(setq backup-by-copying t)
 
 (use-package haskell-mode
   :hook (haskell-mode . (lambda ()
@@ -296,7 +312,7 @@
  '(display-time-mode t)
  '(menu-bar-mode nil)
  '(package-selected-packages
-   '(vbasense ivy-rich gcmh omnisharp yasnippet slime-company slime company flycheck which-key rainbow-delimiters use-package))
+   '(paredit-everywhere vbasense ivy-rich gcmh omnisharp yasnippet slime-company slime company flycheck which-key rainbow-delimiters use-package))
  '(size-indication-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
