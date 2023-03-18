@@ -46,7 +46,7 @@ myConfig = def
       -- add vol
       ((mod1Mask, xK_bracketright), spawn "amixer sset Master 2%+"),
       -- lock
-      ((mod1Mask, xK_l), spawn "Menu"),
+      ((mod1Mask .|. shiftMask, xK_l), spawn "Menu"),
       -- spawn alsamixer
       ((mod, xK_a), spawn "urxvtc -e alsamixer -V all"),
       -- brightness up by 2
@@ -82,10 +82,13 @@ myStartupHook :: X()
 myStartupHook = do
   spawnOnOnce "1" "firefox"
   spawnOnce "feh --no-fehbg --bg-fill '/home/zenex/Downloads/Images/borest.jpg'"
-  spawnOnce "urxvtd -q -o -f"
-  spawnOnce "xrdb ~/.config/.Xresources"
-  spawnOnce "setxkbmap -option altwin:swap_lalt_lwin,altwin:ctrl_alt_win"
-  
+  spawn "urxvtd -q -o -f"
+  spawn "xrdb ~/.config/.Xresources"
+  spawn "setxkbmap -option altwin:swap_lalt_lwin,altwin:ctrl_alt_win"
+  spawnOnce "dunst"
+  spawnOnce "pcmanfm -d"
+  spawnOnce "xsetroot -cursor_name left_ptr"
+
 scratchpads = [
 -- run htop in xterm, find it by title, use default floating window placement
     NS "music" "urxvtc -e ncmpcpp" (title =? "ncmpcpp")
@@ -115,9 +118,9 @@ myXmobarPP = def
     , ppOrder           = \[ws, l, _, wins] -> [ws, l, wins]
     , ppExtras          = [logTitles formatFocused formatUnfocused]
     , ppLayout =
-        ( \x -> case x of
-            "Tall" -> "" --[]=
-            "Full" -> "" --[]
+        ( \x -> case x of 
+	"Tall" -> "" --[]= 
+	"Full" -> "" --[]
         )
     }
   where
