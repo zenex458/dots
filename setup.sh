@@ -46,7 +46,7 @@ postsetup ()
 Debian ()
 {
 	sudo apt update
-	$pkg emacs sbcl wget curl firefox-esr htop feh redshift libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin scrot zathura network-manager tar zip unzip fuse3 ntfs-3g pcmanfm light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw nnn gcc alsa-utils tlp tmux mpc mpd ncmpcpp p7zip-full dmenu xsecurelock intel-microcode libxrandr-dev arandr make trash-cli lxappearance mpv lf rxvt-unicode xterm fzf rofi wireplumber pipewire-media-session- pipewire-alsa apt-list-bugs apt-list-changes
+	$pkg emacs sbcl wget curl firefox-esr htop feh redshift libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin scrot zathura network-manager tar zip unzip fuse3 ntfs-3g pcmanfm light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw nnn gcc alsa-utils tlp tmux mpc mpd ncmpcpp p7zip-full dmenu xsecurelock intel-microcode libxrandr-dev arandr make trash-cli lxappearance mpv lf rxvt-unicode xterm fzf rofi wireplumber pipewire-media-session- pipewire-alsa apt-list-bugs apt-list-changes hunspell-dictionary-en-gb
 	sudo systemctl disable bluetooth
 	sudo systemctl enable tlp
 	postsetup 
