@@ -1,14 +1,23 @@
 #!/usr/bin/dash
 
+
+case  $XDG_SESSION_TYPE in
+	"wayland")  menu="bemenu --no-exec -p";;
+	"x11")  menu="rofi -demu -p";;
+	*)  echo "Invalid"  && exit;;
+esac 
+
 doubts (){
-    dsel=$(echo "No\nYes" | rofi -dmenu -p "Are you sure?")
-    if [ "$dsel" = "No" ]; then
+    dsel=$(echo "No\nYes" | $menu "Are you sure?")
+    if [ "$dsel" = "Yes" ]; then
+	echo hello	
+    else
 	exit
     fi
 }
 
 
-sel=$(echo "Lock\nPoweroff\nReboot\nSleep" | rofi -dmenu -p "")
+sel=$(echo "Lock\nPoweroff\nReboot\nSleep" |$menu "")
 
 case "$sel" in
     Lock) doubts && xsecurelock;;
@@ -17,4 +26,3 @@ case "$sel" in
     Sleep) doubts && systemctl suspend && xsecurelock;;
     *) exit
 esac
-
