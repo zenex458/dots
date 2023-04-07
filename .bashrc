@@ -2,9 +2,7 @@
 [ -f "$HOME/.config/.envrc" ] && source "$HOME/.config/.envrc"
 
 shopt -s autocd cdspell
-fe(){ find ~/ -type f | fzf | xargs -r $EDITOR; }
-fcd(){ cd "$(find ~/ -type d | fzf)"; }
-lc(){ for i in *; do "$@" "$i"; done }
+set -o noclobber
 
 #PS1="[\w]\n$ "
 PS1="[\w]\nλ "
