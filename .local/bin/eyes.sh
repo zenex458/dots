@@ -12,10 +12,6 @@ while true; do
     if [ "$hour" -ge 16 ] || [ "$hour" -le 7 ]
     then
 	    $shift
-        if [ $brit -ge 70 ]
-	    then
-		    notify-send "brightness too high"
-	    fi
     fi
     sleep 20m
     notfy-send "lookaway!"
