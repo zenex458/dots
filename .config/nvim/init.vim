@@ -52,14 +52,14 @@ set wildmode=longest,list,full
 set clipboard+=unnamedplus
 set termguicolors
 set noshowmode
-set guicursor=i:bloack-iCursor
-set guicursor+=i:blinkon100
-set guicursor=n-v-c:hor50-Curosr
-set guicursor+=n-v-c:blinkon100
-
-"set guicursor=i:hor50-Cursor
+"set guicursor=i:bloack-iCursor
 "set guicursor+=i:blinkon100
+"set guicursor=n-v-c:hor50-Curosr
 "set guicursor+=n-v-c:blinkon100
+
+set guicursor=i:hor50-Cursor
+set guicursor+=i:blinkon100
+set guicursor+=n-v-c:blinkon100
 
 
 "set guicursor=n-v-c:hor50-Cursor
@@ -72,7 +72,7 @@ set statusline+=%<%f%m\ \ \ %=\ %R%H%W\ %l/%L:%c\ %p%% "[%n] %Y
 "set mouse=a
 "set linebreak
 set rnu nu
-colorscheme dalton
+colorscheme morest
 
 inoremap <expr> <Tab> pumvisible() ? '<C-n>' :                                                                                                                    
 \ getline('.')[col('.')-2] =~# '[[:alnum:].-_#$]' ? '<C-x><C-o>' : '<Tab>'

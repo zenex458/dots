@@ -1,7 +1,10 @@
 bar swaybar_command waybar
 exec wl-pase -t text --watch clipman store
-exec foot --server
-exec ~/.config/batt.sh
+#exec foot --server
+exec ~/.config/batt.sh &
+exec ~/.config/eyes.sh &
+exec ~/.config/notify-log &
+exec opensnitch-ui
 # Default config for sway
 #
 # Copy this to ~/.config/sway/config and edit it to your liking.
@@ -18,7 +21,8 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term footclient -e tmux
+#set $term footclient -e tmux
+set $term kitty -e tmux
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
@@ -41,9 +45,9 @@ output * background ~/Downloads/Images/smou.jpg fill
 
 set $gnome-schema org.gnome.desktop.interface
  exec_always {
-	gsettings set $gnome-schema gtk-theme "Fluent-Dark-compact"
+	gsettings set $gnome-schema gtk-theme "Shades-of-gray"
 	gsettings set $gnome-schema icon-theme "Adwaita"
-	gsettings set $gnome-schema cursor-theme "Future-dark-cursors"
+	#gsettings set $gnome-schema cursor-theme "Future-dark-cursors"
 }
 ### Idle configuration
 #
@@ -81,6 +85,13 @@ input type:keyboard {
 
 }
 
+for_window [app_id="^kitty$" title="pulsemixer$"] floating enable
+for_window [app_id="^kitty$"] max_render_time 1
+for_window [app_id="^kitty$" title="pulsemixer$"] resize set 1000 500
+#for_window [class="urxvt"] resize set 640 480
+
+
+
 ### Key bindings
 #
 # Basics:
@@ -103,7 +114,7 @@ input type:keyboard {
 
     # Reload the configuration file
     bindsym Mod1+Shift+c reload
-    bindsym $mod+x exec killall -SIGUSR1 waybar 
+    bindsym $mod+x exec pkill -SIGUSR1 waybar 
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
@@ -174,8 +185,8 @@ input type:keyboard {
 
     # Make the current focus fullscreen
     bindsym $mod+f fullscreen
-    bindsym $mod+c exec firefox
-    bindsym $mod+Shift+c exec firefox --private-window
+    bindsym $mod+c exec sfirefox || firefox
+    bindsym $mod+Shift+c exec sfirefoxp || firefox --private-window
 
     # Toggle the current focus between tiling and floating mode
     bindsym $mod+Shift+space floating toggle
@@ -185,12 +196,15 @@ input type:keyboard {
 
     # Move focus to the parent container
    # bindsym $mod+u focus parent
-    bindsym $mod+a exec footclient -e pulsemixer
+    bindsym $mod+a exec kitty --title="pulsemixer" -e pulsemixer
 
     bindsym $mod+Prior exec light -A 2
     bindsym $mod+Next exec light -U 2
 
     bindsym $mod+m exec amixer sset Master toggle
+    bindsym Mod1+o exec mpc -p 6601 next
+    bindsym Mod1+i exec mpc -p 6601 prev
+    bindsym Mod1+p exec mpc -p 6601 toggle
 #
 # Scratchpad:
 #
