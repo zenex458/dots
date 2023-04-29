@@ -5,12 +5,12 @@ shopt -s autocd cdspell
 set -o noclobber
 
 #PS1="[\w]\n$ "
-PS1="[\w]\nλ "
+#PS1="[\w]\nλ "
 HISTFILE="/home/zenex/.local/share/.bash_history"
 HISTSIZE=1000
 HISTFILESIZE=2000
 
-set -o emacs
+#set -o emacs
 bind 'set show-all-if-ambiguous on'
 bind 'set completion-ignore-case on'
 bind 'TAB:menu-complete'
