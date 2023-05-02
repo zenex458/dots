@@ -10,7 +10,7 @@ zstyle ':completion:*:*:*:*:descriptions' format '%F{red}[%d]%f'
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "~/.cache/.zcompcache"
 zstyle ':completion:*' group-name ''
-zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' verbose true
