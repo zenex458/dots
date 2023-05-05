@@ -52,7 +52,7 @@ exe 'hi WildMenu guifg='s:str' guibg='s:bg
 
 exe 'hi Boolean guifg='s:const
 exe 'hi Character guifg='s:const
-exe 'hi Comment guifg='s:comment
+exe 'hi Comment guifg='s:comment'  gui=italic'
 exe 'hi Conditional guifg='s:keyword
 exe 'hi Constant guifg='s:const
 exe 'hi Todo guibg='s:bg
@@ -65,7 +65,8 @@ exe 'hi ErrorMsg guifg='s:warning' guibg='s:bg2' gui=bold'
 exe 'hi WarningMsg guifg='s:fg' guibg='s:warning2
 exe 'hi Float guifg='s:const
 exe 'hi Function guifg='s:func
-exe 'hi Identifier guifg='s:type'  gui=italic'
+"exe 'hi Identifier guifg='s:type'  gui=italic'
+exe 'hi Identifier guifg='s:type
 exe 'hi Keyword guifg='s:keyword'  gui=bold'
 exe 'hi Label guifg='s:var
 exe 'hi NonText guifg='s:bg4' guibg='s:bg2
@@ -76,6 +77,7 @@ exe 'hi Special guifg='s:fg
 exe 'hi SpecialKey guifg='s:fg2' guibg='s:bg2
 exe 'hi Statement guifg='s:keyword
 exe 'hi StorageClass guifg='s:type'  gui=italic'
+exe 'hi StorageClass guifg='s:type
 exe 'hi String guifg='s:str
 exe 'hi Tag guifg='s:keyword
 exe 'hi Title guifg='s:fg'  gui=bold'
