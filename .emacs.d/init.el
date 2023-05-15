@@ -2,7 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-
 ;;(server-start)
 ;;(setq gc-cons-threshold 20000000) ;take of a zero if runtime is slow
 (setq gc-cons-threshold 2000000)
@@ -39,114 +38,6 @@
 ;;:config
 ;; (enable-theme 'nyx))
 
-
-
-
-
-
-
-
-
-;;(use-package exwm
-;;  :ensure t
-;;  :config
-;;
-;;  ;; necessary to configure exwm manually
-;;  (require 'exwm-config)
-;;
-;;
-;;  ;; emacs as a daemon, use "emacsclient <filename>" to seamlessly edit files from the terminal directly in the exwm instance
-;;
-;;
-;;  ;; this fixes issues with ido mode, if you use helm, get rid of it
-;;  (exwm-config-ido)
-;;
-;;  ;; a number between 1 and 9, exwm creates workspaces dynamically so I like starting out with 1
-;;  (setq exwm-workspace-number 1)
-;;
-;;  ;; this is a way to declare truly global/always working keybindings
-;;  ;; this is a nifty way to go back from char mode to line mode without using the mouse
-;;  (exwm-input-set-key (kbd "s-r") #'exwm-reset)
-;;  (exwm-input-set-key (kbd "s-k") #'exwm-workspace-delete)
-;;  (exwm-input-set-key (kbd "s-w") #'exwm-workspace-swap)
-;;
-;;  ;; the next loop will bind s-<number> to switch to the corresponding workspace
-;;  (dotimes (i 10)
-;;    (exwm-input-set-key (kbd (format "s-%d" i))
-;;                        `(lambda ()
-;;                           (interactive)
-;;                           (exwm-workspace-switch-create ,i))))
-;;
-;;  ;; the simplest launcher, I keep it in only if dmenu eventually stopped working or something
-;;  (exwm-input-set-key (kbd "s-&")
-;;                      (lambda (command)
-;;                        (interactive (list (read-shell-command "$ ")))
-;;                        (start-process-shell-command command nil command)))
-;;
-;;  ;; an easy way to make keybindings work *only* in line mode
-;;  (push ?\C-q exwm-input-prefix-keys)
-;;  (define-key exwm-mode-map [?\C-q] #'exwm-input-send-next-key)
-;;
-;;  ;; simulation keys are keys that exwm will send to the exwm buffer upon inputting a key combination
-;;  (exwm-input-set-simulation-keys
-;;   '(
-;;     ;; movement
-;;     ([?\C-b] . left)
-;;     ([?\M-b] . C-left)
-;;     ([?\C-f] . right)
-;;     ([?\M-f] . C-right)
-;;     ([?\C-p] . up)
-;;     ([?\C-n] . down)
-;;     ([?\C-a] . home)
-;;     ([?\C-e] . end)
-;;     ([?\M-v] . prior)
-;;     ([?\C-v] . next)
-;;     ([?\C-d] . delete)
-;;     ([?\C-k] . (S-end delete))
-;;     ;; cut/paste
-;;     ([?\C-w] . ?\C-x)
-;;     ([?\M-w] . ?\C-c)
-;;     ([?\C-y] . ?\C-v)
-;;     ;; search
-;;     ([?\C-s] . ?\C-f)))
-;;
-;;  ;; this little bit will make sure that XF86 keys work in exwm buffers as well
-;;  (dolist (k '(XF86AudioLowerVolume
-;;               XF86AudioRaiseVolume
-;;               XF86PowerOff
-;;               XF86AudioMute
-;;               XF86AudioPlay
-;;               XF86AudioStop
-;;               XF86AudioPrev
-;;               XF86AudioNext
-;;               XF86ScreenSaver
-;;               XF68Back
-;;               XF86Forward
-;;               Scroll_Lock
-;;               print))
-;;    (cl-pushnew k exwm-input-prefix-keys))
-;;  
-;;  ;; this just enables exwm, it started automatically once everything is ready
-;;  (exwm-enable))
-;;
-;;
-;;
-;;
-;;(use-package dmenu
-;;  :ensure t
-;;  :bind
-;;  ("s-SPC" . 'dmenu))
-
-
-
-
-
-
-
-
-
-
-
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (load-theme 'morest t)
 
@@ -160,6 +51,17 @@
 (display-battery-mode 1)
 (size-indication-mode 1)
 (save-place-mode 1)
+;;(setq display-line-numbers 'relative)
+;;(setq display-line-numbers-current-absolute t)
+
+(setq display-line-numbers-type 'relative)
+(global-display-line-numbers-mode t)
+
+;;(add-hook 'org-mode-hook (lambda () (display-line-numbers-mode 0)))
+;;(add-hook 'markdown-mode-hook (lambda () (display-line-numbers-mode 0)))
+
+(dolist (hook '(org-mode-hook markdown-mode-hook))
+  (add-hook hook (lambda () (display-line-numbers-mode 0))))
 
 (setq
  backup-by-copying t
@@ -191,6 +93,7 @@
 
 
 (use-package rainbow-mode
+  :diminish 'rainbow-mode
   :ensure t
   :init
   (add-hook 'prog-mode-hook 'rainbow-mode))
@@ -199,6 +102,7 @@
   :ensure t
   :init
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+(diminish 'rainbow-mode)
 
 
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -217,6 +121,7 @@
   :ensure t
   :config
   (which-key-mode))
+(diminish 'which-key-mode)
 
 (defun split-and-follow-horizontally ()
   "This will split horizontally and focus will follow."
@@ -267,6 +172,7 @@
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode))
+(diminish 'flycheck-mode)
 
 (use-package company
   :ensure t
@@ -274,6 +180,8 @@
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 3)
   (add-hook 'emacs-lisp-mode-hook 'company-mode))
+(diminish 'company-mode)
+
 
 ;;(with-eval-after-load 'company
 ;;  (define-key company-active-map (kbd "M-n") nil)
@@ -291,23 +199,33 @@
 (use-package slime-company
   :ensure t
   :init
-    (require 'company)
-    (slime-setup '(slime-fancy slime-company)))
+  (require 'company)
+  (slime-setup '(slime-fancy slime-company)))
 
-;(add-hook 'shell-mode-hook 'flycheck-mode)
-;(add-hook 'shell-mode-hook 'company-mode)
+
+(add-hook 'shell-mode-hook 'yas-minor-mode)
+(add-hook 'shell-mode-hook 'flycheck-mode)
+(add-hook 'shell-mode-hook 'company-mode)
+
+
+(defun shell-mode-company-init ()
+  (setq-local company-backends '((company-shell
+                                  company-shell-env
+                                  company-etags
+                                  company-dabbrev-code))))
+
+(use-package company-shell
+  :ensure t
+  :config
+  (require 'company)
+  (add-hook 'shell-mode-hook 'shell-mode-company-init))
 
 (use-package yasnippet
   :init
   :config
   (yas-reload-all)
   (add-hook 'prog-mode-hook #'yas-minor-mode))
-
-
-(setq-default mode-line-format
- 	          '("%e" mode-line-front-space mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification mode-line-position (vc-mode vc-mode) " " mode-line-misc-info mode-line-end-spaces))
-
-
+(diminish 'yas-minor-mode)
 
 (use-package omnisharp
   :after company
@@ -317,16 +235,28 @@
   (define-key omnisharp-mode-map (kbd ".") 'omnisharp-add-dot-and-auto-complete)
   (define-key omnisharp-mode-map (kbd "<C-SPC>") 'omnisharp-auto-complete))
 
+;;(setq omnisharp-server-executable-path "/etc/profiles/per-user/zenex/bin/OmniSharp")
+
+(use-package diminish
+  :init
+  :ensure t)
+(diminish 'eldoc-mode)
+(diminish 'visual-line-mode)
+
+
 (use-package counsel
   :init
   :ensure t
   :config
   (counsel-mode 1))
+(diminish 'counsel-mode)
 
 (use-package ivy
   :init
   :config
   (ivy-mode 1))
+
+(diminish 'ivy-mode)
 
 (use-package ivy-rich
   :after ivy
@@ -345,6 +275,7 @@
       org-agenda-start-on-weekday t
       org-log-done 'time
       org-enforce-todo-dependencies t
+      calendar-week-start-day 1
       org-agenda-files (list "~/Documents/2.Notes/Org/todo.org"))
 
 (setq-default org-display-custom-times t)
@@ -355,6 +286,8 @@
   (beacon-mode 1)
   (setq beacon-color "#ffffff")
   (setq beacon-blink-duration 1.3))
+(diminish 'beacon-mode)
+
 
 (use-package god-mode
   :init
@@ -374,19 +307,54 @@
 (use-package aggressive-indent
   :config
   (global-aggressive-indent-mode 1))
-  
+
+(use-package markdown-mode
+  :ensure t
+  :mode ("*\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown"))
+
 (defvar ispell-dictionary "british")
 (setq confirm-kill-emacs 'y-or-n-p)
 (setq-default dired-listing-switches "-alh")
 (global-font-lock-mode t)
 (global-auto-revert-mode t)
 (setq visible-bell t)
-(setq-default fill-column 80)
+;;(setq-default fill-column 80)
 (global-visual-line-mode t)
 ;; Open dired folders in same buffer
 (put 'dired-find-alternate-file 'disabled nil)
 (setq dired-dwim-target t)
 
+(defvar ml-selected-window nil)
+
+(defvar ml-total-lines nil
+  "Previously recorded total lines in a buffer -- used for inactive windows.")
+(make-variable-buffer-local 'ml-total-lines)
+
+(defun ml-record-selected-window ()
+  (setq ml-selected-window (selected-window)))
+
+(defun ml-update-all ()
+  (force-mode-line-update t))
+
+(add-hook 'post-command-hook 'ml-record-selected-window)
+
+(add-hook 'buffer-list-update-hook 'ml-update-all)
+
+(setq-default mode-line-format '(
+                                 "%e"
+                                 mode-line-front-space mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification
+                                 "(%l/"
+                                 (:eval
+                                  (let ((win (selected-window)))
+                                    (with-current-buffer (window-buffer win)
+                                      (if (or (eq ml-selected-window win) (null ml-total-lines))
+                                          (save-excursion
+                                            (goto-char (point-max))
+                                            (setq ml-total-lines (format-mode-line "%l")))
+                                        ml-total-lines))))
+                                 ":%C %I) "
+                                 (vc-mode vc-mode) mode-line-modes mode-line-misc-info mode-line-end-spaces))
 
 ;; Show a horizontal line on the current line
 (global-hl-line-mode t)
@@ -406,10 +374,10 @@
   :config
   (gcmh-mode))
 
-;;(setq frame-inhibit-implied-resize t)
+(setq frame-inhibit-implied-resize t)
 (setq delete-by-moving-to-trash t)
-(setq-default indicate-empty-lines t)
-(setq-default indicate-buffer-boundaries 'left)
+;;(setq-default indicate-empty-lines t)
+;;(setq-default indicate-buffer-boundaries 'left)
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq backup-by-copying t)
@@ -419,24 +387,24 @@
                           (haskell-doc-mode)
                           (turn-on-haskell-indent))))
 
-(defvar my-linum-current-line-number 0)
-
-(defvar linum-format 'my-linum-relative-line-numbers)
-
-(defun my-linum-relative-line-numbers (line-number)
-  (let ((test2 (- line-number my-linum-current-line-number)))
-    (propertize
-     (number-to-string (cond ((<= test2 0) (* -1 test2))
-                             ((> test2 0) test2)))
-     'face 'linum)))
-
-(defadvice linum-update (around my-linum-update)
-  (let ((my-linum-current-line-number (line-number-at-pos)))
-    ad-do-it))
-(ad-activate 'linum-update)
-
-
-(global-linum-mode t)
+;;(defvar my-linum-current-line-number 0)
+;;
+;;(defvar linum-format 'my-linum-relative-line-numbers)
+;;
+;;(defun my-linum-relative-line-numbers (line-number)
+;;  (let ((test2 (- line-number my-linum-current-line-number)))
+;;    (propertize
+;;     (number-to-string (cond ((<= test2 0) (* -1 test2))
+;;                             ((> test2 0) test2)))
+;;     'face 'linum)))
+;;
+;;(defadvice linum-update (around my-linum-update)
+;;  (let ((my-linum-current-line-number (line-number-at-pos)))
+;;    ad-do-it))
+;;(ad-activate 'linum-update)
+;;
+;;
+;;(global-linum-mode t)
 ;;https://www.mycpu.org/emacs-relative-linum/
 
 ;;(use-package elfeed)
@@ -445,12 +413,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(column-number-mode t)
- '(display-battery-mode t)
- '(display-time-mode t)
- '(menu-bar-mode nil)
+ ;;'(column-number-mode t)
+ ;;'(display-battery-mode t)
+ ;;'(display-time-mode t)
+ ;;'(menu-bar-mode nil)
  '(package-selected-packages
-   '(god-mode auto-package-update paredit-everywhere vbasense ivy-rich gcmh omnisharp yasnippet slime-company slime company flycheck which-key rainbow-delimiters use-package))
+   '(minions god-mode auto-package-update paredit-everywhere vbasense ivy-rich gcmh omnisharp yasnippet slime-company slime company flycheck which-key rainbow-delimiters use-package))
  '(size-indication-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
