@@ -78,13 +78,11 @@
 (sp-local-pair 'smartparens-strict-mode "'" nil :actions nil)
 (defun my-disable-elisp-smartparens ()
   (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil))
-(add-hook 'lisp-mode 'my-disable-elisp-smartparens)
+(add-hook 'emacs-lisp-mode 'my-disable-elisp-smartparens)
 (diminish 'smartparens-mode)
 
 (use-package rainbow-mode
-  :diminish 'rainbow-mode
-  :ensure t
-  :init
+  :config
   (add-hook 'prog-mode-hook 'rainbow-mode))
 
 (use-package rainbow-delimiters
@@ -171,38 +169,25 @@
   (add-hook 'emacs-lisp-mode-hook 'company-mode))
 (diminish 'company-mode)
 
-(use-package slime
-  :ensure t
-  :config
-  (setq inferior-lisp-program "/usr/bin/sbcl")
-  (setq slime-contribs '(slime-fancy)))
-
-(use-package slime-company
-  :ensure t
-  :init
-  (require 'company)
-  (slime-setup '(slime-fancy slime-company)))
-
-
-(add-hook 'shell-mode-hook 'yas-minor-mode)
-(add-hook 'shell-mode-hook 'flycheck-mode)
-(add-hook 'shell-mode-hook 'company-mode)
-
-
-(defun shell-mode-company-init ()
-  (setq-local company-backends '((company-shell
-                                  company-shell-env
-                                  company-etags
-                                  company-dabbrev-code))))
-
-(use-package company-shell
-  :ensure t
-  :config
-  (require 'company)
-  (add-hook 'shell-mode-hook 'shell-mode-company-init))
+;;(add-hook 'shell-mode-hook 'yas-minor-mode)
+;;(add-hook 'shell-mode-hook 'flycheck-mode)
+;;(add-hook 'shell-mode-hook 'company-mode)
+;;
+;;
+;;(defun shell-mode-company-init ()
+;;  (setq-local company-backends '((company-shell
+;;                                  company-shell-env
+;;                                  company-etags
+;;                                  company-dabbrev-code))))
+;;
+;;(use-package company-shell
+;;  :ensure t
+;;  :config
+;;  (require 'company)
+;;  (add-hook 'shell-mode-hook 'shell-mode-company-init))
 
 (use-package yasnippet
-  :init
+  :defer 5
   :config
   (yas-reload-all)
   (add-hook 'prog-mode-hook #'yas-minor-mode))
@@ -263,11 +248,12 @@
 (defvar org-time-stamp-custom-formats '("<%a %b %e %Y>" . "<%a %b %e %Y %H:%M>"))
 
 (use-package beacon
+  :init
   :config
-  (beacon-mode 1)
   (setq beacon-color "#ffffff")
   (setq beacon-blink-duration 1.3))
 (diminish 'beacon-mode)
+
 
 (use-package aggressive-indent
   :config
@@ -285,6 +271,7 @@
 (global-set-key (kbd "C-@") 'er/expand-region)
 
 (use-package multiple-cursors
+  :defer 5
   :config
   (require 'multiple-cursors))
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
