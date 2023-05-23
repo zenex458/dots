@@ -30,6 +30,7 @@
   (auto-package-update-maybe))
 ;;(setq use-packagenn-compute-statistics t) ;then do (use-package-report)
 
+
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (load-theme 'morest t)
 
@@ -123,40 +124,16 @@
   (which-key-mode))
 (diminish 'which-key-mode)
 
-;;(defun split-and-follow-horizontally ()
-;;  "This will split horizontally and focus will follow."
-;;  (interactive)
-;;  (split-window-below)
-;;  (balance-windows)
-;;  (other-window 1))
-;;(global-set-key (kbd "C-x 2") 'split-and-follow-horizontally)
-;;
-;;(defun split-and-follow-vertically ()
-;;  "This split vertically and focus will follow."
-;;  (interactive)
-;;  (split-window-right)
-;;  (balance-windows)
-;;  (other-window 1))
-;;(global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
-
-;;(defun kill-current-buffer ()
-;;  "This will kill the current buffer."
-;;  (interactive)
-;;  (kill-buffer (current-buffer)))
-;;(global-set-key (kbd "C-x k") 'kill-current-buffer)
-
-;;(global-set-key (kbd "C-c b") 'ibuffer)
-(global-set-key (kbd "C-c b") 'counsel-switch-buffer)
-
+(global-set-key (kbd "C-c b") 'ibuffer)
 
 (defun copy-whole-line ()
   "Copies a line without regard for cursor position."
   (interactive)
   (save-excursion
-    (kill-new
-     (buffer-substring
-      (point-at-bol)
-      (point-at-eol)))))
+	(kill-new
+	 (buffer-substring
+	  (point-at-bol)
+	  (point-at-eol)))))
 (global-set-key (kbd "C-c l c") 'copy-whole-line)
 (global-set-key (kbd "C-c l k") 'kill-whole-line)
 
@@ -205,12 +182,20 @@
                                   company-shell-env
                                   company-etags
                                   company-dabbrev-code))))
-
 (use-package company-shell
   :ensure t
   :config
   (require 'company)
   (add-hook 'shell-mode-hook 'shell-mode-company-init))
+
+(use-package dabbrev
+  ;; Swap M-/ and C-M-/
+  :bind (("M-/" . dabbrev-completion)
+         ("C-M-/" . dabbrev-expand))
+  ;; Other useful Dabbrev configurations.
+  :custom
+  (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
+
 
 (use-package yasnippet
   :config
@@ -225,37 +210,133 @@
   (add-to-list 'company-backends 'company-omnisharp)
   (define-key omnisharp-mode-map (kbd ".") 'omnisharp-add-dot-and-auto-complete)
   (define-key omnisharp-mode-map (kbd "<C-SPC>") 'omnisharp-auto-complete))
-
 ;;(setq omnisharp-server-executable-path "/etc/profiles/per-user/zenex/bin/OmniSharp")
 
-(use-package counsel
-  :init
+(use-package orderless
   :ensure t
-  :config
-  (counsel-mode 1))
-(diminish 'counsel-mode)
+  :custom
+  (completion-styles '(substring orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
 
-(use-package ivy
+(use-package marginalia
+  :bind (:map minibuffer-local-map
+			  ("M-A" . marginalia-cycle))
+  :init
+  (marginalia-mode))
+;;(setq marginalia-align-offset 10)
+(use-package vertico
+  :init
+
+  (vertico-mode))
+
+(use-package savehist
+:init
+(savehist-mode))
+
+(use-package emacs
+:init
+;; Emacs 28: Hide commands in M-x which do not work in the current mode.
+(setq read-extended-command-predicate
+      #'command-completion-default-include-p)
+(setq enable-recursive-minibuffers t))
+
+;; Example configuration for Consult
+(use-package consult
+  ;; Replace bindings. Lazily loaded due by `use-package'.
+  :bind (;; C-c bindings in `mode-specific-map'
+         ("C-c M-x" . consult-mode-command)
+         ("C-c h" . consult-history)
+         ("C-c k" . consult-kmacro)
+         ("C-c m" . consult-man)
+         ("C-c i" . consult-info)
+         ([remap Info-search] . consult-info)
+         ;; C-x bindings in `ctl-x-map'
+         ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
+         ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
+         ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
+         ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
+         ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
+         ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
+         ;; Other custom bindings
+         ("M-y" . consult-yank-pop)                ;; orig. yank-pop
+         ;; M-g bindings in `goto-map'
+         ("M-g e" . consult-compile-error)
+         ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
+         ("M-g g" . consult-goto-line)             ;; orig. goto-line
+         ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
+         ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
+         ("M-g m" . consult-mark)
+         ("M-g k" . consult-global-mark)
+         ("M-g i" . consult-imenu)
+         ("M-g I" . consult-imenu-multi)
+         ;; M-s bindings in `search-map'
+         ("M-s d" . consult-find)
+         ("M-s D" . consult-locate)
+         ("M-s g" . consult-grep)
+         ("M-s G" . consult-git-grep)
+         ("M-s r" . consult-ripgrep)
+         ("M-s l" . consult-line)
+         ("M-s L" . consult-line-multi)
+         ("M-s k" . consult-keep-lines)
+         ("M-s u" . consult-focus-lines)
+         ;; Isearch integration
+         ("M-s e" . consult-isearch-history)
+         :map isearch-mode-map
+         ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
+         ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
+         ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
+         ("M-s L" . consult-line-multi)            ;; needed by consult-line to detect isearch
+         ;; Minibuffer history
+         :map minibuffer-local-map
+         ("M-s" . consult-history)                 ;; orig. next-matching-history-element
+         ("M-r" . consult-history))                ;; orig. previous-matching-history-element
+
+  ;; Enable automatic preview at point in the *Completions* buffer. This is
+  ;; relevant when you use the default completion UI.
+  :hook (completion-list-mode . consult-preview-at-point-mode)
+  ;; The :init configuration is always executed (Not lazy)
   :init
   :config
-  (ivy-mode 1))
+  (consult-customize
+   consult-theme :preview-key '(:debounce 0.2 any)
+   consult-ripgrep consult-git-grep consult-grep
+   consult-bookmark consult-recent-file consult-xref
+   consult--source-bookmark consult--source-file-register
+   consult--source-recent-file consult--source-project-recent-file
+   ;; :preview-key "M-."
+   :preview-key '(:debounce 0.4 any)))
 
-(diminish 'ivy-mode)
+(use-package embark
+  :ensure t
 
-(use-package ivy-rich
-  :after ivy
+  :bind
+  (("C-." . embark-act)         ;; pick some comfortable binding
+   ("C-;" . embark-dwim)        ;; good alternative: M-.
+   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+
   :init
-  (ivy-rich-mode 1))
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command)
 
-(global-set-key (kbd "C-c a c") 'avy-goto-char)
-(global-set-key (kbd "C-c a l") 'avy-goto-line)
-(global-set-key (kbd "C-c i") 'swiper-from-isearch)
+  ;; Show the Embark target at point via Eldoc.  You may adjust the Eldoc
+  ;; strategy, if you want to see the documentation from multiple providers.
+  (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
+  ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
 
+  :config
 
-(setq ido-everywhere t)
-(setq ido-enable-flex-matching t)
-(setq ido-auto-merge-work-directories-length -1)
-(ido-mode t)
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+;; Consult users will also want the embark-consult package.
+(use-package embark-consult
+  :ensure t ; only need to install it, embark loads it after consult if found
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+
 
 (setq org-startup-indented t
       org-pretty-entities t
@@ -300,8 +381,6 @@
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-@") 'mc/mark-all-like-this)
-
-
 
 (global-set-key (kbd "M-Z") 'zap-up-to-char)
 
@@ -367,14 +446,6 @@
                                  ":%C %I) "
                                  (vc-mode vc-mode) mode-line-modes mode-line-misc-info mode-line-end-spaces))
 
-;; Show a horizontal line on the current line
-;;(global-hl-line-mode t)
-;;
-;;(use-package hl-column
-;;  :ensure t
-;;  :config
-;;  (global-hl-column-mode t))
-
 (use-package gcmh
   :demand t
   :defer t
@@ -388,27 +459,26 @@
 (setq delete-by-moving-to-trash t)
 ;;(setq-default indicate-empty-lines t)
 ;;(setq-default indicate-buffer-boundaries 'left)
-(setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
+(setq-default indent-tabs-mode t)
+(setq tab-always-indent 'complete)
 (setq backup-by-copying t)
 (setq history-length 20)
 (defvar comp-async-report-warnings-errors nil)
 (savehist-mode 1)
 
-(use-package centered-cursor-mode)
+(use-package centered-cursor-mode
+  :init
+  :config
+  (global-centered-cursor-mode 1))
 (diminish 'centered-cursor-mode)
 
-(use-package dashboard
-  :ensure t
-  :config
-  (dashboard-setup-startup-hook))
+(use-package writeroom-mode)
 
-(setq dashboard-banner-logo-title "")
-(setq dashboard-startup-banner nil)
-(setq dashboard-items '((recents  . 5)))
-(setq dashboard-set-init-info nil)
-(setq dashboard-set-footer nil)
-(setq dashboard-set-navigator nil)
+(setq writeroom-header-line "")
+(setq writeroom-global-effects nil)
+(setq writeroom-maximize-window nil)
+
 
 (use-package volatile-highlights
   :config
@@ -427,7 +497,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(standard-themes haskell-mode gcmh ace-window multiple-cursors expand-region markdown-mode aggressive-indent beacon ivy-rich counsel omnisharp yasnippet company-shell company flycheck hungry-delete which-key async rainbow-delimiters rainbow-mode diminish use-package smartparens auto-package-update)))
+   '(writeroom-mode centered-window centered-window-mode orderless orderlesss haskell-mode gcmh ace-window multiple-cursors expand-region markdown-mode aggressive-indent beacon omnisharp yasnippet company-shell company flycheck hungry-delete which-key async rainbow-delimiters rainbow-mode diminish use-package smartparens auto-package-update)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
