@@ -16,16 +16,22 @@
 #ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 #OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-
+ufwsetup()
+{	#check if ufw is installed, if it isn't then print error
+	if command -V ufw >/dev/null 2>&1; then
+		sudo systemctl enable ufw
+		sudo systemctl start ufw
+		sudo ufw enable
+		sudo ufw default deny incoming
+		sudo ufw default allow outgoing
+	else
+		echo "ERROR: UFW"
+	fi
+}
 
 postsetup ()
 {
-        sudo systemctl enable ufw
-	sudo systemctl start ufw
-	sudo ufw enable
-	sudo ufw default deny incoming
-	sudo ufw default allow outgoing
-
+	ufwsetup
 	read -rp "Do you want xmonad?(y/n) " xmon
 	if [[ $xmon == "y" || $xmon == "Y" ]]
 	then
@@ -42,7 +48,6 @@ postsetup ()
 	  echo "sway not added"
 	fi
 
-
 	read -rp "Do you want vim-plug?(y/n) " vplug
 	if [[ $vplug == "y" || $vplug == "Y" ]]
 	then
@@ -55,16 +60,16 @@ postsetup ()
 	read -rp "Do you want an ad-blocking hosts file?(y/n) " ahosts
 	if [[ $ahosts == "y" || $ahosts == "Y" ]]
 	then
-          curl -LO https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts
-	  sudo mv /etc/hosts /etc/hosts.old
-	  sudo mv hosts /etc/hosts
+        curl -LO "https://codeberg.org/zenex/hosts/raw/branch/main/hosts"
+		sudo mv /etc/hosts /etc/hosts.old
+		sudo mv hosts /etc/hosts
 	else
           echo "ad-blocking hosts not added"
 	fi
 
-	cd ~/
+	cd ~/ || cd $HOME || echo "$HOME not found, please set $HOME variable"
 	git clone https://codeberg.org/zenex/looks
-	cd looks
+	cd looks || echo "looks directory not found"
 	sudo cp -r Future* /usr/share/icons
 	sudo cp -r Material* /usr/share/themes
 	sudo cp -r Hack /usr/share/fonts
@@ -72,13 +77,13 @@ postsetup ()
 
 
 Debian_install_firefox()
-{
+{   ##check the debian version from the sources.list. AWK looks for UNSTABLE on the 5th line and the 3rd collumn, seperated by spaces
 	debversion=$(awk 'NR==5{print $3}' /etc/apt/sources.list)
 	if [ $debversion == "unstable" ]
 	then
-            sudo apt install firefox
+		sudo apt install firefox
 	else
-	  sudo apt install firefox-esr
+		sudo apt install firefox-esr
 	fi
 
 }
@@ -86,7 +91,7 @@ Debian_install_firefox()
 Debian()
 {
 	sudo apt update
-	$pkg emacs sbcl wget curl htop feh redshift libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin scrot zathura bc network-manager tar zip unzip fuse3 ntfs-3g pcmanfm light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw nnn gcc alsa-utils tlp tmux mpc mpd ncmpcpp p7zip-full dmenu xsecurelock intel-microcode libxrandr-dev arandr make trash-cli lxappearance mpv lf rxvt-unicode xterm fzf rofi wireplumber pipewire-media-session- pipewire-alsa apt-listbugs apt-listchanges apt-show-verions hunspell-dictionary-en-gb apparmor-profiles apparmor-profiles-extra bubblewrap libseccomp-dev libbpf-dev
+	$pkg emacs wget curl htop feh redshift libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin scrot zathura bc network-manager tar zip unzip fuse3 ntfs-3g pcmanfm light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw nnn gcc alsa-utils tlp tmux mpc mpd ncmpcpp p7zip-full dmenu xsecurelock intel-microcode make trash-cli lxappearance mpv lf rxvt-unicode xterm fzf rofi wireplumber pipewire-media-session- pipewire-alsa apt-listbugs apt-listchanges hunspell-dictionary-en-gb apparmor-profiles apparmor-profiles-extra bubblewrap libseccomp-dev libbpf-dev #sbcl libxrandr-dev arandr apt-show-verions 
 	Debian_install_firefox
 	sudo systemctl disable bluetooth
 	sudo systemctl enable tlp
@@ -95,7 +100,7 @@ Debian()
 
 Fedora()
 {
-	$pkg neovim emacs sbcl curl wget firefox dmenu rofi make gcc htop feh redshift libreoffice dunst libnotify libnotify-devel scrot zathura zathura-devel zathura-plugins-all zathura-pdf-mupdf @base-x yt-dlp zip unzip fuse3 NetworkManager-tui NetworkManager-wifi light keepassxc tar nnn ufw iwl* pcmanfm alsa-firmware alsa-lib alsa-lib-devel alsa-utils xterm ntfs-3g xz libX11-devel libXft-devel libXinerama-devel xorg-x11-xinit-session rxvt-unicode tmux fzf tlp udisks udisks-devel trash-cli xsetroot dash xsecurelock lxappearance patch texlive-cantarell p7zip redhat-rpm-config #rpmautospec-rpm-macros
+	$pkg neovim emacs curl wget firefox dmenu rofi make gcc htop feh redshift libreoffice dunst libnotify libnotify-devel scrot zathura zathura-devel zathura-plugins-all zathura-pdf-mupdf @base-x yt-dlp zip unzip fuse3 NetworkManager-tui NetworkManager-wifi light keepassxc tar nnn ufw iwl* pcmanfm alsa-firmware alsa-lib alsa-lib-devel alsa-utils xterm ntfs-3g xz libX11-devel libXft-devel libXinerama-devel xorg-x11-xinit-session rxvt-unicode tmux fzf tlp udisks udisks-devel trash-cli xsetroot dash xsecurelock lxappearance patch texlive-cantarell p7zip redhat-rpm-config #rpmautospec-rpm-macros sbcl
 	sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 	sudo dnf upgrade
 	sudo dnf install mpv mpd mpc ncmpcpp ffmpegthumbnailer
@@ -109,13 +114,14 @@ Fedora()
 Os()
 {
 
-#osR=$(awk -F '^NAME=' '{print $2}' /etc/os-release | grep " " | sed -e 's/^"//' -e 's/"$//')
-osR=$(awk -F '=' '/^NAME/ {gsub(/"/, "", $2); print $2}' /etc/os-release)
-case $osR in
-	"Debian GNU/Linux")  pkg="sudo apt install" && Debian ;;
-	"Fedora Linux")  pkg="sudo dnf install" && Fedora;;
-	*)  echo "Invalid os name" && echo "your os is :" && uname -a && exit;;
-esac 
+	#osR=$(awk -F '^NAME=' '{print $2}' /etc/os-release | grep " " | sed -e 's/^"//' -e 's/"$//')
+	#awk will use the "=" as a marker, it will look for the second occurance of a string that begins with NAME= and remove the sourounding quotes and print it
+	osR=$(awk -F '=' '/^NAME/ {gsub(/"/, "", $2); print $2}' /etc/os-release)
+	case $osR in
+		"Debian GNU/Linux")  pkg="sudo apt install" && Debian ;;
+		"Fedora Linux")  pkg="sudo dnf install" && Fedora;;
+		*)  echo "Invalid os name" && echo "your os is :" && uname -a && exit;;
+	esac 
 }
 
 cp -r .xinitrc .bashrc ~/
