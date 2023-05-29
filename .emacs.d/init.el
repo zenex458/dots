@@ -85,6 +85,7 @@
   (require 'smartparens-config)
   (add-hook 'prog-mode-hook 'smartparens-mode))
 
+
 (global-set-key (kbd "C-c p d") 'sp-splice-sexp)
 (global-set-key (kbd "C-c p r") 'sp-rewrap-sexp)
 (global-set-key (kbd "C-c p b d") 'sp-backward-unwrap-sexp)
@@ -211,11 +212,11 @@
   (define-key omnisharp-mode-map (kbd ".") 'omnisharp-add-dot-and-auto-complete)
   (define-key omnisharp-mode-map (kbd "<C-SPC>") 'omnisharp-auto-complete))
 ;;(setq omnisharp-server-executable-path "/etc/profiles/per-user/zenex/bin/OmniSharp")
-
+;;occur
 (use-package orderless
   :ensure t
   :custom
-  (completion-styles '(substring orderless basic))
+  (completion-styles '(flex orderless basic))
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package marginalia
@@ -312,7 +313,8 @@
   :bind
   (("C-." . embark-act)         ;; pick some comfortable binding
    ("C-;" . embark-dwim)        ;; good alternative: M-.
-   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+   ("C-h B" . embark-bindings) ;; alternative for `describe-bindings'
+   ("C-c K b" . embark-kill-buffer-and-window))
 
   :init
   ;; Optionally replace the key help with a completing-read interface
@@ -350,17 +352,29 @@
 (setq-default org-display-custom-times t)
 (defvar org-time-stamp-custom-formats '("<%a %b %e %Y>" . "<%a %b %e %Y %H:%M>"))
 
-(use-package beacon
-  :config
-  (beacon-mode 1)
-  (setq beacon-color "#ffffff")
-  (setq beacon-blink-duration 1.3))
-(diminish 'beacon-mode)
+;;(use-package beacon
+;;  :config
+;;  (beacon-mode 1)
+;;  (setq beacon-color "#ffffff")
+;;  (setq beacon-blink-window-scrolls nil)
+;;  (setq beacon-blink-duration 1))
+;;(diminish 'beacon-mode)
 
+(use-package pulsar
+  :config
+  (require 'pulsar)
+  (pulsar-global-mode 1)
+  (setq pulsar-pulse t)
+  (setq pulsar-delay 0.5)
+  (setq pulsar-iterations 10)
+  (setq pulsar-face 'pulsar-red)
+  (setq pulsar-highlight-face 'pulsar-yellow))
+(add-hook 'next-error-hook #'pulsar-pulse-line)
 
 (use-package aggressive-indent
   :config
   (global-aggressive-indent-mode 1))
+(diminish 'aggressive-indent-mode)
 
 (use-package markdown-mode
   :ensure t
@@ -461,11 +475,14 @@
 ;;(setq-default indicate-buffer-boundaries 'left)
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode t)
-(setq tab-always-indent 'complete)
+;;(setq tab-always-indent 'complete)
+;;(setq c-default-style "linux")
 (setq backup-by-copying t)
 (setq history-length 20)
 (defvar comp-async-report-warnings-errors nil)
 (savehist-mode 1)
+;;(add-hook 'pdf-tools-enabled-hook 'pdf-view-midnight-minor-mode)
+
 
 (use-package centered-cursor-mode
   :init
