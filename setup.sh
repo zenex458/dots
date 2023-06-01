@@ -63,14 +63,7 @@ postsetup ()
 	cd looks || echo "looks directory not found"
 	sudo cp -r Future* /usr/share/icons
 	sudo cp -r Material* /usr/share/themes
-	sudo cp -r Hack /usr/share/fonts
-	echo "fetching Iosevka..."
-	curl -LOs "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.1/Iosevka.zip"
-	curl -LOs "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.1/IosevkaTerm.zip"
-	sudo unzip Iosevka.zip -d /usr/share/Iosevka
-	sudo unzip IosevkaTerm.zip -d /usr/share/IosevkaTerm
-	rm Iosevka.zip IosevkaTerm.zip
-	echo "done"
+	sudo cp -r FiraCode /usr/share/fonts
 }
 
 
