@@ -16,22 +16,13 @@
 #ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 #OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-ufwsetup()
-{	#check if ufw is installed, if it isn't then print error
-	if command -V ufw >/dev/null 2>&1; then
-		sudo systemctl enable ufw
-		sudo systemctl start ufw
-		sudo ufw enable
-		sudo ufw default deny incoming
-		sudo ufw default allow outgoing
-	else
-		echo "ERROR: UFW"
-	fi
-}
-
 postsetup ()
 {
-	ufwsetup
+	sudo systemctl enable ufw
+	sudo systemctl start ufw
+	sudo ufw enable
+	sudo ufw default deny incoming
+	sudo ufw default allow outgoing
 	read -rp "Do you want xmonad?(y/n) " xmon
 	if [[ $xmon == "y" || $xmon == "Y" ]]
 	then
@@ -43,7 +34,7 @@ postsetup ()
 	read -rp "Do you want sway?(y/n) " sw
 	if [[ $sw == "y" || $sw == "Y" ]]
 	then
-            sudo $pkg sway foot waybar gammastep
+            sudo $pkg sway foot waybar gammastep xwayland
 	else
 	  echo "sway not added"
 	fi
@@ -91,7 +82,7 @@ Debian_install_firefox()
 Debian()
 {
 	sudo apt update
-	$pkg emacs wget curl htop feh redshift libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin scrot zathura bc network-manager tar zip unzip fuse3 ntfs-3g pcmanfm light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw nnn gcc alsa-utils tlp tmux mpc mpd ncmpcpp p7zip-full dmenu xsecurelock intel-microcode make trash-cli lxappearance mpv lf rxvt-unicode xterm fzf rofi wireplumber pipewire-media-session- pipewire-alsa apt-listbugs apt-listchanges hunspell-dictionary-en-gb apparmor-profiles apparmor-profiles-extra bubblewrap libseccomp-dev libbpf-dev needsrestart debian-goodies usbguard lxqt-policykit-agent #sbcl libxrandr-dev arandr apt-show-verions 
+	$pkg emacs wget curl htop feh redshift libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin scrot zathura bc network-manager tar zip unzip fuse3 ntfs-3g pcmanfm light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw nnn gcc alsa-utils tlp tmux mpc mpd ncmpcpp p7zip-full dmenu xsecurelock intel-microcode make trash-cli lxappearance mpv lf rxvt-unicode xterm fzf rofi wireplumber pipewire-media-session- pipewire-alsa apt-listbugs apt-listchanges hunspell-dictionary-en-gb apparmor-profiles apparmor-profiles-extra bubblewrap libseccomp-dev libbpf-dev needrestart debian-goodies lxqt-policykit libpam-tmpdir fail2ban opensnitch clamav fzy fdfind chrootkit #sbcl libxrandr-dev arandr apt-show-verions 
 	Debian_install_firefox
 	sudo systemctl disable bluetooth
 	sudo systemctl enable tlp
