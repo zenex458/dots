@@ -1,11 +1,12 @@
 user_pref("keyword.enabled", true);
+user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
 user_pref("browser.safebrowsing.malware.enabled", false);
 user_pref("browser.safebrowsing.phishing.enabled", false);
 user_pref("browser.safebrowsing.downloads.enabled", false);
 user_pref("browser.shell.shortcutFavicons", true);
 user_pref("extensions.pocket.enabled", false);
 user_pref("identity.fxaccounts.enabled", false);
-user_pref("privacy.clearOnShutdown.history", true);
+user_pref("privacy.clearOnShutdown.history", false);
 user_pref("permissions.default.geo", 2);
 user_pref("webgl.disabled", false);
 user_pref("media.videocontrols.picture-in-picture.enabled", false);
