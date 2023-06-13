@@ -1,0 +1,58 @@
+{
+  "timeStamp": 1686700066376,
+  "version": "1.49.2",
+  "userSettings": {
+    "advancedUserEnabled": true,
+    "uiTheme": "dark",
+    "externalLists": "https://filters.adtidy.org/extension/ublock/filters/14.txt\nhttps://o0.pages.dev/Xtra/adblock.txt\nhttps://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt\nhttps://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts\nhttps://secure.fanboy.co.nz/fanboy-annoyance_ubo.txt",
+    "importedLists": [
+      "https://filters.adtidy.org/extension/ublock/filters/14.txt",
+      "https://o0.pages.dev/Xtra/adblock.txt",
+      "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt",
+      "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts",
+      "https://secure.fanboy.co.nz/fanboy-annoyance_ubo.txt"
+    ],
+    "popupPanelSections": 31
+  },
+  "selectedFilterLists": [
+    "user-filters",
+    "ublock-filters",
+    "ublock-badware",
+    "ublock-privacy",
+    "ublock-quick-fixes",
+    "ublock-unbreak",
+    "adguard-generic",
+    "easylist",
+    "adguard-spyware",
+    "adguard-spyware-url",
+    "block-lan",
+    "easyprivacy",
+    "urlhaus-1",
+    "curben-phishing",
+    "curben-pup",
+    "adguard-social",
+    "ublock-annoyances",
+    "dpollock-0",
+    "plowe-0",
+    "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt",
+    "https://o0.pages.dev/Xtra/adblock.txt",
+    "https://filters.adtidy.org/extension/ublock/filters/14.txt",
+    "https://secure.fanboy.co.nz/fanboy-annoyance_ubo.txt",
+    "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts"
+  ],
+  "hiddenSettings": {},
+  "whitelist": [
+    "# about-scheme",
+    "chrome-extension-scheme",
+    "chrome-scheme",
+    "edge-scheme",
+    "moz-extension-scheme",
+    "opera-scheme",
+    "vivaldi-scheme",
+    "wyciwyg-scheme"
+  ],
+  "dynamicFilteringString": "* github.com * block\ngithub.com github.com * noop\n* githubassets.com * block\ngithub.com githubassets.com * noop\n* user-images.githubusercontent.com * block\ngithub.com user-images.githubusercontent.com * noop\n* cloud.githubusercontent.com * block\ngithub.com cloud.githubusercontent.com * noop\n* * 3p-script block\n* * 3p-frame block\n* * 3p block",
+  "urlFilteringString": "",
+  "hostnameSwitchesString": "no-cosmetic-filtering: * true\nno-remote-fonts: * true\nno-large-media: * true\nno-csp-reports: * true\nno-scripting: * true",
+  "userFilters": ""
+}
