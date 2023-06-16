@@ -3,7 +3,7 @@
 ;; Copyright (C) 2023 , zenex
 
 ;; Author: zenex
-;; Version: 0.1
+;; Version: 0.2
 ;; Package-Requires: ((emacs "24"))
 ;; Created with ThemeCreator, https://github.com/mswift42/themecreator.
 
@@ -37,16 +37,16 @@
       (bg2 "#141414")
       (bg3 "#292929")
       (bg4 "#3d3d3d")
-      (builtin "#888888")
-      (keyword "#920000")
-      (const   "#FFFF00")
-      (comment "#444444")
-      (func    "#ff8700")
-      (str     "#27a300")
-      (type    "#ff8700")
-      (var     "#580aff")
+      (builtin "#737373") ;;#888888
+      (keyword "#e60000") ;;920000
+      (const   "#e6e600") ;;FFFf00
+      (comment "#4d4d4d") ;;444444
+      (func    "#e67300") ;;ff8700
+      (str     "#00e600") ;; 27a300
+      (type    "#e67300") ;; ff8700
+      (var     "#7300e6") ;; 580aff
       (warning "#ff0000")
-      (warning2 "#ff8800"))
+      (warning2 "#e67300")) ;;ffff00
   (custom-theme-set-faces
    'morest
    `(default ((,class (:background ,bg1 :foreground ,fg1))))
@@ -64,7 +64,7 @@
    `(font-lock-warning-face ((,class (:foreground ,warning :background ,bg2))))
    `(term-color-black ((,class (:foreground ,fg2 :background nil))))
    `(region ((,class (:background ,fg1 :foreground ,bg1))))
-   `(highlight ((,class (:foreground ,fg3 :background ,bg3))))
+   `(highlight ((,class (:foreground ,fg2 :background ,bg4))))
    `(hl-line ((,class (:background  ,bg3))))
    `(fringe ((,class (:background ,bg1 :foreground ,builtin))))
    `(cursor ((,class (:background ,keyword))))
@@ -80,13 +80,14 @@
    `(link ((,class (:foreground ,const :underline t))))
    `(org-code ((,class (:foreground ,fg2))))
    `(org-hide ((,class (:foreground ,fg4))))
-   `(org-level-1 ((,class (:bold t :foreground ,fg2 :height 1.1))))
-   `(org-level-2 ((,class (:bold nil :foreground ,fg3))))
-   `(org-level-3 ((,class (:bold t :foreground ,fg4))))
-   `(org-level-4 ((,class (:bold nil :foreground ,bg4))))
+   `(org-level-1 ((,class (:bold t :foreground ,fg1 :height 1.1)))) ;;fg2
+   `(org-level-2 ((,class (:bold nil :foreground ,fg4)))) ;;nil fg3
+   `(org-level-3 ((,class (:bold nil :foreground ,fg4)))) ;;fg4
+   `(org-level-4 ((,class (:bold nil :foreground ,fg4)))) ;;nil bg4
+   `(org-level-5 ((,class (:bold nil :foreground ,fg4)))) ;;nil bg4
    `(org-date ((,class (:underline t :foreground ,var) )))
    `(org-footnote  ((,class (:underline t :foreground ,fg4))))
-   `(org-link ((,class (:underline t :foreground ,type ))))
+   `(org-link ((,class (:underline t :foreground ,comment ))))
    `(org-special-keyword ((,class (:foreground ,func))))
    `(org-block ((,class (:foreground ,fg3))))
    `(org-quote ((,class (:inherit org-block :slant italic))))
