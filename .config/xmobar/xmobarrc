@@ -1,5 +1,5 @@
 Config { overrideRedirect = True
-       , font     = "Hack Nerd Font Bold 9"
+       , font     = "Fira Code Bold 9"
    --    , font =	    "xft:Hack Nerd Font:size=9:bold" 
        , bgColor  = "black"
        , fgColor  = "#bbbbbb"
