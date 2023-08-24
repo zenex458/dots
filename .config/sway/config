@@ -1,10 +1,12 @@
-bar swaybar_command waybar
+#bar swaybar_command waybar
 exec wl-pase -t text --watch clipman store
-#exec foot --server
-exec ~/.local/bin/batt.sh &
-exec ~/.local/bin/eyes.sh &
-exec ~/.local/bin/notify-log &
-#exec opensnitch-ui
+exec foot --server
+exec ~/.local/bin/batt.sh
+exec ~/.local/bin/eyes.sh
+exec ~/.local/bin/notify-log
+exec opensnitch-ui
+
+font pango: Iosevka Custom Regular 10
 # Default config for sway
 #
 # Copy this to ~/.config/sway/config and edit it to your liking.
@@ -21,20 +23,22 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-#set $term footclient -e tmux
-set $term kitty -e tmux
+set $term footclient -e tmux
+#set $term kitty -e tmux
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu dmenu_path | dmenu | xargs swaymsg exec --
+#set $menu dmenu_path | dmenu | xargs swaymsg exec --
+set $menu fuzzel
 
 include /etc/sway/config-vars.d/*
-
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 ####output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-output * background ~/Downloads/Images/smou.jpg fill
+
+output * background ~/Downloads/Images/sat.png fill
+
 #
 # Example configuration:
 #
@@ -45,21 +49,23 @@ output * background ~/Downloads/Images/smou.jpg fill
 
 set $gnome-schema org.gnome.desktop.interface
  exec_always {
-	gsettings set $gnome-schema gtk-theme "Shades-of-gray"
-	gsettings set $gnome-schema icon-theme "Adwaita"
-	#gsettings set $gnome-schema cursor-theme "Future-dark-cursors"
+	gsettings set $gnome-schema gtk-theme "Material-Black-Blueberry-LA"
+	gsettings set $gnome-schema icon-theme "Papirus-Dark"
+	gsettings set $gnome-schema cursor-theme "Future-dark-cursors"
+	gsettings set $gnome-schema font-name "Iosevka Custom Expanded 10"
+
 }
 ### Idle configuration
 #
 # Example configuration:
 #
  exec swayidle -w \
-          timeout 300 'swaylock -f -c 000000' \
-          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+          timeout 1200 'swaylock -f -c 000000' \
+          timeout 1500 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
           before-sleep 'swaylock -f -c 000000'
 
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
+# This will lock your screen after 1200 seconds of inactivity, then turn off
+# your displays after another 100 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
 
 ### Input configuration
@@ -69,7 +75,7 @@ set $gnome-schema org.gnome.desktop.interface
    input "2:7:SynPS/2_Synaptics_TouchPad" {
        dwt enabled
        tap enabled
-       natural_scroll enabled
+       natural_scroll disabled
        middle_emulation enabled
 
    }
@@ -85,11 +91,10 @@ input type:keyboard {
 
 }
 
-for_window [app_id="^kitty$" title="pulsemixer$"] floating enable
-for_window [app_id="^kitty$"] max_render_time 1
-for_window [app_id="^kitty$" title="pulsemixer$"] resize set 1000 500
-#for_window [class="urxvt"] resize set 640 480
-
+for_window [app_id="^foot$" title="pulsemixer$"] floating enable
+for_window [title="Firefox - Sharing Indicator"] floating enable
+for_window [app_id="^foot$"] max_render_time 1
+for_window [app_id="^foot$" title="pulsemixer$"] resize set 1000 500
 
 
 ### Key bindings
@@ -112,9 +117,9 @@ for_window [app_id="^kitty$" title="pulsemixer$"] resize set 1000 500
     # mouse button for dragging.
     floating_modifier $mod normal
 
-    # Reload the configuration file
     bindsym Mod1+Shift+c reload
     bindsym $mod+x exec pkill -SIGUSR1 waybar 
+    # Reload the configuration file
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
@@ -143,6 +148,7 @@ for_window [app_id="^kitty$" title="pulsemixer$"] resize set 1000 500
     bindsym $mod+Shift+Up move up
     bindsym $mod+Shift+Right move right
 #
+    bindsym $mod+u focus parent
 # Workspaces:
 #
     # Switch to workspace
@@ -175,6 +181,8 @@ for_window [app_id="^kitty$" title="pulsemixer$"] resize set 1000 500
     # You can "split" the current object of your focus with
     # $mod+b or $mod+v, for horizontal and vertical splits
     # respectively.
+
+    workspace_layout tabbed
     bindsym $mod+b splith
     bindsym $mod+v splitv
 
@@ -185,26 +193,29 @@ for_window [app_id="^kitty$" title="pulsemixer$"] resize set 1000 500
 
     # Make the current focus fullscreen
     bindsym $mod+f fullscreen
-    bindsym $mod+c exec sfirefox || firefox
-    bindsym $mod+Shift+c exec sfirefoxp || firefox --private-window
-
+    bindsym $mod+c exec firefox
+    bindsym $mod+Shift+c exec firefox --private
+    bindsym Mod1+c exec firefox -P priv
     # Toggle the current focus between tiling and floating mode
     bindsym $mod+Shift+space floating toggle
+    bindsym Mod1+l inhibit_idle none
 
     # Swap focus between the tiling area and the floating area
     bindsym $mod+space focus mode_toggle
 
-    # Move focus to the parent container
-   # bindsym $mod+u focus parent
-    bindsym $mod+a exec kitty --title="pulsemixer" -e pulsemixer
+    bindsym $mod+a exec foot --title="pulsemixer" -e pulsemixer
 
     bindsym $mod+Prior exec light -A 2
     bindsym $mod+Next exec light -U 2
 
     bindsym $mod+m exec amixer sset Master toggle
-    bindsym Mod1+o exec mpc -p 6601 next
-    bindsym Mod1+i exec mpc -p 6601 prev
-    bindsym Mod1+p exec mpc -p 6601 toggle
+    #bindsym Mod1+o exec mpc -p 6601 next
+    #bindsym Mod1+i exec mpc -p 6601 prev
+    #bindsym Mod1+p exec mpc -p 6601 toggle
+
+    bindsym Mod1+o exec mpc next
+    bindsym Mod1+i exec mpc prev
+    bindsym Mod1+p exec mpc toggle
 #
 # Scratchpad:
 #
@@ -239,43 +250,45 @@ mode "resize" {
     # Return to default mode
     bindsym Return mode "default"
     bindsym Escape mode "default"
-}
+ }
+
 bindsym $mod+z mode "resize"
-
+tiling_drag on
+smart_gaps inverse_outer
+title_align center
 default_border pixel 2
-smart_borders on
-hide_edge_borders smart
-
+smart_borders no_gaps
+hide_edge_borders smart_no_gaps
 
 # class                 border  backgr. text    indicator child_border
-client.focused          #666666 #285577 #ffffff #2e9ef4   #666666
-client.focused_inactive #333333 #5f676a #ffffff #484e50   #222222
-client.unfocused        #333333 #222222 #888888 #292d2e   #222222
-client.urgent           #2f343a #900000 #ffffff #900000   #900000
-client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
-
-client.background       #ffffff
-
+client.focused          #666666 #666666 #ffffff #666666   #666666
+client.focused_inactive #000000 #333333 #424242 #000000   #000000
+client.unfocused        #000000 #000000 #424242 #000000   #000000
+client.urgent           #FF0000 #900000 #ffffff #900000   #900000
 
 #
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
-#bar {
-#    position top
-#    mode hide
-#    hidden_state hide
-#    modifier Mod1
-#
-#    status_command while ~/.config/sway/status.sh; do sleep 1; done
-#
-#    colors {
-#        statusline #c6c6c6
-#        background #000000
-#       # inactive_workspace #32323200 #32323200 #5c5c5c
-#       inactive_workspace #000000 #000000 #ffffff
-#       focused_workspace #666666 #666666 #ffffff
-#    }
-#}
+bar {
+    position top
+    mode hide
+    hidden_state hide
+    modifier Mod4
+    # When the status_command prints a new line to stdout, swaybar updates.
+    # The default just shows the current date and time.
+    #status_command while date +'%a %d/%m %T'; do sleep 1; done
+    status_command while ~/.config/sway/status.sh; do sleep 1; done
 
-include /etc/sway/config.d/*
+    tray_padding 4
+    colors {
+        statusline #ffffff
+        background #000000
+			   ##border bg      fg
+        inactive_workspace #000000 #222222 #444444
+	active_workspace   #000000 #666666 #000000
+	focused_workspace  #000000 #666666 #ffffff
+	urgent_workspace   #FF0000 #FF0000 #000000
+    }
+}
+ include /etc/sway/config.d/*
