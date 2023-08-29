@@ -11,5 +11,6 @@ urxvtd -q -o -f & \
 xrdb ~/.config/.Xresources & \
 ##setxkbmap -option ctrl:swap_lalt_lctl,caps:swapescape & \
 ##setxkbmap -option ctrl:swap_lalt_lctl,ctrl:nocaps & \
-setxkbmap -option altwin:swap_lalt_lwin,altwin:ctrl_alt_win & \ #ctrl/win/alt -> win/alt/ctrl -- better for emacs
+##setxkbmap -option altwin:swap_lalt_lwin,altwin:ctrl_alt_win & \ #ctrl/win/alt -> win/alt/ctrl -- better for emacs
+setxkbmap -option altwin:ctrl_alt_win &
 exec xmonad
