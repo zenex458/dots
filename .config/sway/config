@@ -1,5 +1,5 @@
 #bar swaybar_command waybar
-exec wl-pase -t text --watch clipman store
+#exec wl-paste -t text --watch clipman store
 exec foot --server
 exec ~/.local/bin/batt.sh
 exec ~/.local/bin/eyes.sh
@@ -29,7 +29,7 @@ set $term footclient -e tmux
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
 #set $menu dmenu_path | dmenu | xargs swaymsg exec --
-set $menu dmenu_path | fuzzel --dmenu
+set $menu bemenu-run
 
 include /etc/sway/config-vars.d/*
 ### Output configuration
@@ -110,6 +110,7 @@ for_window [app_id="^foot$" title="pulsemixer$"] resize set 1000 500
 
     # Start your launcher
     bindsym $mod+p exec $menu
+    bindsym Mod1+Shift+l exec Menu
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -195,11 +196,10 @@ for_window [app_id="^foot$" title="pulsemixer$"] resize set 1000 500
     # Make the current focus fullscreen
     bindsym $mod+f fullscreen
     bindsym $mod+c exec firefox
-    bindsym $mod+Shift+c exec firefox --private
+    bindsym $mod+Shift+c exec firefox --private-window
     bindsym Mod1+c exec firefox -P priv
     # Toggle the current focus between tiling and floating mode
     bindsym $mod+Shift+space floating toggle
-    bindsym Mod1+l inhibit_idle none
 
     # Swap focus between the tiling area and the floating area
     bindsym $mod+space focus mode_toggle
@@ -263,8 +263,8 @@ hide_edge_borders smart_no_gaps
 
 # class                 border  backgr. text    indicator child_border
 client.focused          #666666 #666666 #ffffff #666666   #666666
-client.focused_inactive #000000 #333333 #ffffff #000000   #000000
-client.unfocused        #000000 #000000 #ffffff #000000   #000000
+client.focused_inactive #000000 #333333 #666666 #000000   #000000
+client.unfocused        #000000 #000000 #666666 #000000   #000000
 client.urgent           #FF0000 #900000 #ffffff #900000   #900000
 
 #
@@ -275,7 +275,7 @@ bar {
     position top
     mode hide
     hidden_state hide
-    modifier Mod4
+    modifier Mod1
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
     #status_command while date +'%a %d/%m %T'; do sleep 1; done
@@ -286,7 +286,7 @@ bar {
         statusline #ffffff
         background #000000
 			   ##border bg      fg
-        inactive_workspace #000000 #222222 #444444
+        inactive_workspace #000000 #222222 #ffffff
 	active_workspace   #000000 #666666 #000000
 	focused_workspace  #000000 #666666 #ffffff
 	urgent_workspace   #FF0000 #FF0000 #000000
