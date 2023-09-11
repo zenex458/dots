@@ -6,7 +6,7 @@ exec ~/.local/bin/eyes.sh
 exec ~/.local/bin/notify-log
 exec opensnitch-ui
 
-font pango: Iosevka Custom Regular 10
+font pango: Iosevka Custom Bold 10
 # Default config for sway
 #
 # Copy this to ~/.config/sway/config and edit it to your liking.
