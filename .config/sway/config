@@ -2,7 +2,7 @@
 #exec wl-paste -t text --watch clipman store
 exec foot --server
 #exec ~/.local/bin/batt.sh
-exec gammastep
+exec gammastep -c ~/.config/gammastep/config.ini
 exec ~/.local/bin/notify-log
 exec dunst
 exec opensnitch-ui
