@@ -1,9 +1,10 @@
 #bar swaybar_command waybar
 #exec wl-paste -t text --watch clipman store
 exec foot --server
-exec ~/.local/bin/batt.sh
-exec ~/.local/bin/eyes.sh
+#exec ~/.local/bin/batt.sh
+exec gammastep
 exec ~/.local/bin/notify-log
+exec dunst
 exec opensnitch-ui
 
 font pango: Iosevka Custom Bold 10
