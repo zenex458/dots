@@ -1,5 +1,27 @@
 #!/usr/bin/env bash
 
+###MIT License
+###
+###Copyright (c) 2020 arkenfox
+###
+###Permission is hereby granted, free of charge, to any person obtaining a copy
+###of this software and associated documentation files (the "Software"), to deal
+###in the Software without restriction, including without limitation the rights
+###to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+###copies of the Software, and to permit persons to whom the Software is
+###furnished to do so, subject to the following conditions:
+###
+###The above copyright notice and this permission notice shall be included in all
+###copies or substantial portions of the Software.
+###
+###THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+###IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+###FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+###AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+###LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+###OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+###SOFTWARE.
+
 ## prefs.js cleaner for Linux/Mac
 ## author: @claustromaniac
 ## version: 1.3
@@ -41,7 +63,7 @@ fClean() {
 		if [[ "$line" =~ $prefexp && $prefs != *"@@${BASH_REMATCH[1]}@@"* ]]; then
 			prefs="${prefs}${BASH_REMATCH[1]}@@"
 		fi
-	done <<< "`grep -E \"$prefexp\" user.js`"
+	done <<<"$(grep -E \"$prefexp\" user.js)"
 
 	while IFS='' read -r line || [[ -n "$line" ]]; do
 		if [[ "$line" =~ ^$prefexp ]]; then
@@ -51,7 +73,7 @@ fClean() {
 		else
 			echo "$line"
 		fi
-	done < "$1" > prefs.js
+	done <"$1" >prefs.js
 }
 
 echo -e "\n\n"
@@ -66,34 +88,34 @@ echo "This will allow inactive preferences to be reset to their default values."
 echo -e "\nThis Firefox profile shouldn't be in use during the process.\n"
 select option in Start Help Exit; do
 	case $option in
-		Start)
-			if [ ! -e user.js ]; then
-				fQuit 1 "user.js not found in the current directory."
-			elif [ ! -e prefs.js ]; then
-				fQuit 1 "prefs.js not found in the current directory."
-			fi
+	Start)
+		if [ ! -e user.js ]; then
+			fQuit 1 "user.js not found in the current directory."
+		elif [ ! -e prefs.js ]; then
+			fQuit 1 "prefs.js not found in the current directory."
+		fi
 
-			fFF_check
-			bakfile="prefs.js.backup.$(date +"%Y-%m-%d_%H%M")"
-			mv prefs.js "${bakfile}" || fQuit 1 "Operation aborted.\nReason: Could not create backup file $bakfile"
-			echo -e "\nprefs.js backed up: $bakfile"
-			echo "Cleaning prefs.js..."
-			fClean "$bakfile"
-			fQuit 0 "All done!"
-			;;
-		Help)
-			echo -e "\nThis script creates a backup of your prefs.js file before doing anything."
-			echo -e "It should be safe, but you can follow these steps if something goes wrong:\n"
-			echo "1. Make sure Firefox is closed."
-			echo "2. Delete prefs.js in your profile folder."
-			echo "3. Delete Invalidprefs.js if you have one in the same folder."
-			echo "4. Rename or copy your latest backup to prefs.js."
-			echo "5. Run Firefox and see if you notice anything wrong with it."
-			echo "6. If you do notice something wrong, especially with your extensions, and/or with the UI, go to about:support, and restart Firefox with add-ons disabled. Then, restart it again normally, and see if the problems were solved."
-			echo -e "If you are able to identify the cause of your issues, please bring it up on the arkenfox user.js GitHub repository.\n"
-			;;
-		Exit)
-			fQuit 0
-			;;
+		fFF_check
+		bakfile="prefs.js.backup.$(date +"%Y-%m-%d_%H%M")"
+		mv prefs.js "${bakfile}" || fQuit 1 "Operation aborted.\nReason: Could not create backup file $bakfile"
+		echo -e "\nprefs.js backed up: $bakfile"
+		echo "Cleaning prefs.js..."
+		fClean "$bakfile"
+		fQuit 0 "All done!"
+		;;
+	Help)
+		echo -e "\nThis script creates a backup of your prefs.js file before doing anything."
+		echo -e "It should be safe, but you can follow these steps if something goes wrong:\n"
+		echo "1. Make sure Firefox is closed."
+		echo "2. Delete prefs.js in your profile folder."
+		echo "3. Delete Invalidprefs.js if you have one in the same folder."
+		echo "4. Rename or copy your latest backup to prefs.js."
+		echo "5. Run Firefox and see if you notice anything wrong with it."
+		echo "6. If you do notice something wrong, especially with your extensions, and/or with the UI, go to about:support, and restart Firefox with add-ons disabled. Then, restart it again normally, and see if the problems were solved."
+		echo -e "If you are able to identify the cause of your issues, please bring it up on the arkenfox user.js GitHub repository.\n"
+		;;
+	Exit)
+		fQuit 0
+		;;
 	esac
 done
