@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: srcblockelisp
+# key: <se
+# --
+#+begin_src emacs-lisp :lexical t
+$1
+#+end_src
