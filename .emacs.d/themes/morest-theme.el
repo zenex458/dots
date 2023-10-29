@@ -70,7 +70,7 @@
    `(cursor ((,class (:background ,keyword))))
    `(isearch ((,class (:bold :foreground ,bg1 :background ,fg1))))
    `(mode-line ((,class (:foreground ,fg4 :background ,bg1))))
-   `(mode-line-inactive ((,class (:foreground ,bg1 :background ,"#111111" :weight normal)))) ;;foreground, comment
+   `(mode-line-inactive ((,class (:foreground ,"#222222" :background ,"#222222" :weight normal)))) ;;foreground, comment
    `(mode-line-buffer-id ((,class (:bold :foreground ,fg1 :background nil))))
    `(mode-line-highlight ((,class (:foreground ,keyword :box nil :weight bold))))
    `(mode-line-emphasis ((,class (:foreground ,fg1))))

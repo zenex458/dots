@@ -68,22 +68,17 @@ postsetup ()
 
 
 Debian_install_firefox()
-{   ##check the debian version from the sources.list. AWK looks for UNSTABLE on the 5th line and the 3rd collumn, seperated by spaces
-	debversion=$(awk 'NR==5{print $3}' /etc/apt/sources.list)
-	if [ $debversion == "unstable" ]
-	then
-		sudo apt install firefox
-	else
-		sudo apt install firefox-esr
-	fi
+{   
+		sudo apt install firefox || sudo apt install firefox-esr
 
 }
 
 Debian()
 {
 	sudo apt update
-	$pkg emacs wget curl htop feh redshift libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin scrot zathura bc network-manager tar zip unzip fuse3 ntfs-3g pcmanfm light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw nnn gcc alsa-utils tlp tmux mpc mpd ncmpcpp p7zip-full dmenu xsecurelock intel-microcode make trash-cli lxappearance mpv lf rxvt-unicode xterm fzf rofi wireplumber pipewire-media-session- pipewire-alsa apt-listbugs apt-listchanges hunspell-dictionary-en-gb apparmor-profiles apparmor-profiles-extra bubblewrap libseccomp-dev libbpf-dev needrestart debian-goodies lxqt-policykit libpam-tmpdir fail2ban opensnitch clamav fzy fd-find rkhunter smartmontools smart-notifier #sbcl libxrandr-dev arandr apt-show-verions 
+	$pkg emacs pdf-tools astyle shfmt qt5ct pandoc xbanish xautolock wget curl htop feh redshift libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin scrot zathura bc network-manager tar zip unzip fuse3 ntfs-3g pcmanfm light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw nnn gcc alsa-utils tlp tmux zsh zoxide mpc mpd ncmpcpp p7zip-full suckless-tools xsecurelock intel-microcode make trash-cli lxappearance mpv xterm fzf wireplumber pulsemixer pipewire-alsa apt-listbugs apt-listchanges hunspell-dictionary-en-gb apparmor-profiles apparmor-profiles-extra libseccomp-dev libbpf-dev needrestart debian-goodies lxqt-policykit libpam-tmpdir fail2ban opensnitch clamav fzy fd-find rkhunter smartmontools smart-notifier #sbcl libxrandr-dev arandr apt-show-verions 
 	Debian_install_firefox
+        systemctl --user restart wireplumber pipewire pipewire-pulse
 	sudo systemctl disable bluetooth
 	sudo systemctl enable tlp
 	postsetup 

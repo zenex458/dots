@@ -64,6 +64,7 @@
 (setq ffap-machine-p-known 'reject)
 (setq delete-by-moving-to-trash t)
 (setq-default tab-width 4)
+;;(setq dired-dwim-target t)
 (setq-default indent-tabs-mode t)
 (setq backup-by-copying t)
 (setq history-length 20)
@@ -134,6 +135,7 @@
 
 
 (use-package diminish)
+
 (use-package vertico
   :config
   (vertico-mode))
@@ -176,6 +178,12 @@
          ("M-s u" . consult-focus-lines)))
 
 
+(use-package embark
+  :bind
+  (("C-." . embark-act)         ;; pick some comfortable binding
+   ("C-;" . embark-dwim)        ;; good alternative: M-.
+   ("C-h B" . embark-bindings))) ;; alternative for `describe-bindings'
+
 (use-package format-all
   :hook ((prog-mode . format-all-mode)
 		 (format-all-mode . format-all-ensure-formatter))
@@ -201,13 +209,8 @@
   :hook ((haskell-mode . haskell-doc-mode)
 		 (haskell-mode . turn-on-haskell-indent)))
 
-(use-package nix-mode
-  :mode "\\.nix\\'")
-
 (use-package elpy
   :mode ("*\\.py\\'" . elpy-mode))
-
-
 
 (use-package corfu
   :custom
@@ -268,7 +271,7 @@
 
 (use-package gcmh
   :init
-  (setq gcmh-idle-delay 10
+  (setq gcmh-idle-delay 5
 		gcmh-high-cons-threshold (* 20 1024 1024)) ;;20mb
   (gcmh-mode 1)
   (diminish 'gcmh-mode))
@@ -293,6 +296,7 @@
 (use-package vlf
   :init
   (require 'vlf-setup))
+
 (use-package pdf-tools
   :magic ("%PDF" . pdf-view-mode)
   :config
@@ -316,6 +320,11 @@
   :bind
   ("M-s e" . sudo-edit)
   ("M-s f" . sudo-edit-find-file))
+
+(use-package zoxide
+  :hook (find-file . zoxide-add)
+  :bind
+  ("M-s z f" . zoxide-find-file))
 
 (require 'dired)
 (let ((map dired-mode-map))
@@ -374,7 +383,7 @@
 								 (:eval
 								  (if (mode-line-window-selected-p)
 									  (propertize (buffer-name) 'face '(:foreground "#c6c6c6" :inherit bold))
-									(propertize (buffer-name) 'face '(:foreground "#000000" :inherit bold))))
+									(propertize (buffer-name) 'face '(:foreground "#222222" :inherit bold))))
 								 "  (%l/"
 								 (:eval
 								  (let ((win (selected-window)))

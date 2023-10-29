@@ -1,17 +1,14 @@
 #!/usr/bin/env sh
-feh --no-fehbg --bg-fill '/home/zenex/Downloads/Images/balls.png' & \
-#~/.config/status.sh & \
-~/.config/batt.sh & \
-~/.local/bin/notify-log & \
-#~/.config/redshift.sh & \
-dunst & \
-xsetroot -cursor_name left_ptr & \
-pcmanfm -d & \
-##lxqt-policykit-agent & \
-urxvtd -q -o -f & \
-xrdb ~/.config/.Xresources & \
-##setxkbmap -option ctrl:swap_lalt_lctl,caps:swapescape & \
-##setxkbmap -option ctrl:swap_lalt_lctl,ctrl:nocaps & \
-##setxkbmap -option altwin:swap_lalt_lwin,altwin:ctrl_alt_win & \ #ctrl/win/alt -> win/alt/ctrl -- better for emacs
+feh --no-fehbg --bg-fill '/home/zenex/Downloads/Images/sriver.jpg' &
+dunst &
+xsetroot -cursor_name left_ptr &
+lxqt-policykit-agent &
+opensnitch-ui &
+redshift.sh &
+status.sh &
+xrdb ~/.config/.Xresources &
+xset s 1800 5 &
+xautolock -corners +-00 -time 30 -locker xsecurelock -detectsleep &
+xbanish -i shift -t 5 -s &
 setxkbmap -option altwin:ctrl_alt_win &
-exec xmonad
+exec dwm
