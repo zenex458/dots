@@ -1,0 +1,68 @@
+#alltabs-button {
+    display: none !important;
+}
+
+
+/* https://gist.github.com/chris-vecchio/d6a47fc733559752cc3a09937381d7ae */
+/* Firefox userChrome.css */
+
+/*** PROTON TABS TWEAKS ***/
+/* SOURCE: modified version of https://www.userchrome.org/firefox-89-styling-proton-ui.html#tabstyler */
+/* Make tab shape square */
+#tabbrowser-tabs {
+  --user-tab-rounding: 0px;
+}
+
+.tab-background {
+  border-radius: var(--user-tab-rounding) var(--user-tab-rounding) 0px 0px !important;
+  margin-block: 1px 0 !important;
+}
+
+/* Borders on tab scroll right and left buttons */
+#scrollbutton-up, #scrollbutton-down { /* 6/10/2021 */
+  border-top-width: 1px !important;
+  border-bottom-width: 0 !important;
+}
+
+/* Inactive tabs: Separator line style */
+/* For light backgrounds */
+.tabbrowser-tab:not([selected=true]):not([multiselected=true]):not([beforeselected-visible="true"]) .tab-background {
+  border-right: 1px solid var(--lwt-background-tab-separator-color, rgba(0, 0, 0, .20)) !important;
+}
+
+/* For dark backgrounds */
+[brighttext="true"] .tabbrowser-tab:not([selected=true]):not([multiselected=true]):not([beforeselected-visible="true"]) .tab-background {
+  border-right: 1px solid var(--lwt-background-tab-separator-color, var(--lwt-selected-tab-background-color, rgba(255, 255, 255, .20))) !important;
+}
+
+.tabbrowser-tab:not([selected=true]):not([multiselected=true]) .tab-background {
+  border-radius: 0 !important;
+}
+
+/* Remove padding between tabs */
+.tabbrowser-tab {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Set tab fill color and text color */
+#TabsToolbar {
+  background-color: #202340;
+  color: #F9F9FA;
+}
+/*** END PROTON TABS TWEAKS ***/
+
+
+/*** TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
+/* SOURCE: https://www.userchrome.org/firefox-89-styling-proton-ui.html#menuspacing */
+menupopup > menuitem, menupopup > menu {
+  padding-block: 4px !important;
+}
+
+/* Tighten up hamburger menu spacing and square the edges */
+:root {
+  --arrowpanel-menuitem-padding: 2px !important;
+  --arrowpanel-border-radius: 0px !important;
+  --arrowpanel-menuitem-border-radius: 0px !important;
+}
+/*** END TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
