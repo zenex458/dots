@@ -1,0 +1,31 @@
+[colors]
+background=000000
+bright0=808080
+bright1=ff0000
+bright2=00ff00
+bright3=ffff00
+bright4=0066FF
+bright5=ff00ff
+bright6=00ffff
+bright7=ffffff
+foreground=c6c6c6
+regular0=000000
+regular1=cd0000
+regular2=00cd00
+regular3=cdcd00
+regular4=2B7Df0
+regular5=cd00cd
+regular6=00cdcd
+regular7=e5e5e5
+
+[cursor]
+blink=yes
+
+[main]
+dpi-aware=true
+font=Hack Nerd Font Regular:size=8
+notify=notify-send -a ${app-id} -i ${app-id} ${title} ${body}
+term=xterm-256color
+
+[mouse]
+hide-when-typing=yes
