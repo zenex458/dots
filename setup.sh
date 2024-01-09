@@ -31,7 +31,7 @@ postsetup() {
 
 	read -rp "Do you want sway?(y/n) " sw
 	if [[ $sw == "y" || $sw == "Y" ]]; then
-		sudo $pkg sway foot gammastep xwayland bemenu swaylock swayidle xdg-desktop-portal-wlr grim slurp
+		sudo $pkg -y sway foot gammastep xwayland bemenu swaylock swayidle xdg-desktop-portal-wlr grim slurp imv emacs-pgtk python3-i3ipc
 	else
 		echo "sway not added"
 	fi
@@ -76,7 +76,7 @@ Debian_install_firefox() {
 
 Debian() {
 	sudo apt update
-	$pkg emacs elpa-pdf-tools-server astyle shfmt qt5ct pandoc xbanish xautolock wget curl htop feh redshift libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin scrot zathura bc network-manager tar zip unzip fuse3 ntfs-3g pcmanfm light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw nnn gcc alsa-utils tlp tmux zsh zoxide mpc mpd ncmpcpp p7zip-full suckless-tools xsecurelock intel-microcode make trash-cli lxappearance mpv xterm fzf wireplumber pulsemixer pipewire-alsa apt-listbugs apt-listchanges hunspell-dictionary-en-gb apparmor-profiles apparmor-profiles-extra libseccomp-dev libbpf-dev needrestart debian-goodies lxqt-policykit libpam-tmpdir fail2ban opensnitch clamav chrony fd-find rkhunter smartmontools smart-notifier || echo "Issue with package selection"
+	$pkg emacs elpa-pdf-tools-server astyle shfmt ormolu qt5ct pandoc wget curl htop libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin zathura bc network-manager tar zip unzip fuse3 ntfs-3g thunar light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw nnn gcc alsa-utils tlp tmux zsh zoxide mpc mpd ncmpcpp p7zip-full intel-microcode make trash-cli mpv xterm fzf wireplumber pulsemixer pipewire-alsa apt-listbugs apt-listchanges hunspell-en-gb apparmor-profiles apparmor-profiles-extra libseccomp-dev seccomp libbpf-dev lxqt-policykit libpam-tmpdir opensnitch clamav chrony fd-find libtree-sitter-dev firejail thunderbird || echo "Issue with package selection" # xbanish xautolock feh redshift needrestart debian-goodies fail2ban rkhunter smartmontools smart-notifier
 	Debian_install_firefox
 	systemctl --user restart wireplumber pipewire pipewire-pulse
 	sudo systemctl disable bluetooth
@@ -114,11 +114,9 @@ mkdir -p ~/Downloads/
 mkdir -p ~/.config && cp -r .config/. ~/.config
 mkdir -p --parents ~/.local/bin && cp -r .local/bin/. ~/.local/bin/
 echo "Moving root config files..."
-sudo cp root/tlp.conf /etc/ || echo "Issue copying tlp.conf"
-sudo cp root/sysctl.conf /etc/sysctl.d/ || echo "Issue copying sysctl.conf"
-sudo cp root/30_security-misc.conf /etc/modprobe.d/ || echo "Issue copying 30_security-misc.conf"
+sudo cp ./root/tlp.conf /etc/ || echo "Issue copying tlp.conf"
+sudo cp ./root/sysctl.conf /etc/sysctl.d/ || echo "Issue copying sysctl.conf"
+sudo cp ./root/30_security-misc.conf /etc/modprobe.d/ || echo "Issue copying 30_security-misc.conf"
 sudo cp /etc/chrony/chron.conf /etc/chrony/chrony.conf.old
-sudo cp root/chrony.conf /etc/chrony/
-sudo systemctl disable systemd-timesyncd.service
-sudo apt remove systemd-timesyncd
+sudo cp ./root/chrony.conf /etc/chrony/
 echo "All done!"
