@@ -5,7 +5,7 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "FiraMono Nerd Font:Regular:pixelsize=16:antialias=true:autohint=true";
+static char *font = "FuraMono Nerd Font:Regular:pixelsize=16:antialias=true:autohint=true";
 static int borderpx = 2;
 
 /*
@@ -53,8 +53,8 @@ int allowwindowops = 0;
  * near minlatency, but it waits longer for slow updates to avoid partial draw.
  * low minlatency will tear/flicker more, as it can "detect" idle too early.
  */
-static double minlatency = 8;
-static double maxlatency = 33;
+static double minlatency = 8; //8
+static double maxlatency = 33; //33
 
 /*
  * blinking timeout (set to 0 to disable blinking) for the terminal blinking
@@ -168,7 +168,7 @@ static unsigned int defaultrcs = 257;
  * 6: Bar ("|")
  * 7: Snowman ("☃")
  */
-static unsigned int cursorshape = 1;
+static unsigned int cursorshape = 3;
 
 /*
  * Default columns and rows numbers
