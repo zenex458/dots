@@ -45,10 +45,8 @@ myConfig = def
       ((mod1Mask, xK_bracketleft), spawn "amixer sset Master 2%-"),
       -- add vol
       ((mod1Mask, xK_bracketright), spawn "amixer sset Master 2%+"),
-      -- suspend and lock screen
-     -- ((mod1Mask, xK_s), spawn "systemctl suspend && xsecurelock"),
       -- lock
-     -- ((mod1Mask, xK_l), spawn "xsecurelock"),
+      ((mod1Mask, xK_l), spawn "Menu"),
       -- spawn alsamixer
       ((mod, xK_a), spawn "urxvtc -e alsamixer -V all"),
       -- brightness up by 2
