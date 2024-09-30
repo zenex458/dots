@@ -49,7 +49,9 @@ Arch ()
 Debian ()
 {
 	sudo apt update &&
-	$pkg neovim wget firefox-esr kitty rofi htop neofetch zsh feh mono-complete file-roller playerctl redshift libreoffice suckless-tools xclip dunst libnotify4 libnotify-dev libnotify-bin scrot zathura bc wcalc qemu virt-manager chromium qutebrowser cmus yt-dlp xbacklight zip unzip fuse3 network-manager mpv newsboat ghc light lynx httrack keepassxc p7zip git light exa bat xorg dwm libx11-dev libxft-dev libxinerama-dev ufw && suck_less;  
+	$pkg neovim wget htop feh playerctl redshift libreoffice dunst libnotify4 libnotify-dev libnotify-bin scrot mupdf bc wcalc cmus yt-dlp zip unzip fuse3 network-manager mpv newsboat light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw &&
+	suck_less &&  
+
 	postsetup 
 }
 
