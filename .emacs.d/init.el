@@ -29,14 +29,7 @@
   (setq auto-package-update-hide-results t)
   ;; Update installed packages at startup if there is an update pending.
   (auto-package-update-maybe))
-
-
 ;;(setq use-packagenn-compute-statistics t) ;then do (use-package-report)
-
-;;(use-package nyx-theme
-;;:ensure t
-;;:config
-;; (enable-theme 'nyx))
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (load-theme 'morest t)
@@ -47,19 +40,11 @@
 (tool-bar-mode -1)
 (set-fringe-mode 12)
 (menu-bar-mode -1)
-;;(column-number-mode 1)
 (display-battery-mode 1)
 (size-indication-mode 1)
 (save-place-mode 1)
-;;(setq display-line-numbers 'relative)
-;;(setq display-line-numbers-current-absolute t)
-
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode t)
-
-;;(add-hook 'org-mode-hook (lambda () (display-line-numbers-mode 0)))
-;;(add-hook 'markdown-mode-hook (lambda () (display-line-numbers-mode 0)))
-
 (dolist (hook '(org-mode-hook markdown-mode-hook))
   (add-hook hook (lambda () (display-line-numbers-mode 0))))
 
@@ -148,10 +133,10 @@
 ;;(global-set-key (kbd "C-c b") 'ibuffer)
 (global-set-key (kbd "C-c b") 'counsel-switch-buffer)
 
-;;(use-package avy ;;switch windows
-;;  :ensure t
-;;  :bind
-;;    ("M-s" . avy-goto-char))
+(use-package avy ;;switch windows
+  :ensure t
+  :bind
+  ("M-s" . avy-goto-char))
 
 (defun config-visit ()
   "Vist Emacs config."
@@ -181,14 +166,6 @@
   (setq company-minimum-prefix-length 3)
   (add-hook 'emacs-lisp-mode-hook 'company-mode))
 (diminish 'company-mode)
-
-
-;;(with-eval-after-load 'company
-;;  (define-key company-active-map (kbd "M-n") nil)
-;;  (define-key company-active-map (kbd "M-p") nil)
-;;  (define-key company-active-map (kbd "C-n") #'company-select-next)
-;;  (define-key company-active-map (kbd "C-p") #'company-select-previous)
-;;  (define-key company-active-map (kbd "SPC") #'company-abort))
 
 (use-package slime
   :ensure t
@@ -288,7 +265,6 @@
   (setq beacon-blink-duration 1.3))
 (diminish 'beacon-mode)
 
-
 (use-package god-mode
   :init
   :config
@@ -359,7 +335,6 @@
 ;; Show a horizontal line on the current line
 (global-hl-line-mode t)
 
-
 (use-package hl-column
   :ensure t
   :config
@@ -386,37 +361,11 @@
   :hook (haskell-mode . (lambda ()
                           (haskell-doc-mode)
                           (turn-on-haskell-indent))))
-
-;;(defvar my-linum-current-line-number 0)
-;;
-;;(defvar linum-format 'my-linum-relative-line-numbers)
-;;
-;;(defun my-linum-relative-line-numbers (line-number)
-;;  (let ((test2 (- line-number my-linum-current-line-number)))
-;;    (propertize
-;;     (number-to-string (cond ((<= test2 0) (* -1 test2))
-;;                             ((> test2 0) test2)))
-;;     'face 'linum)))
-;;
-;;(defadvice linum-update (around my-linum-update)
-;;  (let ((my-linum-current-line-number (line-number-at-pos)))
-;;    ad-do-it))
-;;(ad-activate 'linum-update)
-;;
-;;
-;;(global-linum-mode t)
-;;https://www.mycpu.org/emacs-relative-linum/
-
-;;(use-package elfeed)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- ;;'(column-number-mode t)
- ;;'(display-battery-mode t)
- ;;'(display-time-mode t)
- ;;'(menu-bar-mode nil)
  '(package-selected-packages
    '(minions god-mode auto-package-update paredit-everywhere vbasense ivy-rich gcmh omnisharp yasnippet slime-company slime company flycheck which-key rainbow-delimiters use-package))
  '(size-indication-mode t)
