@@ -42,7 +42,8 @@ Arch ()
 {
 	$pkg neovim wget curl firefox htop feh thunar sudo ufw playerctl redshift libreoffice slock dunst libnotify scrot mupdf bc cmus yt-dlp zip unzip tar fuse3 ntfs-3g exfat-utils networkmanager mpv light keepassxc xorg xorg-server xorg-xinit base-devel git libx11 libxft xorg-server xorg-xinit terminus-font lua dmenu pipewire pipewire-alsa pipewire-pulse && 
 	suck_less &&
-	postsetup 
+	postsetup &&
+	sudo systemctl enable fstrim.timer
 }
 
 Debian ()
