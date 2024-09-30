@@ -5,6 +5,7 @@ call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'vimwiki/vimwiki'
 Plug 'jiangmiao/auto-pairs'
+"Plug 'junegunn/fzf.vim'
 "Plug 'luochen1990/rainbow'
 "c#
 Plug 'neovim/nvim-lspconfig'
@@ -15,6 +16,8 @@ Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
+Plug 'MrcJkb/haskell-tools.nvim'
+Plug 'nvim-lua/plenary.nvim'
 
 
 call plug#end()
@@ -33,7 +36,7 @@ let g:currentmode={
        \}
 syntax on
 filetype plugin indent on
-set laststatus=0
+"set laststatus=0
 set ruler
 set ignorecase
 set smartcase
@@ -50,14 +53,17 @@ set nocompatible
 set wildmode=longest,list,full
 set clipboard+=unnamedplus
 set termguicolors
-"set noshowmode
+set noshowmode
+set guicursor=i:hor50-Cursor
+set guicursor+=i:blinkon100
+set guicursor+=n-v-c:blinkon100
 "set guicursor=n-v-c:hor50-Cursor
 "set guicursor+=i:hor50-Cursor
 set statusline+=\%{toupper(g:currentmode[mode()])} 
 set statusline+=%<%f%m\ \ \ %=\ %R%H%W\ %l/%L:%c\ %p%% "[%n] %Y
-set guicursor=i:block-iCursor
-set guicursor+=i:blinkon100
-set guicursor+=n-v-c:blinkon100
+"set guicursor=i:block-iCursor
+"set guicursor+=i:blinkon100
+"set guicursor+=n-v-c:blinkon100
 "set mouse=a
 set number
 "set linebreak
@@ -75,6 +81,8 @@ tnoremap <Esc> <C-\><C-n>
 vmap <C-c> "+y
 map <leader>oe :bro ol<CR>
 map <leader>vh :VimwikiAll2HTML<CR>
+map <leader>gt :colorscheme gruvbox<CR>
+map <leader>nt :colorscheme dalton<CR>
 lua require'colorizer'.setup()
 " }}}
 " {{{ lua
@@ -92,7 +100,7 @@ require('lspconfig')['tsserver'].setup{
 }
 
 local pid = vim.fn.getpid()
-local omnisharp_bin = "omnisharp"
+local omnisharp_bin = "OmniSharp"
 
 require('lspconfig')['omnisharp'].setup{
   cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) },
@@ -161,5 +169,34 @@ cmp.setup.cmdline(':', {
     { name = 'cmdline' }
   })
 })
+
+
+local ht = require('haskell-tools')
+local def_opts = { noremap = true, silent = true, }
+ht.setup {
+  hls = {
+    -- See nvim-lspconfig's  suggested configuration for keymaps, etc.
+    on_attach = function(client, bufnr)
+      local opts = vim.tbl_extend('keep', def_opts, { buffer = bufnr, })
+      -- haskell-language-server relies heavily on codeLenses,
+      -- so auto-refresh (see advanced configuration) is enabled by default
+      vim.keymap.set('n', '<space>ca', vim.lsp.codelens.run, opts)
+      vim.keymap.set('n', '<space>hs', ht.hoogle.hoogle_signature, opts)
+      -- default_on_attach(client, bufnr)  -- if defined, see nvim-lspconfig
+    end,
+  },
+}
+-- Suggested keymaps that do not depend on haskell-language-server
+-- Toggle a GHCi repl for the current package
+vim.keymap.set('n', '<leader>rr', ht.repl.toggle, def_opts)
+-- Toggle a GHCi repl for the current buffer
+vim.keymap.set('n', '<leader>rf', function()
+  ht.repl.toggle(vim.api.nvim_buf_get_name(0))
+end, def_opts)
+vim.keymap.set('n', '<leader>rq', ht.repl.quit, def_opts)
+
+
+
+
 EOF
 " }}}
