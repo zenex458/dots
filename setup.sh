@@ -95,3 +95,4 @@ sudo cp ~/dots/root/chrony.conf /etc/chrony/chrony/
 sudo cp ~/dots/root/tlp.conf /etc/tlp/
 sudo cp ~/dots/root/sysctl.conf /etc/sysctl.d/
 echo "All done!"
+
