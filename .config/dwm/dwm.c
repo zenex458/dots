@@ -233,7 +233,6 @@ static void updatetitle(Client *c);
 static void updatewindowtype(Client *c);
 static void updatewmhints(Client *c);
 static void view(const Arg *arg);
-static void warp(const Client *c);
 static Client *wintoclient(Window w);
 static Monitor *wintomon(Window w);
 static int xerror(Display *dpy, XErrorEvent *ee);
@@ -557,7 +556,7 @@ clientmessage(XEvent *e)
 		if (cme->data.l[1] == netatom[NetWMFullscreen]
 		|| cme->data.l[2] == netatom[NetWMFullscreen])
 			setfullscreen(c, (cme->data.l[0] == 1 /* _NET_WM_STATE_ADD    */
-				|| cme->data.l[0] == 2 /* _NET_WM_STATE_TOGGLE */));
+				|| (cme->data.l[0] == 2 /* _NET_WM_STATE_TOGGLE */ && !c->isfullscreen)));
 	} else if (cme->message_type == netatom[NetActiveWindow]) {
 		if (c != selmon->sel && !c->isurgent)
 			seturgent(c, 1);
@@ -587,6 +586,7 @@ void
 configurenotify(XEvent *e)
 {
 	Monitor *m;
+	Client *c;
 	XConfigureEvent *ev = &e->xconfigure;
 	int dirty;
 
@@ -599,6 +599,9 @@ configurenotify(XEvent *e)
 			drw_resize(drw, sw, bh);
 			updatebars();
 			for (m = mons; m; m = m->next) {
+				for (c = m->clients; c; c = c->next)
+					if (c->isfullscreen)
+						resizeclient(c, m->mx, m->my, m->mw, m->mh);
 				XMoveResizeWindow(dpy, m->barwin, m->wx, m->by, m->ww, bh);
 			}
 			focus(NULL);
@@ -876,7 +879,6 @@ focusmon(const Arg *arg)
 	unfocus(selmon->sel, 0);
 	selmon = m;
 	focus(NULL);
-	warp(selmon->sel);
 }
 
 void
@@ -1193,6 +1195,8 @@ movemouse(const Arg *arg)
 
 	if (!(c = selmon->sel))
 		return;
+	if (c->isfullscreen) /* no support moving fullscreen windows by mouse */
+		return;
 	restack(selmon);
 	ocx = c->x;
 	ocy = c->y;
@@ -1363,6 +1367,8 @@ resizemouse(const Arg *arg)
 
 	if (!(c = selmon->sel))
 		return;
+	if (c->isfullscreen) /* no support resizing fullscreen windows by mouse */
+		return;
 	restack(selmon);
 	ocx = c->x;
 	ocy = c->y;
@@ -1430,8 +1436,6 @@ restack(Monitor *m)
 	}
 	XSync(dpy, False);
 	while (XCheckMaskEvent(dpy, EnterWindowMask, &ev));
-	if (m == selmon && (m->tagset[m->seltags] & m->sel->tags) && selmon->lt[selmon->sellt] != &layouts[2])
-		warp(m->sel);
 }
 
 void
@@ -1541,10 +1545,24 @@ setfullscreen(Client *c, int fullscreen)
 		XChangeProperty(dpy, c->win, netatom[NetWMState], XA_ATOM, 32,
 			PropModeReplace, (unsigned char*)&netatom[NetWMFullscreen], 1);
 		c->isfullscreen = 1;
+		c->oldstate = c->isfloating;
+		c->oldbw = c->bw;
+		c->bw = 0;
+		c->isfloating = 1;
+		resizeclient(c, c->mon->mx, c->mon->my, c->mon->mw, c->mon->mh);
+		XRaiseWindow(dpy, c->win);
 	} else if (!fullscreen && c->isfullscreen){
 		XChangeProperty(dpy, c->win, netatom[NetWMState], XA_ATOM, 32,
 			PropModeReplace, (unsigned char*)0, 0);
 		c->isfullscreen = 0;
+		c->isfloating = c->oldstate;
+		c->bw = c->oldbw;
+		c->x = c->oldx;
+		c->y = c->oldy;
+		c->w = c->oldw;
+		c->h = c->oldh;
+		resizeclient(c, c->x, c->y, c->w, c->h);
+		arrange(c->mon);
 	}
 }
 
@@ -1669,7 +1687,7 @@ showhide(Client *c)
 	if (ISVISIBLE(c)) {
 		/* show clients top down */
 		XMoveWindow(dpy, c->win, c->x, c->y);
-		if (!c->mon->lt[c->mon->sellt]->arrange || c->isfloating)
+		if ((!c->mon->lt[c->mon->sellt]->arrange || c->isfloating) && !c->isfullscreen)
 			resize(c, c->x, c->y, c->w, c->h, 0);
 		showhide(c->snext);
 	} else {
@@ -1762,6 +1780,8 @@ void
 togglefloating(const Arg *arg)
 {
 	if (!selmon->sel)
+		return;
+	if (selmon->sel->isfullscreen) /* no support for fullscreen windows */
 		return;
 	selmon->sel->isfloating = !selmon->sel->isfloating || selmon->sel->isfixed;
 	if (selmon->sel->isfloating)
@@ -2144,28 +2164,6 @@ view(const Arg *arg)
 
 	focus(NULL);
 	arrange(selmon);
-}
-
-void
-warp(const Client *c)
-{
-	int x, y;
-
-	if (!c) {
-		XWarpPointer(dpy, None, root, 0, 0, 0, 0, selmon->wx + selmon->ww/2, selmon->wy + selmon->wh/2);
-		return;
-	}
-
-	if (!getrootptr(&x, &y) ||
-	    (x > c->x - c->bw &&
-	     y > c->y - c->bw &&
-	     x < c->x + c->w + c->bw*2 &&
-	     y < c->y + c->h + c->bw*2) ||
-	    (y > c->mon->by && y < c->mon->by + bh) ||
-	    (c->mon->topbar && !y))
-		return;
-
-	XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, c->w / 2, c->h / 2);
 }
 
 Client *

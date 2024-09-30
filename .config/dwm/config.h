@@ -57,33 +57,44 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *sttmux[] = { "st", "-e", "tmux", NULL };
+static const char *term[] = {"alacritty", NULL};
 static const char *firefox[] = { "firefox", NULL };
+static const char *firefoxpriv[] = { "firefox", "-P", "priv", NULL };
 static const char *lock[] = { "xsecurelock", NULL };
-//move SHCMD to commands
+static const char *redshift[] = { "redshift", "-o", "-c", "~/.config/redshift.conf", NULL };
+static const char *redshiftoff[] = { "redshift", "-x", NULL };
+static const char *alsamixer[] = { "st", "-e", "alsamixer", NULL };
+static const char *brightdown[] = { "light", "-U", "2", NULL };
+static const char *brightup[] = { "light", "-A", "2", NULL };
+static const char *volup[] = { "amixer", "sset", "Master", "2%+", NULL };
+static const char *voldown[] = { "amixer", "sset", "Master", "2%-", NULL };
+static const char *voltoggle[] = { "amixer", "sset", "Master", "toggle", NULL };
+static const char *slep[] = { "systemctl", "suspend", "&&", "xsecurelock", NULL };
+static const char *mutoggle[] = { "mpc", "-p", "6601", "toggle", NULL };
+static const char *muprev[] = { "mpc", "-p", "6601", "prev", NULL };
+static const char *munext[] = { "mpc", "-p", "6601", "next", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ Mod1Mask,			XK_o,	   spawn, 	   SHCMD("mpc -p 6601 next") },
-	{ Mod1Mask,			XK_i,	   spawn,	   SHCMD("mpc -p 6601 prev") },
-	{ Mod1Mask,		        XK_p,	   spawn,	   SHCMD("mpc -p 6601 toggle") },
-	{ Mod1Mask,			XK_bracketleft, spawn,     SHCMD("amixer sset Master 2%-") },
-	{ Mod1Mask,			XK_bracketright, spawn,	   SHCMD("amixer sset Master 2%+") },
-	{ Mod1Mask|ControlMask,		XK_s,	   spawn,	   SHCMD("systemctl suspend && xsecurelock") },
-	{ Mod1Mask,			XK_m,      spawn,          SHCMD("amixer sset Master toggle") },
-	{ Mod1Mask,			XK_bracketleft,  spawn,	   SHCMD("amixer sset Master 2%-") },
-	{ Mod1Mask,	        	XK_bracketright, spawn,    SHCMD("amixer sset Master 2%+") },
-	{ Mod1Mask,			XK_Prior,  spawn,          SHCMD("light -A 2") },
-	{ Mod1Mask,			XK_Next,   spawn,          SHCMD("light -U 2") },
-	{ MODKEY,			XK_a,      spawn,	   SHCMD("st -e alsamixer") },
-	{ Mod1Mask,			XK_r,      spawn, 	   SHCMD("redshift -x") },
-	{ MODKEY|ShiftMask,             XK_r,      spawn,          SHCMD("redshift -o -c ~/.config/redshift.conf") },
-	{ Mod1Mask,			XK_c,      spawn,          SHCMD("firefox -P priv") },
+	{ Mod1Mask,			XK_o,	   spawn, 	   {.v = munext } },
+	{ Mod1Mask,			XK_i,	   spawn,	   {.v = muprev } },
+	{ Mod1Mask,		        XK_p,	   spawn,	   {.v = mutoggle } },
+	{ Mod1Mask|ControlMask,		XK_s,	   spawn,	   {.v = slep } },
+	{ Mod1Mask,			XK_m,      spawn,          {.v = voltoggle } },
+	{ Mod1Mask,			XK_bracketleft,  spawn,	   {.v = voldown } },
+	{ Mod1Mask,	        	XK_bracketright, spawn,    {.v = volup } },
+	{ Mod1Mask,			XK_Prior,  spawn,          {.v = brightup } },
+	{ Mod1Mask,			XK_Next,   spawn,          {.v = brightdown } },
+	{ MODKEY,			XK_a,      spawn,	   {.v = alsamixer } },
+	{ Mod1Mask,			XK_r,      spawn, 	   {.v = redshiftoff } },
+	{ MODKEY|ShiftMask,             XK_r,      spawn,          {.v = redshift } },
+	{ Mod1Mask,			XK_c,      spawn,          {.v = firefoxpriv } },
 	{ MODKEY,			XK_c,	   spawn,          {.v = firefox } },
 	{ Mod1Mask|ControlMask,         XK_l,      spawn,          {.v = lock } },
-	{ MODKEY|ControlMask,		XK_p,	   spawn,	   SHCMD("~/.config/cmdDmenu.sh") },
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ Mod1Mask,			XK_Return, spawn,	   SHCMD("st") },
-	{ MODKEY,                       XK_Return, spawn,          SHCMD("st -e tmux") },
+	{ Mod1Mask,			XK_Return, spawn,	   {.v = term } },
+	{ MODKEY,                       XK_Return, spawn,          {.v = sttmux } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
