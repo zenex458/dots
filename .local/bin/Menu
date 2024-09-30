@@ -1,49 +1,25 @@
-#!/usr/bin/env dash
+#!/usr/bin/env bash
 
 case $XDG_SESSION_TYPE in
-    "wayland")  menu="bemenu -i --no-exec -p" && lock="swaylock -f -c 000000";;
-	*)  menu="rofi -dmenu -p" && lock="xsecurelock";;
-esac 
-
-doubts(){
-    dsel=$(echo "No\nYes" | $menu "Are you sure?")
-    if [ "$dsel" = "Yes" ]; then
-        echo hello	
-    else
-        exit
-    fi
-}
-
-
-sel=$(echo "Lock\nPoweroff\nReboot\nSleep" | $menu "")
-
-case "$sel" in
-    Lock) doubts && $lock;;
-    Poweroff) doubts && systemctl poweroff;;
-    Reboot) doubts && systemctl reboot;;
-    Sleep) doubts && systemctl suspend && $lock;;
-    *) exit
+"wayland") menu="bemenu -i --no-exec -p" && lock="swaylock -f -c 000000" ;;
+*) menu="dmenu -i -p" && lock="xsecurelock" ;; ## rofi -dmenu -p
 esac
 
+doubts() {
+	dsel=$(printf "No\nYes" | $menu "Are you sure?")
+	if [ "$dsel" = "Yes" ]; then
+		return 0
+	else
+		exit
+	fi
+}
 
-#menu="rofi -dmenu -p" && lock="xsecurelock"
-#
-#doubts(){
-#    dsel=$(echo "No\nYes" | $menu "Are you sure?")
-#    if [ "$dsel" = "Yes" ]; then
-#        echo hello	
-#    else
-#        exit
-#    fi
-#}
-#
-#
-#sel=$(echo "Lock\nPoweroff\nReboot\nSleep" | $menu "")
-#
-#case "$sel" in
-#    Lock) doubts && $lock;;
-#    Poweroff) doubts && systemctl poweroff;;
-#    Reboot) doubts && systemctl reboot;;
-#    Sleep) doubts && systemctl suspend && $lock;;
-#    *) exit
-#esac
+sel=$(printf "Lock\nPoweroff\nReboot\nSleep" | $menu "Choose Your Option:")
+
+case "$sel" in
+Lock) doubts && $lock ;;
+Poweroff) doubts && systemctl poweroff ;;
+Reboot) doubts && systemctl reboot ;;
+Sleep) doubts && systemctl suspend && $lock ;;
+*) exit ;;
+esac

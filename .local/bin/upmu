@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+
+### maybe do: record the last 5 artists and descriptions and show them as a selection, you should also make it so you can either show all the inputed artists, desc, or that you can import a textfile of artists, descriptions
+##TODO: change grep to somethingelse maybe awk? because grep is not exact. ege if there is song called aa and i am lookking for a then it will still match
+
+getinput() {
+	printf "Artist?: "
+	read -r artist
+	printf "Name of Song?: "
+	read -r song
+	printf "Description?: "
+	read -r desc
+}
+
+printhelp() {
+	printf "Usage: upmu [OPTIONS]\n"
+	printf "Options:\n"
+	printf "\t-h\t Show this help message.\n"
+}
+
+norm() {
+	if [ "$1" = "-h" ]; then
+		printhelp
+	else
+		getinput
+	fi
+
+	if ! grep -i "$artist -- $song" "$file" >>/dev/null; then
+		if [ -z "$desc" ]; then
+			printf '%s -- %s %s\n' "$artist" "$song" "-- $(date +%D\ %T)" >>"$file"
+		else
+			printf '%s -- %s (%s) %s\n' "$artist" "$song" "$desc" "-- $(date +%D\ %T)" >>"$file"
+		fi
+	else
+		printf '%s\n' "Song already entered"
+	fi
+	exit
+}
+
+##selectopt gets the numer of files from the `files' array if it mathes a number then it will go to `norm', if not then it will recurse infinately, this is stopped by `norm' by just exiting the program, when norm writes to the file. this is it doesn't return here when finished
+## the `norm "$@"' means to use `"$1"' as the script paramter rather than the function parameter
+
+selectopt() {
+	printf "Select a number: "
+	read -r num
+	i=0
+	for i in $sigh; do
+		if [ "$num" = "$i" ]; then
+			file=${files[$num]}
+			norm "$@"
+		fi
+	done
+	selectopt "$@"
+}
+
+files=("$HOME/Documents/3.Other/Txt/hmb" "$HOME/Documents/3.Other/Txt/THEBEST") ##file array
+
+filesL=${#files[*]}
+filesN=$(echo "$filesL -1" | bc)
+sigh=$(seq 0 "$filesN")
+i=0
+for i in $sigh; do
+	echo "$i = ${files[i]}"
+done
+
+selectopt "$@"
+
+norm
