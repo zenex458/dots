@@ -20,7 +20,6 @@ Config { overrideRedirect = True
 --
 --			     ]
 
- -- cpu activity monitor
                     , Run Date "%a %d/%m %T" "date" 10
                     , Run XMonadLog
                     ]
