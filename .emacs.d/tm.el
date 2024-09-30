@@ -13,10 +13,8 @@
   (setq use-package-always-ensure t
         use-package-expand-minimally t))
 
-(use-package nyx-theme
-  :ensure t
-  :config
-  (enable-theme 'nyx))
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+(load-theme 'morest t)
 
 (setq inhibit-startup-screen t)
 (setq initial-scratch-message nil)
@@ -40,12 +38,12 @@
 (setq auto-save-file-name-transforms
       `((".*" ,"~/.emacs.d/saves" t)))
 
-(setq electric-pair-pairs '(
-                            (?\{ . ?\})
-                            (?\( . ?\))
-                            (?\[ . ?\])
-                            (?\" . ?\")
-                            ))
+(defvar electric-pair-pairs '(
+                              (?\{ . ?\})
+                              (?\( . ?\))
+                              (?\[ . ?\])
+                              (?\" . ?\")
+                              ))
 
 (electric-pair-mode t)
 
