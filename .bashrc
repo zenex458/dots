@@ -59,4 +59,6 @@ export LF_COLORS="~/Documents=01;31:~/Downloads=01;31:~/.local/share=01;31:~/.co
 export QT_QPA_PLATFORMTHEME=qt5ct
 #openssl enc -aes-256-cbc -md sha512 -pbkdf2 -iter 250000 -salt -in InputFilePath -out OutputFilePath
 #openssl enc -aes-256-cbc -d -md sha512 -pbkdf2 -iter 250000 -salt -in InputFilePath -out OutputFilePath
+#backup tar cf - directory | 7za a -si directory.tar.7z
+#extrack 7za x -so directory.tar.7z | tar xf -
 eval "$(lua ~/.config/z.lua --init bash)"
