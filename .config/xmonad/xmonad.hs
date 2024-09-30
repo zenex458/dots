@@ -29,7 +29,7 @@ myConfig = def
     , layoutHook = myLayout
     , normalBorderColor = "#000000"
     , focusedBorderColor = "#ff0000"
-    , startupHook = myStartupHook
+--    , startupHook = myStartupHook
     , workspaces = myWorkspaces
     , manageHook = myManageHook
     , keys = myKeys
@@ -146,20 +146,19 @@ myLayout = lessBorders (Screen) tiled ||| noBorders Full
 myWorkspaces = do
   withScreens 2 ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
-myStartupHook :: X()
-----myStartupHook = spawnOn "1" "firefox"                   
-myStartupHook = do
-  -- spawnOnOnce "1" "firefox"
-  spawnOnce "~/.local/bin/batt.sh &"
-  spawnOnce "~/.local/bin/eyes.sh &"
-  spawnOnce "xautolock -secure -detectsleep -time 5 -locker 'xsecurelock'"
-  spawn "feh --no-fehbg --bg-fill '/home/zenex/Downloads/Images/smou.jpg'"
-  spawn "urxvtd -q -o -f"
-  spawn "xrdb ~/.config/.Xresources"
-  spawn "setxkbmap -option altwin:swap_lalt_lwin,altwin:ctrl_alt_win"
-  spawnOnce "pcmanfm -d"
-  spawnOnce "dunst"
-  spawnOnce "xsetroot -cursor_name left_ptr"
+--myStartupHook :: X()
+------myStartupHook = spawnOn "1" "firefox"                   
+--myStartupHook = do
+--  -- spawnOnOnce "1" "firefox"
+--  --spawnOnce "~/.local/bin/notify-log"
+--  spawnOnce "xautolock -secure -detectsleep -time 5 -locker 'xsecurelock'"
+--  spawnOnce "feh --no-fehbg --bg-fill '/home/zenex/Downloads/Images/smou.jpg'"
+--  spawnOnce "urxvtd -q -o -f"
+--  spawnOnce "xrdb ~/.config/.Xresources"
+--  spawnOnce "setxkbmap -option altwin:swap_lalt_lwin,altwin:ctrl_alt_win"
+--  --spawnOnce "pcmanfm -d"
+--  spawnOnce "dunst"
+--  spawnOnce "xsetroot -cursor_name left_ptr"
 
 
 myManageHook = composeAll
