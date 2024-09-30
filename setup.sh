@@ -110,6 +110,6 @@ echo "Moving root config files..."
 sudo cp ./root/tlp.conf /etc/ || echo "Issue copying tlp.conf"
 sudo cp ./root/sysctl.conf /etc/sysctl.d/ || echo "Issue copying sysctl.conf"
 sudo cp ./root/30_security-misc.conf /etc/modprobe.d/ || echo "Issue copying 30_security-misc.conf"
-sudo cp /etc/chrony/chron.conf /etc/chrony/chrony.conf.old
+sudo cp /etc/chrony/chrony.conf /etc/chrony/chrony.conf.old
 sudo cp ./root/chrony.conf /etc/chrony/
 echo "All done!"
