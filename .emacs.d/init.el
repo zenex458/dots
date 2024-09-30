@@ -5,7 +5,8 @@
 ;;(server-start)
 ;;(setq gc-cons-threshold 20000000) ;take of a zero if runtime is slow
 (setq gc-cons-threshold 2000000)
-(set-face-attribute 'default nil :font "Hack Nerd Font Mono" :height 110)
+;;(set-face-attribute 'default nil :font "Hack Nerd Font Mono" :height 110)
+;;(set-face-attribute 'default nil :font "IosvekaTerm Nerd Font Mono Regular" :height 110)
 
 (require 'package)
 (add-to-list 'package-archives '("gnu"   . "https://elpa.gnu.org/packages/"))
@@ -513,11 +514,17 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(display-battery-mode t)
+ '(display-line-numbers-type 'absolute)
+ '(display-time-mode t)
+ '(menu-bar-mode nil)
  '(package-selected-packages
-   '(writeroom-mode centered-window centered-window-mode orderless orderlesss haskell-mode gcmh ace-window multiple-cursors expand-region markdown-mode aggressive-indent beacon omnisharp yasnippet company-shell company flycheck hungry-delete which-key async rainbow-delimiters rainbow-mode diminish use-package smartparens auto-package-update)))
+   '(writeroom-mode centered-window centered-window-mode orderless orderlesss haskell-mode gcmh ace-window multiple-cursors expand-region markdown-mode aggressive-indent beacon omnisharp yasnippet company-shell company flycheck hungry-delete which-key async rainbow-delimiters rainbow-mode diminish use-package smartparens auto-package-update))
+ '(size-indication-mode t)
+ '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:family "Iosevka Nerd Font Mono" :foundry "UKWN" :slant normal :weight normal :height 120 :width normal)))))
