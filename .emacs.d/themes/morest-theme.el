@@ -3,7 +3,7 @@
 ;; Copyright (C) 2023 , zenex
 
 ;; Author: zenex
-;; Version: 0.2
+;; Version: 0.3
 ;; Package-Requires: ((emacs "24"))
 ;; Created with ThemeCreator, https://github.com/mswift42/themecreator.
 
@@ -27,26 +27,36 @@
 
 ;;; Code:
 
+;;TODO: figure out how to change the orderless matching colours, look at `modus-vivendi' for how to do it.
+
 (deftheme morest)
 (let ((class '((class color) (min-colors 89)))
       (fg1 "#c6c6c6")
       (fg2 "#b6b6b6")
       (fg3 "#a6a6a6")
       (fg4 "#969696")
-      (bg1 "#000000")
-      (bg2 "#141414")
-      (bg3 "#292929")
-      (bg4 "#3d3d3d")
-      (builtin "#737373") ;;#888888
-      (keyword "#e60000") ;;920000
-      (const   "#e6e600") ;;FFFf00
-      (comment "#4d4d4d") ;;444444
-      (func    "#e67300") ;;ff8700
-      (str     "#00e600") ;; 27a300
-      (type    "#0073e6") ;; ff8700
-      (var     "dark orchid") ;; 580aff ;;7300e6 ;;0073e6
+      (bg1 "#1a1a1a") ;;222222
+      (bg2 "#2e2e2e") ;;141414
+      (bg3 "#414141") ;;292929
+      (bg4 "#555555") ;;3d3d3d
+      (builtin "#aaaaff")
+      (keyword "#c00000")
+      (const   "#c0c000")
+      (comment "#5F5F5F") ;;414141
+      (func    "#c06100")
+      (str     "#00c000")
+      (type    "#0061c0")
+      (var     "#802caa")
+	  ;;      (builtin "#737373")
+	  ;;      (keyword "#e60000")
+	  ;;      (const   "#e6e600")
+	  ;;      (comment "#4d4d4d")
+	  ;;      (func    "#e67300")
+	  ;;      (str     "#00e600")
+	  ;;      (type    "#0073e6")
+	  ;;      (var     "#9932cc")
       (warning "#ff0000")
-      (warning2 "#e67300")) ;;ffff00
+      (warning2 "#e67300"))
   (custom-theme-set-faces
    'morest
    `(default ((,class (:background ,bg1 :foreground ,fg1))))
@@ -74,7 +84,7 @@
    `(mode-line-buffer-id ((,class (:bold :foreground ,fg1 :background nil))))
    `(mode-line-highlight ((,class (:foreground ,keyword :box nil :weight bold))))
    `(mode-line-emphasis ((,class (:foreground ,fg1))))
-   `(vertical-border ((,class (:foreground ,bg2))))
+   `(vertical-border ((,class (:foreground ,bg4))))
    `(minibuffer-prompt ((,class (:bold t :foreground ,comment))))
    `(default-italic ((,class (:italic t))))
    `(link ((,class (:foreground ,const :underline t))))
@@ -151,15 +161,15 @@
    `(undo-tree-visualizer-unmodified-face ((,class :foreground ,var)))
    `(undo-tree-visualizer-register-face ((,class :foreground ,type)))
    `(slime-repl-inputed-output-face ((,class (:foreground ,type))))
-   `(trailing-whitespace ((,class :foreground nil :background ,warning)))
+   `(trailing-whitespace ((,class :foreground unspecified :background ,warning)))
    `(rainbow-delimiters-depth-1-face ((,class :foreground ,fg1)))
    `(rainbow-delimiters-depth-2-face ((,class :foreground ,keyword)))
    `(rainbow-delimiters-depth-3-face ((,class :foreground ,func)))
    `(rainbow-delimiters-depth-4-face ((,class :foreground ,const)))
    `(rainbow-delimiters-depth-5-face ((,class :foreground ,str)))
    `(rainbow-delimiters-depth-6-face ((,class :foreground ,var)))
-   `(rainbow-delimiters-depth-7-face ((,class :foreground ,"#0073e6")))
-   `(rainbow-delimiters-depth-8-face ((,class :foreground ,fg1)))
+   `(rainbow-delimiters-depth-7-face ((,class :foreground ,builtin)))
+   `(rainbow-delimiters-depth-8-face ((,class :foreground ,"#0073e6")))
    `(magit-item-highlight ((,class :background ,bg3)))
    `(magit-section-heading        ((,class (:foreground ,keyword :weight bold))))
    `(magit-hunk-heading           ((,class (:background ,bg3))))
@@ -223,42 +233,47 @@
    `(markdown-header-face-3 ((t (:bold t :foreground ,const))))
    `(markdown-header-face-4 ((t (:bold t :foreground ,str))))
    `(markdown-header-face-5 ((t (:bold t :foreground ,var))))
-   `(markdown-header-face-6 ((t (:bold t :foreground "#0073e6"))))
-   `(sh-quoted-exec ((t (:foreground "#0073e6"))))
+   `(markdown-header-face-6 ((t (:bold t :foreground , builtin))))
+   `(sh-quoted-exec ((t (:foreground , builtin))))
+   `(dired-directory ((t (:foreground , "#6cb2eb"))))
+   ;;  `(markdown-header-face-6 ((t (:bold t :foreground "#0073e6"))))
+   ;; `(sh-quoted-exec ((t (:foreground "#0073e6"))))
+   ;; `(dired-directory ((t (:foreground "#0073e6"))))
+
    )
   ;; Legacy
   (if (< emacs-major-version 22)
       (custom-theme-set-faces
-       'morest
-       `(show-paren-match-face ((,class (:background ,warning)))) ;; obsoleted in 22.1, removed 2016
-       )
-    (custom-theme-set-faces
-     'morest
-     `(show-paren-match ((,class (:foreground ,bg1 :background ,str))))
-     `(show-paren-mismatch ((,class (:foreground ,bg1 :background ,warning))))
-     )
-    )
+	   'morest
+	   `(show-paren-match-face ((,class (:background ,warning)))) ;; obsoleted in 22.1, removed 2016
+	   )
+	(custom-theme-set-faces
+	 'morest
+	 `(show-paren-match ((,class (:foreground ,bg1 :background ,str))))
+	 `(show-paren-mismatch ((,class (:foreground ,bg1 :background ,warning))))
+	 )
+	)
   ;; emacs >= 26.1
   (when (>= emacs-major-version 26)
-    (custom-theme-set-faces
-     'morest
-     `(line-number ((t (:inherit fringe))))
-     `(line-number-current-line ((t (:inherit fringe :foreground "white" :weight bold))))))
+	(custom-theme-set-faces
+	 'morest
+	 `(line-number ((t (:inherit fringe))))
+	 `(line-number-current-line ((t (:inherit fringe :foreground "white" :weight bold))))))
   ;; emacs >= 27.1
   (when (>= emacs-major-version 27)
-    (custom-theme-set-faces
-     'morest
-     `(tab-line              ((,class (:background ,bg2 :foreground ,fg4))))
-     `(tab-line-tab          ((,class (:inherit tab-line))))
-     `(tab-line-tab-inactive ((,class (:background ,bg2 :foreground ,fg4))))
-     `(tab-line-tab-current  ((,class (:background ,bg1 :foreground ,fg1))))
-     `(tab-line-highlight    ((,class (:background ,bg1 :foreground ,fg2))))))
+	(custom-theme-set-faces
+	 'morest
+	 `(tab-line              ((,class (:background ,bg2 :foreground ,fg4))))
+	 `(tab-line-tab          ((,class (:inherit tab-line))))
+	 `(tab-line-tab-inactive ((,class (:background ,bg2 :foreground ,fg4))))
+	 `(tab-line-tab-current  ((,class (:background ,bg1 :foreground ,fg1))))
+	 `(tab-line-highlight    ((,class (:background ,bg1 :foreground ,fg2))))))
   )
 
 ;;;###autoload
 (when load-file-name
   (add-to-list 'custom-theme-load-path
-               (file-name-as-directory (file-name-directory load-file-name))))
+			   (file-name-as-directory (file-name-directory load-file-name))))
 
 (provide-theme 'morest)
 

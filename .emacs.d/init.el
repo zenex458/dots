@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (defvar bootstrap-version)
 (let ((bootstrap-file
 	   (expand-file-name
@@ -21,7 +22,7 @@
 (setq custom-file (make-temp-file "emacs-custom-"))
 (defvar ispell-dictionary "british")
 (setq confirm-kill-emacs 'y-or-n-p)
-(setq-default dired-listing-switches "-Alh --group-directories-first")
+(setq dired-listing-switches "-AlF --si -Gg --group-directories-first")
 (setq scroll-conservatively 100)
 (setq
  backup-by-copying t
@@ -29,11 +30,13 @@
  kept-new-versions 6
  kept-old-versions 2
  version-control t)
+(setq tab-always-indent 'complete)
 (setq backup-directory-alist
 	  `((".*" . ,"~/.emacs.d/saves/")))
 (setq auto-save-file-name-transforms
 	  `((".*" ,"~/.emacs.d/saves/" t)))
 (setq isearch-lazy-count t)
+(setq line-number-display-limit-width 2000000) ;;stop the question marks from showing in a large file
 (setq
  shr-use-fonts  nil                          ; No special fonts
  shr-use-colors nil                          ; No colours
@@ -52,7 +55,7 @@
 (setq read-file-name-completion-ignore-case t
 	  read-buffer-completion-ignore-case t
 	  completion-ignore-case t)
-(global-set-key [remap dabbrev-expand] 'hippie-expand)
+
 (add-hook 'prog-mode-hook #'(lambda ()
 							  (local-set-key (kbd "RET") 'newline-and-indent)))
 
@@ -64,6 +67,11 @@
 (global-subword-mode 1)
 (pending-delete-mode t)
 (savehist-mode 1)
+(defvar my-term-shell "/bin/bash")
+(defadvice ansi-term (before force-bash)
+  "https://github.com/daedreth/UncleDavesEmacs#default-shell-should-be-bash"
+  (interactive (list my-term-shell)))
+(ad-activate 'ansi-term)
 
 (defun split-and-follow-horizontally ()
   (interactive)
@@ -105,21 +113,15 @@
 (setq-default org-display-custom-times t)
 (setq org-time-stamp-custom-formats '("%a %b %e %Y" . "%a %b %e %Y %H:%M"))
 
-;;(setq electric-pair-pairs '(
-;;							(?\{ . ?\})
-;;							(?\( . ?\))
-;;							(?\[ . ?\])
-;;							(?\" . ?\")
-;;							))
-;;
-;;(add-hook 'prog-mode-hook 'electric-pair-mode)
-
-
-
 (use-package diminish)
 
 (use-package smartparens
-  :hook (prog-mode . smartparens-strict-mode))
+  :hook (prog-mode . smartparens-mode)
+  :bind (("C-(" . sp-splice-sexp)
+		 ("C-)" . sp-wrap-round))
+  :config
+  (require 'smartparens-config)
+  (diminish 'smartparens-mode))
 
 (use-package vertico
   :config
@@ -127,13 +129,9 @@
   (setq vertico-resize nil))
 
 (use-package orderless
-  ;;  :custom
-  ;;  (completion-category-overrides '((file (styles basic partial-completion))))
-  ;;  (completion-styles '(basic substring initials flex orderless)))
   :init
-  (setq completion-styles '(orderless basic)
-		completion-category-defaults nil
-		completion-category-overrides '((file (styles partial-completion)))))
+  (setq completion-category-overrides '((file (partial-completion))))
+  (setq completion-styles '(substring orderless))) ;;add flex for more completion candiates
 
 (use-package marginalia
   :custom
@@ -171,26 +169,36 @@
 (use-package embark
   :bind
   (("C-." . embark-act)         ;; pick some comfortable binding
-   ("C-;" . embark-dwim)        ;; good alternative: M-.
+   ("M-;" . embark-dwim)        ;; good alternative: M-.
    ("C-h B" . embark-bindings))) ;; alternative for `describe-bindings'
+
+(use-package embark-consult)
 
 (use-package apheleia
   :hook ((prog-mode . apheleia-mode))
   :config
   (diminish apheleia-mode)
   (setf (alist-get 'astyle apheleia-formatters)
-		'("astyle" "--mode=c" "--style=allman"))
+		'("astyle" "--mode=c" "--style=google"))
   (add-to-list 'apheleia-mode-alist '(c-ts-mode . astyle))
   (setf (alist-get 'csharpier apheleia-formatters)
 		'("~/.dotnet/tools/dotnet-csharpier" "--write-stdout")) ;;dotnet tool install --global csharpier to install
   (add-to-list 'apheleia-mode-alist '(csharp-ts-mode . csharpier))
   (setf (alist-get 'shfmt apheleia-formatters)
 		'("shfmt"))
-  (add-to-list 'apheleia-mode-alist '(bash-ts-mode . shfmt)))
+  (add-to-list 'apheleia-mode-alist '(bash-ts-mode . shfmt))
+  (setf (alist-get 'tidy apheleia-formatters)
+		'("tidy" "-i" "-q" "-f" "err"))
+  (add-to-list 'apheleia-mode-alist '(html-mode . tidy))
+  (setf (alist-get 'ormolu apheleia-formatters)
+		'("ormolu" "--stdin-input-file" "--"))
+  (add-to-list 'apheleia-mode-alist '(haskell-mode . ormolu)))
+
 
 (setq treesit-language-source-alist
 	  '((bash "https://github.com/tree-sitter/tree-sitter-bash")
 		(c "https://github.com/tree-sitter/tree-sitter-c")
+		(cpp "https://github.com/tree-sitter/tree-sitter-cpp")
 		(c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
 		(css "https://github.com/tree-sitter/tree-sitter-css")
 		(elisp "https://github.com/Wilfred/tree-sitter-elisp")
@@ -215,18 +223,16 @@
 		(typescript-mode . typescript-ts-mode)
 		(json-mode . json-ts-mode)
 		(c-mode . c-ts-mode)
+		("c++-mode" . "c++-ts-mode")
 		(csharp-mode . csharp-ts-mode)
 		(css-mode . css-ts-mode)
 		(python-mode . python-ts-mode)))
 
-
-;;(use-package treesit-auto
-;;  :config
-;;  (global-treesit-auto-mode))
-
 (use-package pulsar
   :hook ((next-error . pulsar-pulse-line)
-		 (minibuffer-setup . pulsar-pulse-line)))
+ 		 (minibuffer-setup . pulsar-pulse-line))
+  :config
+  (pulsar-global-mode))
 
 (use-package rainbow-mode
   :hook (prog-mode . rainbow-mode)
@@ -237,9 +243,7 @@
   :hook (emacs-lisp-mode . rainbow-delimiters-mode))
 
 (use-package haskell-mode
-  :magic ("%hs" . haskell-mode)
-  :hook ((haskell-mode . haskell-doc-mode)
-		 (haskell-mode . turn-on-haskell-indent)))
+  :magic ("%hs" . haskell-mode))
 
 (use-package elpy
   :mode ("*\\.py\\'" . elpy-mode))
@@ -248,10 +252,11 @@
   :custom
   (corfu-cycle t)
   (corfu-auto t)
-  (corfu-auto-prefix 3)
+  (corfu-auto-prefix 1)
   (corfu-preview-current 'insert)
   (corfu-preselect 'prompt)
-  (corfu-on-exact-match nil)
+  (corfu-quit-no-match t)
+  (corfu-on-exact-match 'insert)
   :hook ((prog-mode . corfu-mode)
 		 (prog-mode . corfu-popupinfo-mode))
   :bind (:map corfu-map
@@ -260,9 +265,8 @@
 			  ([tab]        . corfu-next)
 			  ("S-TAB"      . corfu-previous)
 			  ([backtab]    . corfu-previous)
-			  ("S-<return>" . corfu-insert)
-			  ("RET"        . nil)))
-
+			  ("M-SPC" . corfu-insert-separator)
+			  ("RET" . corfu-insert)))
 
 (use-package cape
   :init
@@ -273,16 +277,19 @@
 			  (mapcar #'cape-company-to-capf
 					  (list #'company-files #'company-keywords #'company-dabbrev))))
 
+(use-package eglot
+  :hook ((haskell-mode . eglot-ensure)
+		 (dart-mode . eglot-ensure)
+		 (bash-ts-mode . eglot-ensure)
+		 (sh-mode . eglot-ensure)
+		 (c-ts-mode . eglot-ensure)))
 
-(use-package lsp-mode
-  :init
-  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-  (setq lsp-keymap-prefix "C-c l")
-  ;;  (setq lsp-csharp-omnisharp-roslyn-server-path "/nix/store/2w8wkhkhd0b85fz48pnsds5msy31iyhm-omnisharp-roslyn-1.39.10/bin/OmniSharp")
-  :hook ((csharp-ts-mode . lsp)))
+(use-package dart-mode
+  :custom
+  (eglot-ignored-server-capabilities '(:signatureHelpProvider)))
 
-(use-package lsp-ui
-  :commands lsp-ui-mode)
+(use-package flutter
+  :after dart-mode)
 
 (use-package yasnippet
   :hook ((prog-mode . yas-minor-mode)
@@ -291,8 +298,8 @@
   (add-hook 'prog-mode-hook  #'(lambda ()(yas-reload-all)))
   (diminish 'yas-minor-mode))
 
-(use-package flycheck
-  :hook (prog-mode . flycheck-mode))
+;; (use-package flycheck
+;;   :hook (prog-mode . flycheck-mode))
 
 (use-package async
   :config
@@ -338,10 +345,11 @@
 		 ("C-C C-@" . mc/mark-all-like-this)
 		 ("C-C M-v" . mc/edit-beggineing-of-lines)))
 
+(use-package vundo)
+
 (use-package expreg
-  :bind ("C-@" . expreg-expand))
-;;(use-package expand-region
-;;  :bind ("C-@" . er/expand-region)) ;;add other binds
+  :bind ("C-@" . expreg-expand)
+  ("C-'" . expreg-contract))
 
 (use-package vlf
   :init
@@ -356,43 +364,80 @@
 (use-package elfeed)
 
 (use-package elfeed-org
+  :defer t
   :config
-  (elfeed-org))
+  (elfeed-org)
+  (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org")))
 
 (use-package dired-subtree
   :init
   (setq dired-subtree-use-backgrounds nil)
-  (let ((map dired-mode-map))
-	(define-key map (kbd "TAB") #'dired-subtree-cycle)
-	(define-key map (kbd "M-^") #'dired-subtree-remove)))
+  (define-key dired-mode-map (kbd "TAB") #'dired-subtree-toggle))
 
 (use-package sudo-edit
   :bind
   ("M-s e" . sudo-edit)
   ("M-s f" . sudo-edit-find-file))
 
-;;(use-package zoxide
-;;  :hook (find-file . zoxide-add)
-;;  :bind
-;;  ("M-s z f" . zoxide-find-file))
+(use-package zoxide
+  :hook (find-file . zoxide-add)
+  :bind
+  ("M-s z f" . zoxide-find-file))
 
 (use-package god-mode
   :bind ("C-`" . god-local-mode))
 
 (use-package magit)
 
-(require 'dired)
-(let ((map dired-mode-map))
-  (define-key map (kbd "TAB") #'dired-subtree-toggle))
-;;(global-set-key [C-backspace] 'hungry-delete-backward)
-;;(global-set-key [C-delete] 'hungry-delete-forward)
-;; (define-key org-mode-map YOURKEY YOURCOMMAND)
+(use-package writeroom-mode)
+
+(use-package emms
+  :config
+  (require 'emms-setup)
+  (require 'emms-player-mpd)
+  (emms-all) ; don't change this to values you see on stackoverflow questions if you expect emms to work
+  (setq emms-seek-seconds 5)
+  (setq emms-player-list '(emms-player-mpd))
+  (setq emms-info-functions '(emms-info-mpd))
+  (setq emms-player-mpd-server-name "localhost")
+  (setq emms-player-mpd-server-port "6600")
+  :bind
+  ("C-c m e" . emms)
+  ("C-c m b" . emms-smart-browse)
+  ("C-c m u" . emms-player-mpd-update-all-reset-cache)
+  ("C-c m p" . emms-previous)
+  ("C-c m n" . emms-next)
+  ("C-c m P" . emms-pause)
+  ("C-c m s" . emms-stop)
+  ("C-c m r" . (lambda ()
+				 "Goto a random tack then add it to the paylist"
+				 (interactive)
+				 (progn
+				   (emms-browser-expand-all)
+				   (emms-browser-goto-random)
+				   (emms-browser-add-tracks)))))
+
+(use-package helpful
+  :config
+  (global-set-key (kbd "C-h f") #'helpful-callable)
+  (global-set-key (kbd "C-h v") #'helpful-variable)
+  (global-set-key (kbd "C-h k") #'helpful-key)
+  (global-set-key (kbd "C-h x") #'helpful-command))
+
+(use-package dired-ranger)
+
+;;
+(define-prefix-command 'avy-n-map)
+(global-set-key (kbd "M-j") 'avy-n-map)
 (global-set-key (kbd "C-c t") 'edit-todo)
-(global-set-key (kbd "C-c l a c") 'avy-copy-line)
-(global-set-key (kbd "C-c a k") 'avy-kill-whole-line)
-(global-set-key (kbd "C-c l a m") 'avy-move-line)
-(global-set-key (kbd "C-c l a g") 'avy-goto-char)
-(global-set-key (kbd "C-c l a l") 'avy-goto-line)
+(global-set-key (kbd "C-;") 'comment-or-uncomment-region)
+(global-set-key [remap dabbrev-expand] 'hippie-expand)
+(global-set-key (kbd "C-M-x") 'embark-export)
+(global-set-key (kbd "M-j l") 'avy-copy-line)
+(global-set-key (kbd "M-j k") 'avy-kill-whole-line)
+(global-set-key (kbd "M-j m") 'avy-move-line)
+(global-set-key (kbd "M-j c") 'avy-goto-char)
+(global-set-key (kbd "M-j g") 'avy-goto-line)
 (global-set-key (kbd "C-c c") 'flyspell-buffer)
 (global-set-key (kbd "C-c s") 'ispell-buffer)
 (global-set-key (kbd "M-Z") 'zap-up-to-char)
@@ -450,10 +495,12 @@
 											(goto-char (point-max))
 											(setq ml-total-lines (format-mode-line "%l")))
 										ml-total-lines))))
-								 ":%C %I)  "
+								 "(%P):%C %I)  "
 								 (vc-mode vc-mode) mode-line-modes mode-line-misc-info mode-line-end-spaces))
 
 (setq minor-mode-alist nil)
+
+(server-start)
 
 (provide 'init)
 ;;; init.el ends here
