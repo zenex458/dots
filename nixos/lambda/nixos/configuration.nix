@@ -19,8 +19,8 @@
     supportedFilesystems = [ "ntfs" ];
     tmp.cleanOnBoot = true;
     tmp.useTmpfs = true;
-    initrd.luks.devices."luks-8f284511-de15-47f0-922f-676bcef512cc".device =
-      "/dev/disk/by-uuid/8f284511-de15-47f0-922f-676bcef512cc";
+    initrd.luks.devices."luks-b8f988dd-9e8b-4982-b121-8b8229fd81ed".device =
+      "/dev/disk/by-uuid/b8f988dd-9e8b-4982-b121-8b8229fd81ed";
   };
 
   hardware.opengl = {
@@ -54,6 +54,7 @@
 
   virtualisation.libvirtd.enable = true;
   programs = {
+    firejail = { enable = true; };
     xwayland.enable = true;
     light.enable = true;
     dconf.enable = true;
@@ -63,7 +64,7 @@
       if [ "$LOGNAME" = root ] || [ "$(id -u)" -eq 0 ]; then
       	PS1="\[\e[01;31m\]\[\u@\h:\w# \]\\[\e[00m\]"
       else
-      	PS1="[\w]\nλ "
+      	PS1="[\w]\n$ "
       fi
     '';
   };
@@ -90,16 +91,16 @@
 
   services = {
     #with hardened profile this is needed otherwise nix will not build
-    logrotate.checkConfig = false;
+    #    logrotate.checkConfig = false;
     fwupd.enable = true;
-    printing.enable = true;
-    printing.drivers = [
-      pkgs.gutenprint
-      pkgs.gutenprintBin
-      pkgs.epson-escpr
-      pkgs.epson-escpr2
-      pkgs.foomatic-db-ppds-withNonfreeDb
-    ];
+    #    printing.enable = true;
+    #    printing.drivers = [
+    #      pkgs.gutenprint
+    #      pkgs.gutenprintBin
+    #      pkgs.epson-escpr
+    #      pkgs.epson-escpr2
+    #      pkgs.foomatic-db-ppds-withNonfreeDb
+    #    ];
     avahi = {
       enable = true;
       nssmdns = true;
@@ -107,12 +108,17 @@
     };
     dbus.enable = true;
     smartd.enable = true;
+    mysql = {
+      enable = true;
+      package = pkgs.mariadb;
+    };
     xserver = {
       enable = true;
       displayManager.startx.enable = true;
       libinput.enable = true;
       layout = "gb";
       xkbVariant = "";
+      xkb.options = "altwin:ctrl_alt_win";
     };
     usbguard.enable = true;
     #    usbguard.package = pkgs.usbguard-nox;
@@ -129,7 +135,7 @@
       allow id 047d:1022 serial "" name "Kensington USB Orbit" with-interface 03:01:02 with-connect-type "hotplug"
 
     '';
-    opensnitch.enable = true;
+    #    opensnitch.enable = true;
     ntp.enable = false;
     chrony = {
       enable = true;
@@ -154,8 +160,8 @@
     thermald.enable = true;
     tlp.enable = true;
     tlp.settings = {
-      CPU_SCALING_MIN_FREQ_ON_AC = 2800000;
-      CPU_SCALING_MAX_FREQ_ON_AC = 2800000;
+      # CPU_SCALING_MIN_FREQ_ON_AC = 2800000;
+      # CPU_SCALING_MAX_FREQ_ON_AC = 2800000;
       CPU_SCALING_MIN_FREQ_ON_BAT = 400000;
       CPU_SCALING_MAX_FREQ_ON_BAT = 2000000;
       CPU_SCALING_GOVERNOR_ON_AC = "performance";
@@ -183,7 +189,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [ ];
-
+  environment.pathsToLink = [ "/share/zsh" "/share/bash-completion" ];
   fonts.packages = with pkgs; [
     iosevka
     vistafonts
@@ -191,10 +197,10 @@
   ];
 
   security = {
+    apparmor = { enable = true; };
     chromiumSuidSandbox.enable = true;
     rtkit.enable = true;
     polkit.enable = true;
-    pam.services.swaylock = { };
   };
 
   networking.firewall = {
@@ -215,9 +221,16 @@
       ];
   };
 
-  nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
-    auto-optimise-store = true;
+  nix = {
+    settings = {
+      experimental-features = [ "nix-command" "flakes" ];
+      auto-optimise-store = true;
+    };
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
   };
 
   # This value determines the NixOS release from which the default

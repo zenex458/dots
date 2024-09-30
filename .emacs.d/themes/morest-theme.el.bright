@@ -35,18 +35,26 @@
       (fg2 "#b6b6b6")
       (fg3 "#a6a6a6")
       (fg4 "#969696")
-      (bg1 "#141414")
-      (bg2 "#2e2e2e")
-      (bg3 "#414141")
-      (bg4 "#555555")
+      (bg1 "#1b1b1b") ;;202020 1b1b1b
+      (bg2 "#2e2e2e") ;;141414
+      (bg3 "#414141") ;;292929
+      (bg4 "#555555") ;;3d3d3d
       (builtin "#aaaaff")
-      (keyword "#B33929")
-      (const   "#c0c000")
-      (comment "#5F5F5F")
-      (func    "#BD8700")
-      (str     "#75B329")
-      (type    "#2874B2")
-      (var     "#802caa") ;;6729B3
+      (keyword "#AD2925") ;;c00000
+      (const   "#A8AD25")
+      (comment "#5F5F5F") ;;414141
+      (func    "#AD8425") ;;BF6200
+      (str     "#25AD29")
+      (type    "#0073e6") ;;0073e6
+      (var     "#8425AD")
+	  ;;      (builtin "#737373")
+	  ;;      (keyword "#e60000")
+	  ;;      (const   "#e6e600")
+	  ;;      (comment "#4d4d4d")
+	  ;;      (func    "#e67300")
+	  ;;      (str     "#00e600")
+	  ;;      (type    "#0073e6")
+	  ;;      (var     "#9932cc")
       (warning "#ff0000")
       (warning2 "#e67300"))
   (custom-theme-set-faces

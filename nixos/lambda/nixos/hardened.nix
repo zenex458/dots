@@ -11,9 +11,7 @@
 with lib;
 
 {
-  meta = {
-    maintainers = [ maintainers.joachifm maintainers.emily ];
-  };
+  meta = { maintainers = [ maintainers.joachifm maintainers.emily ]; };
 
   #  security.lockKernelModules = mkDefault true;
 
@@ -30,7 +28,8 @@ with lib;
   security.forcePageTableIsolation = mkDefault true;
 
   # This is required by podman to run containers in rootless mode.
-  security.unprivilegedUsernsClone = mkDefault config.virtualisation.containers.enable;
+  security.unprivilegedUsernsClone =
+    mkDefault config.virtualisation.containers.enable;
 
   security.virtualisation.flushL1DataCache = mkDefault "always";
 
@@ -170,7 +169,6 @@ with lib;
     "sr_mod"
   ];
 
-
   #prevent unprivileged attackers from loading vulnerable line disciplines
   boot.kernel.sysctl."dev.tty.ldisc_autoload" = mkDefault "0";
   #disallow opening FIFOs or regular files not owned by the user in world writable sticky directories
@@ -188,7 +186,6 @@ with lib;
   #These settings are set to the highest value to improve ASLR effectiveness for mmap
   boot.kernel.sysctl."vm.mmap_rnd_bits" = mkDefault "32";
   boot.kernel.sysctl."vm.mmap_rnd_compat_bits" = mkDefault "16";
-
 
   boot.kernel.sysctl."vm.swappiness" = mkOverride 60 10;
   # Restrict ptrace() usage to processes with a pre-defined relationship
@@ -229,7 +226,8 @@ with lib;
   boot.kernel.sysctl."net.ipv4.conf.default.send_redirects" = mkDefault false;
 
   boot.kernel.sysctl."net.ipv4.conf.all.accept_source_route" = mkDefault "0";
-  boot.kernel.sysctl."net.ipv4.conf.default.accept_source_route" = mkDefault "0";
+  boot.kernel.sysctl."net.ipv4.conf.default.accept_source_route" =
+    mkDefault "0";
   boot.kernel.sysctl."net.ipv6.conf.all.accept_source_route" = mkDefault "0";
 
   # Do not accept ICMP redirects (prevent MITM attacks)

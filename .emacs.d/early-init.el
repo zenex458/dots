@@ -1,5 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+(add-to-list 'load-path "~/.emacs.d/zenex-lisp/")
 (load-theme 'morest t)
 (setenv "MANWIDTH" "200")
 (setq package-enable-at-startup nil)

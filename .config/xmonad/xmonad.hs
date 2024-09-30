@@ -3,6 +3,7 @@ import qualified Data.Map as M
 import System.Exit
 import XMonad
 import XMonad.Actions.SpawnOn
+import XMonad.Actions.Warp
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
@@ -32,10 +33,8 @@ myConfig =
       layoutHook = myLayout,
       normalBorderColor = "#000000",
       focusedBorderColor = "#999999",
-      -- , startupHook = myStartupHook
       workspaces = myWorkspaces,
-      -- , manageHook = manageSpawn <+> myManageHook
-      manageHook = myManageHook,
+      manageHook = manageSpawn <+> myManageHook,
       keys = myKeys
     }
 
@@ -44,28 +43,28 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
     -- terminal
     [ ((modm, xK_Return), spawn "st -e tmux"),
       -- normal firefox
-      ((modm, xK_c), spawn "firejail firefox"),
-      ((modm .|. shiftMask, xK_c), spawn "firejail firefox --private-window"),
+      ((modm, xK_c), spawn "firefox"),
+      ((modm .|. shiftMask, xK_c), spawn "firefox --private-window"),
       -- private firefox
-      ((mod1Mask, xK_c), spawn "firejail firefox -P priv"),
+      ((mod1Mask, xK_c), spawn "firefox -P priv"),
       -- next song
-      ((mod1Mask, xK_o), spawn "mpc next"),
+      ((modm .|. shiftMask, xK_o), spawn "mpc next"),
       -- previous song
-      ((mod1Mask, xK_i), spawn "mpc prev"),
+      ((modm .|. shiftMask, xK_i), spawn "mpc prev"),
       -- play/pause song
-      ((mod1Mask, xK_p), spawn "mpc toggle"),
+      ((modm .|. shiftMask, xK_p), spawn "mpc toggle"),
       -- spawn alsamixer
       ((modm, xK_a), spawn "st -e pulsemixer"),
       -- minus vol
-      ((mod1Mask, xK_bracketleft), spawn "amixer sset Master 2%-"),
+      ((modm .|. shiftMask, xK_bracketleft), spawn "amixer sset Master 2%-"),
       -- add vol
-      ((mod1Mask, xK_bracketright), spawn "amixer sset Master 2%+"),
+      ((modm .|. shiftMask, xK_bracketright), spawn "amixer sset Master 2%+"),
       -- spawn emacsclient
       ((modm, xK_u), spawn "emacsclient -c -a emacs"),
       -- brightness up by 2
-      ((mod1Mask, xK_Prior), spawn "light -A 2"), -- brightnessctl
+      ((modm .|. shiftMask, xK_Prior), spawn "light -A 2"),
       -- brightness down by 2
-      ((mod1Mask, xK_Next), spawn "light -U 2"),
+      ((modm .|. shiftMask, xK_Next), spawn "light -U 2"),
       -- application launcher
       ((modm, xK_p), spawn "dmenu_run"),
       -- close focused window
@@ -73,7 +72,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       -- Rotate through the available layout algorithms
       ((modm, xK_space), sendMessage NextLayout),
       ((modm, xK_m), sendMessage $ JumpToLayout "Full"),
-      ((modm, xK_t), sendMessage $ JumpToLayout "ResizableTall"),
+      ((modm, xK_t), sendMessage $ JumpToLayout "Tall"),
       --  Reset the layouts on the current workspace to default
       ((modm .|. shiftMask, xK_space), setLayout $ XMonad.layoutHook conf),
       -- Resize viewed windows to the correct size
@@ -96,8 +95,6 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       ((modm, xK_h), sendMessage Shrink),
       -- Expand the master area
       ((modm, xK_l), sendMessage Expand),
-      ((mod1Mask, xK_a), sendMessage MirrorShrink),
-      ((mod1Mask, xK_z), sendMessage MirrorExpand),
       -- Push window back into tiling
       ((modm .|. shiftMask, xK_t), withFocused $ windows . W.sink),
       -- Increment the number of windows in the master area
@@ -106,9 +103,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       ((modm, xK_period), sendMessage (IncMasterN (-1))),
       -- Quit xmonad
       --      ((modm .|. shiftMask, xK_q), io (exitWith ExitSuccess)),
-      ((modm .|. shiftMask .|. controlMask, xK_q), quitWithWarning),
+      ((modm .|. shiftMask .|. controlMask, xK_z), quitWithWarning),
       -- Restart xmonad
-      ((modm .|. controlMask, xK_r), spawn "xmonad --recompile; xmonad --restart")
+      -- ((modm .|. controlMask, xK_r), spawn "xmonad --recompile; xmonad --restart")
+      ((modm .|. controlMask, xK_r), spawn "xmonad --restart")
     ]
       ++
       -- mod-[1..9], Switch to workspace N
@@ -118,15 +116,13 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9],
           (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
       ]
-      --      [ ((m .|. modm, k), windows $ onCurrentScreen f i)
-      --        | (i, k) <- zip (workspaces' conf) [xK_1 .. xK_9],
-      --          (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
-      --      ]
-
+      -- warp cursor to screen
+      ++ [ ((modm .|. controlMask, key), warpToScreen sc (0.5) (0.5))
+           | (key, sc) <- zip [xK_z, xK_w, xK_e] [0 ..]
+         ]
       ++
       -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
       -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
-
       [ ((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
         | (key, sc) <- zip [xK_r, xK_w, xK_e] [0 ..],
           (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
@@ -138,16 +134,12 @@ quitWithWarning = do
   s <- dmenu [m]
   when (m == s) (io exitSuccess)
 
--- myLayout = lessBorders (Screen) tiled ||| noBorders Full
 myLayout = tiled ||| noBorders Full
   where
-    tiled = ResizableTall nmaster delta ratio []
-    nmaster = 1
-    ratio = 1 / 2
-    delta = 3 / 100
-
--- myWorkspaces = do
---  withScreens 2 ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    tiled = Tall nmaster delta ratio
+    nmaster = 1 -- Default number of windows in the master pane
+    ratio = 1 / 2 -- Default proportion of screen occupied by master pane
+    delta = 3 / 100 -- Percent of screen to increment by when resizing panes
 
 myWorkspaces = do
   ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
@@ -184,35 +176,3 @@ myXmobarPP =
             _ -> "LAYOUT NOT DETECTED"
         )
     }
-
--- myXmobarPP :: PP
--- myXmobarPP = def
---    { ppSep             = " "
---    , ppTitleSanitize   = xmobarStrip
---    , ppCurrent         = white . wrap "[" "]"
---    , ppVisible         = wrap "(" ")"
---    , ppUrgent          = red . wrap (yellow "!") (yellow "!")
---    , ppOrder           = \[ws, l, _, wins] -> [ws, l, wins]
---    , ppExtras          = [logTitles formatFocused formatUnfocused]
---    , ppLayout =
---        ( \x -> case x of
---        "Tall" -> "[]=="
---        "ResizableTall" -> "[]="
---        "Full" -> "[]"
---        "Simple Float" -> "^"
---        "Tabbed Simplest" -> "--"
---        _ -> "LAYOUT NOT DETECTED"
---        )
---    }
---  where
---    formatFocused   = wrap (white    "[") (white    "]") . white  .  ppWindow
---    formatUnfocused = wrap (lowWhite "[") (lowWhite "]") . lowWhite  . ppWindow
---
---    ppWindow :: String -> String
---    ppWindow = xmobarRaw . (\w -> if null w then "untitled" else w) . shorten 70
---
---    lowWhite, red, white, yellow :: String -> String
---    white    = xmobarColor "#f8f8f2" ""
---    yellow   = xmobarColor "#ffff00" ""
---    red      = xmobarColor "#ff0000" ""
---    lowWhite = xmobarColor "#bbbbbb" ""
