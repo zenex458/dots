@@ -9,8 +9,8 @@ import XMonad.Layout.Tabbed
 import qualified XMonad.StackSet as W
 import XMonad.Util.Loggers
 import XMonad.Layout.SubLayouts
-import XMonad.Layout.WindowNavigation
-import XMonad.Layout.Decoration
+--import XMonad.Layout.WindowNavigation
+--import XMonad.Layout.Decoration
 
 myTerminal = "st -e tmux"
 
@@ -295,13 +295,12 @@ myPP =
       ppTitle = xmobarColor "#c6c6c6" "",    -- . shorten 120,
       ppSep = " ",
       ppUrgent = xmobarColor "#ff0000" "" . wrap "!" "!",
-      ppOrder = \(ws : l : t : ex) -> [ws, l] ++ ex ++ [t]
-      --ppLayout =
-      --  ( \x -> case x of
-      --      "Tabbed Tall" -> "[]="
-      --      "Full" -> "[]"
-      --      "Tabbed Simplest" -> "[--]"
-      --  )
+      ppOrder = \(ws : l : t : ex) -> [ws, l] ++ ex ++ [t],
+      ppLayout =
+        ( \x -> case x of
+            "Tabbed Tall" -> "[]="
+            "Tabbed Full" -> "[]"
+        )
     }
 
 -- Key binding to toggle the gap for the bar.
