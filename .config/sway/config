@@ -4,7 +4,7 @@ exec wl-pase -t text --watch clipman store
 exec ~/.local/bin/batt.sh &
 exec ~/.local/bin/eyes.sh &
 exec ~/.local/bin/notify-log &
-exec opensnitch-ui
+#exec opensnitch-ui
 # Default config for sway
 #
 # Copy this to ~/.config/sway/config and edit it to your liking.
