@@ -50,7 +50,7 @@ bind 'set show-all-if-ambiguous on'
 bind 'TAB:menu-complete'
 
 export NNN_FCOLORS='c1e2c42e006033f7c6d6ab27'
-export NNN_BMS='h:/home/zenex;.:/home/zenex/.config;d:/home/zenex/Downloads;D:/home/zenex/Documents;a:/home/zenex/Downloads/yyt/anime'
+export NNN_BMS='h:/home/zenex;.:/home/zenex/.config;d:/home/zenex/Downloads;D:/home/zenex/Documents'
 export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rar|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)$"
 export NNN_FIFO=/tmp/nnn.fifo
 export NNN_PLUG='t:preview-tabbed'
