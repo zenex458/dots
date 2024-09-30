@@ -25,6 +25,7 @@ alias scro="scrot -d 5 -q 100 '%Y-%m-%d_$wx$h.jpeg'"
 alias cco="gcc -Wall"
 alias ytmp3="yt-dlp -x -o '%(title)s.%(ext)s' --audio-format mp3  --audio-quality 0 "
 alias yt="yt-dlp -o '%(title)s.%(ext)s' "
+alias mofat="sudo mount -t exfat /dev/mmcblk0p1 ~/.sdcard"
 
 PS1="[\w][\t]\n$ "
 
@@ -35,7 +36,6 @@ HISTFILESIZE=2000
 set -o vi
 bind 'set show-all-if-ambiguous on'
 bind 'TAB:menu-complete'
-setxkbmap gb
 
 export NNN_FCOLORS='c1e2c42e006033f7c6d6ab27'
 export NNN_BMS='h:/home/zenex;.:/home/zenex/.config;d:/home/zenex/Downloads;D:/home/zenex/Documents;a:/home/zenex/Downloads/yyt/anime'
@@ -50,7 +50,4 @@ export QT_QPA_PLATFORMTHEME=qt5ct
 #openssl enc -aes-256-cbc -md sha512 -pbkdf2 -iter 250000 -salt -in InputFilePath -out OutputFilePath
 #openssl enc -aes-256-cbc -d -md sha512 -pbkdf2 -iter 250000 -salt -in InputFilePath -out OutputFilePath
 #PROMPT='%F{242}[%~] %F{red}% λ '
-#PROMPT='[%~][%*]
-#$ '
-#RPROMPT='%F{242}%*%f'
 eval "$(lua ~/.config/z.lua --init bash)"
