@@ -1057,6 +1057,7 @@
     pulsemixer
     # imhex
     # rlwrap
+    # kismet
     rage
     ripgrep
     rsync
