@@ -51,7 +51,7 @@ export NNN_FCOLORS='c1e2c42e006033f7c6d6ab27'
 export NNN_BMS='h:/home/zenex;.:/home/zenex/.config;d:/home/zenex/Downloads;D:/home/zenex/Documents;a:/home/zenex/Downloads/yyt/anime'
 export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rar|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)$"
 export NNN_OPTS='HdP'
-export TERMINAL="alacritty"
+export TERMINAL="st"
 export EDITOR="nvim"
 export VISUAL="nvim"
 export PATH=~/.local/bin/:$PATH
@@ -60,5 +60,6 @@ export QT_QPA_PLATFORMTHEME=qt5ct
 #openssl enc -aes-256-cbc -md sha512 -pbkdf2 -iter 250000 -salt -in InputFilePath -out OutputFilePath
 #openssl enc -aes-256-cbc -d -md sha512 -pbkdf2 -iter 250000 -salt -in InputFilePath -out OutputFilePath
 #backup tar cf - directory | 7za a -si directory.tar.7z
-#extrack 7za x -so directory.tar.7z | tar xf -
+#extract 7za x -so directory.tar.7z | tar xf -
+#systemctl list-unit-files --type=service --state=enabled
 eval "$(lua ~/.config/z.lua --init bash)"
