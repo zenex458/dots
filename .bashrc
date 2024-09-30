@@ -3,16 +3,21 @@
 
 #shopt -s autocd cdspell dotglob nocaseglob
 shopt -s autocd cdspell
-#fzf copy file function
+#function fe(){
+#	du -a ~/ | awk {'print $2'} | fzf | xargs -r nvim
+#}
 function fe (){
-	nvim "$(find ~/* -type f | fzf)"
+	#nvim "$(find ~/ -type f | fzf | xargs -r)"
+	find ~/ -type f | fzf | xargs -r $EDITOR
 }
 function fcd (){
-	cd "$(find ~/* -type d | fzf)"
+	cd "$(find ~/ -type d | fzf)"
 }
 function fcp (){
-	file1="$(find * -type f | fzf -m)"
-	dir1="$(find ~/* -type d | fzf)"
+	#file1="$(find * -type f | fzf -m)"
+	#dir1="$(find ~/* -type d | fzf)"
+	file1="$(find $PWD -type f | fzf -m)"
+	dir1="$(find ~/ -type d | fzf)"
 	cp "$file1" "$dir1"
 }
 function see_sharp (){
@@ -44,7 +49,7 @@ bind 'set vi-ins-mode-string \1\e[3 q\2'
 bind 'set vi-cmd-mode-string \1\e[1 q\2'
 #bind 'set on'
 bind 'TAB:menu-complete'
-#backup tar cf - directory | 7za a -si directory.tar.7z
+#backup tar cf - directory | 7za a -si directory.tar.7z or just 7z a -si .....
 #extract 7za x -so directory.tar.7z | tar xf -
 #eval "$(lua ~/.config/z.lua --init bash)"
 #eval "$(zoxide init bash)"
