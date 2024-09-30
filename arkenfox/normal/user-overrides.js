@@ -7,6 +7,7 @@ user_pref("extensions.pocket.enabled", false);
 user_pref("identity.fxaccounts.enabled", false);
 user_pref("privacy.clearOnShutdown.history", true);
 user_pref("permissions.default.geo", 2);
+user_pref("webgl.disabled", false);
 user_pref("media.videocontrols.picture-in-picture.enabled", false);
 user_pref("media.videocontrols.picture-in-picture.video-toggle.enabled", false);
 user_pref("privacy.clearOnShutdown.cookies", true);
