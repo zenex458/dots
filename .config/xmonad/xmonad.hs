@@ -1,41 +1,43 @@
+import Control.Monad
+import qualified Data.Map as M
 import System.Exit
 import XMonad
-import XMonad.Util.EZConfig
-import XMonad.Hooks.StatusBar
-import XMonad.Hooks.StatusBar.PP
-import XMonad.Util.Loggers
-import XMonad.Layout.NoBorders
-import XMonad.Hooks.EwmhDesktops
 import XMonad.Actions.SpawnOn
-import qualified XMonad.StackSet as W
-import qualified Data.Map as M
-import XMonad.ManageHook
+import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
+import XMonad.Hooks.StatusBar
+import XMonad.Hooks.StatusBar.PP
+import XMonad.Layout.IndependentScreens
+import XMonad.Layout.NoBorders
+import XMonad.Layout.ResizableTile
+import XMonad.ManageHook
+import qualified XMonad.StackSet as W
+import XMonad.Util.Dmenu
+import XMonad.Util.EZConfig
+import XMonad.Util.Loggers
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.SpawnOnce
-import XMonad.Layout.ResizableTile
-import XMonad.Layout.IndependentScreens
-import XMonad.Layout.Tabbed
-import XMonad.Layout.SimpleFloat
 
 main :: IO ()
-main = xmonad 
-    -- . ewmhFullscreen
-     . ewmh
-     . withEasySB (statusBarProp "xmobar" (pure myXmobarPP )) defToggleStrutsKey
-     $ myConfig
+main =
+  xmonad
+    . ewmh
+    . withEasySB (statusBarProp "xmobar" (pure myXmobarPP)) defToggleStrutsKey
+    $ myConfig
 
-myConfig = def
-    { modMask    = mod4Mask
-    , layoutHook = myLayout
-    , normalBorderColor = "#000000"
-    , focusedBorderColor = "#999999"
---    , startupHook = myStartupHook
---    , workspaces = myWorkspaces
-    , manageHook = myManageHook
-    , keys = myKeys
-    -- , manageHook = namedScratchpadManageHook scratchpads                       
+myConfig =
+  def
+    { modMask = mod4Mask,
+      layoutHook = myLayout,
+      normalBorderColor = "#000000",
+      focusedBorderColor = "#999999",
+      -- , startupHook = myStartupHook
+      workspaces = myWorkspaces,
+      -- , manageHook = manageSpawn <+> myManageHook
+      manageHook = myManageHook,
+      keys = myKeys
+      -- , manageHook = namedScratchpadManageHook scratchpads
     }
 
 myKeys conf@(XConfig {XMonad.modMask = modm}) =
@@ -53,35 +55,35 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       ((mod1Mask, xK_i), spawn "mpc prev"),
       -- play/pause song
       ((mod1Mask, xK_p), spawn "mpc toggle"),
-      -- mute/unmute
-      ((mod1Mask, xK_m), spawn "amixer sset Master toggle"),
+      -- lock
+      ((mod1Mask .|. controlMask, xK_l), spawn "Menu"),
+      -- screenshot now
+      ((modm, xK_s), spawn "scrot ~/Downloads/Images/ss/%Y-%m-%d_$wx$h.png && notify-send 'Screenshot Taken'"),
+      -- sceenshot with delay
+      ((modm .|. shiftMask, xK_s), spawn "sswd.sh"),
+      -- spawn alsamixer
+      ((modm, xK_a), spawn "urxvtc -e pulsemixer"),
       -- minus vol
       ((mod1Mask, xK_bracketleft), spawn "amixer sset Master 2%-"),
       -- add vol
       ((mod1Mask, xK_bracketright), spawn "amixer sset Master 2%+"),
-      -- lock
-      ((mod1Mask .|. controlMask, xK_l), spawn "Menu"),
-      -- spawn alsamixer
-      ((modm, xK_a), spawn "urxvt -e alsamixer -V all"),
-      --spawn emacs without the site-file
-      ((modm, xK_u), spawn "emacs"),
+      -- spawn emacsclient
+      ((modm, xK_u), spawn "emacsclient -c -a emacs"),
       -- brightness up by 2
       ((mod1Mask, xK_Prior), spawn "light -A 2"),
       -- brightness down by 2
       ((mod1Mask, xK_Next), spawn "light -U 2"),
-      -- bluelight filter
-      ((modm .|. shiftMask, xK_r), spawn "redshift -o -c ~/.config/redshift.conf"),
       -- application launcher
-      ((modm, xK_p), spawn "rofi -show combi -modes combi -combi-modes 'window,run'"),
---      ((modm, xK_m), namedScratchpadAction scratchpads "music"),
+      -- ((modm, xK_p), spawn "rofi -modi combi -combi-modes 'window,run' -show combi"),
+      ((modm, xK_p), spawn "dmenu_run"),
+      ((mod1Mask, xK_Tab), spawn "switch.sh"),
+      --      ((modm, xK_m), namedScratchpadAction scratchpads "music"),
       -- close focused window
       ((modm, xK_q), kill),
       -- Rotate through the available layout algorithms
       ((modm, xK_space), sendMessage NextLayout),
-      ((modm, xK_m), sendMessage $ JumpToLayout "Full"), 
+      ((modm, xK_m), sendMessage $ JumpToLayout "Full"),
       ((modm, xK_t), sendMessage $ JumpToLayout "ResizableTall"),
-      ((mod1Mask, xK_t), sendMessage $ JumpToLayout "Tabbed Simplest"),
-      ((mod1Mask, xK_f), sendMessage $ JumpToLayout "Simple Float"),
       --  Reset the layouts on the current workspace to default
       ((modm .|. shiftMask, xK_space), setLayout $ XMonad.layoutHook conf),
       -- Resize viewed windows to the correct size
@@ -93,7 +95,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       -- Move focus to the previous window
       ((modm, xK_k), windows W.focusUp),
       -- Move focus to the master window
-      --((modm, xK_m), windows W.focusMaster),
+      -- ((modm, xK_m), windows W.focusMaster),
       -- Swap the focused window and the master window
       ((modm .|. shiftMask, xK_Return), windows W.swapMaster),
       -- Swap the focused window with the next window
@@ -113,26 +115,23 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       -- Deincrement the number of windows in the master area
       ((modm, xK_period), sendMessage (IncMasterN (-1))),
       -- Quit xmonad
-      ((modm .|. shiftMask, xK_q), io (exitWith ExitSuccess)),
+      --      ((modm .|. shiftMask, xK_q), io (exitWith ExitSuccess)),
+      ((modm .|. shiftMask .|. controlMask, xK_q), quitWithWarning),
       -- Restart xmonad
       ((modm .|. controlMask, xK_r), spawn "xmonad --recompile; xmonad --restart")
     ]
       ++
       -- mod-[1..9], Switch to workspace N
       -- mod-shift-[1..9], Move client to workspace N
--- normal
+      -- normal
       [ ((m .|. modm, k), windows $ f i)
         | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9],
           (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
       ]
-
-
-  --      [ ((m .|. modm, k), windows $ onCurrentScreen f i)
-  --        | (i, k) <- zip (workspaces' conf) [xK_1 .. xK_9],
-  --          (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
-  --      ]
-
-
+      --      [ ((m .|. modm, k), windows $ onCurrentScreen f i)
+      --        | (i, k) <- zip (workspaces' conf) [xK_1 .. xK_9],
+      --          (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
+      --      ]
 
       ++
       -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
@@ -142,68 +141,65 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         | (key, sc) <- zip [xK_w, xK_e, xK_z] [0 ..],
           (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
       ]
-myLayout = lessBorders (Screen) tiled ||| noBorders Full ||| noBorders simpleTabbed ||| simpleFloat
+
+quitWithWarning :: X ()
+quitWithWarning = do
+  let m = "confirm quit"
+  s <- dmenu [m]
+  when (m == s) (io exitSuccess)
+
+myLayout = lessBorders (Screen) tiled ||| noBorders Full
   where
-    tiled    = ResizableTall nmaster delta ratio []
-    nmaster  = 1
-    ratio    = 1/2
-    delta    = 3/100
+    tiled = ResizableTall nmaster delta ratio []
+    nmaster = 1
+    ratio = 1 / 2
+    delta = 3 / 100
+
+-- myWorkspaces = do
+--  withScreens 2 ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 myWorkspaces = do
-  withScreens 2 ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+  ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
---myStartupHook :: X()
-------myStartupHook = spawnOn "1" "firefox"                   
---myStartupHook = do
---  -- spawnOnOnce "1" "firefox"
---  --spawnOnce "~/.local/bin/notify-log"
---  spawnOnce "xautolock -secure -detectsleep -time 5 -locker 'xsecurelock'"
---  spawnOnce "feh --no-fehbg --bg-fill '/home/zenex/Downloads/Images/smou.jpg'"
---  spawnOnce "urxvtd -q -o -f"
---  spawnOnce "xrdb ~/.config/.Xresources"
---  spawnOnce "setxkbmap -option altwin:swap_lalt_lwin,altwin:ctrl_alt_win"
---  --spawnOnce "pcmanfm -d"
---  spawnOnce "dunst"
---  spawnOnce "xsetroot -cursor_name left_ptr"
+myManageHook =
+  composeAll
+    -- 'doFloat' forces a window to float.  Useful for dialog boxes and such.
+    -- using 'doShift ( myWorkspaces !! 7)' sends program to workspace 8!
+    -- I'm doing it this way because otherwise I would have to write out the full
+    -- name of my workspaces and the names would be very long if using clickable workspaces.
+    [ title =? "pulsemixer" --> doCenterFloat,
+      --    ,appName =? "music" --> doShift ( myWorkspaces !! 7)
+      appName =? "Browser" --> doCenterFloat
+    ] -- <+> namedScratchpadManageHook scratchpads
 
-
-myManageHook = composeAll
-  -- 'doFloat' forces a window to float.  Useful for dialog boxes and such.
-  -- using 'doShift ( myWorkspaces !! 7)' sends program to workspace 8!
-  -- I'm doing it this way because otherwise I would have to write out the full
-  -- name of my workspaces and the names would be very long if using clickable workspaces.
-  [ title =? "alsamixer" --> doCenterFloat
-    ,appName =? "Browser" --> doCenterFloat
-  ] -- <+> namedScratchpadManageHook scratchpads
-
---scratchpads = [
+-- scratchpads = [
 --    NS "music" "urxvtc -e ncmpcpp" (title =? "ncmpcpp")
 --        (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3))
 --
 --              ] where role = stringProperty "WM_WINDOW_ROLE"
 
 myXmobarPP :: PP
-myXmobarPP = def
-    { ppCurrent = xmobarColor "#c6c6c6" "" . wrap "[" "]"
-      , ppTitle = xmobarColor "#c6c6c6" ""
-      , ppVisible = wrap "(" ")"
-      , ppSep = " "
-      , ppUrgent = xmobarColor "#ff0000" "" . wrap "!" "!"
-      , ppOrder = \(ws : l : t : ex) -> [ws, l] ++ ex ++ [t]
-          , ppLayout =
-        ( \x -> case x of 
-        "Tall" -> "[]=="
-        "ResizableTall" -> "[]=" 
-        "Full" -> "[]"
-        "Simple Float" -> "^"
-        "Tabbed Simplest" -> "--"
-        _ -> "LAYOUT NOT DETECTED"
+myXmobarPP =
+  def
+    { ppCurrent = xmobarColor "#c6c6c6" "" . wrap "[" "]",
+      ppTitle = xmobarColor "#c6c6c6" "",
+      ppVisible = wrap "(" ")",
+      ppSep = " ",
+      ppUrgent = xmobarColor "#ff0000" "" . wrap "!" "!",
+      ppOrder = \(ws : l : t : ex) -> [ws, l] ++ ex ++ [t],
+      ppLayout =
+        ( \x -> case x of
+            "Tall" -> "[]=="
+            "ResizableTall" -> "[]="
+            "Full" -> "[]"
+            "Simple Float" -> "^"
+            "Tabbed Simplest" -> "--"
+            _ -> "LAYOUT NOT DETECTED"
         )
-
     }
 
---myXmobarPP :: PP
---myXmobarPP = def
+-- myXmobarPP :: PP
+-- myXmobarPP = def
 --    { ppSep             = " "
 --    , ppTitleSanitize   = xmobarStrip
 --    , ppCurrent         = white . wrap "[" "]"
@@ -212,9 +208,9 @@ myXmobarPP = def
 --    , ppOrder           = \[ws, l, _, wins] -> [ws, l, wins]
 --    , ppExtras          = [logTitles formatFocused formatUnfocused]
 --    , ppLayout =
---        ( \x -> case x of 
+--        ( \x -> case x of
 --        "Tall" -> "[]=="
---        "ResizableTall" -> "[]=" 
+--        "ResizableTall" -> "[]="
 --        "Full" -> "[]"
 --        "Simple Float" -> "^"
 --        "Tabbed Simplest" -> "--"
