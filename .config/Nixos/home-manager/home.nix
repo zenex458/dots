@@ -980,15 +980,16 @@
     settings = {
       general = {
         after_sleep_cmd = "hyprctl dispatch dpms on";
+        before_sleep_cmd = "hyprlock";
         ignore_dbus_inhibit = false;
         ignore_systemd_inhibit = false;
-        lock_cmd = "swaylock -f -c 141414";
+        lock_cmd = "hypridle";
       };
 
       listener = [
         {
           timeout = 900;
-          on-timeout = "swaylock";
+          on-timeout = "hypridle";
         }
         {
           timeout = 1200;
@@ -996,6 +997,43 @@
           on-resume = "hyprctl dispatch dpms on";
         }
       ];
+    };
+  };
+
+  programs.hyprlock = {
+    enable = true;
+    settings = {
+      general = [
+        {
+          monitor = "";
+          ignore_empty_input = true;
+          hide_cursor = true;
+          no_fade_in = true;
+          no_fade_out = true;
+        }
+      ];
+      background = [ { color = "rgb(0, 0, 0)"; } ];
+      input-field = [
+        {
+          size = "300, 50";
+          position = "0, -80";
+          halign = "center";
+          valign = "center";
+          monitor = "";
+          dots_center = true;
+          fade_on_empty = true;
+          font_color = "rgb(202, 211, 245)";
+          # inner_color = "rgb(91, 96, 120)";
+          inner_color = "rgb(0, 0, 0)";
+          # outer_color = "rgb(24, 25, 38)";
+          outer_color = "rgb(0, 0, 0)";
+          outline_thickness = 3;
+          placeholder_text = "";
+          shadow_passes = 0;
+          rounding = 0;
+        }
+      ];
+
     };
   };
 

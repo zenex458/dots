@@ -330,6 +330,7 @@
 
   security = {
     pam.services.swaylock = { };
+    pam.services.hyprlock = { };
     apparmor = {
       enable = true;
     };
