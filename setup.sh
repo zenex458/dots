@@ -86,7 +86,7 @@ Alpine ()
 Debian ()
 {
 	sudo apt update &&
-	$pkg neovim wget curl firefox htop feh redshift libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin scrot zathura network-manager tar zip unzip fuse3 ntfs-3g pcmanfm mpv light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw nnn gcc alsa-utils thermald tlp tmux mpd mpd ncmpcpp p7zip-full rxvt-unicode dmenu xsecurelock && #intel-microcode kdeconnect
+	$pkg neovim wget curl firefox htop feh redshift libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin scrot zathura network-manager tar zip unzip fuse3 ntfs-3g pcmanfm mpv light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw nnn gcc alsa-utils thermald tlp tmux mpd mpd ncmpcpp p7zip-full rxvt-unicode dmenu xsecurelock && #intel-microcode kdeconnect libxrandr-dev arandr
 
 	suck_less &&  
 	$perm systemctl disable bluetooth &&
