@@ -1,3 +1,4 @@
+#!/usr/bin/sh
 #alias sss="maim -s -m 10 ~/Downloads/Images/ss/$(date +%N).jpeg"
 #alias mofat="doas mount -t exfat /dev/mmcblk0p1 ~/.sdcard"
 #alias gb="setxkbmap gb -variant qwerty"
@@ -10,17 +11,29 @@
 #alias umofat="udisksctl unmount -b /dev/mmcblk0p1"
 #alias mod="sudo ntfs-3g -o permissions /dev/sdb1 /media/zenex/seagate"
 #alias umod="sudo umount /media/zenex/seagate"
+#fe(){ find ~/ -type f | fzy | xargs -r $EDITOR; }
+#fcd(){ cd "$(find ~/ -type d | fzy)"; }
+#fcdw(){ cd "$(find / -type d | fzy)"; }
+
+fe() { fdfind -H . $HOME --type f | fzy | xargs -r $EDITOR; }
+fcd(){ cd "$(fdfind -H . $HOME --type d | fzy)" || exit; }
+fcdw() { cd "$(fdfind -H . / --type d | fzy)" || exit; }
+lc(){ for i in *; do "$@" "$i"; done }
+
 alias add="sudo aptitude install"
 alias rem="sudo aptitude remove"
 alias sea="sudo aptitude search"
-alias upd="sudo aptitude update"
+alias upd="sudo aptitude update && sudo aptitude safe-upgrade"
+alias re="systemctl reboot"
+alias off="systemctl poweroff"
 alias e="emacs -nw -q -l /home/zenex/.emacs.d/tm.el"
 alias nv="nvim"
-alias ls="ls -F -h --color=always"
+alias ls="ls -F -h"
 alias ga="git add"
 alias gc="git commit -m"
 alias gp="git push -u origin main"
 alias off="systemctl poweroff" #loginctl
+alias re="systemctl reboot"
 alias updoff="upd && sleep 2 && off"
 alias updr="upd && sleep 2 && re"
 alias grep="grep -i --colour=always"
@@ -44,7 +57,7 @@ alias tls="tmux list-session"
 alias tat="tmux attach -t"
 alias msd="sudo mount -m -v -o rw,noexec,uid=1000,gid=1000 UUID=04C3-E2B3 /run/media/zenex/musicsd"
 alias umsd="sudo umount -v /run/media/zenex/musicsd"
-alias mhd="sudo mount -t ntfs -m -v -o rw,noexec,uid=1000,gid=1000 UUID=742455142454DAA6 /run/media/zenex/seagate"
+alias mhd="sudo mount -v -t ntfs -m -o rw,noexec,uid=1000,gid=1000 UUID=742455142454DAA6 /run/media/zenex/seagate"
 alias umhd="sudo umount -v /run/media/zenex/seagate"
 alias sysdlist="systemctl list-unit-files --type=service --state=enabled"
 alias li="mpd && ncmpcpp"
@@ -52,6 +65,8 @@ alias rli="mpd --kill"
 alias mu="ncmpcpp"
 alias hmb="nvim ~/Documents/Txt/hmb"
 alias the="nvim ~/Documents/Txt/THEBEST"
-alias kd="/usr/libexec/kdeconnectd"
+alias kd="/usr/lib/x86_64-linux-gnu/libexec/kdeconnectd" #/usr/libexec/kdeconnectd
 alias rsy="rsync -avhHAXSW --info=progress2"
 alias del="trash-put"
+alias fnx="find . -type f -exec chmod 644 {} +"
+alias shx="find . -name '*.sh' -execdir chmod +x {} +"
