@@ -26,8 +26,9 @@ set wildmode=longest,list,full
 set clipboard+=unnamedplus
 set termguicolors
 set noshowmode
-set guicursor=n-v-c:hor50-Cursor
-set guicursor+=i:hor50-Cursor
+set guicursor=i:block-iCursor
+set guicursor+=i:blinkon10
+set guicursor+=n-v-c:blinkon10
 set statusline+=\%{toupper(g:currentmode[mode()])} 
 set statusline+=%<%f%m\ \ \ %=\ %R%H%W\ %l/%L:%c\ %p%% "add %Y for file type
 "%R=readonly, %H=helpbuffer, %W=preview window
