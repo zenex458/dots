@@ -1,27 +1,21 @@
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(column-number-mode t)
-; '(custom-enabled-themes '(wheatgrass))
- '(display-battery-mode t)
-; '(display-line-numbers-type 'relative)
- '(fringe-mode 0 nil (fringe))
-; '(global-display-line-numbers-mode t)
- '(menu-bar-mode nil)
- '(package-selected-packages
-   '(omnisharp htmlize slime-company slime company flycheck avy which-key async rainbow-delimiters rainbow-mode evil use-package))
-; '(save-place-mode t)
- '(scroll-bar-mode nil)
- '(size-indication-mode t)
- '(tool-bar-mode nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family "Hack Nerd Font Mono" :foundry "SRC" :slant normal :weight normal :height 113 :width normal)))))
+(setq gc-cons-threshold 20000000)
+(set-face-attribute 'default nil :font "Hack Nerd Font Mono" :height 110)
+
+(use-package nyx-theme
+  :ensure t
+  :config
+    (enable-theme 'nyx))
+
+(setq inhibit-startup-screen t)
+(setq initial-scratch-message nil)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(set-fringe-mode 10)
+(menu-bar-mode -1)
+(column-number-mode 1)
+(display-battery-mode 1)
+(size-indication-mode 1)
+(save-place-mode 1)
 
 (setq
    backup-by-copying t
@@ -31,6 +25,9 @@
    kept-new-versions 6
    kept-old-versions 2
    version-control t)
+ (setq auto-save-file-name-transforms
+        `((".*" ,"~/.emacs.d/saves" t)))
+
 (require 'package)
 (add-to-list 'package-archives '("gnu"   . "https://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
@@ -58,15 +55,15 @@
 
 (electric-pair-mode t)
 
-(use-package rainbow-mode
-  :ensure t
-  :init
-  (add-hook 'prog-mode-hook 'rainbow-mode))
-
-;;(use-package rainbow-delimiters
+;;(use-package rainbow-mode
 ;;  :ensure t
 ;;  :init
-;;  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+;;  (add-hook 'prog-mode-hook 'rainbow-mode))
+
+(use-package rainbow-delimiters
+  :ensure t
+  :init
+  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -75,17 +72,21 @@
 ;;  :ensure t
 ;;  :init (dired-async-mode 1))
 
+(use-package evil
+  :ensure t)
 (require 'evil)
 (evil-mode 1)
 
 (setq evil-insert-state-cursor '(hbar)
       evil-replace-state-cursor '(box))
 (setq evil-want-minibuffer t)
-(setq ring-bell-function 'ignore)
+;(setq ring-bell-function 'ignore)
 
 (setq display-time-24hr-format t)
 (display-time-mode 1)
+
 (setq scroll-conservatively 100)
+
 (use-package which-key
   :ensure t
   :config
@@ -110,7 +111,8 @@
   (kill-buffer (current-buffer)))
 (global-set-key (kbd "C-x k") 'kill-current-buffer)
 
-(global-set-key (kbd "C-c b") 'ibuffer)
+;;(global-set-key (kbd "C-c b") 'ibuffer)
+(global-set-key (kbd "C-c b") 'counsel-switch-buffer)
 
 ;;(use-package avy ;;switch windows
 ;;  :ensure t
@@ -134,7 +136,6 @@
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode))
-
 
 (use-package company
   :ensure t
@@ -172,8 +173,8 @@
 (yas-reload-all)
 (add-hook 'prog-mode-hook #'yas-minor-mode)
 
-(setq-default mode-line-format
-	       '("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification mode-line-position (vc-mode vc-mode) "" mode-line-misc-info mode-line-end-spaces))
+;;(setq-default mode-line-format
+;;	       '("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification mode-line-position (vc-mode vc-mode) "" mode-line-misc-info mode-line-end-spaces))
 
 (use-package omnisharp
   :after company
@@ -183,23 +184,57 @@
 (define-key omnisharp-mode-map (kbd ".") 'omnisharp-add-dot-and-auto-complete)
 (define-key omnisharp-mode-map (kbd "<C-SPC>") 'omnisharp-auto-complete)
 
+(use-package ivy
+  :config
+(ivy-mode 1))
+
+(use-package ivy-rich
+  :init
+  (ivy-rich-mode 1))
+
+(use-package counsel
+  :config
+  (counsel-mode 1))
+
 (setq ido-everywhere t)
 (setq ido-enable-flex-matching t)
+(setq ido-auto-merge-work-directories-length -1)
 (ido-mode t)
 
-(use-package ample-theme
-  :init (progn (load-theme 'ample t t)
-               (enable-theme 'ample))
-  :defer t
-  :ensure t)
+;;(require 'org)
+;;(define-key global-map "\C-cl" 'org-store-link)
+;;(define-key global-map "\C-ca" 'org-agenda)
+;;(setq org-log-done t)
+;;
+;;(setq org-agenda-files (list "~/org/todo.org"))
 
-(require 'org)
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
-(setq org-log-done t)
-
-(setq org-agenda-files (list "~/org/todo.org"))
-
-(setq inhibit-startup-screen t)
-(setq initial-scratch-message nil)
 (setq ispell-dictionary "british")
+(setq confirm-kill-emacs 'y-or-n-p)
+(setq-default dired-listing-switches "-alh")
+(global-font-lock-mode t)
+(global-auto-revert-mode t)
+(setq visible-bell t)
+(setq-default fill-column 80)
+(use-package gcmh
+  :demand t
+  :defer t
+  
+  :init
+  (setq gcmh-idle-delay 5
+  			gcmh-high-cons-threshold (* 16 1024 1024))
+  :config
+		(gcmh-mode))
+(setq frame-inhibit-implied-resize t)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(ivy-rich gcmh omnisharp yasnippet slime-company slime company flycheck which-key nyx-theme evil rainbow-delimiters use-package)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
