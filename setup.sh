@@ -53,6 +53,17 @@ Arch ()
 	sudo systemctl enable fstrim.timer
 }
 
+Alpine ()
+{
+	$pkg util-linux pciutils usbutils coreutils binutils findutils grep iproute2 bash bash-doc bash-completion udisks2 udisks2-doc git make gcc g++ libx11-dev libxft-dev libxinerama-dev ncurses dbus-x11 firefox adwaita-gtk2-theme adwaita-icon-theme ttf-dejavu mandoc man-pages mandoc-aprops docs gcompat alsa-utils alsa-utils-doc alsa-lib alsaconf alsa-ucm-conf
+	addgroup $USER audio
+	addgroup root audio
+	addgroup $USER video
+	addgroup $USER input
+
+
+}
+
 Debian ()
 {
 	sudo apt update &&
@@ -101,14 +112,17 @@ cp -r .config/* ~/.config &&
 
 echo " "
 echo "(A)rch"
+echo "(AL)pine"
 echo "(D)ebian"
 echo "(F)edora"                               
 echo "(Z)other"
+
 
 read -p "Please enter your os: " os
 
 case $os in
 	A)  pkg="$perm pacman -S" && Arch;;
+	AL) pkg="$perm apk add" && Alpine;;
 	D)  pkg="$perm apt install" && Debian ;;
 	F)  pkg="$perm dnf install" && Fedora;;
 	Z)  other
