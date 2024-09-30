@@ -35,7 +35,7 @@
       (fg2 "#b6b6b6")
       (fg3 "#a6a6a6")
       (fg4 "#969696")
-      (bg1 "#141414")
+      (bg1 "#212121")
       (bg2 "#2e2e2e")
       (bg3 "#414141")
       (bg4 "#555555")
@@ -72,7 +72,7 @@
    `(cursor ((,class (:background ,keyword))))
    `(isearch ((,class (:bold :foreground ,bg1 :background ,fg1))))
    `(mode-line ((,class (:foreground ,fg4 :background ,bg1))))
-   `(mode-line-inactive ((,class (:foreground ,"#222222" :background ,"#222222" :weight normal)))) ;;foreground, comment
+   `(mode-line-inactive ((,class (:foreground ,"#000000" :background ,"#000000" :weight normal)))) ;;foreground, comment
    `(mode-line-buffer-id ((,class (:bold :foreground ,fg1 :background nil))))
    `(mode-line-highlight ((,class (:foreground ,keyword :box nil :weight bold))))
    `(mode-line-emphasis ((,class (:foreground ,fg1))))
@@ -225,12 +225,17 @@
    `(markdown-header-face-3 ((t (:bold t :foreground ,const))))
    `(markdown-header-face-4 ((t (:bold t :foreground ,str))))
    `(markdown-header-face-5 ((t (:bold t :foreground ,var))))
-   `(markdown-header-face-6 ((t (:bold t :foreground , builtin))))
+   `(markdown-header-face-6 ((t (:bold t :foreground ,builtin))))
    `(sh-quoted-exec ((t (:foreground , builtin))))
    `(dired-directory ((t (:foreground , "#6cb2eb"))))
    ;;  `(markdown-header-face-6 ((t (:bold t :foreground "#0073e6"))))
    ;; `(sh-quoted-exec ((t (:foreground "#0073e6"))))
    ;; `(dired-directory ((t (:foreground "#0073e6"))))
+   ;; `(flymake-error-echo ((t (:bold t :foreground ,warning))))
+   ;; `(flymake-warning-echo ((t (:bold t :foreground ,warning2))))
+   '(flymake-warning ((((class color)) :underline (:color "#e67300" :style wave))))
+   `(compilation-error ((t (:bold t :foreground ,warning))))
+   `(compilation-warning ((t (:bold t :foreground ,warning2))))
 
    )
   ;; Legacy

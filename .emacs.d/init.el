@@ -35,6 +35,7 @@
 (setq save-interprogram-paste-before-kill t)
 (setq delete-by-moving-to-trash t)
 (setq-default tab-width 4)
+;;;(setopt ediff-window-setup-function #'ediff-setup-windows-plain) 
 ;;(setq dired-dwim-target t)
 (setq-default indent-tabs-mode t)
 (setq backup-by-copying t)
@@ -167,7 +168,7 @@
   :hook ((prog-mode . apheleia-mode))
   :config
   (diminish apheleia-mode)
-  (setq apheleia-remote-algorithm 'local)
+  ;;  (setq apheleia-remote-algorithm 'local)
   (setf (alist-get 'astyle apheleia-formatters)
 		'("astyle" "--mode=c" "--style=google"))
   (add-to-list 'apheleia-mode-alist '(c-ts-mode . astyle))
@@ -182,7 +183,7 @@
   (add-to-list 'apheleia-mode-alist '(html-mode . tidy))
   (setf (alist-get 'nixfmt apheleia-formatters)
 		'("nixfmt"))
-  (add-to-list 'apheleia-mode-alist '(nix-mode . nixfmt))
+  (add-to-list 'apheleia-mode-alist '(nix-ts-mode . nixfmt))
   (setf (alist-get 'ormolu apheleia-formatters)
 		'("ormolu" "--stdin-input-file" "--"))
   (add-to-list 'apheleia-mode-alist '(haskell-mode . ormolu)))
@@ -242,8 +243,11 @@
 (use-package haskell-mode
   :magic ("%hs" . haskell-mode))
 
+;;(use-package rust-mode)
+
 (use-package nix-ts-mode
   :mode "\\.nix\\'")
+
 
 (use-package corfu
   :custom
@@ -305,6 +309,7 @@
 		 (org-mode . yas-minor-mode))
   :config
   (add-hook 'prog-mode-hook  #'(lambda ()(yas-reload-all)))
+  ;;yas-hippie-try-expand
   (diminish 'yas-minor-mode))
 
 (use-package async
@@ -397,69 +402,6 @@
 
 ;; (use-package writeroom-mode)
 
-(use-package emms
-  :config
-  (require 'emms-setup)
-  (require 'emms-player-mpd)
-  (emms-all) ; don't change this to values you see on stackoverflow questions if you expect emms to work
-  (setq emms-seek-seconds 5)
-  (setq emms-player-list '(emms-player-mpd))
-  (setq emms-info-functions '(emms-info-mpd))
-  (setq emms-player-mpd-server-name "localhost")
-  (setq emms-player-mpd-server-port "6600")
-  :bind
-  ("C-c m e" . emms)
-  ("C-c m b" . emms-smart-browse)
-  ("C-c m u" . emms-player-mpd-update-all-reset-cache)
-  ("C-c m p" . emms-previous)
-  ("C-c m n" . emms-next)
-  ("C-c m P" . emms-pause)
-  ("C-c m s" . emms-stop)
-  ("C-c m r" . (lambda (&optional arg) ;;doesn't work with nubers over 10 fix this
-				 "Goto random track and add it to the queue, if a ARG is added then it will add a track ARG times."
-				 (interactive "p")
-
-				 (if (eq arg nil)
-					 (progn
-					   (emms-browser-expand-all)
-					   (emms-browser-goto-random)
-					   (emms-browser-add-tracks))
-
-				   ;;inc is the counter, and return inc, otherwise it will return nil
-				   (let ((inc 0))
-					 (while (< inc arg)
-
-					   (progn
-						 (emms-browser-expand-all)
-						 (emms-browser-goto-random)
-						 (emms-browser-add-tracks))
-
-					   (setq inc (1+ inc)))
-					 inc)))))
-
-(defun emms-random-tr (&optional arg)
-  "Goto random track and add it to the queue, if a ARG is added then it will add a track ARG times."
-  (interactive "p")
-
-  (if (eq arg nil)
-	  (progn
-		(emms-browser-expand-all)
-		(emms-browser-goto-random)
-		(emms-browser-add-tracks))
-
-	;;inc is the counter, and return inc, otherwise it will return nil
-	(let ((inc 0))
-	  (while (< inc arg)
-
-		(progn
-		  (emms-browser-expand-all)
-		  (emms-browser-goto-random)
-		  (emms-browser-add-tracks))
-
-		(setq inc (1+ inc)))
-	  inc)))
-
-
 (use-package helpful
   :config
   (global-set-key (kbd "C-h f") #'helpful-callable)
@@ -544,7 +486,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(helpful emms magit zoxide sudo-edit dired-subtree vlf expand-region expreg vundo multiple-cursors ace-window hungry-delete gcmh volatile-highlights markdown-mode org-bullets which-key async yasnippet cape corfu nix-ts-mode haskell-mode rainbow-delimiters rainbow-mode pulsar apheleia embark-consult embark consult marginalia orderless vertico diminish pdf-tools)))
+   '(helpful magit zoxide sudo-edit dired-subtree vlf expand-region expreg vundo multiple-cursors ace-window hungry-delete gcmh volatile-highlights markdown-mode org-bullets which-key async yasnippet cape corfu nix-ts-mode haskell-mode rainbow-delimiters rainbow-mode pulsar apheleia embark-consult embark consult marginalia orderless vertico diminish pdf-tools)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
