@@ -129,7 +129,7 @@ static const char *colorname[] = {
 	"#cd0000",
 	"#00cd00",
 	"#cdcd00",
-	"#0000cd",
+	"#2B7Df0", //0000cd
 	"#cd00cd",
 	"#00cdcd",
 	"#e5e5e5",
@@ -137,7 +137,7 @@ static const char *colorname[] = {
 	"#ff0000",
 	"#00ff00",
 	"#ffff00",
-	"#0000ff",
+	"#194b90", //0000ff
 	"#ff00ff",
 	"#00ffff",
 	"#ffffff",
