@@ -1,28 +1,27 @@
-#!/usr/bin/dash
+#!/usr/bin/env dash
 
-
-case  $XDG_SESSION_TYPE in
-	"wayland")  menu="bemenu --no-exec -p";;
-	"x11")  menu="rofi -demu -p";;
-	*)  echo "Invalid"  && exit;;
+case $XDG_SESSION_TYPE in
+    "wayland")  menu="bemenu -i --no-exec -p" && lock="swaylock -f -c 000000";;
+	"x11")  menu="rofi -demu -p" && lock="xsecurelock";;
+	*)  echo "Invalid 'XDG_SESSION_TYPE' " && exit 1;;
 esac 
 
-doubts (){
+doubts(){
     dsel=$(echo "No\nYes" | $menu "Are you sure?")
     if [ "$dsel" = "Yes" ]; then
-	echo hello	
+        echo hello	
     else
-	exit
+        exit
     fi
 }
 
 
-sel=$(echo "Lock\nPoweroff\nReboot\nSleep" |$menu "")
+sel=$(echo "Lock\nPoweroff\nReboot\nSleep" | $menu "")
 
 case "$sel" in
-    Lock) doubts && xsecurelock;;
+    Lock) doubts && $lock;;
     Poweroff) doubts && systemctl poweroff;;
     Reboot) doubts && systemctl reboot;;
-    Sleep) doubts && systemctl suspend && xsecurelock;;
+    Sleep) doubts && systemctl suspend && $lock;;
     *) exit
 esac
