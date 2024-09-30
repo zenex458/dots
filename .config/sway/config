@@ -1,9 +1,9 @@
 bar swaybar_command waybar
 exec wl-pase -t text --watch clipman store
 #exec foot --server
-exec ~/.config/batt.sh &
-exec ~/.config/eyes.sh &
-exec ~/.config/notify-log &
+exec ~/.local/bin/batt.sh &
+exec ~/.local/bin/eyes.sh &
+exec ~/.local/bin/notify-log &
 exec opensnitch-ui
 # Default config for sway
 #
