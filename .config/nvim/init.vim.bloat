@@ -2,14 +2,12 @@
 " "zo" opens, "zc" closes, "zn" disable
 " {{{ Plugins
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
-Plug 'preservim/nerdtree'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'vimwiki/vimwiki'
-"Plug 'vim-syntastic/syntastic'
+Plug 'vim-syntastic/syntastic'
 Plug 'jiangmiao/auto-pairs'
 Plug 'luochen1990/rainbow'
 "c#
-Plug 'Omnisharp/omnisharp-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "haskell
 Plug 'neovimhaskell/haskell-vim'
@@ -23,12 +21,10 @@ let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
 let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
 let g:rainbow_active = 1
 let mapleader = " "
-let NERDTreeShowHidden= 1
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-"let g:syntastic_check_on_wq = 1
-"let g:syntastic_cs_checkers = ['code_checker']
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 " }}}
 " {{{ options
 let g:currentmode={
@@ -74,7 +70,6 @@ set guicursor+=n-v-c:blinkon100
 colorscheme dalton
 " }}}
 " {{{ keybinds
-map <leader>t :NERDTreeToggle<CR>
 map <leader>r :%s/
 map <leader>+ <C-w>+
 map <leader>- <C-w>-
