@@ -1,4 +1,19 @@
+call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
+Plug 'preservim/nerdtree'
+Plug 'norcalli/nvim-colorizer.lua'
+Plug 'vimwiki/vimwiki'
+Plug 'vim-syntastic/syntastic'
+"Plug 'jiangmiao/auto-pairs'
+"Plug 'luochen1990/rainbow'
+call plug#end()
+"let g:rainbow_active = 1
 let mapleader = " "
+let NERDTreeShowHidden= 1
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
+let g:syntastic_cs_checkers = ['code_checker']
 let g:currentmode={
        \ 'n'  : '[N] ',
        \ 'v'  : '[V] ',
@@ -9,8 +24,11 @@ let g:currentmode={
        \ 'Rv' : '[V·Replace] ',
        \ 'c'  : '[Command] ',
        \}
+
 syntax on
 filetype plugin indent on
+
+set ruler
 set ignorecase
 set smartcase
 set smartindent
@@ -22,6 +40,7 @@ set showcmd
 set showmatch
 set hlsearch
 set title
+set nocompatible
 set wildmode=longest,list,full
 set clipboard+=unnamedplus
 set termguicolors
@@ -30,7 +49,18 @@ set guicursor=n-v-c:hor50-Cursor
 set guicursor+=i:hor50-Cursor
 set statusline+=\%{toupper(g:currentmode[mode()])} 
 set statusline+=%<%f%m\ \ \ %=\ %R%H%W\ %l/%L:%c\ %p%% "add %Y for file type
-"%R=readonly, %H=helpbuffer, %W=preview window
+"set mouse=a
+"set number
+
 colorscheme dalton
+
+map <leader>t :NERDTreeToggle<CR>
+map <leader>r :%s/
+map <leader>+ <C-w>+
+map <leader>- <C-w>-
+map <leader>= <C-w>=
+map <leader>/ :noh<CR>
 map <leader>sp :setlocal spell! spelllang=en_gb<CR>
+tnoremap <Esc> <C-\><C-n>
 vmap <C-c> "+y
+lua require'colorizer'.setup()
