@@ -1,16 +1,19 @@
 !xrdb -merge .Xresources
-URxvt.font: xft:FiraMono Nerd Font:Medium:pixelsize=16
-URxvt.letterSpace: 0
-URxvt.lineSpace: 0
-URxvt.cursorBlink: true
-URxvt.cursorUnderline: false
-URxvt.scrollBar: false
-URxvt.scrollBar_right: false
-URxvt.urgentOnBell: false
-URxvt.iso14755: false
-URxvt.iso14755_52: false
-URxvt.keysym.Shift-Control-V: eval:paste_clipboard
-URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
+!URxvt.
+!XTerm.vt100
+*.font: xft:FiraMono Nerd Font:Regular:pixelsize=16:antialias=true
+!*.font: 9x15
+*.letterSpace: 0
+*.lineSpace: 0
+*.cursorBlink: true
+*.cursorUnderline: false
+*.scrollBar: false
+*.scrollBar_right: false
+*.urgentOnBell: false
+*.iso14755: false
+*.iso14755_52: false
+*.keysym.Shift-Control-V: eval:paste_clipboard
+*.keysym.Shift-Control-C: eval:selection_to_clipboard
 
 *.foreground: #c6c6c6
 *.background: #000000
@@ -33,7 +36,7 @@ URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
 *.color11: #ffff00
 
 ! blue
-*.color4: #0000cd
+*.color4: #2B7Df0
 *.color12: #0000ff
 
 ! magenta
