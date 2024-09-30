@@ -1,48 +1,32 @@
 [global]
 alignment="center"
-ellipsize="middle"
-enable_recursive_icon_lookup=no
 follow="mouse"
-font="IosevkaFixedCustom bold 8"
-frame_width=2
+font="Iosevka Bold 10"
+frame_color="#c6c6c6"
 height=300
-hide_duplicate_count=no
-history_length=20
-horizontal_padding=0
-icon_position=""
-icon_theme=""
-ignore_newline="no"
-indicate_hidden="yes"
-offset=0x0
-monitor=0
+icon_path=""
 mouse_left_click="close_current"
 mouse_middle_click="do_action, close_current"
 mouse_right_click="close_all"
 notification_limit=0
+offset="0x0"
 origin="top-right"
-padding=0
-separator_height=0
-show_age_threshold=60
-show_indicators="yes"
-sort="yes"
-stack_duplicates=yes
-sticky_history="yes"
+transparency=0
 vertical_alignment="center"
 width=300
 
 [urgency_critical]
-background="#900000"
-foreground="#ffffff"
-frame_color="#ff0000"
+background="#FF0000"
+foreground="#FFFFFF"
+frame_color="#900000"
 timeout=0
 
 [urgency_low]
-background="#222222"
+background="#333333"
 foreground="#888888"
 timeout=10
 
 [urgency_normal]
 background="#141414"
 foreground="#c6c6c6"
-frame_color="#c6c6c6"
 timeout=10
