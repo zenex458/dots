@@ -1,29 +1,27 @@
 [global]
 alignment="center"
 ellipsize="middle"
-enable_recursive_icon_lookup=yes
+enable_recursive_icon_lookup=no
 follow="mouse"
-font="iosevka custom bold 8"
+font="IosevkaFixedCustom bold 8"
 frame_width=2
 height=300
 hide_duplicate_count=no
 history_length=20
-horizontal_padding=8
-icon_position="left"
-icon_theme="Adwaita"
+horizontal_padding=0
+icon_position=""
+icon_theme=""
 ignore_newline="no"
 indicate_hidden="yes"
-max_icon_size=64
-min_icon_size=32
+offset=0x0
 monitor=0
 mouse_left_click="close_current"
 mouse_middle_click="do_action, close_current"
 mouse_right_click="close_all"
 notification_limit=0
-offset="3x23"
 origin="top-right"
-padding=8
-separator_height=2
+padding=0
+separator_height=0
 show_age_threshold=60
 show_indicators="yes"
 sort="yes"
@@ -44,6 +42,7 @@ foreground="#888888"
 timeout=10
 
 [urgency_normal]
-background="#000000"
-foreground="#ffffff"
+background="#141414"
+foreground="#c6c6c6"
+frame_color="#c6c6c6"
 timeout=10
