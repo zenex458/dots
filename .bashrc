@@ -59,6 +59,7 @@ export VISUAL="nvim"
 export PATH=~/.local/bin/:$PATH
 export LF_COLORS="~/Documents=01;31:~/Downloads=01;31:~/.local/share=01;31:~/.config/lf/lfrc=31:.git/=01;32:.git=32:.gitignore=32:Makefile=32:README.*=33:*.txt=34:*.md=34:ln=01;36:di=01;31:ex=01;32:"
 export QT_QPA_PLATFORMTHEME=qt5ct
+export _ZL_DATA='~/.local/share/.zlua'
 #openssl enc -aes-256-cbc -md sha512 -pbkdf2 -iter 250000 -salt -in InputFilePath -out OutputFilePath
 #openssl enc -aes-256-cbc -d -md sha512 -pbkdf2 -iter 250000 -salt -in InputFilePath -out OutputFilePath
 #backup tar cf - directory | 7za a -si directory.tar.7z
