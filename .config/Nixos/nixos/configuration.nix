@@ -372,7 +372,7 @@
     };
     gc = {
       automatic = true;
-      dates = "14:00";
+      dates = "17:00";
       options = "--delete-older-than 7d";
     };
 

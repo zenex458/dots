@@ -1015,7 +1015,6 @@
     # imhex
     # kismet
     # rlwrap
-    # jami
     alacritty
     alsa-utils
     anki-bin
@@ -1098,7 +1097,6 @@
     wl-clipboard
     wlr-randr
     xboard
-    jami
     xdg-utils
     yt-dlp
     progress
