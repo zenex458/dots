@@ -1,0 +1,53 @@
+{
+  "timeStamp": 1683919600468,
+  "version": "1.49.2",
+  "userSettings": {
+    "advancedUserEnabled": true,
+    "uiTheme": "dark",
+    "externalLists": "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt\nhttps://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts",
+    "importedLists": [
+      "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt",
+      "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts"
+    ],
+    "popupPanelSections": 31
+  },
+  "selectedFilterLists": [
+    "user-filters",
+    "ublock-filters",
+    "ublock-badware",
+    "ublock-privacy",
+    "ublock-quick-fixes",
+    "ublock-abuse",
+    "ublock-unbreak",
+    "adguard-generic",
+    "easylist",
+    "adguard-spyware-url",
+    "block-lan",
+    "easyprivacy",
+    "urlhaus-1",
+    "curben-phishing",
+    "curben-pup",
+    "adguard-annoyance",
+    "adguard-social",
+    "fanboy-annoyance",
+    "ublock-annoyances",
+    "plowe-0",
+    "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt",
+    "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts"
+  ],
+  "hiddenSettings": {},
+  "whitelist": [
+    "app.standardnotes.com",
+    "chrome-extension-scheme",
+    "chrome-scheme",
+    "edge-scheme",
+    "moz-extension-scheme",
+    "opera-scheme",
+    "vivaldi-scheme",
+    "wyciwyg-scheme"
+  ],
+  "dynamicFilteringString": "* github.com * block\ngithub.com github.com * noop\n* githubassets.com * block\ngithub.com githubassets.com * noop\n* user-images.githubusercontent.com * block\ngithub.com user-images.githubusercontent.com * noop\n* cloud.githubusercontent.com * block\ngithub.com cloud.githubusercontent.com * noop\n* * 3p-script block\n* * 3p-frame block\n* * 3p block\ncrypt.ee * 3p-script noop\ncrypt.ee * 3p-frame noop\ncrypt.ee * 3p noop\napp.standardnotes.com * 3p-script noop\napp.standardnotes.com * 3p-frame noop\napp.standardnotes.com * 3p noop\naskubuntu.com sstatic.net * noop\naddons.mozilla.org * 3p-script noop\naddons.mozilla.org * 3p-frame noop\naddons.mozilla.org * 3p noop",
+  "urlFilteringString": "",
+  "hostnameSwitchesString": "no-cosmetic-filtering: * true\nno-remote-fonts: * true\nno-large-media: * true\nno-csp-reports: * true\nno-scripting: * true\nno-cosmetic-filtering: crypt.ee false\nno-remote-fonts: crypt.ee false\nno-large-media: crypt.ee false\nno-scripting: crypt.ee false\nno-large-media: driftt.neocities.org false\nno-scripting: driftt.neocities.org false\nno-large-media: wikiless.org false\nno-cosmetic-filtering: app.standardnotes.com false\nno-remote-fonts: app.standardnotes.com false\nno-large-media: app.standardnotes.com false\nno-scripting: app.standardnotes.com false\nno-strict-blocking: www.reddit.com true\nno-cosmetic-filtering: addons.mozilla.org false\nno-remote-fonts: addons.mozilla.org false\nno-large-media: addons.mozilla.org false\nno-scripting: addons.mozilla.org false",
+  "userFilters": ""
+}
