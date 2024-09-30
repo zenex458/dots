@@ -19,9 +19,8 @@
   (setq use-package-always-ensure t
         use-package-expand-minimally t))
 
-
 (use-package auto-package-update
-  :defer 10
+  :defer 100
   :config
   ;; Delete residual old versions
   (setq auto-package-update-delete-old-versions t)
@@ -38,18 +37,22 @@
 (setq initial-scratch-message nil)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
-(set-fringe-mode 12)
+(set-fringe-mode 8)
+(setq-default indicate-empty-lines nil)
+(setq-default indicate-buffer-boundaries nil)
+(setq-default fringes-outside-margins nil)
 (menu-bar-mode -1)
 (display-battery-mode 1)
 (size-indication-mode 1)
 (save-place-mode 1)
-(setq display-line-numbers-type 'relative)
+;;(setq display-line-numbers-type 'relative)
 
 (defun my-enable-line-numbers ()
   (when (derived-mode-p 'prog-mode)
     (display-line-numbers-mode 1)))
 (add-hook 'prog-mode-hook 'my-enable-line-numbers)
 
+(setq display-line-numbers-type 'absolute)
 
 (setq
  backup-by-copying t
@@ -68,14 +71,24 @@
   (load-file (expand-file-name "~/.emacs.d/init.el")))
 (global-set-key (kbd "C-c r") 'config-reload)
 
+;;probably should remove this and use the build in instead
+(use-package diminish
+  :init
+  :ensure t)
+(diminish 'eldoc-mode)
+(diminish 'visual-line-mode)
+
 (use-package smartparens
+  :init
   :config
   (require 'smartparens-config)
   (add-hook 'prog-mode-hook 'smartparens-mode))
+
 (global-set-key (kbd "C-c p d") 'sp-splice-sexp)
 (global-set-key (kbd "C-c p r") 'sp-rewrap-sexp)
 (global-set-key (kbd "C-c p b d") 'sp-backward-unwrap-sexp)
 (sp-local-pair 'smartparens-strict-mode "'" nil :actions nil)
+
 (defun my-disable-elisp-smartparens ()
   (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil))
 (add-hook 'emacs-lisp-mode 'my-disable-elisp-smartparens)
@@ -110,35 +123,48 @@
   (which-key-mode))
 (diminish 'which-key-mode)
 
-(defun split-and-follow-horizontally ()
-  "This will split horizontally and focus will follow."
-  (interactive)
-  (split-window-below)
-  (balance-windows)
-  (other-window 1))
-(global-set-key (kbd "C-x 2") 'split-and-follow-horizontally)
+;;(defun split-and-follow-horizontally ()
+;;  "This will split horizontally and focus will follow."
+;;  (interactive)
+;;  (split-window-below)
+;;  (balance-windows)
+;;  (other-window 1))
+;;(global-set-key (kbd "C-x 2") 'split-and-follow-horizontally)
+;;
+;;(defun split-and-follow-vertically ()
+;;  "This split vertically and focus will follow."
+;;  (interactive)
+;;  (split-window-right)
+;;  (balance-windows)
+;;  (other-window 1))
+;;(global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
 
-(defun split-and-follow-vertically ()
-  "This split vertically and focus will follow."
-  (interactive)
-  (split-window-right)
-  (balance-windows)
-  (other-window 1))
-(global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
-
-(defun kill-current-buffer ()
-  "This will kill the current buffer."
-  (interactive)
-  (kill-buffer (current-buffer)))
+;;(defun kill-current-buffer ()
+;;  "This will kill the current buffer."
+;;  (interactive)
+;;  (kill-buffer (current-buffer)))
 ;;(global-set-key (kbd "C-x k") 'kill-current-buffer)
 
 ;;(global-set-key (kbd "C-c b") 'ibuffer)
 (global-set-key (kbd "C-c b") 'counsel-switch-buffer)
 
-(use-package avy ;;switch windows
-  :ensure t
-  :bind
-  ("M-s" . avy-goto-char))
+
+(defun copy-whole-line ()
+  "Copies a line without regard for cursor position."
+  (interactive)
+  (save-excursion
+    (kill-new
+     (buffer-substring
+      (point-at-bol)
+      (point-at-eol)))))
+(global-set-key (kbd "C-c l c") 'copy-whole-line)
+(global-set-key (kbd "C-c l k") 'kill-whole-line)
+
+(use-package hungry-delete
+  :config
+  (require 'hungry-delete))
+(global-set-key [C-backspace] 'hungry-delete-backward)
+(global-set-key [C-delete] 'hungry-delete-forward)
 
 (defun config-visit ()
   "Vist Emacs config."
@@ -153,7 +179,7 @@
 (global-set-key (kbd "C-c t") 'edit-todo)
 
 
-(global-set-key (kbd "C-c c") 'flyspell-buffer)
+(global-set-key (kbd "C-c c") 'flyspell-mode)
 (global-set-key (kbd "C-c s") 'ispell)
 
 (use-package flycheck
@@ -169,25 +195,24 @@
   (add-hook 'emacs-lisp-mode-hook 'company-mode))
 (diminish 'company-mode)
 
-;;(add-hook 'shell-mode-hook 'yas-minor-mode)
-;;(add-hook 'shell-mode-hook 'flycheck-mode)
-;;(add-hook 'shell-mode-hook 'company-mode)
-;;
-;;
-;;(defun shell-mode-company-init ()
-;;  (setq-local company-backends '((company-shell
-;;                                  company-shell-env
-;;                                  company-etags
-;;                                  company-dabbrev-code))))
-;;
-;;(use-package company-shell
-;;  :ensure t
-;;  :config
-;;  (require 'company)
-;;  (add-hook 'shell-mode-hook 'shell-mode-company-init))
+(add-hook 'shell-mode-hook 'yas-minor-mode)
+(add-hook 'shell-mode-hook 'flycheck-mode)
+(add-hook 'shell-mode-hook 'company-mode)
+
+
+(defun shell-mode-company-init ()
+  (setq-local company-backends '((company-shell
+                                  company-shell-env
+                                  company-etags
+                                  company-dabbrev-code))))
+
+(use-package company-shell
+  :ensure t
+  :config
+  (require 'company)
+  (add-hook 'shell-mode-hook 'shell-mode-company-init))
 
 (use-package yasnippet
-  :defer 5
   :config
   (yas-reload-all)
   (add-hook 'prog-mode-hook #'yas-minor-mode))
@@ -202,13 +227,6 @@
   (define-key omnisharp-mode-map (kbd "<C-SPC>") 'omnisharp-auto-complete))
 
 ;;(setq omnisharp-server-executable-path "/etc/profiles/per-user/zenex/bin/OmniSharp")
-
-(use-package diminish
-  :init
-  :ensure t)
-(diminish 'eldoc-mode)
-(diminish 'visual-line-mode)
-
 
 (use-package counsel
   :init
@@ -229,6 +247,10 @@
   :init
   (ivy-rich-mode 1))
 
+(global-set-key (kbd "C-c a c") 'avy-goto-char)
+(global-set-key (kbd "C-c a l") 'avy-goto-line)
+(global-set-key (kbd "C-c i") 'swiper-from-isearch)
+
 
 (setq ido-everywhere t)
 (setq ido-enable-flex-matching t)
@@ -248,8 +270,8 @@
 (defvar org-time-stamp-custom-formats '("<%a %b %e %Y>" . "<%a %b %e %Y %H:%M>"))
 
 (use-package beacon
-  :init
   :config
+  (beacon-mode 1)
   (setq beacon-color "#ffffff")
   (setq beacon-blink-duration 1.3))
 (diminish 'beacon-mode)
@@ -279,9 +301,28 @@
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-@") 'mc/mark-all-like-this)
 
-(use-package ace-jump-mode
-  :defer 5)
-(global-set-key (kbd "C-c a a") 'ace-jump-mode)
+
+
+(global-set-key (kbd "M-Z") 'zap-up-to-char)
+
+(use-package ace-window)
+(global-set-key (kbd "C-x o") 'ace-window)
+
+(defvar aw-dispatch-alist
+  '((?x aw-delete-window "Delete Window")
+	(?m aw-swap-window "Swap Windows")
+	(?M aw-move-window "Move Window")
+	(?c aw-copy-window "Copy Window")
+	(?j aw-switch-buffer-in-window "Select Buffer")
+	(?n aw-flip-window)
+	(?u aw-switch-buffer-other-window "Switch Buffer Other Window")
+	(?c aw-split-window-fair "Split Fair Window")
+	(?v aw-split-window-vert "Split Vert Window")
+	(?b aw-split-window-horz "Split Horz Window")
+	(?o delete-other-windows "Delete Other Windows")
+	(?? aw-show-dispatch-help))
+  "List of actions for `aw-dispatch-default'.")
+
 
 (defvar ispell-dictionary "british")
 (setq confirm-kill-emacs 'y-or-n-p)
@@ -327,12 +368,12 @@
                                  (vc-mode vc-mode) mode-line-modes mode-line-misc-info mode-line-end-spaces))
 
 ;; Show a horizontal line on the current line
-(global-hl-line-mode t)
-
-(use-package hl-column
-  :ensure t
-  :config
-  (global-hl-column-mode t))
+;;(global-hl-line-mode t)
+;;
+;;(use-package hl-column
+;;  :ensure t
+;;  :config
+;;  (global-hl-column-mode t))
 
 (use-package gcmh
   :demand t
@@ -341,7 +382,7 @@
   (setq gcmh-idle-delay 5
   	    gcmh-high-cons-threshold (* 16 1024 1024))
   :config
-  (gcmh-mode))
+  (gcmh-mode 1))
 
 (setq frame-inhibit-implied-resize t)
 (setq delete-by-moving-to-trash t)
@@ -351,25 +392,45 @@
 (setq-default tab-width 4)
 (setq backup-by-copying t)
 (setq history-length 20)
+(defvar comp-async-report-warnings-errors nil)
 (savehist-mode 1)
+
+(use-package centered-cursor-mode)
+(diminish 'centered-cursor-mode)
+
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook))
+
+(setq dashboard-banner-logo-title "")
+(setq dashboard-startup-banner nil)
+(setq dashboard-items '((recents  . 5)))
+(setq dashboard-set-init-info nil)
+(setq dashboard-set-footer nil)
+(setq dashboard-set-navigator nil)
+
+(use-package volatile-highlights
+  :config
+  (require 'volatile-highlights)
+  (volatile-highlights-mode t))
+(diminish 'volatile-highlights-mode)
+
 (use-package haskell-mode
   :hook (haskell-mode . (lambda ()
                           (haskell-doc-mode)
                           (turn-on-haskell-indent))))
+;;; init.el ends here
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(paredit smartparens ace-jump-mode ace-jump minions god-mode auto-package-update paredit-everywhere vbasense ivy-rich gcmh omnisharp yasnippet slime-company slime company flycheck which-key rainbow-delimiters use-package))
- '(size-indication-mode t)
- '(tool-bar-mode nil))
+   '(standard-themes haskell-mode gcmh ace-window multiple-cursors expand-region markdown-mode aggressive-indent beacon ivy-rich counsel omnisharp yasnippet company-shell company flycheck hungry-delete which-key async rainbow-delimiters rainbow-mode diminish use-package smartparens auto-package-update)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-
-;;; init.el ends here
