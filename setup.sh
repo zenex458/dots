@@ -76,7 +76,7 @@ Debian_install_firefox() {
 
 Debian() {
 	sudo apt update
-	$pkg emacs elpa-pdf-tools-server astyle shfmt qt5ct pandoc xbanish xautolock wget curl htop feh redshift libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin scrot zathura bc network-manager tar zip unzip fuse3 ntfs-3g pcmanfm light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw nnn gcc alsa-utils tlp tmux zsh zoxide mpc mpd ncmpcpp p7zip-full suckless-tools xsecurelock intel-microcode make trash-cli lxappearance mpv xterm fzf wireplumber pulsemixer pipewire-alsa apt-listbugs apt-listchanges hunspell-dictionary-en-gb apparmor-profiles apparmor-profiles-extra libseccomp-dev libbpf-dev needrestart debian-goodies lxqt-policykit libpam-tmpdir fail2ban opensnitch clamav fzy fd-find rkhunter smartmontools smart-notifier || echo "Issue with package selection"
+	$pkg emacs elpa-pdf-tools-server astyle shfmt qt5ct pandoc xbanish xautolock wget curl htop feh redshift libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin scrot zathura bc network-manager tar zip unzip fuse3 ntfs-3g pcmanfm light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw nnn gcc alsa-utils tlp tmux zsh zoxide mpc mpd ncmpcpp p7zip-full suckless-tools xsecurelock intel-microcode make trash-cli lxappearance mpv xterm fzf wireplumber pulsemixer pipewire-alsa apt-listbugs apt-listchanges hunspell-dictionary-en-gb apparmor-profiles apparmor-profiles-extra libseccomp-dev libbpf-dev needrestart debian-goodies lxqt-policykit libpam-tmpdir fail2ban opensnitch clamav chrony fd-find rkhunter smartmontools smart-notifier || echo "Issue with package selection"
 	Debian_install_firefox
 	systemctl --user restart wireplumber pipewire pipewire-pulse
 	sudo systemctl disable bluetooth
@@ -117,5 +117,8 @@ echo "Moving root config files..."
 sudo cp root/tlp.conf /etc/ || echo "Issue copying tlp.conf"
 sudo cp root/sysctl.conf /etc/sysctl.d/ || echo "Issue copying sysctl.conf"
 sudo cp root/30_security-misc.conf /etc/modprobe.d/ || echo "Issue copying 30_security-misc.conf"
-
+sudo cp /etc/chrony/chron.conf /etc/chrony/chrony.conf.old
+sudo cp root/chrony.conf /etc/chrony/
+sudo systemctl disable systemd-timesyncd.service
+sudo apt remove systemd-timesyncd
 echo "All done!"
