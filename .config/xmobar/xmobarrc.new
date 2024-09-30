@@ -1,0 +1,29 @@
+Config { overrideRedirect = True
+       , font     = "Hack Nerd Font Bold 9"
+       , bgColor  = "black"
+       , fgColor  = "#bbbbbb"
+       , position = Top
+       , commands = 
+       [ Run Battery 	["--template" , "<acstatus> <left>%"
+                             , "--" -- battery specific options
+                                       -- discharging status
+                                      , "-o"	, "" --[D]
+                                       -- AC "on" status
+                                       , "-O"	, "[C]"
+                                       -- charged status
+                                       , "-i"	, "" --[F]
+                             ] 500
+
+--	, Run Alsa	     "default" "Master" 
+--			     [ "--template" , "<volume>%"
+--
+--			     ]
+
+                    , Run Date "%d/%m %T" "date" 10
+                    , Run XMonadLog
+                    ]
+       , sepChar  = "%"
+       , alignSep = "}{"
+       , template = "%XMonadLog% }{ %battery% %date%" --%alsa:default:Master%
+       }
+
