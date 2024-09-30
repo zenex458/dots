@@ -1,0 +1,98 @@
+!xrdb -merge .Xresources
+Xft.autohint: 0
+Xft.antialias: 1
+Xft.hinting: True
+Xft.hintstyle: hintfull
+Xft.lcdfilter: lcddefault
+Xft.rgba: rgb
+!XTerm.vt100
+*.font: xft:Hack Nerd Font Mono:Regular:pixelsize=16=antialias=true
+!*.font: xft:Hack Nerd Font:Regular:pixelsize=16:antialias=true
+*.letterSpace: 0
+*.lineSpace: 0
+*.cursorBlink: true
+*.cursorUnderline: true
+*.scrollBar: false
+*.scrollBar_right: false
+*.urgentOnBell: false
+*.iso14755: false
+*.iso14755_52: false
+*.keysym.Shift-Control-V: eval:paste_clipboard
+*.keysym.Shift-Control-C: eval:selection_to_clipboard
+*.keysym.C-minus: resize-font:smaller
+*.keysym.C-plus: resize-font:bigger
+*.keysym.C-equal: resize-font:reset
+URxvt*buffered: false
+URxvt*pointerBlank: true
+URxvt*pointerBlankDelay: 5
+!URxvt.perl-ext:
+!URxvt.perl-ext-common:
+
+*.foreground: #c6c6c6
+*.background: #000000
+*.cursorColor: #c6c6c6
+
+! black
+*.color0: #000000
+*.color8: #808080
+
+! red
+*.color1: #cd0000
+*.color9: #ff0000
+
+! green
+*.color2: #00cd00
+*.color10: #00ff00
+
+! yellow
+*.color3: #cdcd00
+*.color11: #ffff00
+
+! blue
+*.color4: #2B7Df0
+*.color12: #0066FF
+
+! magenta
+*.color5: #cd00cd
+*.color13: #ff00ff
+
+! cyan
+*.color6: #00cdcd
+*.color14: #00ffff
+
+! white
+*.color7: #e5e5e5
+*.color15: #ffffff
+
+
+!! black
+!*.color0: #000000
+!*.color8: #665c45
+!
+!! red
+!*.color1: #cc241d
+!*.color9: #fb4934
+!
+!! green
+!*.color2: #98971a
+!*.color10: #b8bb26
+!
+!! yellow
+!*.color3: #d79921
+!*.color11: #fadb2f
+!
+!! blue
+!*.color4: #458588
+!*.color12: #83a598
+!
+!! magenta
+!*.color5: #b16286
+!*.color13: #d3869b
+!
+!! cyan
+!*.color6: #00cdcd
+!*.color14: #00ffff
+!
+!! white
+!*.color7: #dbae93
+!*.color15: #fbf1c7
