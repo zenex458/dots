@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
 #write in posix sh
-suck_less ()
-{
-	$perm make install -C "$HOME/.config/dwm/"
-	$perm make install -C "$HOME/.config/st/"
-}
-
 postsetup ()
 {
         $perm systemctl enable ufw
@@ -57,9 +51,7 @@ Debian ()
 
 Fedora()
 {
-	$pkg neovim curl wget firefox slock dmenu make gcc htop feh redshift libreoffice dunst libnotify libnotify-devel scrot mupdf zathura zathura-devel zathura-plugins-all zathura-pdf-mupdf @base-x yt-dlp zip unzip fuse3 NetworkManager-tui NetworkManager-wifi light keepassxc tar nnn ufw iwl* pcmanfm alsa-firmware alsa-lib alsa-lib-devel alsa-utils xterm ntfs-3g xz libX11-devel libXft-devel libXinerama-devel xorg-x11-xinit-session rxvt-unicode tmux fzf tlp udisks udisks-devel trash-cli xsetroot dash xsecurelock 7zip lxappearance patch thermald texlive-cantarell ffmpegthumbnailer
-        suck_less 
-	#sway gammastep waybar
+	$pkg neovim emacs sbcl curl wget firefox dmenu make gcc htop feh redshift libreoffice dunst libnotify libnotify-devel scrot zathura zathura-devel zathura-plugins-all zathura-pdf-mupdf @base-x yt-dlp zip unzip fuse3 NetworkManager-tui NetworkManager-wifi light keepassxc tar nnn ufw iwl* pcmanfm alsa-firmware alsa-lib alsa-lib-devel alsa-utils xterm ntfs-3g xz libX11-devel libXft-devel libXinerama-devel xorg-x11-xinit-session rxvt-unicode tmux fzf tlp udisks udisks-devel trash-cli xsetroot dash xsecurelock lxappearance patch texlive-cantarell p7ip ffmpegthumbnailer#sway gammastep waybar
 	$perm dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 	$perm dnf upgrade
 	$perm dnf install mpv mpd mpc ncmpcpp
@@ -67,7 +59,7 @@ Fedora()
 	$perm systemctl disable bluetooth
 	$perm systemctl stop firewalld
 	xdg-mime default org.pwmt.zathura.desktop application/pdf
-	postsetup 
+	postsetup
 }
 	
 Menu()
