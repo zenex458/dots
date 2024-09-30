@@ -1,0 +1,53 @@
+Config { 
+
+   -- appearance
+     font =         "xft:Bitstream Vera Sans Mono:size=9:bold:antialias=true"
+   , bgColor =      "black"
+   , fgColor =      "#c6c6c6"
+   , position =     Top
+
+   -- layout
+   , sepChar =  "%"   -- delineator between plugin names and straight text
+   , alignSep = "}{"  -- separator between left-right alignment
+   , template = "%UnsafeStdinReader% }{%mpris2% | %default:Master% | %memory% | %multicpu% | %battery% | %date%"
+
+   -- general behavior
+   , lowerOnStart =     True    -- send to bottom of window stack on start
+   , hideOnStart =      False   -- start with window unmapped (hidden)
+   , allDesktops =      True    -- show on all desktops
+   , overrideRedirect = True    -- set the Override Redirect flag (Xlib)
+   , pickBroadest =     False   -- choose widest display (multi-monitor)
+   , persistent =       True    -- enable/disable hiding (True = disabled)
+   , commands = 
+
+        [ Run MultiCpu       [ "--template" , "<total0>%"
+                             ] 10
+
+        , Run Memory         [ "--template" , "<used>"
+                             ] 10
+
+        -- battery monitor
+        , Run Battery        [ "--template" , "<left>% <acstatus>"
+                             , "--" -- battery specific options
+                                       -- discharging status
+                                      , "-o"	, "[D]"
+                                       -- AC "on" status
+                                       , "-O"	, "[C]"
+                                       -- charged status
+                                       , "-i"	, "[F]"
+                             ] 20
+
+	, Run Volume	     "default" "Master" 
+			     [ "--template" , "<volume>%"
+
+			     ] 10	
+	, Run Mpris2	     "cmus" 
+			     ["-t" , "<title> - <artist>"
+
+			     ] 10
+
+        , Run Date           "%a %d/%m | %T" "date" 1
+	, Run UnsafeStdinReader
+
+        ]
+   }
