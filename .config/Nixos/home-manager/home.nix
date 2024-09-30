@@ -1054,9 +1054,18 @@
   };
 
   home.packages = with pkgs; [
+    # glib
     # imhex
     # kismet
     # rlwrap
+    #  bsdgames
+    #  cljfmt
+    # clojure
+    # clojure-lsp
+    # ghc
+    # haskell-language-server
+    # ormolu
+    age
     alacritty
     alsa-utils
     anki-bin
@@ -1064,14 +1073,9 @@
     astyle
     bc
     bemenu
-    bsdgames
     ccls
-    chess-tui
     cinnamon.nemo
     cliphist
-    cljfmt
-    clojure
-    clojure-lsp
     exfatprogs
     fd
     ffmpeg
@@ -1079,12 +1083,10 @@
     fuse3
     gcc
     gh
-    ghc
     gimp
     git
     gojq
     grim
-    haskell-language-server
     htop
     hunspell
     hunspellDicts.en-gb-large
@@ -1092,9 +1094,9 @@
     hyprshade
     imagemagick
     imv
+    jetbrains.idea-ultimate
     kdeconnect
     keepassxc
-    leiningen
     libnotify
     libreoffice
     lsof
@@ -1107,48 +1109,42 @@
     mpvScripts.mpris
     mupdf
     neovim
-    jetbrains.idea-ultimate
     nil
     nixfmt-rfc-style
     nodePackages.bash-language-server
     nodePackages.prettier
     obs-studio
     openssl
-    ormolu
+
     p7zip
     pandoc
     poppler_utils
     pulsemixer
-    age
+    python312Packages.jedi-language-server
+    python3Full
     ripgrep
     rsync
     shellcheck
     shfmt
-    simplex-chat-desktop
     signal-desktop
+    simplex-chat-desktop
     slurp
     smartmontools
-    swaylock
     syncthing
     texliveFull
     traceroute
     trash-cli
     unzip
+    usbutils
     ventoy-full
     virt-manager
     wdisplays
     wl-clip-persist
     wl-clipboard
     wlr-randr
-    john
-    xboard
     xdg-utils
+    yapf
     yt-dlp
-    usbutils
-    python3Full
-    black
-    # python311Packages.flask
-    glib
     zip
     (aspellWithDicts (
       dicts: with dicts; [
