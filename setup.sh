@@ -108,10 +108,14 @@ Os() {
 	esac
 }
 
-cp -r .xinitrc .bashrc ~/
+Os
+cp -r .zshrc .bashrc ~/
 mkdir -p ~/Downloads/
 mkdir -p ~/.config && cp -r .config/. ~/.config
 mkdir -p --parents ~/.local/bin && cp -r .local/bin/. ~/.local/bin/
-Os
+echo "Moving root config files..."
+sudo cp root/tlp.conf /etc/ || echo "Issue copying tlp.conf"
+sudo cp root/sysctl.conf /etc/sysctl.d/ || echo "Issue copying sysctl.conf"
+sudo cp root/30_security-misc.conf /etc/modprobe.d/ || echo "Issue copying 30_security-misc.conf"
 
 echo "All done!"
