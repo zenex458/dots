@@ -30,6 +30,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  networking.enableIPv6 = false;
 
   # Set your time zone.
   time.timeZone = "Europe/London";
@@ -59,16 +60,8 @@
     packages = with pkgs; [];
   };
 
-   programs.light.enable = true;
+  programs.light.enable = true;
 
-  #services.xserver.enable = true;
-  #services.xserver.displayManager.startx.enable = true;
-  #services.xserver.windowManager.xmonad = {
-  #  enable = true;
-  #  enableContribAndExtras = true;
-  #};
-
-  # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
@@ -83,7 +76,6 @@
   xfce.thunar
   cmus
   bashmount
-  mupdf
   nnn
   xmobar
   htop
@@ -108,6 +100,15 @@
   xsecurelock
   alsa-utils
   lua
+  yt-dlp
+  gcc
+  #arandr
+  sdcv
+  skypeforlinux
+  tmux
+  #vimv
+  microcodeIntel
+  lynis
   ];
 
   environment.variables.EDITOR = "nvim";
@@ -122,9 +123,6 @@
     keepEnv = true;
     persist = true;
 }];
-
-
-
 
   security.rtkit.enable = true;
   services.pipewire = {
