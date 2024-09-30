@@ -1,6 +1,4 @@
 #do this last: make it so you only need the "setup.sh" file
-#put everything into functions, make pkgs first
-
 suck_less ()
 {
 	cd ~/.config/dwm &&
@@ -16,7 +14,6 @@ suck_less ()
 	$perm make clean install &&
 	sleep 2 &&
 	cd ~/
-
 }
 
 postsetup ()
@@ -38,12 +35,14 @@ Arch ()
 	$pkg neovim wget curl firefox htop feh thunar sudo ufw playerctl redshift libreoffice slock dunst libnotify scrot mupdf bc cmus yt-dlp zip unzip tar fuse3 ntfs-3g exfatprogs exfat-utils networkmanager mpv light kepassxc xorg xorg-server xorg-xinit base-devel git libx11 libxft xorg-server xorg-xinit terminus-font && suck_less
 	postsetup &&
 	$perm systemctl enable trim.timer
+}
 
 Debian ()
 {
 	sudo apt update &&
 	$pkg neovim wget firefox-esr kitty rofi htop neofetch zsh feh mono-complete file-roller playerctl redshift libreoffice suckless-tools xclip dunst libnotify4 libnotify-dev libnotify-bin scrot zathura bc wcalc qemu virt-manager chromium qutebrowser cmus yt-dlp xbacklight zip unzip fuse3 network-manager mpv newsboat ghc light lynx httrack keepassxc p7zip git light exa bat xorg dwm libx11-dev libxft-dev libxinerama-dev ufw && suck_less;  
 	postsetup 
+}
 
 Fedora()
 {
@@ -55,8 +54,8 @@ Fedora()
 	$perm systemctl disable firewalld &&
 	$perm systemctl stop firewalld &&
 	postsetup  
+}
 	
-
 other ()
 {
 	cp -r .xinitrc .bashrc ~/ &&
