@@ -1023,6 +1023,7 @@
     clojure
     clojure-lsp
     fd
+    fluffychat
     ffmpeg
     ffmpegthumbnailer
     fuse3
