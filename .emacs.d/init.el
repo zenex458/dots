@@ -30,7 +30,7 @@
  kept-new-versions 6
  kept-old-versions 2
  version-control t)
-(setq tab-always-indent 'complete)
+;;(setq tab-always-indent 'complete)
 (setq backup-directory-alist
 	  `((".*" . ,"~/.emacs.d/saves/")))
 (setq auto-save-file-name-transforms
@@ -67,7 +67,11 @@
 (global-subword-mode 1)
 (pending-delete-mode t)
 (savehist-mode 1)
-(defvar my-term-shell "/run/current-system/sw/bin/bash")
+(if '((system-name "eukaryotic"))
+	(defvar my-term-shell "/run/current-system/sw/bin/bash")
+  (defvar my-term-shell "/usr/bin/env bash"))
+
+(defvar my-term-shell "/usr/bin/env bash") ;; add conditional
 (defadvice ansi-term (before force-bash)
   "https://github.com/daedreth/UncleDavesEmacs#default-shell-should-be-bash"
   (interactive (list my-term-shell)))
@@ -206,12 +210,17 @@
 		(json "https://github.com/tree-sitter/tree-sitter-json")
 		(make "https://github.com/alemuller/tree-sitter-make")
 		(markdown "https://github.com/ikatyang/tree-sitter-markdown")
+		(nix "https://github.com/nix-community/tree-sitter-nix")
 		(python "https://github.com/tree-sitter/tree-sitter-python")
 		(toml "https://github.com/tree-sitter/tree-sitter-toml")
 		(tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
 		(typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
 		(yaml "https://github.com/ikatyang/tree-sitter-yaml")))
-;;(mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
+
+(if (file-directory-p "~/.emacs.d/tree-sitter")
+	(message "Tree-sitter grammers already installed")
+  (message "Downloading treesiter grammers")
+  (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist)))
 
 (setq major-mode-remap-alist
 	  '((yaml-mode . yaml-ts-mode)
@@ -242,8 +251,8 @@
 (use-package haskell-mode
   :magic ("%hs" . haskell-mode))
 
-(use-package nix-mode
-  :magic ("%nix" . nix-mode))
+(use-package nix-ts-mode
+  :mode "\\.nix\\'")
 
 (use-package corfu
   :custom
@@ -281,21 +290,24 @@
 		 (sh-mode . eglot-ensure)
 		 (c-ts-mode . eglot-ensure)
  		 (csharp-ts-mode . eglot-ensure)
-		 (nix-mode . eglot-ensure))
+		 (nix-ts-mode . eglot-ensure))
   :config
   (setq eglot-autoshutdown t)
-  ;;(add-to-list 'eglot-server-programs
-  ;; `(csharp-ts-mode . ("/nix/store/jdp56g0j6mf7yjvqy9npw28y4pxcvgsw-omnisharp-roslyn-1.39.10/bin/OmniSharp" "-lsp")))
-  )
+  (add-to-list 'eglot-server-programs
+			   ;;			   `(csharp-ts-mode . ("/nix/store/jdp56g0j6mf7yjvqy9npw28y4pxcvgsw-omnisharp-roslyn-1.39.10/bin/OmniSharp" "-lsp"))
+			   `(nix-ts-mode  . ("nil"))
+			   ))
 
-(use-package flymake)
+(use-package flymake
+  :hook (emacs-lisp-mode . flymake-mode))
 
-(use-package dart-mode
-  :custom
-  (eglot-ignored-server-capabilities '(:signatureHelpProvider)))
-
-(use-package flutter
-  :after dart-mode)
+;;(use-package dart-mode
+;;  :custom
+;;  (eglot-ignored-server-capabilities '(:signatureHelpProvider)))
+;;
+;;(use-package flutter
+;;  :after dart-mode)
+;;
 
 (use-package yasnippet
   :hook ((prog-mode . yas-minor-mode)
@@ -303,9 +315,6 @@
   :config
   (add-hook 'prog-mode-hook  #'(lambda ()(yas-reload-all)))
   (diminish 'yas-minor-mode))
-
-(use-package flycheck
-  :hook (emacs-lisp-mode . flycheck-mode))
 
 (use-package async
   :config
@@ -357,15 +366,15 @@
   :bind ("C-@" . expreg-expand)
   ("C-'" . expreg-contract))
 
+(use-package expand-region)
+
 (use-package vlf
   :init
   (require 'vlf-setup))
 
-;; (use-package pdf-tools
-;;   :magic ("%PDF" . pdf-view-mode)
-;;   :hook (pdf-view-mode . pdf-view-themed-minor-mode))
-;; :config
-;; (setq pdf-info-epdfinfo-program "/nix/store/dan33x0d5m2b6z54nlyv5hfp9vi7943y-emacs-pdf-tools-20230611.239/share/emacs/site-lisp/elpa/pdf-tools-20230611.239/epdfinfo"))
+;;;(use-package pdf-tools
+;;;  :magic ("%PDF" . pdf-view-mode)
+;;;  :hook (pdf-view-mode . pdf-view-themed-minor-mode))
 
 (use-package elfeed)
 
@@ -582,3 +591,4 @@
 
 (provide 'init)
 ;;; init.el ends here
+
