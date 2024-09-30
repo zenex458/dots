@@ -1,0 +1,531 @@
+edit
+cat .zshrc
+cd
+cat .zshrc
+n
+nvim .bashrc
+cat .zshrc
+tmux
+cd ..
+dwm
+config.h
+cd
+;
+:
+,
+:
+bash
+zsh
+tmux
+cd
+tmux
+nvim .bashrc
+cd
+.bashrc
+tls
+nvim .bashrc
+nvim .zshrc
+dots
+cp ~/.zshrc .zshrc
+f .zshrc
+bash
+\bash
+ls
+rm .zshrc
+ls
+clear
+nvim .zshrc
+nvim .bashrc
+man clifm
+tls
+nv .config/clifm/profiles/default/clifmrc
+l
+ls
+ll
+l
+ls
+.bashrc
+clifmrc
+ls
+cd
+.bashrc
+cd
+man clifm
+tls
+downl
+Downloads/
+j .config
+cd ..
+cd .config
+cd
+man clifm
+n
+.config
+clifm
+man clifm
+.config
+clifm
+man clifm
+clifm
+clifm/profiles/default/
+nv clifmrc
+rm cold.clifm
+cp default.clifm defaultcp.clifm
+cd
+n
+cd
+Downloads/
+cd
+Documents/
+Csharp/
+cd
+n
+nf
+n
+gcc
+man clifm
+cd
+cl
+cl on
+cl off
+clear
+lm
+lm off
+cl on
+lm off
+lm
+lm on
+lm off
+lm on
+lm off
+lm
+Lm
+LM
+lM
+lm
+mkdir test
+cd test
+touch t{file,file2,fie}
+touch 4
+rm 4
+rm 1
+mkdir twotes
+c 2
+c 2 1
+s test/
+sc
+sp
+s
+ds
+s *.webm
+s
+c sel
+ds
+rm *
+enc
+updc
+enc
+updc
+cat /dev/urandom > tfie
+ls -a
+ls -la
+cat /dev/urandom > tfile
+ls -la
+rsync * twotes/
+ls -la
+rm *
+cp * twotes/
+rm *
+man rsync
+rsync --progress *.webm ~/test/twotes/
+rm *
+mkdir cloned
+cloned/
+git clone https://github.com/wheybags/wcp
+ls
+mkdir build
+cd build/
+zsh
+cd
+rm -r cloned/
+n
+man rsync
+s *.webm
+s
+s sel
+ls
+s sel
+s
+c sel
+s
+cd
+enc
+updc
+man xplr
+xplr --help
+xplr -h
+man rsunc
+man rsync
+test/
+rm *
+man clifm
+rsync -aivP --remove-source-files 2 3 4 1
+mv * ..
+nv .bashrc
+cd
+nv .bashrc
+pmv
+.config/clifm/
+.config/
+cd
+cd
+Downloads/
+clifm/profiles/default/
+z
+j fm
+man clifm
+cd
+j fm
+cd
+nvim
+init.vim
+htop
+enc
+c
+cd
+dow https://raw.githubusercontent.com/morhetz/gruvbox/master/gruvbox_256palette.sh
+chmod +x gruvbox_256palette.sh
+enc
+updc
+bash
+./gruvbox_256palette.sh
+ls
+.config/dwm
+st
+dow https://st.suckless.org/patches/colorschemes/st-colorschemes-0.8.5.diff
+R
+r
+n
+enc
+ls | grep scheme
+updc
+nv 19
+rm st-colorschemes-0.8.5.diff
+dow https://st.suckless.org/patches/colorschemes/st-colorschemes-0.8.5.diff
+nv 19
+rm 19
+enc
+updc
+enc
+updc
+nv .xinitrc
+nv .Xdefaults
+pkill xclock
+pkill urclock
+nv .bashrc
+man clifm
+clip
+man clifm
+nv .xinitrc
+man urxvt
+nv .xinitrc
+n
+nv .Xdefaults
+n
+nv .Xdefaults
+n
+nv .Xdefaults
+n
+updc
+n
+enc
+updc
+neofetch
+enc
+nv .Xdefaults
+n
+cd ..
+nv init.vim
+cd
+n
+cd
+nv .Xdefaults
+nv .bashrc
+n
+nv .Xdefaults
+n
+neofetch
+cd
+neofetch
+Documents/
+Business/
+rev
+c topics ~/
+c
+cd
+../
+cd
+Documents/Business/rev
+c
+cd
+mv topics topics.txt
+nv topics.txt
+pcmanfm
+n
+pcmanfm
+Downloads/
+n
+bc
+j busine
+n
+busines
+Documents/Business/rev
+j business
+libreoffice Models\ ppe\ 2022.pptx
+nmtui
+sleep "1" && notify-send "test"
+sleep "\1" && notify-send "test"
+sleep "10" && notify-send "test"
+sleep "1" && notify-send "test"
+sleep "\1\" && notify-send "test"
+sleep '1' && notify-send "test"
+sleep 1 && notify-send "test"
+man clifm
+j clifm
+nv 4
+"sleepm 1"
+"sleep 1m"
+sleep 1m
+sleep 1s
+sleep 1s && notify-send "test"
+sleep 10m && notify-send "test"
+c
+cd
+n
+nv .config/redshift.sh
+bc
+xsel -ob
+nv .Xdefaults
+n
+nv .Xdefaults
+li
+rli
+li
+rli
+lsblk
+Documents/Business/
+n
+htop
+nv Downloads/Program.cs
+n
+nv .Xdefaults
+j nvi
+init.vim
+cd
+enc
+updc
+man pywall
+man pywal
+man wall
+man wal
+wal --help
+wal --preview
+dow https://raw.githubusercontent.com/dylanaraps/pywal/master/pywal/templates/colors.sh
+nv colors.sh
+man wal
+wal --help
+wal -R
+Downloads/Images/
+wal -i sat.png
+neofetch
+cd
+nv .Xdefaults
+wal -R
+tls
+ls
+ls -a
+wal --preview
+printf "\x1b[${bg};2;${red};${green};${blue}m\n"
+Printf "\x1b[38;2;255;100;0mTRUECOLOR\x1b[0m\n"
+printf "\x1b[38;2;255;100;0mTRUECOLOR\x1b[0m\n"
+wk 'BEGIN{
+cd
+wal --help
+nv .bashrc
+wal --help
+j vim
+nv init.vim
+nv
+nv init.vim
+cd
+j ima
+wal -i sat.png
+find ~/ | grep .json
+wal -i sat.png
+ls
+grep s .zshrc
+cd && grep s .zshrc
+cd && grep s .bashrc
+nv .bashrc
+j nvim
+cd ..
+nnn
+cd
+ls -a
+clear
+j dwm
+.config/dwm
+nv config.h
+cd
+cd Downloads/
+wal --help
+htop
+wal -c
+wal -R
+wal -c
+cd
+nv .Xdefaults
+j nvim
+nv init.vim
+nv .Xdefaults
+cd
+nv .Xdefaults
+reset
+htop
+cd Documents/Tutor/Anhad/Lesson\ Video/
+links
+htop
+cd
+li
+cd
+ls blk
+lsblk
+tk
+li
+ncmpcpp
+rli
+cd
+li
+rli
+nv coolwebs
+enc
+updoff
+nv .bashrc
+ncmpcpp
+updoff
+upd
+/home/zenex/Documents/Business/rev/
+clifm
+j clifm
+dow https://github.com/leo-arch/clifm-colors/blob/main/colors/white-256.clifm
+rm white-256.clifm
+;
+clear
+.config
+j busine
+libreoffice 5
+clear
+updc
+cd
+Downloads/
+n
+cd
+Documents/
+maths
+Maths/Pure/
+nnn
+cd
+cd /
+find ~/ | grep kdeconnectd
+find ~/
+doas find ~/ | grep kdeconnectd
+find / | grep kdeconnectd
+cd
+.config/dunst/
+ls
+nv dunstrc
+cd
+.config/dwm/config.h
+updc
+.config/tmux/tmux.conf
+Downloads/yyt/
+s 17
+/home/zenex/.config/dunst/
+s
+c s
+sd
+ds
+cd
+nnn
+Downloads/
+s Notification.wav
+/home/zenex/.config/dunst/
+s
+sb
+c sel
+rm 2
+paplay Notification.wav
+ds 1
+ls
+ds
+nv sound.sh
+chmod +x sound.sh
+nv sound.sh
+./sound.sh
+enc
+updc
+vim 1
+enc
+clear
+notify-send "test"
+cd
+Documents/Maths/pure
+Documents/Maths/Pure/
+mupdf Edexcel-a-level-mathematics-pure-mathematics-year-2.vdoc.pub.pdf
+cd
+Downloads/
+s Getting\ Things\ Done\ The\ Art\ of\ Stress-Free\ Productivity\ \(\ PDFDrive\ \).pdf
+/home/zenex/Documents/
+mkdir other
+c ssel
+c sel
+/home/zenex/Downloads/
+ds *
+rm Getting\ Things\ Done\ The\ Art\ of\ Stress-Free\ Productivity\ \(\ PDFDrive\ \).pdf
+j ot
+clear
+ls
+man clifm
+br
+br *
+mupdf Getting\ Things\ Done\ --\ The\ Art\ of\ Stress-Free\ Productivity.pdf
+j yyt
+bash
+ls
+#also setup zsh
+c
+cd
+clear
+ls
+rm kdeconnect-RvemEH.txt kdeconnect-yLpQuN.txt
+clear
+ls
+cd
+clear
+clip
+.config/
+clifm/
+ls
+cd plugins/
+ls
+ls -a
+clear
+find / | grep clifm\ plugins
+cd /nix/store/71i4m31a5y7k8mgp71dmgbmmr967g8z1-clifm-1.7/share/clifm/plugins/
+cat batch_copy.sh
+clear
+cp clip.sh ~/.config/clifm/plugins/
+cd
+clip
+j clifm
+clip
