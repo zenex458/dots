@@ -27,14 +27,14 @@
       systemd-boot.editor = false;
       efi.canTouchEfiVariables = true;
     };
-    # kernelParams = [
-    #   "quiet"
-    #   "splash"
-    ############### i have now idea if the below works
-    ####"vga=current"
-    ####"rd.udev.log_level=3"
-    ####"udev.log_priority=3"
-    # ];
+    kernelParams = [
+      "quiet"
+      "splash"
+      ############## i have now idea if the below works
+      ###"vga=current"
+      ###"rd.udev.log_level=3"
+      ###"udev.log_priority=3"
+    ];
     ##consoleLogLevel = 0;
     ##initrd.verbose = false;
     #tmp.cleanOnBoot = true;
@@ -225,6 +225,8 @@
       allow id 090c:1000 serial "0378623070002866" name "Flash Drive" hash "26QA1cD/Y0OQ39RG37alHNi4YKqSkA6hl+wiT+3SVzk=" parent-hash "3Wo3XWDgen1hD5xM3PSNl3P98kLp1RUTgGQ5HSxtf8k=" with-interface 08:06:50 with-connect-type "hotplug"
       allow id 04e8:61fb serial "S6YJNJ0X301164A" name "PSSD T7 Shield" hash "m0oln1SciQzP6k4TPn9ZFC03YkSkbwUSkNQCHS9PvTw=" parent-hash "3Wo3XWDgen1hD5xM3PSNl3P98kLp1RUTgGQ5HSxtf8k=" with-interface { 08:06:50 08:06:62 } with-connect-type "hotplug"
       allow id 046d:c08b serial "1285335A3232" name "G502 HERO Gaming Mouse" hash "ukNMlamAkPMh7baihqjodyq1X2cF75bqoMTP6vnHADw=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" with-interface { 03:01:02 03:00:00 } with-connect-type "hotplug"
+      allow id 0781:5575 serial "04020130092220073710" name "Cruzer Glide" hash "q2jgfmoO2UHR5ZeeiwhacPfiBGPwGs+GCzv9vYk5efA=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" with-interface 08:06:50 with-connect-type "hotplug"
+      allow id 090c:1000 serial "0320619110005669" name "Flash Drive" hash "HN91eZPfVx5LVYm22GQRriZM/HbCPF1fmILuq423EwQ=" parent-hash "3Wo3XWDgen1hD5xM3PSNl3P98kLp1RUTgGQ5HSxtf8k=" with-interface 08:06:50 with-connect-type "hotplug"
     '';
     #    opensnitch.enable = true;
     ntp.enable = false;

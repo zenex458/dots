@@ -521,7 +521,8 @@
         "browser.search.suggest.enabled" = false;
         "browser.shell.shortcutFavicons" = true;
         "browser.shopping.experience2023.enabled" = false;
-        "browser.startup.page" = 0;
+        # "browser.startup.page" = 0;
+        browser.startup.page = "https://priv.au";
         "browser.tabs.crashReporting.sendReport" = false;
         "browser.tabs.firefox-view" = false;
         "browser.tabs.firefox-view-newIcon" = false;
@@ -678,10 +679,13 @@
       tas = "tmux attach-session";
       tls = "tmux list-session";
       tat = "tmux attach -t";
+      mm = "sudo mount -m -v -o rw,uid=1000,gid=1000";
       msd = "sudo mount -m -v -o rw,noexec,uid=1000,gid=1000 UUID=04C3-E2B3 /run/media/zenex/musicsd";
       umsd = "sudo umount -v /run/media/zenex/musicsd";
       mhd = "sudo mount -v -t ntfs -m -o rw,noexec,uid=1000,gid=1000 UUID=742455142454DAA6 /run/media/zenex/seagate";
       umhd = "sudo umount -v /run/media/zenex/seagate && lsblk";
+      mssusb = "sudo mount -v -m -o rw,uid=1000,gid=1000 UUID=F5B6-E878 /run/media/zenex/silsam";
+      umssusb = "sudo umount -v /run/media/zenex/silsam && lsblk";
       sysdlist = "systemctl list-unit-files --type=service --state=enabled";
       rsy = "rsync -ahPzRc --info=progress2";
       del = "trash-put";
@@ -1027,6 +1031,7 @@
     cljfmt
     clojure
     clojure-lsp
+    exfatprogs
     fd
     ffmpeg
     ffmpegthumbnailer
@@ -1086,14 +1091,17 @@
     traceroute
     trash-cli
     unzip
+    ventoy-full
     virt-manager
     wdisplays
     wl-clip-persist
     wl-clipboard
     wlr-randr
     xboard
+    jami
     xdg-utils
     yt-dlp
+    progress
     zip
     (aspellWithDicts (
       dicts: with dicts; [
