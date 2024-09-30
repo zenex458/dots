@@ -69,7 +69,7 @@ Fedora()
 Os()
 {
 
-osR=$(head -1 os-release | awk -F 'NAME=' '{print $2}' | tail -1 | sed -e 's/^"//' -e 's/"$//')
+osR=$(awk -F '^NAME=' '{print $2}' /etc/os-release | grep " ")
 case $osR in
 	"Debian GNU/Linux")  pkg="sudo apt install" && Debian ;;
 	"Fedora Linux")  pkg="sudo dnf install" && Fedora;;
