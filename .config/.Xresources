@@ -1,20 +1,21 @@
 !xrdb -merge .Xresources
-Xft.autohint: 0
-Xft.antialias: 1
-Xft.hinting: True
-Xft.hintstyle: hintfull
-Xft.lcdfilter: lcddefault
-Xft.rgba: rgb
+!Xft.autohint: 0
+!Xft.antialias: 1
+!Xft.hinting: True
+!Xft.hintstyle: hintfull
+!Xft.lcdfilter: lcddefault
+!Xft.rgba: rgb
 !XTerm.vt100
 URxvt.font: xft:Hack Nerd Font Mono:Regular:pixelsize=16=antialias=false
-URxvt.letterSpace: 0
-URxvt.lineSpace: 0
+!URxvt.letterSpace: 0
+!URxvt.lineSpace: 0
 URxvt.cursorBlink: true
 URxvt.cursorUnderline: true
 URxvt.scrollBar: false
 URxvt.scrollBar_right: false
 URxvt.urgentOnBell: false
 URxvt.visualBell: true
+URxvt.saveLines: 0
 URxvt.iso14755: false
 URxvt.iso14755_52: false
 URxvt.keysym.Shift-Control-V: eval:paste_clipboard
@@ -27,19 +28,24 @@ URxvt.buffered: false
 URxvt.pointerBlank: true
 URxvt.pointerBlankDelay: 5
 !URxvt.perl-ext: default,matcher,font-size
-URxvt.perl-lib: /usr/lib/x86_64-linux-gnu/urxvt/perl
-URxvt.url-launcher:       firefox
-URxvt.matcher.button:     1
-URxvt.matcher.pattern.1:  \\bwww\\.[\\w-]+\\.[\\w./?&@#-]*[\\w/-]
-URxvt.matcher.pattern.2:  \\B(/\\S+?):(\\d+)(?=:|$)
-URxvt.matcher.launcher.2: nvim +$2 $1
-
-URxvt.keysym.C-z: matcher:select
-URxvt.perl-ext-common: matcher,resize-font,clipboard-osc,eval,keysym-list
-
+!URxvt.perl-lib: /usr/lib/x86_64-linux-gnu/urxvt/perl
+!URxvt.url-launcher:       firefox
+!URxvt.matcher.button:     1
+!URxvt.matcher.pattern.1:  \\bwww\\.[\\w-]+\\.[\\w./?&@#-]*[\\w/-]
+!URxvt.matcher.pattern.2:  \\B(/\\S+?):(\\d+)(?=:|$)
+!URxvt.matcher.launcher.2: nvim +$2 $1
+!
+!URxvt.keysym.C-z: matcher:select
+!URxvt.perl-ext-common: matcher,resize-font,clipboard-osc,eval,keysym-list
+URxvt.perl-ext-common: resize-font,clipboard-osc,eval,keysym-list
 URxvt.foreground: #c6c6c6
 URxvt.background: #000000
 URxvt.cursorColor: #c6c6c6
+
+XTerm.vt100.foreground: #c6c6c6
+XTerm.vt100.background: #000000
+XTerm.vt100.cursorColor: #c6c6c6
+
 ! black
 URxvt.color0: #000000
 URxvt.color8: #808080
@@ -64,3 +70,9 @@ URxvt.color14: #00ffff
 ! white
 URxvt.color7: #e5e5e5
 URxvt.color15: #ffffff
+
+
+
+Zutty.font:                    Hack
+Zutty.fontsize:                18
+Zutty.fontpath:                /usr/share/fonts
