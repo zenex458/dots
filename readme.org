@@ -7,7 +7,7 @@ Every package is installed with its own libraries. Let say that you have two pac
 *** Rollbacks
 Because the system state is copied over, every change is tracked in a new rollback. So if you do make a mistake you can just rollback. You can achieve this in a normal system with the BTRFS file system, but this is not as extensive. It does not track /every change/.
 *** Lazy Configs
-Write it once and never worry about it again. It is basically an install script, but all the work done for you. This is good if you are like me and like tweaking your system. I have some files which are part of the =/etc/= directory, quite a large set of config settings for firefox in the =arkenfox= directory and I have some more for other applications. It is a lot mental overhead to keep track of the files which i have modified in different places of my filesystem. Nixos /forces/ me to put everything in /one/ directory and it does the rest for me. It also means that if I ever move to a different system, then I just have to worry about backing up one directory.
+Write it once and never worry about it again. It is basically an install script, but all the work done for you. This is good if you are like me and like tweaking your system. I have some files which are part of the =/etc/= directory, quite a large set of config settings for firefox in the =arkenfox= directory and I have some more for other progams. It is a lot mental overhead to keep track of the files which i have modified in different places of my filesystem. Nixos /forces/ me to put everything in /one/ directory and it does the rest for me. It also means that if I ever move to a different system, then I just have to worry about backing up one directory.
 ** Why not Nixos
 *** Learning curve
 The learning curve is a bit high, but doable, especially once you start looking into [[https:][flakes]] and the documentation is sparse. But once you get everything just right then, at least in my case, it is just the matter of searching a package on =https://search.nixos.org/packages= or =https://search.nixos.org/options?=, then adding it to your config. Although my config is quite basic at the moment and I am still learning nix.
@@ -37,7 +37,7 @@ git clone https://github.com/zenex458/dots
 #+begin_src bash 
 cd dots && ./setup.sh
 #+end_src
-The script will install packages, prompt for some application options and setup the appearance.
+The script will install packages, prompt for some program options and setup the appearance.
 ** For other distros
 1)
 #+begin_src bash 
