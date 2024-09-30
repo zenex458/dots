@@ -49,5 +49,4 @@ export LF_COLORS="~/Documents=01;31:~/Downloads=01;31:~/.local/share=01;31:~/.co
 export QT_QPA_PLATFORMTHEME=qt5ct
 #openssl enc -aes-256-cbc -md sha512 -pbkdf2 -iter 250000 -salt -in InputFilePath -out OutputFilePath
 #openssl enc -aes-256-cbc -d -md sha512 -pbkdf2 -iter 250000 -salt -in InputFilePath -out OutputFilePath
-#PROMPT='%F{242}[%~] %F{red}% λ '
 eval "$(lua ~/.config/z.lua --init bash)"
