@@ -11,7 +11,7 @@ postsetup ()
 	read -rp "Do you want xmonad?(y/n) " xmon
 	if [[ $xmon == "y" || $xmon == "Y" ]]
 	then
-            sudo $pkg xmonad xmobar
+            sudo $pkg xmonad xmobar xautolock
 	else
 	  echo "xmonad not added"
 	fi
@@ -52,10 +52,24 @@ postsetup ()
 	sudo cp -r Hack /usr/share/fonts
 }
 
-Debian ()
+
+Debian_install_firefox()
+{
+	debversion=$(awk 'NR==5{print $3}' /etc/apt/sources.list)
+	if [ $debversion == "unstable" ]
+	then
+            sudo apt install firefox
+	else
+	  sudo apt install firefox-esr
+	fi
+
+}
+
+Debian()
 {
 	sudo apt update
-	$pkg emacs sbcl wget curl firefox-esr htop feh redshift libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin scrot zathura network-manager tar zip unzip fuse3 ntfs-3g pcmanfm light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw nnn gcc alsa-utils tlp tmux mpc mpd ncmpcpp p7zip-full dmenu xsecurelock intel-microcode libxrandr-dev arandr make trash-cli lxappearance mpv lf rxvt-unicode xterm fzf rofi wireplumber pipewire-media-session- pipewire-alsa apt-listbugs apt-listchanges hunspell-dictionary-en-gb apparmor-profiles apparmor-profiles-extra
+	$pkg emacs sbcl wget curl htop feh redshift libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin scrot zathura network-manager tar zip unzip fuse3 ntfs-3g pcmanfm light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw nnn gcc alsa-utils tlp tmux mpc mpd ncmpcpp p7zip-full dmenu xsecurelock intel-microcode libxrandr-dev arandr make trash-cli lxappearance mpv lf rxvt-unicode xterm fzf rofi wireplumber pipewire-media-session- pipewire-alsa apt-listbugs apt-listchanges hunspell-dictionary-en-gb apparmor-profiles apparmor-profiles-extra bubblewrap libseccomp-dev libbpf-dev
+	Debian_install_firefox
 	sudo systemctl disable bluetooth
 	sudo systemctl enable tlp
 	postsetup 
@@ -89,7 +103,7 @@ esac
 cp -r .xinitrc .bashrc ~/
 mkdir -p ~/Downloads/
 mkdir -p ~/.config && cp -r .config/. ~/.config
-mkdir -p --parents ~/.local/bin && cp .local/bin/. ~/.local/bin/
+mkdir -p --parents ~/.local/bin && cp -r .local/bin/. ~/.local/bin/
 Os
 
 echo "All done!"
