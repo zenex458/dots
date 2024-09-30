@@ -647,8 +647,6 @@
       tm = "ps auxww | grep";
       lines = "ls | wc -l";
       tk = "tmux kill-session";
-      ws = "grim";
-      wsc = ''"grim -g \\$(slurp)\""'';
       cco = "gcc -O -Wall -W -pedantic";
       ytmp3 = "yt-dlp --progress -q -x -o '%(title)s.%(ext)s' --audio-format mp3 --audio-quality 0 --embed-thumbnail";
       ytflac_thum_chap = "yt-dlp --progress -q -x -o '%(title)s.%(ext)s' --audio-format flac --audio-quality 0 --embed-thumbnail --embed-chapters";
