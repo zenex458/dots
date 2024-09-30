@@ -2,7 +2,7 @@
 This contains all my config files for Linux. It can be installed my =setup.sh= or by using [[https://nixos.org/][Nixos]].
 * Screenshot
 [[file:screenshot.png]]
-/Screenshot showing my three monitors. The left showing a the output of the neofetch command. The middle showing an Emacs frame, editing my Nixos config. The right showing my music playing./
+/Screenshot showing my three monitors. The left showing the output of the neofetch command. The middle showing an Emacs frame, editing my Nixos config. The right showing my music playing./
 * Emacs
 ** Why Emacs?
 *** No context switching
