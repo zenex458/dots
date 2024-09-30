@@ -1,10 +1,10 @@
-(defvar elpaca-installer-version 0.5)
+(defvar elpaca-installer-version 0.6)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
 (defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
 (defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
                               :ref nil
-                              :files (:defaults (:exclude "extensions"))
+                              :files (:defaults "elpaca-test.el" (:exclude "extensions"))
                               :build (:not elpaca--activate-package)))
 (let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
        (build (expand-file-name "elpaca/" elpaca-builds-directory))
@@ -79,7 +79,10 @@
 							  (local-set-key (kbd "RET") 'newline-and-indent)))
 
 (add-hook 'prog-mode-hook  #'(lambda ()(setq show-trailing-whitespace t)))
-
+(setq display-time-default-load-average nil)
+(setq display-time-format "%I:%M")
+(display-time-mode 1)
+(display-battery-mode 1)
 (global-subword-mode 1)
 (pending-delete-mode t)
 (savehist-mode 1)
@@ -138,7 +141,8 @@
 
 (use-package vertico
   :config
-  (vertico-mode))
+  (vertico-mode)
+  (setq vertico-resize nil))
 
 (use-package orderless
   :custom
@@ -189,8 +193,16 @@
 		 (format-all-mode . format-all-ensure-formatter))
   :config
   (diminish 'format-all-mode))
+(add-hook 'cshap-mode-hook (setq format-all-formatters '(("C#" (astyle "--mode=cs" "--style=whitesmith")))))
 
-;;format-all-formatters
+
+(use-package eglot
+  :commands (eglot eglot-ensure)
+  :hook ((csharp-mode . eglot-ensure))
+  :config
+  (add-to-list 'eglot-server-programs
+               '(csharp-mode . ("csharp-ls"))))
+
 
 (use-package pulsar
   :hook ((next-error . pulsar-pulse-line)
@@ -217,6 +229,7 @@
   (setq completion-cycle-threshold 3)
   (corfu-auto t)
   (corfu-cycle t)
+  (setq corfu-quit-no-match t)
   (corfu-preselect 'prompt)
   (setq corfu-popupinfo-delay 1)
   :hook ((prog-mode . corfu-mode)
@@ -297,11 +310,11 @@
   :init
   (require 'vlf-setup))
 
-(use-package pdf-tools
-  :magic ("%PDF" . pdf-view-mode)
-  :config
-  (pdf-loader-install)
-  (pdf-view-themed-minor-mode))
+;;(use-package pdf-tools
+;;  :magic ("%PDF" . pdf-view-mode)
+;;  :hook (pdf-view-mode . pdf-view-themed-minor-mode)
+;;  :config
+;;  (pdf-loader-install))
 
 (use-package elfeed)
 
@@ -325,6 +338,12 @@
   :hook (find-file . zoxide-add)
   :bind
   ("M-s z f" . zoxide-find-file))
+
+(use-package god-mode
+  :bind ("C-`" . god-local-mode))
+
+(use-package nix-mode
+  :mode "\\.nix\\'")
 
 (require 'dired)
 (let ((map dired-mode-map))
@@ -405,93 +424,93 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(format-all-default-formatters
-   '(("Assembly" asmfmt)
-	 ("ATS" atsfmt)
-	 ("Bazel" buildifier)
-	 ("BibTeX" emacs-bibtex)
-	 ("C" astyle)
-	 ("C#" astyle)
-	 ("C++" astyle)
-	 ("Cabal Config" cabal-fmt)
-	 ("Clojure" zprint)
-	 ("CMake" cmake-format)
-	 ("Crystal" crystal)
-	 ("CSS" prettier)
-	 ("Cuda" clang-format)
-	 ("D" dfmt)
-	 ("Dart" dart-format)
-	 ("Dhall" dhall)
-	 ("Dockerfile" dockfmt)
-	 ("Elixir" mix-format)
-	 ("Elm" elm-format)
-	 ("Emacs Lisp" emacs-lisp)
-	 ("Erlang" efmt)
-	 ("F#" fantomas)
-	 ("Fish" fish-indent)
-	 ("Fortran Free Form" fprettify)
-	 ("GLSL" clang-format)
-	 ("Go" gofmt)
-	 ("GraphQL" prettier)
-	 ("Haskell" ormolu)
-	 ("HCL" hclfmt)
-	 ("HTML" html-tidy)
-	 ("HTML+EEX" mix-format)
-	 ("HTML+ERB" erb-format)
-	 ("Java" clang-format)
-	 ("JavaScript" prettier)
-	 ("JSON" prettier)
-	 ("JSON5" prettier)
-	 ("Jsonnet" jsonnetfmt)
-	 ("JSX" prettier)
-	 ("Kotlin" ktlint)
-	 ("LaTeX" latexindent)
-	 ("Less" prettier)
-	 ("Literate Haskell" brittany)
-	 ("Lua" lua-fmt)
-	 ("Markdown" prettier)
-	 ("Meson" muon-fmt)
-	 ("Nix" nixpkgs-fmt)
-	 ("Objective-C" clang-format)
-	 ("OCaml" ocp-indent)
-	 ("Perl" perltidy)
-	 ("PHP" prettier)
-	 ("Protocol Buffer" clang-format)
-	 ("PureScript" purty)
-	 ("Python" black)
-	 ("R" styler)
-	 ("Reason" bsrefmt)
-	 ("ReScript" rescript)
-	 ("Ruby" rufo)
-	 ("Rust" rustfmt)
-	 ("Scala" scalafmt)
-	 ("SCSS" prettier)
-	 ("Shell" shfmt)
-	 ("Solidity" prettier)
-	 ("SQL" sqlformat)
-	 ("Svelte" prettier)
-	 ("Swift" swiftformat)
-	 ("Terraform" terraform-fmt)
-	 ("TOML" prettier)
-	 ("TSX" prettier)
-	 ("TypeScript" prettier)
-	 ("V" v-fmt)
-	 ("Verilog" istyle-verilog)
-	 ("Vue" prettier)
-	 ("XML" html-tidy)
-	 ("YAML" prettier)
-	 ("Zig" zig)
-	 ("_Angular" prettier)
-	 ("_Beancount" bean-format)
-	 ("_Caddyfile" caddy-fmt)
-	 ("_Flow" prettier)
-	 ("_Gleam" gleam)
-	 ("_Ledger" ledger-mode)
-	 ("_Nginx" nginxfmt)
-	 ("_Snakemake" snakefmt))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+ ;; '(format-all-default-formatters
+ ;;   '(("Assembly" asmfmt)
+ ;;	 ("ATS" atsfmt)
+ ;;	 ("Bazel" buildifier)
+ ;;	 ("BibTeX" emacs-bibtex)
+ ;;	 ("C" astyle)
+ ;;	 ("C#" astyle --style=whitesmith)
+ ;;	 ("C++" astyle)
+ ;;	 ("Cabal Config" cabal-fmt)
+ ;;	 ("Clojure" zprint)
+ ;;	 ("CMake" cmake-format)
+ ;;	 ("Crystal" crystal)
+ ;;	 ("CSS" prettier)
+ ;;	 ("Cuda" clang-format)
+ ;;	 ("D" dfmt)
+ ;;	 ("Dart" dart-format)
+ ;;	 ("Dhall" dhall)
+ ;;	 ("Dockerfile" dockfmt)
+ ;;	 ("Elixir" mix-format)
+ ;;	 ("Elm" elm-format)
+ ;;	 ("Emacs Lisp" emacs-lisp)
+ ;;	 ("Erlang" efmt)
+ ;;	 ("F#" fantomas)
+ ;;	 ("Fish" fish-indent)
+ ;;	 ("Fortran Free Form" fprettify)
+ ;;	 ("GLSL" clang-format)
+ ;;	 ("Go" gofmt)
+ ;;	 ("GraphQL" prettier)
+ ;;	 ("Haskell" ormolu)
+ ;;	 ("HCL" hclfmt)
+ ;;	 ("HTML" html-tidy)
+ ;;	 ("HTML+EEX" mix-format)
+ ;;	 ("HTML+ERB" erb-format)
+ ;;	 ("Java" clang-format)
+ ;;	 ("JavaScript" prettier)
+ ;;	 ("JSON" prettier)
+ ;;	 ("JSON5" prettier)
+ ;;	 ("Jsonnet" jsonnetfmt)
+ ;;	 ("JSX" prettier)
+ ;;	 ("Kotlin" ktlint)
+ ;;	 ("LaTeX" latexindent)
+ ;;	 ("Less" prettier)
+ ;;	 ("Literate Haskell" brittany)
+ ;;	 ("Lua" lua-fmt)
+ ;;	 ("Markdown" prettier)
+ ;;	 ("Meson" muon-fmt)
+ ;;	 ("Nix" nixpkgs-fmt)
+ ;;	 ("Objective-C" clang-format)
+ ;;	 ("OCaml" ocp-indent)
+ ;;	 ("Perl" perltidy)
+ ;;	 ("PHP" prettier)
+ ;;	 ("Protocol Buffer" clang-format)
+ ;;	 ("PureScript" purty)
+ ;;	 ("Python" black)
+ ;;	 ("R" styler)
+ ;;	 ("Reason" bsrefmt)
+ ;;	 ("ReScript" rescript)
+ ;;	 ("Ruby" rufo)
+ ;;	 ("Rust" rustfmt)
+ ;;	 ("Scala" scalafmt)
+ ;;	 ("SCSS" prettier)
+ ;;	 ("Shell" shfmt)
+ ;;	 ("Solidity" prettier)
+ ;;	 ("SQL" sqlformat)
+ ;;	 ("Svelte" prettier)
+ ;;	 ("Swift" swiftformat)
+ ;;	 ("Terraform" terraform-fmt)
+ ;;	 ("TOML" prettier)
+ ;;	 ("TSX" prettier)
+ ;;	 ("TypeScript" prettier)
+ ;;	 ("V" v-fmt)
+ ;;	 ("Verilog" istyle-verilog)
+ ;;	 ("Vue" prettier)
+ ;;	 ("XML" html-tidy)
+ ;;	 ("YAML" prettier)
+ ;;	 ("Zig" zig)
+ ;;	 ("_Angular" prettier)
+ ;;	 ("_Beancount" bean-format)
+ ;;	 ("_Caddyfile" caddy-fmt)
+ ;;	 ("_Flow" prettier)
+ ;;	 ("_Gleam" gleam)
+ ;;	 ("_Ledger" ledger-mode)
+ ;;	 ("_Nginx" nginxfmt)
+ ;;	 ("_Snakemake" snakefmt))))
+ (custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+  )
