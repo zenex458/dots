@@ -2,16 +2,16 @@
 #write in posix sh
 postsetup ()
 {
-        $perm systemctl enable ufw
-	$perm systemctl start ufw
-	$perm ufw enable
-	$perm ufw default deny incoming
-	$perm ufw default allow outgoing
+        sudo systemctl enable ufw
+	sudo systemctl start ufw
+	sudo ufw enable
+	sudo ufw default deny incoming
+	sudo ufw default allow outgoing
 
 	read -rp "Do you want xmonad?(y/n) " xmon
 	if [[ $xmon == "y" || $xmon == "Y" ]]
 	then
-            $perm dnf install xmonad
+            sudo dnf install xmonad
 	else
 	  echo "xmonad not added"
 	fi
@@ -29,8 +29,8 @@ postsetup ()
 	if [[ $ahosts == "y" || $ahosts == "Y" ]]
 	then
           curl -LO https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts
-	  $perm mv /etc/hosts /etc/hosts.old
-	  $perm mv hosts /etc/hosts
+	  sudo mv /etc/hosts /etc/hosts.old
+	  sudo mv hosts /etc/hosts
 	else
           echo "ad-blocking hosts not added"
 	fi
@@ -38,65 +38,48 @@ postsetup ()
 	cd ~/
 	git clone https://codeberg.org/zenex/looks
 	cd looks
-	$perm cp -r Future* Material* /usr/share/icons
-	$perm cp -r Hack /usr/share/fonts
-}
-
-Arch ()
-{
-	$pkg neovim wget curl firefox htop feh thunar sudo ufw playerctl redshift libreoffice slock dunst libnotify scrot mupdf bc cmus yt-dlp zip unzip tar fuse3 ntfs-3g exfat-utils networkmanager mpv light keepassxc xorg xorg-server xorg-xinit base-devel git libx11 libxft xorg-server xorg-xinit terminus-font lua dmenu pipewire pipewire-alsa pipewire-pulse
-	suck_less
-	postsetup
-
+	sudo cp -r Future* Material* /usr/share/icons
+	sudo cp -r Hack /usr/share/fonts
 }
 
 Debian ()
 {
-	$perm apt update
+	sudo apt update
 	$pkg emacs sbcl wget curl firefox-esr htop feh redshift libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin scrot zathura network-manager tar zip unzip fuse3 ntfs-3g pcmanfm light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw nnn gcc alsa-utils tlp tmux mpc mpd ncmpcpp p7zip-full dmenu xsecurelock intel-microcode libxrandr-dev arandr make trash-cli lxappearance mpv
 
 	suck_less
-	$perm systemctl disable bluetooth
-	$perm systemctl enable tlp
+	sudo systemctl disable bluetooth
+	sudo systemctl enable tlp
 	postsetup 
 }
 
 Fedora()
 {
 	$pkg neovim emacs sbcl curl wget firefox dmenu rofi make gcc htop feh redshift libreoffice dunst libnotify libnotify-devel scrot zathura zathura-devel zathura-plugins-all zathura-pdf-mupdf @base-x yt-dlp zip unzip fuse3 NetworkManager-tui NetworkManager-wifi light keepassxc tar nnn ufw iwl* pcmanfm alsa-firmware alsa-lib alsa-lib-devel alsa-utils xterm ntfs-3g xz libX11-devel libXft-devel libXinerama-devel xorg-x11-xinit-session rxvt-unicode tmux fzf tlp udisks udisks-devel trash-cli xsetroot dash xsecurelock lxappearance patch texlive-cantarell p7zip redhat-rpm-config #sway gammastep waybar rpmautospec-rpm-macros
-	$perm dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-	$perm dnf upgrade
-	$perm dnf install mpv mpd mpc ncmpcpp ffmpegthumbnailer
-	$perm systemctl disable firewalld
-	$perm systemctl disable bluetooth
-	$perm systemctl stop firewalld
+	sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+	sudo dnf upgrade
+	sudo dnf install mpv mpd mpc ncmpcpp ffmpegthumbnailer
+	sudo systemctl disable firewalld
+	sudo systemctl disable bluetooth
+	sudo systemctl stop firewalld
 	xdg-mime default org.pwmt.zathura.desktop application/pdf
 	postsetup
 }
 	
-Menu()
+Os()
 {
-echo " "
-echo "(A)rch"
-echo "(D)ebian"
-echo "(F)edora"                               
-echo "(Z)other"
-read -rp "Please enter your os: " os
 
-case $os in
-	A)  pkg="$perm pacman -S" && Arch;;
-	D)  pkg="$perm apt install" && Debian ;;
-	F)  pkg="$perm dnf install" && Fedora;;
-	Z)  exit;;
+osR=$(head -1 /etc/os-release | awk -F 'NAME=' '{print $2}' | tail -1)
+case $osR in
+	"Debian GNU/Linux")  pkg="sudo apt install" && Debian ;;
+	"Fedora Linux")  pkg="sudo dnf install" && Fedora;;
 	*)  echo "Invalid os name" && echo "your os is :" && uname -a && Menu;;
 esac 
 }
 
-read -rp "Are you using sudo or doas? " perm
-
 cp -r .xinitrc .bashrc ~/
 mkdir -p ~/Downloads/
 mkdir -p ~/.config && cp -r .config/. ~/.config
-Menu
+Os
 
 echo "All done!"
