@@ -99,7 +99,11 @@
     theme.name = "Shades-of-gray";
     iconTheme.package = pkgs.paper-icon-theme;
     iconTheme.name = "Paper-Mono-Dark";
-    cursorTheme.name = "Paper";
+    # cursorTheme.package = pkgs.bibata-cursors;
+    # cursorTheme.name = "Bibata-Original-Classic";
+    # cursorTheme.size = 20;
+    cursorTheme.name = "plan9"; # try to get this in a flake https://github.com/zenex458/looks/tree/main/plan9
+    cursorTheme.size = 20;
     font.package = pkgs.iosevka;
     font.name = "Iosevka Extended";
     font.size = 10;
@@ -683,6 +687,8 @@
       kremap = "setxkbmap -option altwin:ctrl_alt_win";
       krremap = "setxkbmap -option -layout gb";
       chkfstab = "sudo findmnt --verify";
+      logs = "journalctl -S today -o verbose -r -x";
+      log = "journalctl -S today -r -x";
     };
     sessionVariables = {
       XDG_CONFIG_HOME = "$HOME/.config";
@@ -854,16 +860,16 @@
     '';
   };
 
-  services.gammastep = {
-    enable = true;
-    dawnTime = "7:00";
-    duskTime = "20:00";
-    provider = "manual";
-    temperature = {
-      day = 6300;
-      night = 2000;
-    };
-  };
+  # services.gammastep = {
+  #   enable = true;
+  #   dawnTime = "7:00";
+  #   duskTime = "20:00";
+  #   provider = "manual";
+  #   temperature = {
+  #     day = 6300;
+  #     night = 2000;
+  #   };
+  # };
 
   services.dunst = {
     enable = true;
@@ -1058,6 +1064,7 @@
     # imhex
     # rlwrap
     # kismet
+    nwg-look
     rage
     ripgrep
     rsync
@@ -1078,6 +1085,7 @@
     wlr-randr
     wl-clipboard
     wl-clip-persist
+    hyprshade
     cliphist
     wdisplays
     xdg-utils

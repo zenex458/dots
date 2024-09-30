@@ -54,6 +54,12 @@
       macAddress = "random";
       backend = "iwd";
     };
+    wireless.iwd.settings = {
+      Settings = {
+        "AddressRandomization" = "network";
+        "AlwaysRandomizeAddress" = true;
+      };
+    };
     enableIPv6 = false;
   };
 
@@ -143,11 +149,11 @@
   ];
 
   services = {
-    journald.extraConfig = "  SystemMaxUse=250M\n";
+    journald.extraConfig = "SystemMaxUse=250M\n";
     logind = {
       lidSwitch = "suspend";
     };
-    irqbalance.enable = true;
+    # irqbalance.enable = true;
     #with hardened profile this is needed otherwise nix will not build
     #    logrotate.checkConfig = false;
     #    fwupd.enable = true;
