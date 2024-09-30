@@ -13,18 +13,20 @@
 (eval-and-compile
   (setq use-package-always-ensure t
         use-package-expand-minimally t))
-;(setq use-package-compute-statistics t) ;then do (use-package-report)
+;;(setq use-package-compute-statistics t) ;then do (use-package-report)
 
-(use-package nyx-theme
-  :ensure t
-  :config
-    (enable-theme 'nyx))
+;;(use-package nyx-theme
+;;:ensure t
+;;:config
+;; (enable-theme 'nyx))
+(load-theme 'modus-vivendi)
+
 
 (setq inhibit-startup-screen t)
 (setq initial-scratch-message nil)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
-(set-fringe-mode 10)
+(set-fringe-mode 12)
 (menu-bar-mode -1)
 ;;(column-number-mode 1)
 (display-battery-mode 1)
@@ -279,7 +281,7 @@
  '(display-time-mode t)
  '(menu-bar-mode nil)
  '(package-selected-packages
-   '(ivy-rich gcmh omnisharp yasnippet slime-company slime company flycheck which-key nyx-theme evil rainbow-delimiters use-package))
+   '(solarized-theme solarized color-theme-sanityinc-solarized noctilux-theme vbasense ivy-rich gcmh omnisharp yasnippet slime-company slime company flycheck which-key nyx-theme evil rainbow-delimiters use-package))
  '(size-indication-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
