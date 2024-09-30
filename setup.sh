@@ -16,7 +16,25 @@ suck_less ()
 
 Arch ()
 {
-	$pkg neovim wget firefox kitty rofi htop neofetch zsh feh mono thunar file-roller playerctl redshift libreoffice slock xclip dunst libnotify scrot zathura bc qualculate-gtk qemu virt-manager chromium qutebrowser cmus yt-dlp xorg-xbacklight zip unzip exa bat procs zettlr fuse3 networkmanager mpv newsboat ghc light lynx httrack keepassxc p7zip xorg xorg-server git xorg-xinit
+	$pkg neovim wget curl firefox htop feh thunar sudo ufw playerctl redshift libreoffice slock dunst libnotify scrot mupdf bc cmus yt-dlp zip unzip tar fuse3 ntfs-3g exfatprogs exfat-utils networkmanager mpv light kepassxc xorg xorg-server xorg-xinit
+	cd ~/.config/batsignal &&
+	$perm make clean install &&
+	cd ~/ &&
+
+	$perm systemctl enable ufw &&
+	$perm systemctl start ufw &&
+	$perm ufw enable &&
+	$perm ufw default deny incoming &&
+	$perm ufw default allow outgoing &&
+	$perm systemctl enable trim.timer &&
+	sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+ 	      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' &&
+	wget https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts &&
+	$perm mv /etc/hosts /etc/hosts.old && 
+	$prm mv hosts /etc/hosts 
+
+
+
 	if [ "$de" = "D" ]
 	then
 		$pkg base-devel git libx11 libxft xorg-server xorg-xinit terminus-font && suck_less 
@@ -153,7 +171,7 @@ other ()
 	cp -r Downloads/* ~/Downloads &&
 	mkdir -p ~/.config &&
 	cp -r .config/* ~/.config
-	cd ~/.confg/batsignal &&
+	cd ~/.config/batsignal &&
 	$perm make clean install &&
 	sleep 2
 
@@ -182,7 +200,6 @@ echo "(D)ebian"
 echo "(F)edora"
 echo "(O)penBSD"                                           
 echo "(Op)enSuse"
-echo "(V)oid"
 echo "(Z)other"
 
 read -p "Please enter your operating system: " os
@@ -193,7 +210,6 @@ case $os in
 	F)  pkg="$perm dnf install" && Fedora;;
 	O)  pkg="$perm pkg_add" && OpenBSD ;;
 	Op) pkg="$perm zypper instal" && OpenSUSE;;
-	V)  pkg="$perm xbps-install" && Void;;
 	Z)  other
 	* echo "errm thats not right!" && echo "your os is :" && uname -a && exit;;
 esac &&
