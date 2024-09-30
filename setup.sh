@@ -38,7 +38,8 @@ postsetup ()
 	cd ~/
 	git clone https://codeberg.org/zenex/looks
 	cd looks
-	sudo cp -r Future* Material* /usr/share/icons
+	sudo cp -r Future* /usr/share/icons
+	sudo cp -r Material* /usr/share/themes
 	sudo cp -r Hack /usr/share/fonts
 }
 
@@ -46,8 +47,6 @@ Debian ()
 {
 	sudo apt update
 	$pkg emacs sbcl wget curl firefox-esr htop feh redshift libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin scrot zathura network-manager tar zip unzip fuse3 ntfs-3g pcmanfm light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw nnn gcc alsa-utils tlp tmux mpc mpd ncmpcpp p7zip-full dmenu xsecurelock intel-microcode libxrandr-dev arandr make trash-cli lxappearance mpv
-
-	suck_less
 	sudo systemctl disable bluetooth
 	sudo systemctl enable tlp
 	postsetup 
@@ -73,7 +72,7 @@ osR=$(awk -F '^NAME=' '{print $2}' /etc/os-release | grep " " | sed -e 's/^"//' 
 case $osR in
 	"Debian GNU/Linux")  pkg="sudo apt install" && Debian ;;
 	"Fedora Linux")  pkg="sudo dnf install" && Fedora;;
-	*)  echo "Invalid os name" && echo "your os is :" && uname -a && Os;;
+	*)  echo "Invalid os name" && echo "your os is :" && uname -a && exit;;
 esac 
 }
 
