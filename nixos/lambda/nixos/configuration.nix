@@ -5,21 +5,22 @@
 { inputs, outputs, lib, config, pkgs, ... }:
 
 {
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./hardened.nix
-      inputs.home-manager.nixosModules.home-manager
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    #./hardened.nix
+    inputs.home-manager.nixosModules.home-manager
+  ];
 
   boot = {
+    kernelPackages = pkgs.linuxPackages_latest;
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
     supportedFilesystems = [ "ntfs" ];
     tmp.cleanOnBoot = true;
     tmp.useTmpfs = true;
-    initrd.luks.devices."luks-152b6b58-8aa9-41bf-a53f-29e01eef5d54".device = "/dev/disk/by-uuid/152b6b58-8aa9-41bf-a53f-29e01eef5d54";
+    initrd.luks.devices."luks-8f284511-de15-47f0-922f-676bcef512cc".device =
+      "/dev/disk/by-uuid/8f284511-de15-47f0-922f-676bcef512cc";
   };
 
   hardware.opengl = {
@@ -53,52 +54,52 @@
 
   virtualisation.libvirtd.enable = true;
   programs = {
-    hyprland = {
-      enable = true;
-      xwayland.enable = true;
-    };
     xwayland.enable = true;
     light.enable = true;
     dconf.enable = true;
     bash.undistractMe.timeout = 30;
     bash.undistractMe.playSound = true;
-    bash.promptInit =
-      ''
-        if [ "$LOGNAME" = root ] || [ "$(id -u)" -eq 0 ]; then
-        	PS1="\[\e[01;31m\]\[\u@\h:\w# \]\\[\e[00m\]"
-        else
-        	PS1="[\w]\nλ "
-        fi
-      '';
+    bash.promptInit = ''
+      if [ "$LOGNAME" = root ] || [ "$(id -u)" -eq 0 ]; then
+      	PS1="\[\e[01;31m\]\[\u@\h:\w# \]\\[\e[00m\]"
+      else
+      	PS1="[\w]\nλ "
+      fi
+    '';
   };
 
   home-manager = {
     extraSpecialArgs = { inherit inputs outputs; };
-    users = {
-      zenex = import ../home-manager/home.nix;
-    };
+    users = { zenex = import ../home-manager/home.nix; };
   };
 
   users.users.zenex = {
     isNormalUser = true;
     description = "zenex";
-    extraGroups = [ "networkmanager" "wheel" "video" "audio" "input" "libvirtd" ];
-    packages = with pkgs; [
-    ];
+    extraGroups =
+      [ "networkmanager" "wheel" "video" "audio" "input" "libvirtd" ];
+    packages = with pkgs; [ ];
   };
 
-  networking.timeServers = [ "time.cloudflare.com" "ntppool1.time.nl" "nts.netnod.se" "ptbtime1.ptb.de" ];
-
-  xdg.portal = {
-    enable = true;
-    wlr.enable = true;
-    configPackages = [ pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal pkgs.xdg-desktop-portal-wlr ];
-  };
+  networking.timeServers = [
+    "time.cloudflare.com"
+    "ntppool1.time.nl"
+    "nts.netnod.se"
+    "ptbtime1.ptb.de"
+  ];
 
   services = {
+    #with hardened profile this is needed otherwise nix will not build
+    logrotate.checkConfig = false;
     fwupd.enable = true;
     printing.enable = true;
-    printing.drivers = [ pkgs.gutenprint pkgs.gutenprintBin pkgs.epson-escpr pkgs.epson-escpr2 pkgs.foomatic-db-ppds-withNonfreeDb ];
+    printing.drivers = [
+      pkgs.gutenprint
+      pkgs.gutenprintBin
+      pkgs.epson-escpr
+      pkgs.epson-escpr2
+      pkgs.foomatic-db-ppds-withNonfreeDb
+    ];
     avahi = {
       enable = true;
       nssmdns = true;
@@ -113,26 +114,21 @@
       layout = "gb";
       xkbVariant = "";
     };
-    clamav = {
-      daemon.enable = true;
-      updater.enable = true;
-    };
     usbguard.enable = true;
     #    usbguard.package = pkgs.usbguard-nox;
     usbguard.presentControllerPolicy = "apply-policy";
     usbguard.implicitPolicyTarget = "block";
-    usbguard.rules =
-      ''
-        allow id 1d6b:0002 serial "0000:00:14.0" name "xHCI Host Controller" with-interface 09:00:00 with-connect-type ""
-        allow id 1d6b:0003 serial "0000:00:14.0" name "xHCI Host Controller" with-interface 09:00:00 with-connect-type ""
-        allow id 0951:16dc serial "" name "HyperX Alloy FPS RGB" with-interface { 03:01:01 03:01:01 03:00:00 } with-connect-type "hotplug"
-        allow id 046d:c07e serial "497530453739" name "Gaming Mouse G402" with-interface { 03:01:02 03:00:00 } with-connect-type "hotplug"
-        allow id 13d3:5248 serial "NULL" name "Integrated Camera" with-interface { 0e:01:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 } with-connect-type "not used"
-        allow id 0bc2:2343 serial "NACAPZXW" name "Portable" with-interface { 08:06:50 08:06:62 } with-connect-type "hotplug"
-        allow id 090c:1000 serial "0320619110005669" name "Flash Drive" with-interface 08:06:50 with-connect-type "hotplug"
-        allow id 047d:1022 serial "" name "Kensington USB Orbit" with-interface 03:01:02 with-connect-type "hotplug"
+    usbguard.rules = ''
+      allow id 1d6b:0002 serial "0000:00:14.0" name "xHCI Host Controller" with-interface 09:00:00 with-connect-type ""
+      allow id 1d6b:0003 serial "0000:00:14.0" name "xHCI Host Controller" with-interface 09:00:00 with-connect-type ""
+      allow id 0951:16dc serial "" name "HyperX Alloy FPS RGB" with-interface { 03:01:01 03:01:01 03:00:00 } with-connect-type "hotplug"
+      allow id 046d:c07e serial "497530453739" name "Gaming Mouse G402" with-interface { 03:01:02 03:00:00 } with-connect-type "hotplug"
+      allow id 13d3:5248 serial "NULL" name "Integrated Camera" with-interface { 0e:01:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 } with-connect-type "not used"
+      allow id 0bc2:2343 serial "NACAPZXW" name "Portable" with-interface { 08:06:50 08:06:62 } with-connect-type "hotplug"
+      allow id 090c:1000 serial "0320619110005669" name "Flash Drive" with-interface 08:06:50 with-connect-type "hotplug"
+      allow id 047d:1022 serial "" name "Kensington USB Orbit" with-interface 03:01:02 with-connect-type "hotplug"
 
-      '';
+    '';
     opensnitch.enable = true;
     ntp.enable = false;
     chrony = {
@@ -140,20 +136,19 @@
       initstepslew.enabled = true;
       serverOption = "iburst";
       enableNTS = true;
-      extraConfig =
-        ''
-          minsources 2
-          authselectmode require
+      extraConfig = ''
+        minsources 2
+        authselectmode require
 
-          # EF
-          dscp 46
+        # EF
+        dscp 46
 
-          leapsectz right/UTC
-          makestep 1.0 3
+        leapsectz right/UTC
+        makestep 1.0 3
 
 
-          cmdport 0
-        '';
+        cmdport 0
+      '';
     };
 
     thermald.enable = true;
@@ -187,8 +182,7 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-  ];
+  environment.systemPackages = with pkgs; [ ];
 
   fonts.packages = with pkgs; [
     iosevka
@@ -205,24 +199,20 @@
 
   networking.firewall = {
     enable = true;
-    #   allowedUDPPorts = [
-    #   42000
-    #   42001
-    #   ];
-    #   allowedTCPPorts = [
-    #   42000
-    #   42001
-    #   ];
 
-    allowedTCPPorts = [ 631 ]; #printing
-    allowedUDPPorts = [ 631 ]; #printing
+    allowedTCPPorts = [ 631 ]; # printing
+    allowedUDPPorts = [ 631 ]; # printing
 
-    allowedTCPPortRanges = [
-      { from = 1714; to = 1764; } #kdeconnect
-    ];
-    allowedUDPPortRanges = [
-      { from = 1714; to = 1764; } #kdeconnect
-    ];
+    allowedTCPPortRanges = [{
+      from = 1714;
+      to = 1764;
+    } # kdeconnect
+      ];
+    allowedUDPPortRanges = [{
+      from = 1714;
+      to = 1764;
+    } # kdeconnect
+      ];
   };
 
   nix.settings = {
