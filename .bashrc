@@ -48,6 +48,9 @@ alias bd="bluetoothd -f /etc/bluetooth/main.conf"
 alias hmb="nv ~/Documents/txt/hmb"
 alias the="nv ~/Documents/txt/THEBEST"
 alias inf="~/.config/inf.sh"
+alias dr="dotnet run"
+alias dow="aria2c"
+alias del="trash-put"
 
 function see_sharp (){
 	mcs $1.cs && mono $1.exe 
@@ -94,3 +97,7 @@ export _ZL_DATA='~/.local/share/.zlua'
 #backup tar cf - directory | 7za a -si directory.tar.7z
 #extract 7za x -so directory.tar.7z | tar xf -
 eval "$(lua ~/.config/z.lua --init bash)"
+if [ $TERM != "linux" ]
+then
+	clifm
+fi
