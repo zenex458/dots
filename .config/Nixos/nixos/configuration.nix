@@ -71,6 +71,7 @@
   programs = {
     wireshark = {
       enable = true;
+      package = pkgs.wireshark;
     };
     hyprland = {
       enable = true;
@@ -122,8 +123,6 @@
       "audio"
       "input"
       "libvirtd"
-      "cdrom"
-      "optical"
       "wireshark"
     ];
     packages = with pkgs; [ (chromium.override { enableWideVine = true; }) ];
