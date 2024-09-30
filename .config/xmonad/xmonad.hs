@@ -37,32 +37,25 @@ myConfig =
       -- , manageHook = manageSpawn <+> myManageHook
       manageHook = myManageHook,
       keys = myKeys
-      -- , manageHook = namedScratchpadManageHook scratchpads
     }
 
 myKeys conf@(XConfig {XMonad.modMask = modm}) =
   M.fromList $
     -- terminal
-    [ ((modm, xK_Return), spawn "urxvtc -e tmux"),
+    [ ((modm, xK_Return), spawn "st -e tmux"),
       -- normal firefox
-      ((modm, xK_c), spawn "firefox"),
-      ((modm .|. shiftMask, xK_c), spawn "firefox --private-window"),
+      ((modm, xK_c), spawn "firejail firefox"),
+      ((modm .|. shiftMask, xK_c), spawn "firejail firefox --private-window"),
       -- private firefox
-      ((mod1Mask, xK_c), spawn "firefox -P priv"),
+      ((mod1Mask, xK_c), spawn "firejail firefox -P priv"),
       -- next song
       ((mod1Mask, xK_o), spawn "mpc next"),
       -- previous song
       ((mod1Mask, xK_i), spawn "mpc prev"),
       -- play/pause song
       ((mod1Mask, xK_p), spawn "mpc toggle"),
-      -- lock
-      ((mod1Mask .|. controlMask, xK_l), spawn "Menu"),
-      -- screenshot now
-      ((modm, xK_s), spawn "scrot ~/Downloads/Images/ss/%Y-%m-%d_$wx$h.png && notify-send 'Screenshot Taken'"),
-      -- sceenshot with delay
-      ((modm .|. shiftMask, xK_s), spawn "sswd.sh"),
       -- spawn alsamixer
-      ((modm, xK_a), spawn "urxvtc -e pulsemixer"),
+      ((modm, xK_a), spawn "st -e pulsemixer"),
       -- minus vol
       ((mod1Mask, xK_bracketleft), spawn "amixer sset Master 2%-"),
       -- add vol
@@ -70,16 +63,13 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       -- spawn emacsclient
       ((modm, xK_u), spawn "emacsclient -c -a emacs"),
       -- brightness up by 2
-      ((mod1Mask, xK_Prior), spawn "light -A 2"),
+      ((mod1Mask, xK_Prior), spawn "light -A 2"), -- brightnessctl
       -- brightness down by 2
       ((mod1Mask, xK_Next), spawn "light -U 2"),
       -- application launcher
-      -- ((modm, xK_p), spawn "rofi -modi combi -combi-modes 'window,run' -show combi"),
       ((modm, xK_p), spawn "dmenu_run"),
-      ((mod1Mask, xK_Tab), spawn "switch.sh"),
-      --      ((modm, xK_m), namedScratchpadAction scratchpads "music"),
       -- close focused window
-      ((modm, xK_q), kill),
+      ((modm .|. shiftMask, xK_q), kill),
       -- Rotate through the available layout algorithms
       ((modm, xK_space), sendMessage NextLayout),
       ((modm, xK_m), sendMessage $ JumpToLayout "Full"),
@@ -138,7 +128,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
 
       [ ((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
-        | (key, sc) <- zip [xK_w, xK_e, xK_z] [0 ..],
+        | (key, sc) <- zip [xK_r, xK_w, xK_e] [0 ..],
           (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
       ]
 
@@ -148,7 +138,8 @@ quitWithWarning = do
   s <- dmenu [m]
   when (m == s) (io exitSuccess)
 
-myLayout = lessBorders (Screen) tiled ||| noBorders Full
+-- myLayout = lessBorders (Screen) tiled ||| noBorders Full
+myLayout = tiled ||| noBorders Full
   where
     tiled = ResizableTall nmaster delta ratio []
     nmaster = 1
@@ -167,16 +158,12 @@ myManageHook =
     -- using 'doShift ( myWorkspaces !! 7)' sends program to workspace 8!
     -- I'm doing it this way because otherwise I would have to write out the full
     -- name of my workspaces and the names would be very long if using clickable workspaces.
-    [ title =? "pulsemixer" --> doCenterFloat,
-      --    ,appName =? "music" --> doShift ( myWorkspaces !! 7)
+    [ className =? "firefox" --> doShift (myWorkspaces !! 0),
+      className =? "Emacs" --> doShift (myWorkspaces !! 1),
+      className =? "mpv" --> doShift (myWorkspaces !! 7),
+      title =? "pulsemixer" --> doCenterFloat,
       appName =? "Browser" --> doCenterFloat
-    ] -- <+> namedScratchpadManageHook scratchpads
-
--- scratchpads = [
---    NS "music" "urxvtc -e ncmpcpp" (title =? "ncmpcpp")
---        (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3))
---
---              ] where role = stringProperty "WM_WINDOW_ROLE"
+    ]
 
 myXmobarPP :: PP
 myXmobarPP =
