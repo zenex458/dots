@@ -69,11 +69,11 @@ Fedora()
 Os()
 {
 
-osR=$(head -1 /etc/os-release | awk -F 'NAME=' '{print $2}' | tail -1)
+osR=$(head -1 os-release | awk -F 'NAME=' '{print $2}' | tail -1 | sed -e 's/^"//' -e 's/"$//')
 case $osR in
 	"Debian GNU/Linux")  pkg="sudo apt install" && Debian ;;
 	"Fedora Linux")  pkg="sudo dnf install" && Fedora;;
-	*)  echo "Invalid os name" && echo "your os is :" && uname -a && Menu;;
+	*)  echo "Invalid os name" && echo "your os is :" && uname -a && Os;;
 esac 
 }
 
