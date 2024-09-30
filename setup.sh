@@ -36,23 +36,6 @@ postsetup() {
 		echo "sway not added"
 	fi
 
-	read -rp "Do you want vim-plug?(y/n) " vplug
-	if [[ $vplug == "y" || $vplug == "Y" ]]; then
-		sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
- 	      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-	else
-		echo "vim-plugged not added"
-	fi
-
-	read -rp "Do you want an ad-blocking hosts file?(y/n) " ahosts
-	if [[ $ahosts == "y" || $ahosts == "Y" ]]; then
-		curl -LO "https://codeberg.org/zenex/hosts/raw/branch/main/hosts"
-		sudo mv /etc/hosts /etc/hosts.old
-		sudo mv hosts /etc/hosts
-	else
-		echo "ad-blocking hosts not added"
-	fi
-
 	cd ~/ || cd $HOME || echo "$HOME not found, please set $HOME variable"
 	git clone https://codeberg.org/zenex/looks
 	cd looks || echo "looks directory not found"
@@ -102,8 +85,13 @@ Os() {
 }
 
 Os
-cp -r .zshrc .bashrc ~/
+cp -r .xinitrc .bashrc ~/
 mkdir -p ~/Downloads/
 mkdir -p ~/.config && cp -r .config/. ~/.config
-mkdir -p --parents ~/.local/bin && cp -r .local/bin/. ~/.local/bin/
+mkdir -p ~/.local/bin && cp -r .local/bin/. ~/.local/bin/
+sudo cp /etc/chrony/chrony.conf /etc/chrony/chrony.conf.old
+sudo cp root/30_security-misc.conf /etc/modprobe.d/
+sudo cp root/chrony.conf /etc/chrony/chrony/
+sudo cp root/tlp.conf /etc/tlp/
+sudo cp root/sysctl.conf /etc/sysctl.d/
 echo "All done!"
