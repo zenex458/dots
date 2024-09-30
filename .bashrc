@@ -67,4 +67,7 @@ export _ZL_DATA='~/.local/share/.zlua'
 #backup tar cf - directory | 7za a -si directory.tar.7z
 #extract 7za x -so directory.tar.7z | tar xf -
 #systemctl list-unit-files --type=service --state=enabled
+#xinput list | grep orbit
+#xinput list-props 15
+#xinput set-prop 15 'libinput Middle Emulation Enabled' 1
 eval "$(lua ~/.config/z.lua --init bash)"
