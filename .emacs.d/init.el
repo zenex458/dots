@@ -2,6 +2,8 @@
 ;;; Commentary:
 ;;; Code:
 
+
+;;(server-start)
 ;;(setq gc-cons-threshold 20000000) ;take of a zero if runtime is slow
 (setq gc-cons-threshold 2000000)
 (set-face-attribute 'default nil :font "Hack Nerd Font Mono" :height 110)
@@ -38,6 +40,113 @@
 ;; (enable-theme 'nyx))
 
 
+
+
+
+
+
+
+
+;;(use-package exwm
+;;  :ensure t
+;;  :config
+;;
+;;  ;; necessary to configure exwm manually
+;;  (require 'exwm-config)
+;;
+;;
+;;  ;; emacs as a daemon, use "emacsclient <filename>" to seamlessly edit files from the terminal directly in the exwm instance
+;;
+;;
+;;  ;; this fixes issues with ido mode, if you use helm, get rid of it
+;;  (exwm-config-ido)
+;;
+;;  ;; a number between 1 and 9, exwm creates workspaces dynamically so I like starting out with 1
+;;  (setq exwm-workspace-number 1)
+;;
+;;  ;; this is a way to declare truly global/always working keybindings
+;;  ;; this is a nifty way to go back from char mode to line mode without using the mouse
+;;  (exwm-input-set-key (kbd "s-r") #'exwm-reset)
+;;  (exwm-input-set-key (kbd "s-k") #'exwm-workspace-delete)
+;;  (exwm-input-set-key (kbd "s-w") #'exwm-workspace-swap)
+;;
+;;  ;; the next loop will bind s-<number> to switch to the corresponding workspace
+;;  (dotimes (i 10)
+;;    (exwm-input-set-key (kbd (format "s-%d" i))
+;;                        `(lambda ()
+;;                           (interactive)
+;;                           (exwm-workspace-switch-create ,i))))
+;;
+;;  ;; the simplest launcher, I keep it in only if dmenu eventually stopped working or something
+;;  (exwm-input-set-key (kbd "s-&")
+;;                      (lambda (command)
+;;                        (interactive (list (read-shell-command "$ ")))
+;;                        (start-process-shell-command command nil command)))
+;;
+;;  ;; an easy way to make keybindings work *only* in line mode
+;;  (push ?\C-q exwm-input-prefix-keys)
+;;  (define-key exwm-mode-map [?\C-q] #'exwm-input-send-next-key)
+;;
+;;  ;; simulation keys are keys that exwm will send to the exwm buffer upon inputting a key combination
+;;  (exwm-input-set-simulation-keys
+;;   '(
+;;     ;; movement
+;;     ([?\C-b] . left)
+;;     ([?\M-b] . C-left)
+;;     ([?\C-f] . right)
+;;     ([?\M-f] . C-right)
+;;     ([?\C-p] . up)
+;;     ([?\C-n] . down)
+;;     ([?\C-a] . home)
+;;     ([?\C-e] . end)
+;;     ([?\M-v] . prior)
+;;     ([?\C-v] . next)
+;;     ([?\C-d] . delete)
+;;     ([?\C-k] . (S-end delete))
+;;     ;; cut/paste
+;;     ([?\C-w] . ?\C-x)
+;;     ([?\M-w] . ?\C-c)
+;;     ([?\C-y] . ?\C-v)
+;;     ;; search
+;;     ([?\C-s] . ?\C-f)))
+;;
+;;  ;; this little bit will make sure that XF86 keys work in exwm buffers as well
+;;  (dolist (k '(XF86AudioLowerVolume
+;;               XF86AudioRaiseVolume
+;;               XF86PowerOff
+;;               XF86AudioMute
+;;               XF86AudioPlay
+;;               XF86AudioStop
+;;               XF86AudioPrev
+;;               XF86AudioNext
+;;               XF86ScreenSaver
+;;               XF68Back
+;;               XF86Forward
+;;               Scroll_Lock
+;;               print))
+;;    (cl-pushnew k exwm-input-prefix-keys))
+;;  
+;;  ;; this just enables exwm, it started automatically once everything is ready
+;;  (exwm-enable))
+;;
+;;
+;;
+;;
+;;(use-package dmenu
+;;  :ensure t
+;;  :bind
+;;  ("s-SPC" . 'dmenu))
+
+
+
+
+
+
+
+
+
+
+
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (load-theme 'morest t)
 
@@ -72,14 +181,13 @@
 
 ;;smartparens
 ;;paredit
-;;(defvar electric-pair-pairs '(
-;;                              (?\{ . ?\})
-;;                              (?\( . ?\))
-;;                              (?\[ . ?\])
-;;                              (?\" . ?\")
-;;                              ))
-;;
-;;(electric-pair-mode t)
+(defvar electric-pair-pairs '(
+                              (?\{ . ?\})
+                              (?\( . ?\))
+                              (?\[ . ?\])
+                              (?\" . ?\")
+                              ))
+(electric-pair-mode t)
 
 
 (use-package rainbow-mode
@@ -149,7 +257,7 @@
 (defun edit-todo ()
   "Vist Org-mode Todo list."
   (interactive)
-  (find-file "~/Documents/2. Notes/Org/todo.org"))
+  (find-file "~/Documents/2.Notes/Org/todo.org"))
 (global-set-key (kbd "C-c t") 'edit-todo)
 
 
@@ -197,7 +305,8 @@
 
 
 (setq-default mode-line-format
-	          '("%e" mode-line-front-space mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification mode-line-position (vc-mode vc-mode) " " mode-line-misc-info mode-line-end-spaces))
+ 	          '("%e" mode-line-front-space mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification mode-line-position (vc-mode vc-mode) " " mode-line-misc-info mode-line-end-spaces))
+
 
 
 (use-package omnisharp
@@ -236,7 +345,7 @@
       org-agenda-start-on-weekday t
       org-log-done 'time
       org-enforce-todo-dependencies t
-      org-agenda-files (list "~/Documents/2. Notes/Org/todo.org"))
+      org-agenda-files (list "~/Documents/2.Notes/Org/todo.org"))
 
 (setq-default org-display-custom-times t)
 (defvar org-time-stamp-custom-formats '("<%a %b %e %Y>" . "<%a %b %e %Y %H:%M>"))
@@ -246,6 +355,21 @@
   (beacon-mode 1)
   (setq beacon-color "#ffffff")
   (setq beacon-blink-duration 1.3))
+
+(use-package god-mode
+  :init
+  :config
+  (require 'god-mode)
+  (god-mode)
+  (defun my-god-mode-update-cursor-type ()
+    (setq cursor-type (if (or god-local-mode buffer-read-only) 'box 'hbar)))
+
+  (add-hook 'post-command-hook #'my-god-mode-update-cursor-type))
+
+(global-set-key (kbd "<escape>") #'god-local-mode)
+
+(setq god-exempt-major-modes nil)
+(setq god-exempt-predicates nil)
 
 (use-package aggressive-indent
   :config
@@ -259,6 +383,19 @@
 (setq visible-bell t)
 (setq-default fill-column 80)
 (global-visual-line-mode t)
+;; Open dired folders in same buffer
+(put 'dired-find-alternate-file 'disabled nil)
+(setq dired-dwim-target t)
+
+
+;; Show a horizontal line on the current line
+(global-hl-line-mode t)
+
+
+(use-package hl-column
+  :ensure t
+  :config
+  (global-hl-column-mode t))
 
 (use-package gcmh
   :demand t
@@ -298,6 +435,7 @@
     ad-do-it))
 (ad-activate 'linum-update)
 
+
 (global-linum-mode t)
 ;;https://www.mycpu.org/emacs-relative-linum/
 
@@ -312,7 +450,7 @@
  '(display-time-mode t)
  '(menu-bar-mode nil)
  '(package-selected-packages
-   '(paredit-everywhere vbasense ivy-rich gcmh omnisharp yasnippet slime-company slime company flycheck which-key rainbow-delimiters use-package))
+   '(god-mode auto-package-update paredit-everywhere vbasense ivy-rich gcmh omnisharp yasnippet slime-company slime company flycheck which-key rainbow-delimiters use-package))
  '(size-indication-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
