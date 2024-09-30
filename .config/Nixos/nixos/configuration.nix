@@ -2,7 +2,14 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ inputs, outputs, lib, config, pkgs, ... }:
+{
+  inputs,
+  outputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 
 {
   imports = [
@@ -17,12 +24,17 @@
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
     supportedFilesystems = [ "ntfs" ];
-    tmp.cleanOnBoot = true;
+    #tmp.cleanOnBoot = true;
     tmp.useTmpfs = true;
-    initrd.luks.devices."luks-c747cca5-93f7-40d7-836c-ef71a364d53b".device =
-      "/dev/disk/by-uuid/c747cca5-93f7-40d7-836c-ef71a364d53b";
+    initrd.luks.devices."luks-c747cca5-93f7-40d7-836c-ef71a364d53b" = {
+      device = "/dev/disk/by-uuid/c747cca5-93f7-40d7-836c-ef71a364d53b";
+      allowDiscards = true;
+    };
   };
 
+  systemd.services.nix-daemon = {
+    environment.TMPDIR = "/var/tmp";
+  };
   hardware.opengl = {
     enable = true;
     driSupport = true;
@@ -31,7 +43,10 @@
   networking = {
     hostName = "eukaryotic";
     networkmanager.enable = true;
-    networkmanager.wifi.macAddress = "random";
+    networkmanager.wifi = {
+      macAddress = "random";
+      backend = "iwd";
+    };
     enableIPv6 = false;
   };
 
@@ -67,8 +82,6 @@
           extraArgs = [
             # Enforce dark mode
             "--env=GTK_THEME=Adwaita:dark"
-            # Enable system notifications
-            "--dbus-user.talk=org.freedesktop.Notifications"
           ];
         };
       };
@@ -88,16 +101,29 @@
   };
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs outputs; };
-    users = { zenex = import ../home-manager/home.nix; };
+    extraSpecialArgs = {
+      inherit inputs outputs;
+    };
+    users = {
+      zenex = import ../home-manager/home.nix;
+    };
   };
 
   users.users.zenex = {
     isNormalUser = true;
     description = "zenex";
-    extraGroups =
-      [ "networkmanager" "wheel" "video" "audio" "input" "libvirtd" "cdrom" ];
-    packages = with pkgs; [ ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "video"
+      "audio"
+      "input"
+      "libvirtd"
+      "cdrom"
+      "optical"
+      "wireshark"
+    ];
+    packages = with pkgs; [ (chromium.override { enableWideVine = true; }) ];
   };
 
   networking.timeServers = [
@@ -108,15 +134,29 @@
   ];
 
   services = {
+    journald.extraConfig = "  SystemMaxUse=250M\n";
+    logind = {
+      lidSwitch = "suspend";
+    };
+    irqbalance.enable = true;
     #with hardened profile this is needed otherwise nix will not build
     #    logrotate.checkConfig = false;
     #    fwupd.enable = true;
+    fstrim.enable = true;
     openssh = {
       enable = false;
       # require public key authentication for better security
-      # settings.PasswordAuthentication = false;
-      # settings.KbdInteractiveAuthentication = false;
-      #settings.PermitRootLogin = "yes";
+      #settings.PasswordAuthentication = false;
+      settings.KbdInteractiveAuthentication = false;
+      settings.PermitRootLogin = "no";
+      allowSFTP = false;
+      extraConfig = ''
+        AllowTcpForwarding yes
+        X11Forwarding no
+        AllowAgentForwarding no
+        AllowStreamLocalForwarding no
+        AuthenticationMethods publickey
+      '';
     };
 
     printing.enable = true;
@@ -129,22 +169,27 @@
     ];
     avahi = {
       enable = true;
-      nssmdns = true;
+      nssmdns4 = true;
       openFirewall = true;
     };
-    dbus.enable = true;
+    dbus = {
+      enable = true;
+      implementation = "broker";
+    };
     smartd.enable = true;
     # mysql = {
     #   enable = true;
     #   package = pkgs.mariadb;
     # };
+    libinput.enable = true;
     xserver = {
       enable = true;
       displayManager.startx.enable = true;
-      libinput.enable = true;
-      layout = "gb";
-      xkbVariant = "";
-      xkb.options = "altwin:ctrl_alt_win";
+      xkb = {
+        layout = "gb";
+        variant = "";
+        options = "altwin:ctrl_alt_win";
+      };
     };
     usbguard.enable = true;
     #    usbguard.package = pkgs.usbguard-nox;
@@ -159,7 +204,9 @@
       allow id 0bc2:2343 serial "NACAPZXW" name "Portable" with-interface { 08:06:50 08:06:62 } with-connect-type "hotplug"
       allow id 090c:1000 serial "0320619110005669" name "Flash Drive" with-interface 08:06:50 with-connect-type "hotplug"
       allow id 047d:1022 serial "" name "Kensington USB Orbit" with-interface 03:01:02 with-connect-type "hotplug"
-
+      allow id 1038:184c serial "" name "SteelSeries Rival 3" with-interface { 03:01:02 03:00:00 03:00:00 03:00:00 } with-connect-type "hotplug"
+      allow id 30de:6545 serial "C03FD5F7713EE410A3130379" name "TransMemory" with-interface 08:06:50 with-connect-type "hotplug"
+      allow id 046d:c08b serial "1285335A3232" name "G502 HERO Gaming Mouse" with-interface { 03:01:02 03:00:00 } with-connect-type "hotplug"
     '';
     #    opensnitch.enable = true;
     ntp.enable = false;
@@ -186,10 +233,10 @@
     thermald.enable = true;
     tlp.enable = true;
     tlp.settings = {
-      # CPU_SCALING_MIN_FREQ_ON_AC = 2800000;
-      # CPU_SCALING_MAX_FREQ_ON_AC = 2800000;
-      # CPU_SCALING_MIN_FREQ_ON_BAT = 400000;
-      # CPU_SCALING_MAX_FREQ_ON_BAT = 2000000;
+      CPU_SCALING_MIN_FREQ_ON_AC = 2800000;
+      CPU_SCALING_MAX_FREQ_ON_AC = 2800000;
+      CPU_SCALING_MIN_FREQ_ON_BAT = 400000;
+      CPU_SCALING_MAX_FREQ_ON_BAT = 2000000;
       CPU_SCALING_GOVERNOR_ON_AC = "performance";
       CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
       CPU_MIN_PERF_ON_AC = 0;
@@ -205,6 +252,14 @@
       alsa.support32Bit = true;
       pulse.enable = true;
       wireplumber.enable = true;
+      ##      extraConfig.pipewire."92-low-latency" = {
+      ##        "context.properties" = {
+      ##          "default.clock.rate" = 48000;
+      ##          "default.clock.quantum" = 32;
+      ##          "default.clock.min-quantum" = 32;
+      ##          "default.clock.max-quantum" = 32;
+      ##        };
+      ##      };
     };
     gvfs.enable = true;
   };
@@ -212,17 +267,34 @@
   powerManagement.enable = true;
   nixpkgs.config = {
     allowUnfree = true;
-    ungoogled-chromium = { enableWideVine = true; };
   };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [ ];
-  environment.pathsToLink = [ "/share/zsh" "/share/bash-completion" ];
+  environment = {
+    sessionVariables.NIXOS_OZONE_WL = "1";
+    defaultPackages = lib.mkForce [ ];
+    systemPackages = with pkgs; [ ];
+    pathsToLink = [
+      "/share/zsh"
+      "/share/bash-completion"
+    ];
+    etc = {
+      "firejail/firefox.local".text = ''
+        # Enable native notifications.
+        dbus-user.talk org.freedesktop.Notifications
+        # Allow inhibiting screensavers.
+        dbus-user.talk org.freedesktop.ScreenSaver
+        # Allow screensharing under Wayland.
+        dbus-user.talk org.freedesktop.portal.Desktop
+        disable-mnt
+      '';
+    };
+  };
   fonts.packages = with pkgs; [
     iosevka
     vistafonts
-    (nerdfonts.override { fonts = [ "Iosevka" "IosevkaTerm" ]; })
+    #    (nerdfonts.override { fonts = [ "Iosevka" "IosevkaTerm" ]; })
   ];
 
   fonts.fontconfig = {
@@ -233,40 +305,57 @@
 
   security = {
     pam.services.swaylock = { };
-    apparmor = { enable = true; };
+    apparmor = {
+      enable = true;
+    };
     chromiumSuidSandbox.enable = true;
     rtkit.enable = true;
     polkit.enable = true;
+    sudo.execWheelOnly = true;
   };
-
   networking.firewall = {
     enable = true;
+    #    pingLimit = "--limit 1/minute --limit-burst 5";
+    allowedTCPPorts = [
+      631
+      5353
+    ]; # printing
+    allowedUDPPorts = [
+      631
+      5353
+    ]; # printing
 
-    allowedTCPPorts = [ 631 ]; # printing
-    allowedUDPPorts = [ 631 ]; # printing
-
-    allowedTCPPortRanges = [{
-      from = 1714;
-      to = 1764;
-    } # kdeconnect
-      ];
-    allowedUDPPortRanges = [{
-      from = 1714;
-      to = 1764;
-    } # kdeconnect
-      ];
+    allowedTCPPortRanges = [
+      {
+        from = 1714;
+        to = 1764;
+      }
+      # kdeconnect
+    ];
+    allowedUDPPortRanges = [
+      {
+        from = 1714;
+        to = 1764;
+      }
+      # kdeconnect
+    ];
   };
 
   nix = {
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       auto-optimise-store = true;
+      allowed-users = [ "@wheel" ];
     };
     gc = {
       automatic = true;
-      dates = "weekly";
+      dates = "14:00";
       options = "--delete-older-than 7d";
     };
+
   };
 
   # This value determines the NixOS release from which the default

@@ -19,7 +19,7 @@ with lib;
 
   boot.kernelPackages = mkDefault pkgs.linuxPackages_6_5_hardened;
 
-  nix.settings.allowed-users = mkDefault [ "@users" ];
+  nix.settings.allowed-users = mkDefault [ "@wheel" ];
 
   #  security.apparmor.enable = mkDefault true;
   #  security.apparmor.packages = [ pkgs.apparmor-utils ];
@@ -187,7 +187,7 @@ with lib;
   boot.kernel.sysctl."vm.mmap_rnd_bits" = mkDefault "32";
   boot.kernel.sysctl."vm.mmap_rnd_compat_bits" = mkDefault "16";
 
-  boot.kernel.sysctl."vm.swappiness" = mkOverride 60 10;
+  boot.kernel.sysctl."vm.swappiness" = mkOverride 60 1;
   # Restrict ptrace() usage to processes with a pre-defined relationship
   # (e.g., parent/child)
   boot.kernel.sysctl."kernel.yama.ptrace_scope" = mkOverride 500 2;
