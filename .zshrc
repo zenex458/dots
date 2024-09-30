@@ -8,7 +8,7 @@ zstyle ':completion:*' completer _expand _complete _ignored _correct _approximat
 #zstyle ':completion:*' format '%d'
 zstyle ':completion:*:*:*:*:descriptions' format '%F{red}[%d]%f'
 zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path "~/.cache/.zcompcache"
+zstyle ':completion:*' cache-path "$HOME/.cache/.zcompcache"
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' list-colors ''

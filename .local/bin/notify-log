@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-logfile=$1
+logfile="~/.local/share/notify-hist"
 
 dbus-monitor "interface='org.freedesktop.Notifications'" |\
 grep --line-buffered "string" |\

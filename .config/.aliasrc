@@ -2,33 +2,62 @@
 #alias sss="maim -s -m 10 ~/Downloads/Images/ss/$(date +%N).jpeg"
 #alias mofat="doas mount -t exfat /dev/mmcblk0p1 ~/.sdcard"
 #alias gb="setxkbmap gb -variant qwerty"
-#alias upd="doas nix-channel --update && doas nixos-rebuild switch"
-#alias updc="doas nixos-rebuild switch"
-#alias nixgc="nix-collect-garbage"
-#alias remoldgen="doas nix-collect-garbage -d && upd"
-#alias enc="doas nvim /etc/nixos/configuration.nix"
 #alias mofat="udisksctl mount -b /dev/mmcblk0p1"
 #alias umofat="udisksctl unmount -b /dev/mmcblk0p1"
 #alias mod="sudo ntfs-3g -o permissions /dev/sdb1 /media/zenex/seagate"
 #alias umod="sudo umount /media/zenex/seagate"
+#alias upd="sudo nix-channel --update && sudo nixos-rebuild switch"
+#alias updc="sudo nixos-rebuild switch"
+#alias nixgc="nix-collect-garbage"
+#alias remoldgen="sudo nix-collect-garbage -d && upd"
+#alias enc="sudo nvim /etc/nixos/configuration.nix"
 #fe(){ find ~/ -type f | fzy | xargs -r $EDITOR; }
 #fcd(){ cd "$(find ~/ -type d | fzy)"; }
 #fcdw(){ cd "$(find / -type d | fzy)"; }
 
-fe() { fdfind -H . $HOME --type f | fzy | xargs -r $EDITOR; }
+fe(){ fdfind -H . $HOME --type f | fzy | xargs -r $EDITOR; }
 fcd(){ cd "$(fdfind -H . $HOME --type d | fzy)" || exit; }
+#fcd(){ fdfind -H . $HOME --type d | fzy | xargs cd }
+fcp(){
+    files=$(find ~/ -type f | fzf -m --prompt="choose file: ")
+    dir=$(find ~/ -type d | fzf --prompt="choose destination dir: ")
+    echo "$files" | xargs -I {} cp {} "$dir" && echo "files copied" || echo "not copied"
+}
+fo() { fdfind -H . $HOME --type f | fzy | xargs -r -I {} sh -c 'nohup xdg-open "$1" &' -- {}; exit }
+
+cd(){
+    if [ -z "$#" ]; then
+       builtin cd
+    else
+       builtin cd "$@"
+    fi
+    if [ $? -eq 0 ]; then
+        ls -F -h --color=always
+    fi
+}
+
+fbp(){
+    files=$(find ~/ -type d | fzf -m --prompt="choose source dirs: ")
+    dir=$(find / -type d | fzf --prompt="choose destination dir: ")
+    doubts=$(echo "Are you sure?(Y/N)")
+    if [ "$doubts" = "Y" ] || [ "$doubts" = "y" ]; then
+        echo "$files" | xargs -I {} mv {} "$dir" && echo "files moved" || echo "not moved"
+    else
+        exit
+    fi
+}
 fcdw() { cd "$(fdfind -H . / --type d | fzy)" || exit; }
 lc(){ for i in *; do "$@" "$i"; done }
 
-alias add="sudo aptitude install"
-alias rem="sudo aptitude remove"
-alias sea="sudo aptitude search"
-alias upd="sudo aptitude update && sudo aptitude safe-upgrade"
+alias add="sudo apt install"
+alias rem="sudo apt autoremove --purge"
+alias sea="sudo apt-cache search"
+alias upd="sudo apt update && sudo apt upgrade"
 alias re="systemctl reboot"
 alias off="systemctl poweroff"
 alias e="emacs -nw -q -l /home/zenex/.emacs.d/tm.el"
 alias nv="nvim"
-alias ls="ls -F -h"
+alias ls="ls -F -h --color=always"
 alias ga="git add"
 alias gc="git commit -m"
 alias gp="git push -u origin main"
@@ -46,10 +75,11 @@ alias lines="ls | wc -l"
 alias tk="tmux kill-session" 
 alias sss="scrot -d 5 ~/Downloads/Images/ss/%Y-%m-%d_$wx$h.png"
 alias cco="gcc -Wall"
-alias ytmp3="yt-dlp -x -o '%(title)s.%(ext)s' --audio-format mp3 "
-alias ytt="yt-dlp --embed-thumbnail -o '%(title)s.%(ext)s' --remux-video mp4 --embed-subs --write-auto-subs --sub-langs en "
-alias yt="yt-dlp -o '%(title)s.%(ext)s' --remux-video mp4 --embed-subs --write-auto-subs --sub-langs en "
+alias ytmp3="yt-dlp -q -v -x -o '%(title)s.%(ext)s' --audio-format mp3 "
+alias ytt="yt-dlp -q -v --embed-thumbnail -o '%(title)s.%(ext)s' --remux-video mp4 --embed-subs --write-auto-subs --sub-langs en "
+alias yt="yt-dlp -q -v -o '%(title)s.%(ext)s' --remux-video mp4 --embed-subs --write-auto-subs --sub-langs en "
 alias xdup="xrandr --output HDMI-1 --same-as eDP-1"
+alias xright="xrandr --output eDP1 --auto --primary --output HDMI1 --auto --right-of eDP1"
 alias xup="xrandr --output HDMI-1 --brightness 1.0"
 alias chnum="stat -c '%a %n'"
 alias tas="tmux attach-session"
@@ -63,10 +93,9 @@ alias sysdlist="systemctl list-unit-files --type=service --state=enabled"
 alias li="mpd && ncmpcpp"
 alias rli="mpd --kill"
 alias mu="ncmpcpp"
-alias hmb="nvim ~/Documents/Txt/hmb"
-alias the="nvim ~/Documents/Txt/THEBEST"
-alias kd="/usr/lib/x86_64-linux-gnu/libexec/kdeconnectd" #/usr/libexec/kdeconnectd
+alias kd="/usr/lib/x86_64-linux-gnu/libexec/kdeconnectd" #/nix/store/0d43kvp8lzfgd7cvpldkqgizxvziypkx-kdeconnect-kde-22.08.3/libexec/kdeconnectd #/usr/libexec/kdeconnectd
 alias rsy="rsync -avhHAXSW --info=progress2"
 alias del="trash-put"
 alias fnx="find . -type f -exec chmod 644 {} +"
 alias shx="find . -name '*.sh' -execdir chmod +x {} +"
+alias ctg="gsettings set org.cinnamon.desktop.default-applications.terminal exec gnome-terminal"

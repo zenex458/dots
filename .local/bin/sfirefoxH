@@ -3,9 +3,6 @@
 #https://git.sr.ht/~seirdy/bwrap-scripts/tree/trunk/item/firefox-sandbox
 
 
-
-
-
  bwrap \
 --symlink usr/lib /lib \
 --symlink usr/lib64 /lib64 \
@@ -55,4 +52,4 @@
 --share-net \
 --die-with-parent \
 --new-session \
-/usr/bin/firefox
+/usr/bin/firefox -P priv
