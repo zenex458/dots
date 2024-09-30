@@ -27,7 +27,15 @@ postsetup ()
  	      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' &&
 	wget https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts &&
 	$perm mv /etc/hosts /etc/hosts.old && 
-	$prm mv hosts /etc/hosts 
+	$perm mv hosts /etc/hosts
+	cp ~/dots/Downloads/FiraMono.zip ~/dots/Downloads/vimix-dark.tar.xz ~/Downloads/ &&
+	cd ~/Downloads/ &&
+	unzip FiraMono.zip -d FiraMono &&
+	$perm mv FiraMono /usr/share/fonts/ &&
+	tar -xf vimix-dark.tar.xz &&
+	$perm mv vimix-dark /usr/share/themes/ &&
+	rm -r vimix-dark-* FiraMono.zip &&
+	cd ~/
 }
 
 Arch ()
