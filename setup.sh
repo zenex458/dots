@@ -59,7 +59,7 @@ postsetup() {
 	sudo cp -r Future* /usr/share/icons
 	sudo cp -r plan9 /usr/share/icons
 	sudo cp -r Cloudy* /usr/share/themes
-	sudo cp -r iosevka /usr/share/fonts
+	sudo cp -r IosevkaFixedCustom /usr/share/fonts
 }
 
 Debian_install_firefox() {
