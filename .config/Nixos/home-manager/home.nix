@@ -607,6 +607,7 @@
     enableBashIntegration = true;
   };
 
+  programs.zsh.enable = true;
   programs.bash = {
     enableCompletion = true;
     historyControl = [ "ignoredups" ];
@@ -1002,6 +1003,9 @@
   };
 
   home.packages = with pkgs; [
+    # imhex
+    # kismet
+    # rlwrap
     alacritty
     alsa-utils
     anki-bin
@@ -1009,16 +1013,15 @@
     astyle
     bc
     bemenu
-    bsdgames
     briar-desktop
+    bsdgames
     ccls
-    clojure
-    cinnamon.nemo
-    clojure-lsp
-    cljfmt
     chess-tui
-    leiningen
-    magic-wormhole
+    cinnamon.nemo
+    cliphist
+    cljfmt
+    clojure
+    clojure-lsp
     fd
     ffmpeg
     ffmpegthumbnailer
@@ -1035,18 +1038,22 @@
     hunspell
     hunspellDicts.en-gb-large
     hunspellDicts.en_GB-large
+    hyprshade
     imagemagick
     imv
     kdeconnect
     keepassxc
+    leiningen
     libnotify
     libreoffice
     lsof
     lxqt.lxqt-policykit
+    magic-wormhole
     man-pages
     man-pages-posix
     mpc-cli
     mpv
+    mpvScripts.mpris
     mpvScripts.mpris
     mupdf
     neovim
@@ -1054,6 +1061,7 @@
     nixfmt-rfc-style
     nodePackages.bash-language-server
     nodePackages.prettier
+    nwg-look
     obs-studio
     openssl
     ormolu
@@ -1061,10 +1069,6 @@
     pandoc
     poppler_utils
     pulsemixer
-    # imhex
-    # rlwrap
-    # kismet
-    nwg-look
     rage
     ripgrep
     rsync
@@ -1072,7 +1076,6 @@
     shfmt
     signal-desktop
     simplex-chat-desktop
-    mpvScripts.mpris
     slurp
     smartmontools
     swaylock
@@ -1082,16 +1085,14 @@
     trash-cli
     unzip
     virt-manager
-    wlr-randr
-    wl-clipboard
-    wl-clip-persist
-    hyprshade
-    cliphist
     wdisplays
+    wl-clip-persist
+    wl-clipboard
+    wlr-randr
+    xboard
     xdg-utils
     yt-dlp
     zip
-    xboard
     (aspellWithDicts (
       dicts: with dicts; [
         en

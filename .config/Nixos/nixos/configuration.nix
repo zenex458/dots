@@ -222,6 +222,7 @@
       allow id 1038:184c serial "" name "SteelSeries Rival 3" with-interface { 03:01:02 03:00:00 03:00:00 03:00:00 } with-connect-type "hotplug"
       allow id 30de:6545 serial "C03FD5F7713EE410A3130379" name "TransMemory" with-interface 08:06:50 with-connect-type "hotplug"
       allow id 046d:c08b serial "1285335A3232" name "G502 HERO Gaming Mouse" with-interface { 03:01:02 03:00:00 } with-connect-type "hotplug"
+      allow id 0781:5575 serial "04020130092220073710" name "Cruzer Glide" with-interface 08:06:50 with-connect-type "hotplug"
     '';
     #    opensnitch.enable = true;
     ntp.enable = false;
