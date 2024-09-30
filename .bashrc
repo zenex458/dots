@@ -13,13 +13,6 @@ function fe (){
 function fcd (){
 	cd "$(find ~/ -type d | fzf)"
 }
-function fcp (){
-	#file1="$(find * -type f | fzf -m)"
-	#dir1="$(find ~/* -type d | fzf)"
-	file1="$(find $PWD -type f | fzf -m)"
-	dir1="$(find ~/ -type d | fzf)"
-	cp "$file1" "$dir1"
-}
 function see_sharp (){
 	mcs $1.cs && mono $1.exe 
 }
