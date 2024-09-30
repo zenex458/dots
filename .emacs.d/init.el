@@ -190,7 +190,7 @@
 		'("shfmt"))
   (add-to-list 'apheleia-mode-alist '(bash-ts-mode . shfmt))
   (setf (alist-get 'black apheleia-formatters)
-		'("black" "--"))
+		'("yapf"))
   (add-to-list 'apheleia-mode-alist '(python-ts-mode . black))
   (setf (alist-get 'tidy apheleia-formatters)
 		'("tidy" "-i" "-q" "-f" "err"))
@@ -202,8 +202,8 @@
 		'("ormolu" "--stdin-input-file" "--"))
   (add-to-list 'apheleia-mode-alist '(haskell-mode . ormolu)))
 
-(use-package aggressive-indent
-  :hook (prog-mode . aggressive-indent-mode))
+;; (use-package aggressive-indent
+;;   :hook (prog-mode . aggressive-indent-mode))
 
 (setq treesit-language-source-alist
 	  '((bash "https://github.com/tree-sitter/tree-sitter-bash")
@@ -337,7 +337,7 @@
 
 (use-package async
   :config
-  (dired-async-mode 1))
+  (dired-async-mode t))
 
 ;; (use-package which-key
 ;;   :config
@@ -413,7 +413,8 @@
 (use-package dired-subtree
   :init
   (setq dired-subtree-use-backgrounds nil)
-  (define-key dired-mode-map (kbd "TAB") #'dired-subtree-toggle))
+  (define-key dired-mode-map (kbd "TAB") #'dired-subtree-toggle)
+  (define-key dired-mode-map [backtab] #'dired-subtree-cycle))
 
 (use-package sudo-edit
   :bind
