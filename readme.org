@@ -1,4 +1,3 @@
-#+Title dots
 * dots
 This contains all my config files for linux. It can be installed my a =setup.sh= or by [[https:nixos.org][Nixos]].
 * Getting Started
