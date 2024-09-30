@@ -1,6 +1,6 @@
 * dots
 This contains all my config files for linux. It can be installed my =setup.sh= or by [[https:nixos.org][Nixos]].
-[[file:screenshot.png][screenshot]]
+[[file:screenshot.png]]
 * Nixos
 ** Why Nixos?
 *** Stable
