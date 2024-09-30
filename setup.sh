@@ -55,7 +55,7 @@ Arch ()
 
 Alpine ()
 {
-	$pkg util-linux pciutils usbutils coreutils binutils findutils grep iproute2 bash bash-doc bash-completion udisks2 udisks2-doc git make gcc g++ libx11-dev libxft-dev libxinerama-dev ncurses dbus-x11 firefox adwaita-gtk2-theme adwaita-icon-theme ttf-dejavu mandoc man-pages mandoc-aprops docs gcompat alsa-utils alsa-utils-doc alsa-lib alsaconf alsa-ucm-conf
+	$pkg util-linux pciutils usbutils coreutils binutils findutils grep iproute2 bash bash-doc bash-completion udisks2 udisks2-doc git make gcc g++ libx11-dev libxft-dev libxinerama-dev ncurses dbus-x11 firefox adwaita-gtk2-theme adwaita-icon-theme ttf-dejavu mandoc man-pages mandoc-aprops docs gcompat alsa-utils alsa-utils-doc alsa-lib alsaconf alsa-ucm-conf pciutils xf86-video-intel mesa-dri-gallium libva-intel-driver kbd xf86-input  xf86-input-libinput setxkbmap
 	addgroup $USER audio
 	addgroup root audio
 	addgroup $USER video
