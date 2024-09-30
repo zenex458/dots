@@ -708,8 +708,10 @@
       WGETRC = "$XDG_CONFIG_HOME/wgetrc";
       DOTNET_CLI_TELEMETRY_OPTOUT = 1;
       TERMINAL = "foot";
-      EDITOR = "emacsclient -c -a emacs";
-      VISUAL = "emacsclient -c -a emacs";
+      EDITOR = "nvim";
+      VISUAL = "nvim";
+      # EDITOR = "emacsclient -c -a emacs";
+      # VISUAL = "emacsclient -c -a emacs";
       FZF_DEFAULT_OPTS = "-e --no-scrollbar --border=none --reverse --no-info";
       LESSHISTFILE = "/tmp/.lesshst";
       MOZ_ENABLE_WAYLAND = "1";
