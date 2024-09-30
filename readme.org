@@ -6,7 +6,7 @@ This contains all my config files for Linux. It can be installed my =setup.sh= o
 * Emacs
 ** Why Emacs?
 *** No context switching
-Emacs feels more fluid to me as you can do a lot of things, in a few keybinds, without any context switching. I did use [[https://neovim.io/][Neovim]], and its predecessor, [[https://www.vim.org/][Vim]] for a few years with [[https://en.wikipedia.org/wiki/Tmux][tmux]]. While using tmux in conjuction doesn't take too much brain power, it still doesn't feel as /connected/ as Emacs does. I think it just feels nice to have everything in once place.
+[[https://en.wikipedia.org/wiki/Emacs][Emacs]] feels more fluid to me as you can do a lot of things, in a few keybinds, without any context switching. I did use [[https://neovim.io/][Neovim]], and its predecessor, [[https://www.vim.org/][Vim]] for a few years with [[https://en.wikipedia.org/wiki/Tmux][tmux]]. While using tmux in conjuction doesn't take too much brain power, it still doesn't feel as /connected/ as Emacs does. I think it just feels nice to have everything in once place.
 *** Dynamic state
 Emacs is basically a [[https://en.wikipedia.org/wiki/Lisp_(programming_language)][Lisp]] interpreter, that also edits text. It feels nice to be able to directly manipulate your editor with code, /without restart it/. Since Neovim has [[https://en.wikipedia.org/wiki/Lua_(programming_language)][Lua]] support, I think this more achievable now.
 ** Why Not Emacs?
