@@ -69,6 +69,9 @@
 
   virtualisation.libvirtd.enable = true;
   programs = {
+    wireshark = {
+      enable = true;
+    };
     hyprland = {
       enable = true;
       xwayland.enable = true;

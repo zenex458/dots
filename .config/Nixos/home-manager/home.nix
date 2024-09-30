@@ -3,7 +3,7 @@
 {
 inputs,
 outputs,
-  lib,
+lib,
   config,
   pkgs,
   ...
@@ -1039,7 +1039,6 @@ outputs,
     virt-manager
     wlr-randr
     wdisplays
-    wireshark
     xdg-utils
     yt-dlp
     zip
