@@ -6,12 +6,22 @@
 # profile, try disabling it. If you report an issue and use this
 # profile, always mention that you do.
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 {
-  meta = { maintainers = [ maintainers.joachifm maintainers.emily ]; };
+  meta = {
+    maintainers = [
+      maintainers.joachifm
+      maintainers.emily
+    ];
+  };
 
   #  security.lockKernelModules = mkDefault true;
 
@@ -28,16 +38,14 @@ with lib;
   security.forcePageTableIsolation = mkDefault true;
 
   # This is required by podman to run containers in rootless mode.
-  security.unprivilegedUsernsClone =
-    mkDefault config.virtualisation.containers.enable;
+  security.unprivilegedUsernsClone = mkDefault config.virtualisation.containers.enable;
 
   security.virtualisation.flushL1DataCache = mkDefault "always";
 
   boot.kernelParams = [
-    # Slab/slub sanity checks, redzoning, and poisoning
-    "slub_debug=FZP"
+    "slab_nomerge"
 
-    # Overwrite free'd memory
+    # Overwrite free'd pages
     "page_poison=1"
 
     # Enable page allocator randomization
@@ -226,8 +234,7 @@ with lib;
   boot.kernel.sysctl."net.ipv4.conf.default.send_redirects" = mkDefault false;
 
   boot.kernel.sysctl."net.ipv4.conf.all.accept_source_route" = mkDefault "0";
-  boot.kernel.sysctl."net.ipv4.conf.default.accept_source_route" =
-    mkDefault "0";
+  boot.kernel.sysctl."net.ipv4.conf.default.accept_source_route" = mkDefault "0";
   boot.kernel.sysctl."net.ipv6.conf.all.accept_source_route" = mkDefault "0";
 
   # Do not accept ICMP redirects (prevent MITM attacks)

@@ -21,9 +21,16 @@
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
-    loader.systemd-boot.enable = true;
-    loader.efi.canTouchEfiVariables = true;
     supportedFilesystems = [ "ntfs" ];
+    loader = {
+      systemd-boot.enable = true;
+      systemd-boot.editor = false;
+      efi.canTouchEfiVariables = true;
+    };
+    # kernelParams = [
+    #   "quiet"
+    #   "splash"
+    # ];
     #tmp.cleanOnBoot = true;
     tmp.useTmpfs = true;
     initrd.luks.devices."luks-c747cca5-93f7-40d7-836c-ef71a364d53b" = {
