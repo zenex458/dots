@@ -19,7 +19,8 @@
     supportedFilesystems = [ "ntfs" ];
     tmp.cleanOnBoot = true;
     tmp.useTmpfs = true;
-    initrd.luks.devices."luks-621f88b4-56cc-41aa-9c68-407f7664cc94".device = "/dev/disk/by-uuid/621f88b4-56cc-41aa-9c68-407f7664cc94";
+    initrd.luks.devices."luks-c747cca5-93f7-40d7-836c-ef71a364d53b".device =
+      "/dev/disk/by-uuid/c747cca5-93f7-40d7-836c-ef71a364d53b";
   };
 
   hardware.opengl = {
@@ -53,7 +54,25 @@
 
   virtualisation.libvirtd.enable = true;
   programs = {
-    firejail = { enable = true; };
+    hyprland = {
+      enable = true;
+      xwayland.enable = true;
+    };
+    firejail = {
+      enable = true;
+      wrappedBinaries = {
+        firefox = {
+          executable = "${pkgs.firefox}/bin/firefox";
+          profile = "${pkgs.firejail}/etc/firejail/firefox.profile";
+          extraArgs = [
+            # Enforce dark mode
+            "--env=GTK_THEME=Adwaita:dark"
+            # Enable system notifications
+            "--dbus-user.talk=org.freedesktop.Notifications"
+          ];
+        };
+      };
+    };
     xwayland.enable = true;
     light.enable = true;
     dconf.enable = true;
@@ -77,7 +96,7 @@
     isNormalUser = true;
     description = "zenex";
     extraGroups =
-      [ "networkmanager" "wheel" "video" "audio" "input" "libvirtd" ];
+      [ "networkmanager" "wheel" "video" "audio" "input" "libvirtd" "cdrom" ];
     packages = with pkgs; [ ];
   };
 
@@ -91,15 +110,23 @@
   services = {
     #with hardened profile this is needed otherwise nix will not build
     #    logrotate.checkConfig = false;
-    fwupd.enable = true;
-        printing.enable = true;
-        printing.drivers = [
-          pkgs.gutenprint
-          pkgs.gutenprintBin
-          pkgs.epson-escpr
-          pkgs.epson-escpr2
-          pkgs.foomatic-db-ppds-withNonfreeDb
-        ];
+    #    fwupd.enable = true;
+    openssh = {
+      enable = false;
+      # require public key authentication for better security
+      # settings.PasswordAuthentication = false;
+      # settings.KbdInteractiveAuthentication = false;
+      #settings.PermitRootLogin = "yes";
+    };
+
+    printing.enable = true;
+    printing.drivers = [
+      pkgs.gutenprint
+      pkgs.gutenprintBin
+      pkgs.epson-escpr
+      pkgs.epson-escpr2
+      pkgs.foomatic-db-ppds-withNonfreeDb
+    ];
     avahi = {
       enable = true;
       nssmdns = true;
@@ -107,10 +134,10 @@
     };
     dbus.enable = true;
     smartd.enable = true;
-    mysql = {
-      enable = true;
-      package = pkgs.mariadb;
-    };
+    # mysql = {
+    #   enable = true;
+    #   package = pkgs.mariadb;
+    # };
     xserver = {
       enable = true;
       displayManager.startx.enable = true;
@@ -161,8 +188,8 @@
     tlp.settings = {
       # CPU_SCALING_MIN_FREQ_ON_AC = 2800000;
       # CPU_SCALING_MAX_FREQ_ON_AC = 2800000;
-      CPU_SCALING_MIN_FREQ_ON_BAT = 400000;
-      CPU_SCALING_MAX_FREQ_ON_BAT = 2000000;
+      # CPU_SCALING_MIN_FREQ_ON_BAT = 400000;
+      # CPU_SCALING_MAX_FREQ_ON_BAT = 2000000;
       CPU_SCALING_GOVERNOR_ON_AC = "performance";
       CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
       CPU_MIN_PERF_ON_AC = 0;
@@ -183,7 +210,10 @@
   };
 
   powerManagement.enable = true;
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    ungoogled-chromium = { enableWideVine = true; };
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -195,7 +225,14 @@
     (nerdfonts.override { fonts = [ "Iosevka" "IosevkaTerm" ]; })
   ];
 
+  fonts.fontconfig = {
+    antialias = true;
+    hinting.enable = true;
+    hinting.style = "slight";
+  };
+
   security = {
+    pam.services.swaylock = { };
     apparmor = { enable = true; };
     chromiumSuidSandbox.enable = true;
     rtkit.enable = true;

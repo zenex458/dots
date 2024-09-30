@@ -26,6 +26,106 @@
   home = {
     username = "zenex";
     homeDirectory = "/home/zenex";
+    file.".Xresources".text = ''
+      ! https://gist.github.com/taviso/a4543b1752fba55017e8fcc2fe052c0a
+
+      ! Set the default UI font (menus, toolbar, etc)
+      XTerm*XftFont:                  Iosekva:size=10:antialias=true:style=Regular
+
+      ! Tone down the Xaw3D effect.
+      XTerm*shapeStyle:               Rectangle
+      XTerm*beNiceToColormap:         false
+      XTerm*relief:                   None
+      XTerm*highlightThickness:       0
+
+      ! Dont automatically jump to the bottom on output, but do on keypress.
+      XTerm*scrollBar:                false
+      XTerm*eightBitInput:            false
+      XTerm*cursorBlink:              true
+
+      ! Only select text, not empty space around it.
+      XTerm*highlightSelection:       true
+
+      ! Fonts
+      XTerm*vt100.faceName:           Iosevka:size=10:antialias=true
+
+      ! Terminal Colors
+      XTerm*vt100.background:     #212121
+      XTerm*vt100.foreground:     #c6c6c6
+      XTerm*cursorColor:          #c6c6c6
+
+
+      ! I can see a small line between box characters, this fixes it.
+      XTerm*forceBoxChars:        true
+      XTerm*vt100.scaleHeight:    1.04
+
+      ! This (or similar id) is required for Sixel support.
+      XTerm*decTerminalID:        vt382
+
+      ! Color Scheme
+      ! 0-7:  Black, Red, Green, Yellow, Blue, Purple, Cyan, White
+      ! 8-15: Bright Black, Bright Red, ...
+      XTerm*color0:               #212121
+      XTerm*color8:               #808080
+      XTerm*color1:               #cd0000
+      XTerm*color9:               #ff0000
+      XTerm*color2:               #00cd00
+      XTerm*color10:              #00ff00
+      XTerm*color3:               #cdcd00
+      XTerm*color11:              #ffff00
+      XTerm*color4:               #2B7Df0
+      XTerm*color12:              #0066FF
+      XTerm*color5:               #cd00cd
+      XTerm*color13:              #ff00ff
+      XTerm*color6:               #00cdcd
+      XTerm*color14:              #00ffff
+      XTerm*color7:               #e5e5e5
+      XTerm*color15:              #ffffff
+
+      !  XTerm Translations, i.e. keyboard remapping.
+      !
+      ! Notes:
+      !   ~       means that that modifier must not be asserted.
+      !   !       means that the listed modifiers must be in the correct state and
+      !               no other modifiers can be asserted.
+      !   None    means no modifiers can be asserted.
+      !   :       directs the Intrinsics to apply any standard modifiers in the event.
+      !   ^       is an abbreviation for the Control modifier.
+      !   $       is an abbreviation for Meta
+      !
+      ! Example:
+      !   No modifiers:                          None <event> detail
+      !   Any modifiers:                              <event> detail
+      !   Only these modifiers:           ! mod1 mod2 <event> detail
+      !   These modifiers and any others:   mod1 mod2 <event> detail
+
+      ! Below:
+      !
+      ! - I have some old apps that use Alt-F4, but thats sometimes difficult to
+      !       press so Ctrl-Shift-F4 does the same thing.
+      ! - Ctrl-MouseWheel can be used to increase and descrease font size.
+      ! - Ctrl-I is totally useless, because it is literally impossible for
+      !       applications to differentiate it from Tab. You can remap it to some
+      !       other harder-to-press keybinding here, I use it for Italics in
+      !       wordperfect.
+
+      XTerm*vt100.translations:   #override           \n\
+          Ctrl Shift <KeyPress> plus:larger-vt-font() \n\
+          Ctrl Shift <KeyPress> minus:smaller-vt-font() \n\
+      	
+    '';
+
+    ##or `home.file.".xinitrc".source = ./xinitrc;'
+    file.".xinitrc".text = ''
+      xrandr --output eDP-1 --auto --primary --output HDMI-2 --auto --left-of eDP-1 --output HDMI-1 --auto --left-of HDMI-2 && feh --no-fehbg --bg-fill '/home/zenex/Downloads/Images/klemg.jpeg' &
+      dunst &
+      xsetroot -cursor_name left_ptr &
+      lxqt-policykit-agent &
+      redshift &
+      xrdb ~/.Xresources &
+      xset s 1800 5 &
+      xbanish -i shift -t 5 -s &
+      dbus-launch xmonad'';
   };
   manual.manpages.enable = true;
   programs.man.enable = true;
@@ -56,14 +156,14 @@
       enable = true;
       associations.added = {
         "text/markdown" = "emacs.desktop";
-        "image/png" = "imv.desktop";
+        "image/png" = "feh.desktop";
       };
       defaultApplications = {
         "text/plain" = "emacs.desktop";
         "text/html" = "firefox.desktop";
-        "image/png" = "imv.desktop";
-        "image/jpeg" = "imv.desktop";
-        "image/gif" = "imv.desktop";
+        "image/png" = "feh.desktop";
+        "image/jpeg" = "feh.desktop";
+        "image/gif" = "feh.desktop";
         "video/mp4" = "mpv.desktop";
         "application/pdf" = "org.pwmt.zathura.desktop";
         "application/vnd.ms-powerpoint" = "libreoffice-impress.desktop;";
@@ -78,7 +178,7 @@
         "x-scheme-handler/https" = "firefox.desktop";
         "x-scheme-handler/about" = "firefox.desktop";
         "x-scheme-handler/unknown" = "firefox.desktop";
-        "inode/directory" = "pcmanfm.desktop";
+        "inode/directory" = "thunar.desktop";
       };
     };
   };
@@ -1427,7 +1527,7 @@
     poppler_utils
     nodePackages.prettier
     nodePackages.bash-language-server
-    imv
+    feh
     anki-bin
     arandr
     xsecurelock
