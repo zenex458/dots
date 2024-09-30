@@ -1,0 +1,59 @@
+{
+  "timeStamp": 1686699997675,
+  "version": "1.49.2",
+  "userSettings": {
+    "advancedUserEnabled": true,
+    "uiTheme": "dark",
+    "externalLists": "https://filters.adtidy.org/extension/ublock/filters/14.txt\nhttps://o0.pages.dev/Lite/adblock.txt\nhttps://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt\nhttps://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts\nhttps://secure.fanboy.co.nz/fanboy-annoyance_ubo.txt",
+    "importedLists": [
+      "https://filters.adtidy.org/extension/ublock/filters/14.txt",
+      "https://o0.pages.dev/Lite/adblock.txt",
+      "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt",
+      "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts",
+      "https://secure.fanboy.co.nz/fanboy-annoyance_ubo.txt"
+    ],
+    "popupPanelSections": 31
+  },
+  "selectedFilterLists": [
+    "user-filters",
+    "ublock-filters",
+    "ublock-badware",
+    "ublock-privacy",
+    "ublock-quick-fixes",
+    "ublock-unbreak",
+    "adguard-generic",
+    "easylist",
+    "adguard-spyware",
+    "adguard-spyware-url",
+    "block-lan",
+    "easyprivacy",
+    "urlhaus-1",
+    "curben-phishing",
+    "curben-pup",
+    "adguard-social",
+    "easylist-chat",
+    "fanboy-thirdparty_social",
+    "ublock-annoyances",
+    "plowe-0",
+    "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt",
+    "https://o0.pages.dev/Lite/adblock.txt",
+    "https://filters.adtidy.org/extension/ublock/filters/14.txt",
+    "https://secure.fanboy.co.nz/fanboy-annoyance_ubo.txt",
+    "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts"
+  ],
+  "hiddenSettings": {},
+  "whitelist": [
+    "about-scheme",
+    "chrome-extension-scheme",
+    "chrome-scheme",
+    "edge-scheme",
+    "moz-extension-scheme",
+    "opera-scheme",
+    "vivaldi-scheme",
+    "wyciwyg-scheme"
+  ],
+  "dynamicFilteringString": "behind-the-scene * * noop\nbehind-the-scene * inline-script noop\nbehind-the-scene * 1p-script noop\nbehind-the-scene * 3p-script noop\nbehind-the-scene * 3p-frame noop\nbehind-the-scene * image noop\nbehind-the-scene * 3p noop\nwww.deezer.com deezer.com * noop\nwww.deezer.com www.deezer.com * noop\nwww.deezer.com dzcdn.net * noop\nwww.deezer.com google.com * block\nwww.deezer.com facebook.net * block\nwww.deezer.com fbcdn.net * block\nwww.deezer.com smartadserver.com * block\nwww.deezer.com sascdn.com * block\nwww.deezer.com id5-sync.com * block\nwww.deezer.com edgecastcdn.net * noop\nwww.deezer.com braze.com * block\nwww.deezer.com fastly.net * block\nwww.deezer.com cdn-apple.com * block\naccount.proton.me protontech.ch * noop\n* google-analytics.com * block\nwww.deezer.com sentry.io * block\nwww.deezer.com googletagmanager.com * block\n* adlightning.com * block\n* doubleclick.net * block\n* moatads.com * block",
+  "urlFilteringString": "",
+  "hostnameSwitchesString": "no-large-media: behind-the-scene false\nno-csp-reports: * true",
+  "userFilters": "!from https://letsblock.it/\n!(removesyoutube shorts\nwww.youtube.com##ytd-guide-renderer a.yt-simple-endpoint path[d^=\"M10 14.65v-5.3L15 12l-5 2.65zm7.77-4.33\"]:upward(ytd-guide-entry-renderer)\nwww.youtube.com##ytd-mini-guide-renderer a.yt-simple-endpoint path[d^=\"M10 14.65v-5.3L15 12l-5 2.65zm7.77-4.33\"]:upward(ytd-mini-guide-entry-renderer)\nwww.youtube.com##ytd-browse #dismissible ytd-rich-grid-slim-media[is-short]:upward(ytd-rich-section-renderer)\nwww.youtube.com##ytd-browse[page-subtype=\"home\"] .ytd-thumbnail[href^=\"/shorts/\"]:upward(ytd-rich-item-renderer)\nwww.youtube.com##ytd-browse[page-subtype=\"subscriptions\"] .ytd-thumbnail[href^=\"/shorts/\"]:upward(ytd-grid-video-renderer,ytd-rich-item-renderer)\nwww.youtube.com##ytd-search .ytd-thumbnail[href^=\"/shorts/\"]:upward(ytd-video-renderer)\nwww.youtube.com##ytd-watch-next-secondary-results-renderer .ytd-thumbnail[href^=\"/shorts/\"]:upward(ytd-compact-video-renderer,ytd-shelf-renderer)\nwww.youtube.com##ytd-watch-next-secondary-results-renderer ytd-reel-shelf-renderer\nwww.youtube.com##ytd-browse[page-subtype=\"subscriptions\"] ytd-video-renderer .ytd-thumbnail[href^=\"/shorts/\"]:upward(ytd-item-section-renderer)\nwww.youtube.com##ytd-browse[page-subtype=\"channels\"] #contents.ytd-reel-shelf-renderer:upward(ytd-item-section-renderer)\nwww.youtube.com##ytd-search #contents ytd-reel-shelf-renderer\nm.youtube.com##ytm-reel-shelf-renderer\nm.youtube.com##ytm-pivot-bar-renderer div.pivot-shorts:upward(ytm-pivot-bar-item-renderer)\nm.youtube.com##ytm-browse ytm-item-section-renderer ytm-thumbnail-overlay-time-status-renderer[data-style=\"SHORTS\"]:upward(ytm-video-with-context-renderer)\nm.youtube.com##ytm-browse ytm-item-section-renderer ytm-thumbnail-overlay-time-status-renderer[data-style=\"SHORTS\"]:upward(ytm-compact-video-renderer)\nm.youtube.com##ytm-search ytm-thumbnail-overlay-time-status-renderer[data-style=\"SHORTS\"]:upward(ytm-compact-video-renderer)\nm.youtube.com##ytm-single-column-watch-next-results-renderer ytm-thumbnail-overlay-time-status-renderer span:has-text(/^(0:\\d\\d|1:0\\d)$/):upward(ytm-video-with-context-renderer)\n!)\n!(interface cleanup\nwww.youtube.com##ytd-search ytd-item-section-renderer ytd-shelf-renderer:style(border: 2px dashed red !important)\nwww.youtube.com##ytd-search ytd-item-section-renderer ytd-horizontal-card-list-renderer:style(border: 2px dashed red !important)\n!)\n!(hides hashtag,some buttons,swipe and ambient mode\nwww.youtube.com###description #info a[href^=\"/hashtag/\"]\nwww.youtube.com###super-title\nwww.youtube.com##.super-title\nwww.youtube.com###actions.ytd-watch-metadata ytd-button-renderer .yt-spec-button-shape-next .yt-spec-button-shape-next--button-text-content\nwww.youtube.com###actions.ytd-watch-metadata ytd-button-renderer .yt-spec-button-shape-next__icon:style(margin-right: -6px !important; margin-left: -6px !important;)\nyoutube.com##+js(aeld, /^pan(start|move|end)$/)\nwww.youtube.com###cinematics.ytd-watch-flexy:remove()\n!)\n"
+}
