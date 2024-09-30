@@ -1,8 +1,8 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 {
-  inputs,
-  outputs,
+inputs,
+outputs,
   lib,
   config,
   pkgs,
@@ -621,7 +621,7 @@
       bind 'TAB:menu-complete'
     '';
     shellAliases = {
-      upd = "sudo nixos-rebuild switch --flake ~/.config/Nixos/#eukaryotic";
+      upd = "sudo nixos-rebuild switch --flake ~/dots/.config/Nixos/#eukaryotic";
       updflake = "nix flake update --commit-lock-file";
       #      upd = "sudo nix-channel --update && sudo nixos-rebuild switch";
       #     enc = "sudo $EDITOR /etc/nixos/configuration.nix";
