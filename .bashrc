@@ -11,7 +11,7 @@ alias upd="doas nix-channel --update && doas nixos-rebuild switch"
 alias nixgc="nix-collect-garbage"
 alias remoldgen="doas nix-collect-garbage -d && upd"
 alias updoff="upd && sleep 2 && off"
-alias cat="cat -n"
+alias enc="doas nvim /etc/nixos/configuration.nix"
 alias grep="grep -i --colour=always"
 alias mkdir="mkdir -pv"
 alias mv="mv -iv"
@@ -20,7 +20,7 @@ alias rm="rm -iv"
 alias tm="ps auxww | grep"
 alias lines="ls | wc -l"
 alias tk="tmux kill-session" 
-alias scro="scrot -d 5 -q 100 '%Y-%m-%d_$wx$h.jpeg'"
+alias ss="maim -d 5 -q 100 '%Y-%m-%d_$wx$h.jpeg'"
 alias cco="gcc -Wall"
 alias ytmp3="yt-dlp -x -o '%(title)s.%(ext)s' --audio-format mp3  --audio-quality 0 "
 alias yt="yt-dlp -o '%(title)s.%(ext)s' "
@@ -36,15 +36,22 @@ alias sysdlist="systemctl list-unit-files --type=service --state=enabled"
 #alias mofat="doas mount -t exfat /dev/mmcblk0p1 ~/.sdcard"
 alias col="setxkbmap gb -variant colemak"
 alias gb="setxkbmap gb -variant"
-alias comp="mcs main.cs && mono main.exe"
+#alias comp="mcs main.cs && mono main.exe"
 alias ghc="ghc -dynamic"
+alias py="python"
 
-function dict_def () {
+function see_sharp (){
+	mcs $1.cs && mono $1.exe 
+}
+function dict_def (){
 	
 	sdcv --data-dir ~/.config/stardict/web1913 $1 | less
 }
+function find_mu (){
+	find /run/media/zenex/04C3-E2B3/ | grep "$*"
+}
 
-PS1="[\w]\nλ "
+PS1="[\w]\n$ "
 
 HISTFILE="/tmp/.bash_history"
 HISTSIZE=1000
@@ -55,6 +62,7 @@ bind 'set show-all-if-ambiguous on'
 bind 'TAB:menu-complete'
 
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
+export ASPNETCORE_ENVIRONMENT=Development
 export NNN_FCOLORS='c1e2c42e006033f7c6d6ab27'
 export NNN_BMS='h:/home/zenex;.:/home/zenex/.config;d:/home/zenex/Downloads;D:/home/zenex/Documents'
 export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rar|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)$"
@@ -64,7 +72,7 @@ export NNN_OPTS='HdP'
 export TERMINAL="st"
 export EDITOR="nvim"
 export VISUAL="nvim"
-export PATH=~/.local/bin/:$PATH
+export PATH=/run/current-system/sw/bin/omnisharp:$PATH
 export LF_COLORS="~/Documents=01;31:~/Downloads=01;31:~/.local/share=01;31:~/.config/lf/lfrc=31:.git/=01;32:.git=32:.gitignore=32:Makefile=32:README.*=33:*.txt=34:*.md=34:ln=01;36:di=01;31:ex=01;32:"
 export QT_QPA_PLATFORMTHEME=qt5ct
 export _ZL_DATA='~/.local/share/.zlua'
