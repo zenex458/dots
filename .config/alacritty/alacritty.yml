@@ -12,9 +12,9 @@ title: Alacritty
 
 font:
   normal:
-    family: Hack #FuraMono Nerd Font
+    family: Hack Nerd Font #FuraMono Nerd Font
     style: Regular
-  size: 7 
+  size: 6 
 
 
 colors:
