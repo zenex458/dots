@@ -1,13 +1,16 @@
 ;; -*- lexical-binding: t; -*-
+(require 'package)
 (add-to-list 'package-archives '("gnu"   . "https://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
 (package-initialize)
 
-(require 'use-package-ensure)
-(setq use-package-always-ensure t)
-
-(setq use-package-expand-minimally t)
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(eval-and-compile
+  (setq use-package-always-ensure t
+		use-package-expand-minimally t))
 
 ;;(setq custom-file (make-temp-file "emacs-custom-"))
 (defvar ispell-dictionary "british")
@@ -31,14 +34,20 @@
  shr-use-fonts  nil                          ; No special fonts
  shr-use-colors nil                          ; No colours
  eww-search-prefix "https://duckduckgo.com/?q=")    ; Use another engine for searching
+
+;; (org-babel-do-load-languages 'org-babel-load-languages '((C . t)))
+
+
+
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq save-interprogram-paste-before-kill t)
 (setq delete-by-moving-to-trash t)
 (setq-default tab-width 4)
-;;;(setopt ediff-window-setup-function #'ediff-setup-windows-plain) 
+;;;(setopt ediff-window-setup-function #'ediff-setup-windows-plain)
 ;;(setq dired-dwim-target t)
 (setq-default indent-tabs-mode t)
 (setq backup-by-copying t)
+(setq password-cache-expiry 3600)
 (setq history-length 2000)
 (setq dired-kill-when-opening-new-dired-buffer t)
 (setq native-comp-async-report-warnings-errors nil)
@@ -62,11 +71,11 @@
 	(defvar my-term-shell "/run/current-system/sw/bin/bash")
   (defvar my-term-shell "/usr/bin/env bash"))
 
-(defvar my-term-shell "/usr/bin/env bash") ;; add conditional
-(defadvice ansi-term (before force-bash)
-  "https://github.com/daedreth/UncleDavesEmacs#default-shell-should-be-bash"
-  (interactive (list my-term-shell)))
-(ad-activate 'ansi-term)
+;; (defvar my-term-shell "/usr/bin/env bash") ;; add conditional
+;; (defadvice ansi-term (before force-bash)
+;;   "https://github.com/daedreth/UncleDavesEmacs#default-shell-should-be-bash"
+;;   (interactive (list my-term-shell)))
+;; (ad-activate 'ansi-term)
 
 (defun split-and-follow-horizontally ()
   (interactive)
@@ -94,6 +103,7 @@
 	  (save-buffers-kill-emacs))))
 (global-set-key (kbd "C-x C-c") 'close-or-kill-emacs)
 
+
 (setq org-startup-indented t
 	  org-pretty-entities t
 	  ;;	  org-hide-emphasis-markers t
@@ -103,7 +113,8 @@
 	  org-html-validation-link nil
 	  org-enforce-todo-dependencies t
 	  calendar-week-start-day 1)
-(setq org-agenda-files '("~/Documents/2.Notes/Org/todo.org"))
+(setq org-agenda-files '("~/Documents/Notes/Org/todo.org"))
+
 (setq-default org-display-custom-times t)
 (setq org-time-stamp-custom-formats '("%a %b %e %Y" . "%a %b %e %Y %H:%M"))
 
@@ -178,6 +189,9 @@
   (setf (alist-get 'shfmt apheleia-formatters)
 		'("shfmt"))
   (add-to-list 'apheleia-mode-alist '(bash-ts-mode . shfmt))
+  (setf (alist-get 'black apheleia-formatters)
+		'("black" "--"))
+  (add-to-list 'apheleia-mode-alist '(python-ts-mode . black))
   (setf (alist-get 'tidy apheleia-formatters)
 		'("tidy" "-i" "-q" "-f" "err"))
   (add-to-list 'apheleia-mode-alist '(html-mode . tidy))
@@ -187,6 +201,9 @@
   (setf (alist-get 'ormolu apheleia-formatters)
 		'("ormolu" "--stdin-input-file" "--"))
   (add-to-list 'apheleia-mode-alist '(haskell-mode . ormolu)))
+
+(use-package aggressive-indent
+  :hook (prog-mode . aggressive-indent-mode))
 
 (setq treesit-language-source-alist
 	  '((bash "https://github.com/tree-sitter/tree-sitter-bash")
@@ -243,11 +260,15 @@
 (use-package haskell-mode
   :magic ("%hs" . haskell-mode))
 
-;;(use-package rust-mode)
+(use-package clojure-mode
+  :magic ("%clj" . clojure-mode))
+
+(use-package cider
+  :custom
+  (cider-repl-history-file t))
 
 (use-package nix-ts-mode
   :mode "\\.nix\\'")
-
 
 (use-package corfu
   :custom
@@ -281,10 +302,12 @@
 (use-package eglot
   :hook ((haskell-mode . eglot-ensure)
 		 (dart-mode . eglot-ensure)
+		 (clojure-mode . eglot-ensure)
 		 (bash-ts-mode . eglot-ensure)
 		 (sh-mode . eglot-ensure)
 		 (c-ts-mode . eglot-ensure)
  		 (csharp-ts-mode . eglot-ensure)
+		 (python-ts-mode . eglot-ensure)
 		 (nix-ts-mode . eglot-ensure))
   :config
   (setq eglot-autoshutdown t)
@@ -316,10 +339,10 @@
   :config
   (dired-async-mode 1))
 
-(use-package which-key
-  :config
-  (which-key-mode)
-  (diminish 'which-key-mode))
+;; (use-package which-key
+;;   :config
+;;   (which-key-mode)
+;;   (diminish 'which-key-mode))
 
 (use-package org-bullets
   :hook (org-mode . org-bullets-mode)
@@ -329,6 +352,19 @@
 (use-package markdown-mode
   :magic ("%md" . markdown-mode)
   :init (setq markdown-command "pandoc"))
+
+;; (use-package tex
+;;   :ensure auctex
+;;   :config
+;;   (load "preview-latex.el" nil t t))
+
+;; (setq TeX-auto-save t)
+;; (setq TeX-parse-self t)
+;; (setq-default TeX-master nil)
+
+(use-package auctex
+  :ensure t
+  :defer t)
 
 (use-package volatile-highlights
   :config
@@ -356,7 +392,7 @@
 		 ("C-C C-@" . mc/mark-all-like-this)
 		 ("C-C M-v" . mc/edit-beggineing-of-lines)))
 
-(use-package vundo)
+;;(use-package vundo)
 
 (use-package expreg
   :bind ("C-@" . expreg-expand)
@@ -372,13 +408,7 @@
 ;;;  :magic ("%PDF" . pdf-view-mode)
 ;;;  :hook (pdf-view-mode . pdf-view-themed-minor-mode))
 
-;; (use-package elfeed)
-
-;; (use-package elfeed-org
-;;   :defer t
-;;   :config
-;;   (elfeed-org)
-;;   (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org")))
+(use-package vterm)
 
 (use-package dired-subtree
   :init
@@ -402,6 +432,8 @@
 
 ;; (use-package writeroom-mode)
 
+(use-package editorconfig)
+
 (use-package helpful
   :config
   (global-set-key (kbd "C-h f") #'helpful-callable)
@@ -410,7 +442,7 @@
   (global-set-key (kbd "C-h x") #'helpful-command))
 
 ;; (use-package dired-ranger)
-
+;; https://github.com/jcfk/dired-nnn
 ;; (use-package hydra
 ;;   :config
 ;;   ;;hydra for controlling brightness
@@ -425,8 +457,9 @@
 
 (require 'upmu)
 (global-set-key (kbd "C-c u") 'upmu-add-entry)
-(define-prefix-command 'avy-n-map)
+(define-prefix-command 'avy-n-map);; add this? http://yummymelon.com/devnull/announcing-casual-avy.html
 (global-set-key (kbd "M-j") 'avy-n-map)
+(global-set-key (kbd "<C-S-D>") 'backward-delete-char) ;;https://www.emacswiki.org/emacs/ShiftedKeys and https://www.emacswiki.org/emacs/TheMysteriousCaseOfShiftedFunctionKeys to fix
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 (global-set-key [remap dabbrev-expand] 'hippie-expand)
 (global-set-key (kbd "C-M-x") 'embark-export)
@@ -435,13 +468,13 @@
 (global-set-key (kbd "M-j m") 'avy-move-line)
 (global-set-key (kbd "M-j c") 'avy-goto-char)
 (global-set-key (kbd "M-j g") 'avy-goto-line)
-(global-set-key (kbd "C-c c") 'flyspell-buffer)
+(global-set-key (kbd "C-c c") 'flyspell-buffer) ;; maybe use this? https://github.com/minad/jinx
 (global-set-key (kbd "C-c s") 'ispell-buffer)
 (global-set-key (kbd "M-Z") 'zap-up-to-char)
 (global-set-key (kbd "C-c e")(lambda ()"opens init.el"(interactive)(find-file "~/.emacs.d/init.el")))
 (global-set-key (kbd "C-x K")(lambda ()"kills curent buffer without confirmation"(interactive)(kill-buffer (current-buffer))))
 (global-set-key (kbd "C-c r")(lambda ()"reloads emacs config"(interactive)(load-file "~/.emacs.d/init.el")))
-(global-set-key (kbd "C-c t")(lambda ()"opens todo"(interactive)(find-file "~/Documents/2.Notes/Org/todo.org")))
+(global-set-key (kbd "C-c t")(lambda ()"opens todo"(interactive)(find-file "~/Documents/Notes/Org/todo.org")))
 (global-set-key (kbd "C-c l s c")
 				(lambda ()
 				  "copies the whole line without moving the cursor"
@@ -486,7 +519,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(helpful magit zoxide sudo-edit dired-subtree vlf expand-region expreg vundo multiple-cursors ace-window hungry-delete gcmh volatile-highlights markdown-mode org-bullets which-key async yasnippet cape corfu nix-ts-mode haskell-mode rainbow-delimiters rainbow-mode pulsar apheleia embark-consult embark consult marginalia orderless vertico diminish pdf-tools)))
+   '(ein lsp-pyright editorconfig auctex aggressive-indent org-babel cider clojure-mode elfeed-org elfeed helpful magit zoxide sudo-edit dired-subtree vlf expand-region expreg vundo multiple-cursors ace-window hungry-delete gcmh volatile-highlights markdown-mode org-bullets which-key async yasnippet cape corfu nix-ts-mode haskell-mode rainbow-delimiters rainbow-mode pulsar apheleia embark-consult embark consult marginalia orderless vertico diminish pdf-tools)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
