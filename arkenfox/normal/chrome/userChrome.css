@@ -66,3 +66,53 @@ menupopup > menuitem, menupopup > menu {
   --arrowpanel-menuitem-border-radius: 0px !important;
 }
 /*** END TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
+
+/*
+ * Hide the back and forward buttons
+ * https://github.com/Timvde/UserChrome-Tweaks/blob/master/navbar/hide-back-forward.css
+ * Contributor(s): Madis0, Timvde
+ */
+
+#main-window :-moz-any(#back-button, #forward-button) {
+  display: none !important;
+}
+
+
+/* hides the native tabs */
+#TabsToolbar {
+  visibility: collapse;
+}
+
+/* hides the title bar */
+#titlebar {
+  visibility: collapse;
+}
+
+
+/* hides the sidebar
+#sidebar-header {
+  visibility: collapse !important;
+}
+ */
+
+/* option 1
+
+#TabsToolbar {
+    opacity: 0.0;
+}
+
+#TabsToolbar:hover {
+    opacity: 1.0;
+}
+*/
+
+/* Option 2
+#TabsToolbar {
+    visibility: collapse;
+}
+
+#navigator-toolbox:hover #TabsToolbar {
+    visibility: visible;
+}
+
+*/
