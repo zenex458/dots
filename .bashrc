@@ -26,6 +26,7 @@ alias cco="gcc -Wall"
 alias ytmp3="yt-dlp -x -o '%(title)s.%(ext)s' --audio-format mp3  --audio-quality 0 "
 alias yt="yt-dlp -o '%(title)s.%(ext)s' "
 alias mofat="sudo mount -t exfat /dev/mmcblk0p1 ~/.sdcard"
+alias xdup="xrandr --output HDMI-2 --same-as eDP-1"
 
 PS1="[\w][\t]\n$ "
 
