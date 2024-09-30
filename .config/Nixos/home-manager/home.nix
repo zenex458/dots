@@ -1076,7 +1076,7 @@
     pandoc
     poppler_utils
     pulsemixer
-    rage
+    age
     ripgrep
     rsync
     shellcheck
@@ -1096,10 +1096,12 @@
     wl-clip-persist
     wl-clipboard
     wlr-randr
+    john
     xboard
     xdg-utils
     yt-dlp
-    progress
+    usbutils
+    glib
     zip
     (aspellWithDicts (
       dicts: with dicts; [
