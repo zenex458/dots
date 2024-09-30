@@ -23,7 +23,7 @@ postsetup ()
 	read -p "Do you want an ad-blocking hosts file?(y/n) " ahosts
 	if [[ $ahosts == "y" || $ahosts == "Y" ]]
 	then
-          wget https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts &&
+          curl -LO https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts &&
 	  $perm mv /etc/hosts /etc/hosts.old && 
 	  $perm mv hosts /etc/hosts
 	else
@@ -32,8 +32,11 @@ postsetup ()
 
 	cp ~/dots/Downloads/vimix-dark.tar.7z ~/Downloads/ &&
 	cd ~/Downloads/ &&
+        curl -LO "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/Hack.zip -o Hack.zip" &&
+        $perm unzip Hack.zip /usr/share/fonts/Hack &&
 	7za x -so vimix-dark.tar.7z | tar xf - &&
 	$perm mv vimix-dark /usr/share/themes/ &&
+	$perm unzip Hack.zip /
 	rm -r vimix-dark.tar.7z &&
 	cd ~/
 }
