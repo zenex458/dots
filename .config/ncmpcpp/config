@@ -2,12 +2,13 @@ ncmpcpp_directory = ~/.config/ncmpcpp
 ##ncmpcpp_directory = ~/.ncmpcpp/
 lyrics_directory =
 mpd_host = "127.0.0.1"
-mpd_port = "6601"
+mpd_port = "6600"
 mpd_connection_timeout = 5
 mpd_music_dir = "/run/media/zenex/musicsd/Alt"
 mpd_crossfade_time = 1
 header_visibility = yes
-execute_on_song_change = notify-send "Now Playing" "$(mpc --host=127.0.0.1 -p 6601 -f '%title%(%album%) \nBy \n%artist%' current)"
+#execute_on_song_change = notify-send "Now Playing" "$(mpc --host=127.0.0.1 -p 6601 -f '%title%(%album%) \nBy \n%artist%' current)"
+execute_on_song_change = notify-send "Now Playing" "$(mpc -f '%title%(%album%) \nBy \n%artist%' current)"
 ##### song format #####
 ##
 ## For a song format you can use:

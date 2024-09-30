@@ -38,6 +38,7 @@ ZSH_HIGHLIGHT_STYLES[alias]=fg=#c6c6c6
 ZSH_HIGHLIGHT_STYLES[path]=fg=#c6c6c6
 ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=#c6c6c6,underline'
 ZSH_HIGHLIGHT_STYLES[command_error]='fg=#c6c6c6,underline'
+eval "$(zoxide init zsh)"
 
 ### Added by Zinit's installer
 #

@@ -18,7 +18,7 @@
 ;;(global-hl-line-mode 1)
 ;;(add-hook 'prog-mode-hook #'display-line-numbers-mode)
 (setq visible-bell t)
-(push '(font . "Iosevka" )default-frame-alist)
+(push '(font . "iosevka custom" )default-frame-alist)
 (global-visual-line-mode t)
 (advice-add #'x-apply-session-resources :override #'ignore)
 (defvar default-file-name-handler-alist file-name-handler-alist)
