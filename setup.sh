@@ -55,13 +55,13 @@ Arch ()
 
 Alpine ()
 {
-	$pkg util-linux pciutils usbutils coreutils binutils findutils grep iproute2 bash bash-doc bash-completion udisks2 udisks2-doc git make gcc g++ libx11-dev libxft-dev libxinerama-dev ncurses dbus-x11 firefox adwaita-icon-theme ttf-dejavu mandoc man-pages docs gcompat alsa-utils alsa-utils-doc alsa-lib alsaconf alsa-ucm-conf pciutils xf86-video-intel mesa-dri-gallium libva-intel-driver kbd xf86-input-libinput setxkbmap pm-utils
+	$pkg util-linux pciutils usbutils coreutils binutils findutils grep iproute2 bash bash-doc bash-completion udisks2 udisks2-doc git make gcc g++ libx11-dev libxft-dev libxinerama-dev ncurses dbus-x11 firefox adwaita-icon-theme ttf-dejavu mandoc man-pages docs gcompat alsa-utils alsa-utils-doc alsa-lib alsaconf alsa-ucm-conf pciutils #xf86-video-intel mesa-dri-gallium libva-intel-driver kbd xf86-input-libinput setxkbmap pm-utils
 	$perm setup-xorg-base
-        read -p "what did you call the user?" USER
-	$perm adduser '$USER' audio
-	$perm adduser 'root' audio
-	$perm adduser '$USER' video
-	$perm adduser '$USER' input
+        read -p "what did you call the user? " USER
+	$perm adduser $USER audio
+	$perm adduser root audio
+	$perm adduser $USER video
+	$perm adduser $USER input
 	$perm mkdir -p /etc/acpi/LID/
 	$perm touch /etc/acpi/LID/00000080
 	$perm echo "#!bin/sh" >> /etc/acpi/LID/00000080
