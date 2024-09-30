@@ -67,11 +67,6 @@
 (global-subword-mode 1)
 (pending-delete-mode t)
 (savehist-mode 1)
-(defvar my-term-shell "/bin/bash")
-(defadvice ansi-term (before force-bash)
-  "https://github.com/daedreth/UncleDavesEmacs#default-shell-should-be-bash"
-  (interactive (list my-term-shell)))
-(ad-activate 'ansi-term)
 
 (defun split-and-follow-horizontally ()
   (interactive)
@@ -174,26 +169,33 @@
 
 (use-package embark-consult)
 
-(use-package apheleia
-  :hook ((prog-mode . apheleia-mode))
-  :config
-  (diminish apheleia-mode)
-  (setf (alist-get 'astyle apheleia-formatters)
-		'("astyle" "--mode=c" "--style=google"))
-  (add-to-list 'apheleia-mode-alist '(c-ts-mode . astyle))
-  (setf (alist-get 'csharpier apheleia-formatters)
-		'("~/.dotnet/tools/dotnet-csharpier" "--write-stdout")) ;;dotnet tool install --global csharpier to install
-  (add-to-list 'apheleia-mode-alist '(csharp-ts-mode . csharpier))
-  (setf (alist-get 'shfmt apheleia-formatters)
-		'("shfmt"))
-  (add-to-list 'apheleia-mode-alist '(bash-ts-mode . shfmt))
-  (setf (alist-get 'tidy apheleia-formatters)
-		'("tidy" "-i" "-q" "-f" "err"))
-  (add-to-list 'apheleia-mode-alist '(html-mode . tidy))
-  (setf (alist-get 'ormolu apheleia-formatters)
-		'("ormolu" "--stdin-input-file" "--"))
-  (add-to-list 'apheleia-mode-alist '(haskell-mode . ormolu)))
+;;(use-package apheleia
+;;  :hook ((prog-mode . apheleia-mode))
+;;  :config
+;;  (diminish apheleia-mode)
+;;  (setf (alist-get 'astyle apheleia-formatters)
+;;		'("astyle" "--mode=c" "--style=google"))
+;;  (add-to-list 'apheleia-mode-alist '(c-ts-mode . astyle))
+;;  (setf (alist-get 'csharpier apheleia-formatters)
+;;		'("~/.dotnet/tools/dotnet-csharpier" "--write-stdout")) ;;dotnet tool install --global csharpier to install
+;;  (add-to-list 'apheleia-mode-alist '(csharp-ts-mode . csharpier))
+;;  (setf (alist-get 'shfmt apheleia-formatters)
+;;		'("shfmt"))
+;;  (add-to-list 'apheleia-mode-alist '(bash-ts-mode . shfmt))
+;;  (setf (alist-get 'tidy apheleia-formatters)
+;;		'("tidy" "-i" "-q" "-f" "err"))
+;;  (add-to-list 'apheleia-mode-alist '(html-mode . tidy))
+;;  (setf (alist-get 'ormolu apheleia-formatters)
+;;		'("ormolu" "--stdin-input-file" "--"))
+;;  (add-to-list 'apheleia-mode-alist '(haskell-mode . ormolu)))
 
+(use-package format-all
+  :hook (prog-mode . format-all-mode)
+  :config
+  (setq-default format-all-formatters
+                '(("Nix" (nixfmt))
+				  ("Haskell" (ormolu))
+				  )))
 
 (setq treesit-language-source-alist
 	  '((bash "https://github.com/tree-sitter/tree-sitter-bash")
@@ -282,14 +284,8 @@
 		 (dart-mode . eglot-ensure)
 		 (bash-ts-mode . eglot-ensure)
 		 (sh-mode . eglot-ensure)
-		 (c-ts-mode . eglot-ensure)))
-
-(use-package dart-mode
-  :custom
-  (eglot-ignored-server-capabilities '(:signatureHelpProvider)))
-
-(use-package flutter
-  :after dart-mode)
+		 (c-ts-mode . eglot-ensure)
+		 (nix-mode . eglot-ensure)))
 
 (use-package yasnippet
   :hook ((prog-mode . yas-minor-mode)
@@ -298,8 +294,8 @@
   (add-hook 'prog-mode-hook  #'(lambda ()(yas-reload-all)))
   (diminish 'yas-minor-mode))
 
-;; (use-package flycheck
-;;   :hook (prog-mode . flycheck-mode))
+ (use-package flycheck
+   :hook (emacs-lisp-mode . flycheck-mode))
 
 (use-package async
   :config
@@ -310,14 +306,6 @@
   (which-key-mode)
   (diminish 'which-key-mode))
 
-(use-package org-bullets
-  :hook (org-mode . org-bullets-mode)
-  :init
-  (setq org-bullets-bullet-list '("*" "+")))
-
-(use-package markdown-mode
-  :magic ("%md" . markdown-mode)
-  :init (setq markdown-command "pandoc"))
 
 (use-package volatile-highlights
   :config
@@ -355,19 +343,6 @@
   :init
   (require 'vlf-setup))
 
-(use-package pdf-tools
-  :magic ("%PDF" . pdf-view-mode)
-  :hook (pdf-view-mode . pdf-view-themed-minor-mode)
-  :config
-  (pdf-loader-install))
-
-(use-package elfeed)
-
-(use-package elfeed-org
-  :defer t
-  :config
-  (elfeed-org)
-  (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org")))
 
 (use-package dired-subtree
   :init
@@ -379,43 +354,9 @@
   ("M-s e" . sudo-edit)
   ("M-s f" . sudo-edit-find-file))
 
-(use-package zoxide
-  :hook (find-file . zoxide-add)
-  :bind
-  ("M-s z f" . zoxide-find-file))
-
-(use-package god-mode
-  :bind ("C-`" . god-local-mode))
-
 (use-package magit)
 
-(use-package writeroom-mode)
-
-(use-package emms
-  :config
-  (require 'emms-setup)
-  (require 'emms-player-mpd)
-  (emms-all) ; don't change this to values you see on stackoverflow questions if you expect emms to work
-  (setq emms-seek-seconds 5)
-  (setq emms-player-list '(emms-player-mpd))
-  (setq emms-info-functions '(emms-info-mpd))
-  (setq emms-player-mpd-server-name "localhost")
-  (setq emms-player-mpd-server-port "6600")
-  :bind
-  ("C-c m e" . emms)
-  ("C-c m b" . emms-smart-browse)
-  ("C-c m u" . emms-player-mpd-update-all-reset-cache)
-  ("C-c m p" . emms-previous)
-  ("C-c m n" . emms-next)
-  ("C-c m P" . emms-pause)
-  ("C-c m s" . emms-stop)
-  ("C-c m r" . (lambda ()
-				 "Goto a random tack then add it to the paylist"
-				 (interactive)
-				 (progn
-				   (emms-browser-expand-all)
-				   (emms-browser-goto-random)
-				   (emms-browser-add-tracks)))))
+(use-package nix-mode)
 
 (use-package helpful
   :config
@@ -424,9 +365,6 @@
   (global-set-key (kbd "C-h k") #'helpful-key)
   (global-set-key (kbd "C-h x") #'helpful-command))
 
-(use-package dired-ranger)
-
-;;
 (define-prefix-command 'avy-n-map)
 (global-set-key (kbd "M-j") 'avy-n-map)
 (global-set-key (kbd "C-c t") 'edit-todo)
