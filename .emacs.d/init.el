@@ -44,9 +44,12 @@
 (size-indication-mode 1)
 (save-place-mode 1)
 (setq display-line-numbers-type 'relative)
-(global-display-line-numbers-mode t)
-(dolist (hook '(org-mode-hook markdown-mode-hook))
-  (add-hook hook (lambda () (display-line-numbers-mode 0))))
+
+(defun my-enable-line-numbers ()
+  (when (derived-mode-p 'prog-mode)
+    (display-line-numbers-mode 1)))
+(add-hook 'prog-mode-hook 'my-enable-line-numbers)
+
 
 (setq
  backup-by-copying t
@@ -65,17 +68,18 @@
   (load-file (expand-file-name "~/.emacs.d/init.el")))
 (global-set-key (kbd "C-c r") 'config-reload)
 
-
-;;smartparens
-;;paredit
-(defvar electric-pair-pairs '(
-                              (?\{ . ?\})
-                              (?\( . ?\))
-                              (?\[ . ?\])
-                              (?\" . ?\")
-                              ))
-(electric-pair-mode t)
-
+(use-package smartparens
+  :config
+  (require 'smartparens-config)
+  (add-hook 'prog-mode-hook 'smartparens-mode))
+(global-set-key (kbd "C-c p d") 'sp-splice-sexp)
+(global-set-key (kbd "C-c p r") 'sp-rewrap-sexp)
+(global-set-key (kbd "C-c p b d") 'sp-backward-unwrap-sexp)
+(sp-local-pair 'smartparens-strict-mode "'" nil :actions nil)
+(defun my-disable-elisp-smartparens ()
+  (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil))
+(add-hook 'lisp-mode 'my-disable-elisp-smartparens)
+(diminish 'smartparens-mode)
 
 (use-package rainbow-mode
   :diminish 'rainbow-mode
@@ -265,21 +269,6 @@
   (setq beacon-blink-duration 1.3))
 (diminish 'beacon-mode)
 
-(use-package god-mode
-  :init
-  :config
-  (require 'god-mode)
-  (god-mode)
-  (defun my-god-mode-update-cursor-type ()
-    (setq cursor-type (if (or god-local-mode buffer-read-only) 'box 'hbar)))
-
-  (add-hook 'post-command-hook #'my-god-mode-update-cursor-type))
-
-(global-set-key (kbd "<escape>") #'god-local-mode)
-
-(setq god-exempt-major-modes nil)
-(setq god-exempt-predicates nil)
-
 (use-package aggressive-indent
   :config
   (global-aggressive-indent-mode 1))
@@ -288,6 +277,24 @@
   :ensure t
   :mode ("*\\.md\\'" . gfm-mode)
   :init (setq markdown-command "multimarkdown"))
+
+(use-package expand-region
+  :config
+  (require 'expand-region)
+  (pending-delete-mode t))
+(global-set-key (kbd "C-@") 'er/expand-region)
+
+(use-package multiple-cursors
+  :config
+  (require 'multiple-cursors))
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-@") 'mc/mark-all-like-this)
+
+(use-package ace-jump-mode
+  :defer 5)
+(global-set-key (kbd "C-c a a") 'ace-jump-mode)
 
 (defvar ispell-dictionary "british")
 (setq confirm-kill-emacs 'y-or-n-p)
@@ -356,7 +363,8 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq backup-by-copying t)
-
+(setq history-length 20)
+(savehist-mode 1)
 (use-package haskell-mode
   :hook (haskell-mode . (lambda ()
                           (haskell-doc-mode)
@@ -367,7 +375,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(minions god-mode auto-package-update paredit-everywhere vbasense ivy-rich gcmh omnisharp yasnippet slime-company slime company flycheck which-key rainbow-delimiters use-package))
+   '(paredit smartparens ace-jump-mode ace-jump minions god-mode auto-package-update paredit-everywhere vbasense ivy-rich gcmh omnisharp yasnippet slime-company slime company flycheck which-key rainbow-delimiters use-package))
  '(size-indication-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
