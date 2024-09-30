@@ -982,7 +982,7 @@
         after_sleep_cmd = "hyprctl dispatch dpms on";
         ignore_dbus_inhibit = false;
         ignore_systemd_inhibit = false;
-        lock_cmd = "swaylock";
+        lock_cmd = "swaylock -f -c 141414";
       };
 
       listener = [
@@ -1065,6 +1065,7 @@
     mpvScripts.mpris
     mupdf
     neovim
+    jetbrains.idea-ultimate
     nil
     nixfmt-rfc-style
     nodePackages.bash-language-server
@@ -1101,6 +1102,9 @@
     xdg-utils
     yt-dlp
     usbutils
+    pyright
+    python3
+    black
     glib
     zip
     (aspellWithDicts (

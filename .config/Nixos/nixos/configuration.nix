@@ -27,14 +27,14 @@
       systemd-boot.editor = false;
       efi.canTouchEfiVariables = true;
     };
-    kernelParams = [
-      "quiet"
-      "splash"
-      ############## i have now idea if the below works
-      ###"vga=current"
-      ###"rd.udev.log_level=3"
-      ###"udev.log_priority=3"
-    ];
+    # kernelParams = [
+    #   "quiet"
+    #   "splash"
+    #   ############## i have now idea if the below works
+    #   ###"vga=current"
+    #   ###"rd.udev.log_level=3"
+    #   ###"udev.log_priority=3"
+    # ];
     ##consoleLogLevel = 0;
     ##initrd.verbose = false;
     #tmp.cleanOnBoot = true;
