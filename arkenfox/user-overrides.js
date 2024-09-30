@@ -241,6 +241,8 @@ user_pref("javascript.options.baselinejit", false);
 user_pref("javascript.options.wasm", false);
 user_pref("javascript.options.asmjs", false);
 user_pref("browser.tabs.firefox-view", false);
+user_pref("browser.compactmode.show", false);
+user_pref("browser.uidensity", 1);
 
 /**
  * misc. personal preferences
