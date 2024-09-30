@@ -52,9 +52,7 @@
 
   qt = {
     enable = true;
-    platformTheme = "gnome";
-    style.package = pkgs.adwaita-qt;
-    style.name = "adwaita-dark";
+    platformTheme = "gtk";
   };
 
   gtk = {
@@ -390,7 +388,7 @@
       bind 'TAB:menu-complete'
     '';
     shellAliases = {
-      upd = "sudo nixos-rebuild switch --flake ~/lambda/#eukaryotic";
+      upd = "sudo nixos-rebuild switch --flake ~/.config/Nixos/#eukaryotic";
       updflake = "nix flake update --commit-lock-file";
       #      upd = "sudo nix-channel --update && sudo nixos-rebuild switch";
       #     enc = "sudo $EDITOR /etc/nixos/configuration.nix";
@@ -476,7 +474,6 @@
       EDITOR = "emacsclient -c -a emacs";
       VISUAL = "emacsclient -c -a emacs";
       FZF_DEFAULT_OPTS = "-e --no-scrollbar --border=none --reverse --no-info";
-      QT_QPA_PLATFORMTHEME = "qt5ct";
       LESSHISTFILE = "/tmp/.lesshst";
       MOZ_ENABLE_WAYLAND = "0";
     };
@@ -490,12 +487,12 @@
       uris = [ "qemu:///system" ];
     };
   };
-  services.unclutter = {
-    enable = true;
-    timeout = 5;
-    extraOptions =
-      [ "exclude-root" "ignore-scrolling" "ignore-buttons" "start-hidden" ];
-  };
+  # services.unclutter = {
+  #   enable = true;
+  #   timeout = 5;
+  #   extraOptions =
+  #     [ "exclude-root" "ignore-scrolling" "ignore-buttons" "start-hidden" ];
+  # };
 
   services.mpd = {
     enable = true;
@@ -510,6 +507,21 @@
     settings = {
       show_cpu_frequency = 1;
       show_cpu_temperature = 1;
+    };
+  };
+
+  programs.zathura = {
+    enable = true;
+    mappings = {
+      "<PageUp>" = "navigate previous";
+      "<PageDown>" = "navigate next";
+      "+" = "zoom in";
+      "-" = "zoom out";
+      "<C-q>" = "quit";
+    };
+    options = {
+      sandbox = "strict";
+      database = "sqlite";
     };
   };
 
@@ -876,19 +888,21 @@
     #emacs29-gtk3
     git
     htop
-    ffmpeg_6-full
+    ffmpeg
+    ffmpegthumbnailer
     xterm
     alacritty
     haskell-language-server
     trash-cli
     dmenu
     libreoffice
+    dolphin
+    konsole
     hunspell
     hunspellDicts.en_GB-large
     hunspellDicts.en-gb-large
     libnotify
     mupdf
-    zathura
     bc
     p7zip
     zip
@@ -913,11 +927,10 @@
     mpc-cli
     pandoc
     lxqt.lxqt-policykit
-    #texlive.combined.scheme-full
-    xfce.thunar
+    texliveFull
     fd
     ripgrep
-    opensnitch-ui
+    #    opensnitch-ui
     virt-manager
     xdg-utils
     git
@@ -926,13 +939,16 @@
     dotnet-sdk
     dotnetPackages.Nuget
     csharpier
-    omnisharp-roslyn
+    csharp-ls
     poppler_utils
     nodePackages.prettier
     nodePackages.bash-language-server
     feh
+    anki-bin
     arandr
     xsecurelock
+    xbanish
+    croc
     ghc
     man-pages
     man-pages-posix

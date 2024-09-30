@@ -19,8 +19,7 @@
     supportedFilesystems = [ "ntfs" ];
     tmp.cleanOnBoot = true;
     tmp.useTmpfs = true;
-    initrd.luks.devices."luks-b8f988dd-9e8b-4982-b121-8b8229fd81ed".device =
-      "/dev/disk/by-uuid/b8f988dd-9e8b-4982-b121-8b8229fd81ed";
+    initrd.luks.devices."luks-621f88b4-56cc-41aa-9c68-407f7664cc94".device = "/dev/disk/by-uuid/621f88b4-56cc-41aa-9c68-407f7664cc94";
   };
 
   hardware.opengl = {
@@ -93,14 +92,14 @@
     #with hardened profile this is needed otherwise nix will not build
     #    logrotate.checkConfig = false;
     fwupd.enable = true;
-    #    printing.enable = true;
-    #    printing.drivers = [
-    #      pkgs.gutenprint
-    #      pkgs.gutenprintBin
-    #      pkgs.epson-escpr
-    #      pkgs.epson-escpr2
-    #      pkgs.foomatic-db-ppds-withNonfreeDb
-    #    ];
+        printing.enable = true;
+        printing.drivers = [
+          pkgs.gutenprint
+          pkgs.gutenprintBin
+          pkgs.epson-escpr
+          pkgs.epson-escpr2
+          pkgs.foomatic-db-ppds-withNonfreeDb
+        ];
     avahi = {
       enable = true;
       nssmdns = true;

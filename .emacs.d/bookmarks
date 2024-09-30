@@ -3,13 +3,13 @@
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("config.nix"
- (filename . "~/lambda/nixos/configuration.nix")
+ (filename . "~/.config/Nixos/nixos/configuration.nix")
  (front-context-string . "# Edit this conf")
  (rear-context-string)
  (position . 1)
  (last-modified 26150 29103 744997 346000))
 ("home.nix"
- (filename . "~/lambda/home-manager/home.nix")
+ (filename . "~/.config/Nixos/home-manager/home.nix")
  (front-context-string . "# This is your h")
  (rear-context-string)
  (position . 1)
