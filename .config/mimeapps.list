@@ -1,15 +1,13 @@
 [Added Associations]
-application/zip=org.gnome.FileRoller.desktop;xarchiver.desktop;
-text/markdown=nvim.desktop;
-application/x-compressed-tar=xarchiver.desktop;
-application/x-xz-compressed-tar=xarchiver.desktop;
+text/markdown=emacs.desktop;
+image/png=imv.desktop;
 
 [Default Applications]
-text/plain=nvim.desktop
+text/plain=emacs.desktop
 text/html=firefox.desktop
-image/png=feh.desktop
-image/jpeg=feh.desktop
-image/gif=feh.desktop
+image/png=imv.desktop
+image/jpeg=imv.desktop
+image/gif=imv.desktop
 video/mp4=mpv.desktop
 application/pdf=org.pwmt.zathura.desktop
 application/vnd.ms-powerpoint=libreoffice-impress.desktop;
@@ -22,4 +20,4 @@ x-scheme-handler/http=firefox.desktop
 x-scheme-handler/https=firefox.desktop
 x-scheme-handler/about=firefox.desktop
 x-scheme-handler/unknown=firefox.desktop
-inode/directory=pcmanfm.desktop
+inode/directory=thunar.desktop
