@@ -243,6 +243,26 @@ user_pref("javascript.options.asmjs", false);
 user_pref("browser.tabs.firefox-view", false);
 user_pref("browser.compactmode.show", false);
 user_pref("browser.uidensity", 1);
+user_pref("browser.region.network.url", "");
+user_pref("browser.region.update.enabled", false);
+user_pref("beacon.enabled", false);
+user_pref("browser.safebrowsing.provider.google4.dataSharingURL", "");
+user_pref("browser.urlbar.trimURLs", false);
+user_pref("extensions.formautofill.addresses.enabled", false);
+user_pref("extensions.formautofill.available", "off");
+user_pref("extensions.formautofill.creditCards.available", false);
+user_pref("extensions.formautofill.heuristics.enabled", false);
+user_pref("signon.rememberSignons", false);
+user_pref("signon.autofillForms", false);
+user_pref("browser.pagethumbnails.capturing_disabled", true);
+user_pref("security.cert_pinning.enforcement_level", 2);
+user_pref("media.peerconnection.ice.no_host", true);
+user_pref("privacy.partition.always_partition_third_party_non_cookie_storage.exempt_sessionstorage", true);
+user_pref("network.dnsCacheEntries", 0);
+user_pref("network.trr.uri", "https://adblock.doh.mullvad.net/dns-query");
+user_pref("extensions.formautofill.creditCards.enabled", false);
+user_pref("general.smoothScroll", false);
+user_pref("media.hardwaremediakeys.enabled", false);
 
 /**
  * misc. personal preferences
