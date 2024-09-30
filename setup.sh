@@ -15,7 +15,7 @@
 #WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 #ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 #OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
+set -e
 postsetup() {
 	sudo systemctl enable ufw
 	sudo systemctl start ufw
@@ -90,8 +90,8 @@ mkdir -p ~/Downloads/
 mkdir -p ~/.config && cp -r .config/. ~/.config
 mkdir -p ~/.local/bin && cp -r .local/bin/. ~/.local/bin/
 sudo cp /etc/chrony/chrony.conf /etc/chrony/chrony.conf.old
-sudo cp root/30_security-misc.conf /etc/modprobe.d/
-sudo cp root/chrony.conf /etc/chrony/chrony/
-sudo cp root/tlp.conf /etc/tlp/
-sudo cp root/sysctl.conf /etc/sysctl.d/
+sudo cp ~/dots/root/30_security-misc.conf /etc/modprobe.d/
+sudo cp ~/dots/root/chrony.conf /etc/chrony/chrony/
+sudo cp ~/dots/root/tlp.conf /etc/tlp/
+sudo cp ~/dots/root/sysctl.conf /etc/sysctl.d/
 echo "All done!"
