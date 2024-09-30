@@ -21,15 +21,16 @@ URxvt.iso14755: flase
 URxvt.iso14755_52: false
 URxvt.keysym.Shift-Control-V: eval:paste_clipboard
 URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
-!URxvt.keysym.C-minus: resize-font:smaller
-!URxvt.keysym.C-plus: resize-font:bigger
-!URxvt.keysym.C-equal: resize-font:reset
+URxvt.keysym.C-minus: resize-font:smaller
+URxvt.keysym.C-plus: resize-font:bigger
+URxvt.keysym.C-equal: resize-font:reset
 !https://github.com/simmel/urxvt-resize-font
 URxvt.buffered: false
 URxvt.pointerBlank: true
 URxvt.pointerBlankDelay: 5
-!URxvt.perl-ext: default,matcher,font-size
+URxvt.perl-ext: default,matcher,font-size
 !URxvt.perl-lib: /usr/lib/x86_64-linux-gnu/urxvt/perl
+URxvt.perl-lib: /home/zenex/.config/urxvt/ext
 !URxvt.url-launcher:       firefox
 !URxvt.matcher.button:     1
 !URxvt.matcher.pattern.1:  \\bwww\\.[\\w-]+\\.[\\w./?&@#-]*[\\w/-]
@@ -38,7 +39,7 @@ URxvt.pointerBlankDelay: 5
 !
 !URxvt.keysym.C-z: matcher:select
 !URxvt.perl-ext-common: matcher,resize-font,clipboard-osc,eval,keysym-list
-URxvt.perl-ext-common: resize-font,clipboard-osc,eval,keysym-list
+!URxvt.perl-ext-common: resize-font,clipboard-osc,eval,keysym-list
 URxvt.foreground: #c6c6c6
 URxvt.background: #000000
 URxvt.cursorColor: #c6c6c6
