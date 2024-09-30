@@ -3,7 +3,7 @@ This contains all my config files for linux. It can be installed my =setup.sh= o
 * Nixos
 ** Why Nixos?
 *** Stable
-Every package is installed with it's own libraries. Let say that you have two packages that depend on the same library: package =foo=, =bar= and library =baz0.9=. When =baz= gets gets a =baz1.0= release, =foo= will make the neccessary changes, but lets say for some reason =bar= does not. This ends up breaking =bar= because =bar= depends on =baz0.9=. If you are using Nixos, then you would have /two copies/ of =baz=. One for =foo= and one for =bar=. This means if there is a new version of =baz=, then, only =foo's= =baz= gets updated. Not =bar's=. This means there is no mutation of your operating system state, so if you want to make change, the current state is copied over. This is called atomic updates and this is stable because it means that there is no half-working state. Another advantage of this is that it will not bork your system if your system loses power or internet when updating, just reconnect then rebuild!
+Every package is installed with its own libraries. Let say that you have two packages that depend on the same library: package =foo=, =bar= and library =baz0.9=. When =baz= gets a =baz1.0= release, =foo= will make the neccessary changes, but lets say for some reason =bar= does not make these changes. This ends up breaking =bar= because =bar= depends on =baz0.9=. If you are using Nixos, then you would have /two copies/ of =baz=. One for =foo= and one for =bar=. This means if there is a new version of =baz=, then, only =foo's= =baz= gets updated. Not =bar's=. This means there is no mutation of your operating system state, so if you want to make change, the current state is copied over. This is called atomic updates and this is stable because it means that there is no half-working state. Another advantage of this is that it will not bork your system if your system loses power or internet when updating, just reconnect then rebuild!
 *** Rollbacks
 Because the system state is copied over, every change is tracked in a new rollback. So if you do make a mistake you can just rollback. You can achieve this in a normal system with the BTRFS file system, but this is not as extensive. It does not track /every change/.
 *** Lazy Configs
@@ -14,7 +14,7 @@ It also means that if I ever move to a different system, then I just have to wor
 The learning curve is a bit high, but doable, especially once you start looking into [[https:][flakes]] and the documentation is sparse. But once you get everything just right then, at least in my case, it is just the matter of searching a package on =https://search.nixos.org/packages= or =https://search.nixos.org/options?=, then adding it to your config. Although my config is quite basic at the moment and I am still learning nix.
 *** Forcing everything to be in nix
 One other caveat is that it only understands nix expressions. This can lead to some programs not working because Nixos does not use
-[[https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard][Unix "Filesystem Hierarchy Standard]].
+[[https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard][Unix Filesystem Hierarchy Standard]].
 
 * Getting Started
 ** Prequisits
