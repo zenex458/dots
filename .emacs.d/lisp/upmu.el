@@ -1,6 +1,9 @@
 ;;; package --- Summary
+;; This stores records your favourite songs, in a human readable plain text file, in a specific format (ARTIST -- SONG_NAME (feeling) -- dd/mm/yy hh:mm:ss).
 
 ;;; Commentary:
+
+;; This is not part of GNU EMACS.
 
 ;;; Code:
 
@@ -8,8 +11,9 @@
 ;; TODO: make sure to add a command for at point in an emms playlist buffer
 ;; TODO: remove progn and make it more functinal, and make it customisible
 
-(defun upmu ()
+(defun upmu-add-entry()
   "Add a music entry to a file."
+  (interactive)
   (progn
 	(setq paths '("/home/zenex/Documents/3.Other/Txt/hmb" "/home/zenex/Documents/3.Other/Txt/THEBEST"))
 	(setq input-file (completing-read (message "Enter path: ") paths))
@@ -63,9 +67,6 @@
 						(if (search-forward (format "%s -- %s" (nth 2 user-input) (nth 1 user-input)) nil t)
 							(message "already entered")
 						  (append-to-file (message "%s -- %s (%s) -- %s\n" (nth 2 user-input) (nth 1 user-input) (nth 0 user-input) (format-time-string '"%d/%m/%y %T")) t input-file))))))
-
-(upmu)
-
 
 (provide 'upmu)
 ;;; upmu.el ends here

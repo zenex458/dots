@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-(add-to-list 'load-path "~/.emacs.d/zenex-lisp/")
+(add-to-list 'load-path "~/.emacs.d/lisp/")
 (load-theme 'morest t)
 (setenv "MANWIDTH" "200")
 (setq package-enable-at-startup nil)
@@ -22,7 +22,7 @@
 ;;(setq display-line-numbers-type 'relative)
 ;;(add-hook 'prog-mode-hook #'display-line-numbers-mode)
 (setq visible-bell t)
-(push '(font . "IosevkaFixedCustom")default-frame-alist)
+(push '(font . "Iosevka")default-frame-alist)
 (global-visual-line-mode t)
 (advice-add #'x-apply-session-resources :override #'ignore)
 (defvar default-file-name-handler-alist file-name-handler-alist)

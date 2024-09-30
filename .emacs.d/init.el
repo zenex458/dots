@@ -19,7 +19,7 @@
 
 (setq straight-use-package-by-default t)
 
-(setq custom-file (make-temp-file "emacs-custom-"))
+;;(setq custom-file (make-temp-file "emacs-custom-"))
 (defvar ispell-dictionary "british")
 (setq confirm-kill-emacs 'y-or-n-p)
 (setq dired-listing-switches "-AlF --si -Gg --group-directories-first")
@@ -42,13 +42,13 @@
  shr-use-colors nil                          ; No colours
  eww-search-prefix "https://duckduckgo.com/?q=")    ; Use another engine for searching
 (defalias 'yes-or-no-p 'y-or-n-p)
-(setq ffap-machine-p-known 'reject)
+(setq save-interprogram-paste-before-kill t)
 (setq delete-by-moving-to-trash t)
 (setq-default tab-width 4)
 ;;(setq dired-dwim-target t)
 (setq-default indent-tabs-mode t)
 (setq backup-by-copying t)
-(setq history-length 20)
+(setq history-length 2000)
 (setq dired-kill-when-opening-new-dired-buffer t)
 (setq native-comp-async-report-warnings-errors nil)
 (setq warning-minimum-level :error)
@@ -67,7 +67,7 @@
 (global-subword-mode 1)
 (pending-delete-mode t)
 (savehist-mode 1)
-(defvar my-term-shell "/bin/bash")
+(defvar my-term-shell "/run/current-system/sw/bin/bash")
 (defadvice ansi-term (before force-bash)
   "https://github.com/daedreth/UncleDavesEmacs#default-shell-should-be-bash"
   (interactive (list my-term-shell)))
@@ -288,6 +288,8 @@
   ;; `(csharp-ts-mode . ("/nix/store/jdp56g0j6mf7yjvqy9npw28y4pxcvgsw-omnisharp-roslyn-1.39.10/bin/OmniSharp" "-lsp")))
   )
 
+(use-package flymake)
+
 (use-package dart-mode
   :custom
   (eglot-ignored-server-capabilities '(:signatureHelpProvider)))
@@ -479,11 +481,10 @@
   ;;hammy config for resting hands every 4min
   )
 
-;; (require 'upmu.el)
-;; (global-set-key (kbd "C-c u") 'upmu)
+(require 'upmu)
+(global-set-key (kbd "C-c u") 'upmu-add-entry)
 (define-prefix-command 'avy-n-map)
 (global-set-key (kbd "M-j") 'avy-n-map)
-(global-set-key (kbd "C-c t") 'edit-todo)
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 (global-set-key [remap dabbrev-expand] 'hippie-expand)
 (global-set-key (kbd "C-M-x") 'embark-export)
@@ -573,7 +574,6 @@
 ;; 										ml-total-lines))))
 ;; 								 mode-line-position
 ;; 								 (vc-mode vc-mode) mode-line-modes mode-line-misc-info mode-line-end-spaces))
-
 
 
 (setq minor-mode-alist nil)
