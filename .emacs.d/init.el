@@ -113,14 +113,7 @@
 (setq org-time-stamp-custom-formats '("%a %b %e %Y" . "%a %b %e %Y %H:%M"))
 
 (use-package diminish)
-
-(use-package smartparens
-  :hook (prog-mode . smartparens-mode)
-  :bind (("C-(" . sp-splice-sexp)
-		 ("C-)" . sp-wrap-round))
-  :config
-  (require 'smartparens-config)
-  (diminish 'smartparens-mode))
+(add-hook 'prog-mode-hook 'electric-pair-mode)
 
 (use-package vertico
   :config
@@ -249,8 +242,8 @@
 (use-package haskell-mode
   :magic ("%hs" . haskell-mode))
 
-(use-package elpy
-  :mode ("*\\.py\\'" . elpy-mode))
+(use-package nix-mode
+  :magic ("%nix" . nix-mode))
 
 (use-package corfu
   :custom
@@ -518,24 +511,7 @@
 
 (define-key isearch-mode-map (kbd "<backspace>") 'isearch-del-char)
 
-
-;;https://emacs.stackexchange.com/questions/26721/display-max-line-in-bottom-line-nox-aka-mode-line
-(defvar ml-selected-window nil)
-
-(defvar ml-total-lines nil
-  "Previously recorded total lines in a buffer -- used for inactive windows.")
-(make-variable-buffer-local 'ml-total-lines)
-
-(defun ml-record-selected-window ()
-  (setq ml-selected-window (selected-window)))
-
-(defun ml-update-all ()
-  (force-mode-line-update t))
-
-(add-hook 'post-command-hook 'ml-record-selected-window)
-(add-hook 'buffer-list-update-hook 'ml-update-all)
-
-
+(setq mode-line-position (list " (%l:%C %P %I) "))
 ;;https://www.emacs.dyerdwelling.family/emacs/20230902114449-emacs--my-evolving-modeline/
 (setq-default mode-line-format '(
 								 (:eval
@@ -551,17 +527,54 @@
 								  (if (mode-line-window-selected-p)
 									  (propertize (buffer-name) 'face '(:foreground "#c6c6c6" :inherit bold))
 									(propertize (buffer-name) 'face '(:foreground "#222222" :inherit bold))))
-								 "  (%l/"
-								 (:eval
-								  (let ((win (selected-window)))
-									(with-current-buffer (window-buffer win)
-									  (if (or (eq ml-selected-window win) (null ml-total-lines))
-										  (save-excursion
-											(goto-char (point-max))
-											(setq ml-total-lines (format-mode-line "%l")))
-										ml-total-lines))))
-								 "(%P):%C %I)  "
+								 mode-line-position
 								 (vc-mode vc-mode) mode-line-modes mode-line-misc-info mode-line-end-spaces))
+
+;; (setq mode-line-position (list "(%P):%C %I) "))
+;; ;;https://emacs.stackexchange.com/questions/26721/display-max-line-in-bottom-line-nox-aka-mode-line
+;; (defvar ml-selected-window nil)
+
+;; (defvar ml-total-lines nil
+;;   "Previously recorded total lines in a buffer -- used for inactive windows.")
+;; (make-variable-buffer-local 'ml-total-lines)
+
+;; (defun ml-record-selected-window ()
+;;   (setq ml-selected-window (selected-window)))
+
+;; (defun ml-update-all ()
+;;   (force-mode-line-update t))
+
+;; (add-hook 'post-command-hook 'ml-record-selected-window)
+;; (add-hook 'buffer-list-update-hook 'ml-update-all)
+
+;; ;;https://www.emacs.dyerdwelling.family/emacs/20230902114449-emacs--my-evolving-modeline/
+;; (setq-default mode-line-format '(
+;; 								 (:eval
+;; 								  (if (and (buffer-file-name) (buffer-modified-p))
+;; 									  (propertize "**" 'face
+;; 												  '(:background "#e20023" :foreground "#000000" :inherit bold)) " "))
+;; 								 (:eval
+;; 								  (if (and buffer-read-only (mode-line-window-selected-p))
+;; 									  (propertize "%%%%" 'face
+;; 												  '(:background "#c6c6c6" :foreground "#000000" :inherit bold)) " "))
+;; 								 " "
+;; 								 (:eval
+;; 								  (if (mode-line-window-selected-p)
+;; 									  (propertize (buffer-name) 'face '(:foreground "#c6c6c6" :inherit bold))
+;; 									(propertize (buffer-name) 'face '(:foreground "#222222" :inherit bold))))
+;; 								 " (%l/"
+;; 								 (:eval
+;; 								  (let ((win (selected-window)))
+;; 									(with-current-buffer (window-buffer win)
+;; 									  (if (or (eq ml-selected-window win) (null ml-total-lines))
+;; 										  (save-excursion
+;; 											(goto-char (point-max))
+;; 											(setq ml-total-lines (format-mode-line "%l")))
+;; 										ml-total-lines))))
+;; 								 mode-line-position
+;; 								 (vc-mode vc-mode) mode-line-modes mode-line-misc-info mode-line-end-spaces))
+
+
 
 (setq minor-mode-alist nil)
 
