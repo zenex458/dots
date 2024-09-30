@@ -57,15 +57,16 @@
     hostName = "eukaryotic";
     networkmanager.enable = true;
     networkmanager.wifi = {
-      macAddress = "random";
-      backend = "iwd";
+      # macAddress = "random";
+      macAddress = "stable-ssid";
+      # backend = "iwd";
     };
-    wireless.iwd.settings = {
-      Settings = {
-        "AddressRandomization" = "network";
-        "AlwaysRandomizeAddress" = true;
-      };
-    };
+    # wireless.iwd.settings = {
+    #   Settings = {
+    #     "AddressRandomization" = "network";
+    #     "AlwaysRandomizeAddress" = true;
+    #   };
+    # };
     enableIPv6 = false;
   };
 

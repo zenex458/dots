@@ -1083,6 +1083,7 @@
     shellcheck
     shfmt
     simplex-chat-desktop
+    signal-desktop
     slurp
     smartmontools
     swaylock
@@ -1105,6 +1106,7 @@
     pyright
     python3
     black
+    python311Packages.flask
     glib
     zip
     (aspellWithDicts (
