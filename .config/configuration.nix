@@ -15,6 +15,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
   boot.supportedFilesystems = [ "ntfs" ];
+  boot.cleanTmpDir = true;
+
 
   # Setup keyfile
   boot.initrd.secrets = {
@@ -22,8 +24,8 @@
   };
 
   # Enable swap on luks
-  boot.initrd.luks.devices."luks-bd718592-7be5-4ef0-b5ab-767ecd5ec66e".device = "/dev/disk/by-uuid/bd718592-7be5-4ef0-b5ab-767ecd5ec66e";
-  boot.initrd.luks.devices."luks-bd718592-7be5-4ef0-b5ab-767ecd5ec66e".keyFile = "/crypto_keyfile.bin";
+  boot.initrd.luks.devices."luks-313e6e86-8932-4563-a228-eb5963c82498".device = "/dev/disk/by-uuid/313e6e86-8932-4563-a228-eb5963c82498";
+  boot.initrd.luks.devices."luks-313e6e86-8932-4563-a228-eb5963c82498".keyFile = "/crypto_keyfile.bin";
 
   networking.hostName = "flakes"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -104,11 +106,15 @@
   gcc
   #arandr
   sdcv
-  skypeforlinux
   tmux
-  #vimv
   microcodeIntel
   tela-icon-theme
+  mpd
+  mpc-cli
+  ncmpcpp
+  pavucontrol
+  xclip
+  xsel
   ];
 
   environment.variables.EDITOR = "nvim";
@@ -124,13 +130,8 @@
     persist = true;
 }];
 
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-};
+   hardware.pulseaudio.enable = true;
+   hardware.pulseaudio.support32Bit = true;
 
   nix.settings.auto-optimise-store = true;
   
