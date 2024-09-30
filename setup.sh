@@ -29,10 +29,8 @@ postsetup ()
           echo "ad-blocking hosts not added"
 	fi
 
-	cp ~/dots/Downloads/vimix-dark.tar.7z ~/Downloads/
         curl -LO "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/Hack.zip -o $HOME/Downloads/Hack.zip"
         $perm unzip "$HOME/Downloads/Hack.zip" /usr/share/fonts/Hack
-	$perm 7za x -so "$HOME/Downloads/vimix-dark.tar.7z" | $perm tar xf /usr/share/themes
 }
 
 Arch ()
@@ -81,9 +79,7 @@ read -rp "Are you using sudo or doas? " perm
 
 cp -r .xinitrc .bashrc ~/
 mkdir -p ~/Downloads/
-cp -r Downloads/* ~/Downloads
-mkdir -p ~/.config
-cp -r .config/* ~/.config
+mkdir -p ~/.config && cp -r .config/. ~/.config
 
 echo " "
 echo "(A)rch"
