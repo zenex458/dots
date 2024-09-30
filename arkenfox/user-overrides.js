@@ -238,6 +238,9 @@ user_pref("identity.fxaccounts.enabled", false);
 user_pref("reader.parse-on-load.enabled", false);
 user_pref("javascript.options.ion", false);
 user_pref("javascript.options.baselinejit", false);
+user_pref("javascript.options.wasm", false);
+user_pref("javascript.options.asmjs", false);
+user_pref("browser.tabs.firefox-view", false);
 
 /**
  * misc. personal preferences
