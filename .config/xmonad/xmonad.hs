@@ -14,7 +14,7 @@ import XMonad.Util.SpawnOnce
 
 main :: IO ()
 main = xmonad
-     -- . ewmhFullscreen
+    -- . ewmhFullscreen
      . ewmh
      . withEasySB (statusBarProp "xmobar" (pure myXmobarPP)) defToggleStrutsKey
      $ myConfig
@@ -46,9 +46,9 @@ myConfig = def
       -- add vol
       ((mod1Mask, xK_bracketright), spawn "amixer sset Master 2%+"),
       -- suspend and lock screen
-      ((mod1Mask, xK_s), spawn "systemctl suspend && xsecurelock"),
+     -- ((mod1Mask, xK_s), spawn "systemctl suspend && xsecurelock"),
       -- lock
-      ((mod1Mask, xK_l), spawn "xsecurelock"),
+     -- ((mod1Mask, xK_l), spawn "xsecurelock"),
       -- spawn alsamixer
       ((mod, xK_a), spawn "urxvtc -e alsamixer -V all"),
       -- brightness up by 2
