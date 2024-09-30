@@ -27,9 +27,9 @@ norm() {
 
 	if ! grep -i "$artist -- $song" "$file" >>/dev/null; then
 		if [ -z "$desc" ]; then
-			printf '%s -- %s %s\n' "$artist" "$song" "-- $(date +%D\ %T)" >>"$file"
+			printf '%s -- %s %s\n' "$artist" "$song" "-- $(date +%d/%m/%y\ %T)" >>"$file"
 		else
-			printf '%s -- %s (%s) %s\n' "$artist" "$song" "$desc" "-- $(date +%D\ %T)" >>"$file"
+			printf '%s -- %s (%s) %s\n' "$artist" "$song" "$desc" "-- $(date +%d/%m/%y\ %T)" >>"$file"
 		fi
 	else
 		printf '%s\n' "Song already entered"

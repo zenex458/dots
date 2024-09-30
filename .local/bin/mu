@@ -24,7 +24,7 @@ helpp() { #fix this to one printf statement?
 if [ -z "$1" ]; then
 	mu
 elif [ "$1" = "-r" ]; then
-	mpd --kill || systemctl --user stop mpd.service && sudo umount -v /run/media/zenex/musicsd && lsblk ##add a awk line or something to check if mount point is unmounted
+	mpc pause && mpd --kill || systemctl --user stop mpd.service && sudo umount -v /run/media/zenex/musicsd && lsblk ##add a awk line or something to check if mount point is unmounted
 else
 	helpp
 fi
