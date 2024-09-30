@@ -34,7 +34,7 @@ postsetup ()
 	read -rp "Do you want sway?(y/n) " sw
 	if [[ $sw == "y" || $sw == "Y" ]]
 	then
-            sudo $pkg sway foot waybar gammastep xwayland
+            sudo $pkg sway foot waybar gammastep xwayland bemenu
 	else
 	  echo "sway not added"
 	fi
