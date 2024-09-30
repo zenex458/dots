@@ -74,7 +74,7 @@ Alpine ()
 	$perm make clean install
 	cd ~/.config/st
 	$perm make clean install
-	exit
+	echo "re-login"
 
 }
 
