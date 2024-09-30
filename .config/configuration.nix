@@ -26,6 +26,9 @@
   boot.initrd.luks.devices."luks-313e6e86-8932-4563-a228-eb5963c82498".device = "/dev/disk/by-uuid/313e6e86-8932-4563-a228-eb5963c82498";
   boot.initrd.luks.devices."luks-313e6e86-8932-4563-a228-eb5963c82498".keyFile = "/crypto_keyfile.bin";
 
+  # Enable microcode updates for Intel CPU
+  hardware.cpu.intel.updateMicrocode = true;
+
   networking.hostName = "flakes"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -61,10 +64,18 @@
     isNormalUser = true;
     description = "zenex";
     extraGroups = [ "networkmanager" "wheel" "video" "audio" ]; #libvirtd
+    shell = pkgs.zsh;
     packages = with pkgs; [];
   };
 
+  services.chrony.enable = true;
+  services.ntp.enable = false;
+  services.chrony.initstepslew.enabled = true;
   programs.light.enable = true;
+  # Thermals and cooling
+  services.thermald.enable = true;
+  # This includes support for suspend-to-RAM and powersave features on laptops
+  powerManagement.enable = true;
   services.tlp.enable = true;
   services.tlp.settings = {
     CPU_SCALING_GOVERNOR_ON_BAT="powersave";
@@ -83,9 +94,13 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
   #shotcut
+  #kdenlive
+  #obs-studio
+  #mediainfo
   #ffmpeg
-  #gimp
   neovim
+  file
+  dash
   vimv
   trash-cli
   aria
@@ -94,13 +109,14 @@
   curl
   git
   firefox
-  alacritty
+  rxvt-unicode
   pcmanfm
   bashmount
   nnn
   xmobar
   htop
   feh
+  #exiftool
   redshift
   clifm
   libreoffice
@@ -109,10 +125,12 @@
   #batsignal
   scrot
   #maim
-  xdotool
+  #xdotool
   mupdf
-  #imagemagick
+  zathura
+  #gthumb
   bc
+  p7zip
   zip
   unzip
   fuse3
@@ -120,7 +138,8 @@
   mpg123
   keepassxc
   paper-icon-theme
-  orchis-theme
+  pop-gtk-theme
+  shades-of-gray-theme
   lxappearance
   dmenu
   xsecurelock
@@ -133,14 +152,14 @@
   fzf-obc
   yt-dlp
   freetube
-  oneshot
+  #oneshot
+  #filegive
   #syncthing
   kdeconnect
   gcc
   #arandr
   #sdcv
   tmux
-  microcodeIntel
   mpd
   mpc-cli
   ncmpcpp
@@ -151,6 +170,8 @@
   #sbcl
   #nodejs
   ghc
+  pandoc
+  obsidian
   haskell-language-server
   #android-tools
   #android-file-transfer
@@ -166,6 +187,8 @@
   #openssh
   lxqt.lxqt-policykit
   dbus
+  #sage
+  texlive.combined.scheme-full
   #cpu-x
   ##selenium packages
   #python39Packages.selenium
@@ -202,14 +225,8 @@
 
   environment.variables.EDITOR = "nvim";
 
-#  fonts.fonts = with pkgs; [
-#  (nerdfonts.override { fonts = [ "FiraMono"]; })
-#  vistafonts
-#];
-
   fonts.fonts = with pkgs; [
-  hack-font
-  inconsolata
+  (nerdfonts.override { fonts = [ "Hack" ]; })
   vistafonts
 ];
 
