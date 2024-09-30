@@ -27,9 +27,11 @@ HISTSIZE=100000
 SAVEHIST=100000
 unsetopt beep extendedglob
 bindkey -v
-
-autoload -U compinit
-zstyle ':completion:*' menu select
+unsetopt correct_all correct
+setopt autocd hist_ignore_dups hist_expire_dups_first
+zstyle ':completion:*' completer _expand _complete _ignored _approximate
+zstyle ':completion:*' max-errors 3 numeric
+autoload -Uz compinit
 zmodload zsh/complist
 compinit
 _comp_options+=(globdots)
@@ -43,6 +45,7 @@ function zle-keymap-select () {
     esac
 }
 zle -N zle-keymap-select
+bindkey -s '^l\r' clear
 #backup tar cf - directory | 7za a -si directory.tar.7z
 #extract 7za x -so directory.tar.7z | tar xf -
 #source ~/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh
