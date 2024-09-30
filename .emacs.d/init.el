@@ -1,24 +1,24 @@
 (defvar bootstrap-version)
 (let ((bootstrap-file
-       (expand-file-name
-        "straight/repos/straight.el/bootstrap.el"
-        (or (bound-and-true-p straight-base-dir)
-            user-emacs-directory)))
-      (bootstrap-version 7))
+	   (expand-file-name
+		"straight/repos/straight.el/bootstrap.el"
+		(or (bound-and-true-p straight-base-dir)
+			user-emacs-directory)))
+	  (bootstrap-version 7))
   (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
+	(with-current-buffer
+		(url-retrieve-synchronously
+		 "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+		 'silent 'inhibit-cookies)
+	  (goto-char (point-max))
+	  (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
 (straight-use-package 'use-package)
 
 (setq straight-use-package-by-default t)
 
-;;(setq custom-file (make-temp-file "emacs-custom-"))
+(setq custom-file (make-temp-file "emacs-custom-"))
 (defvar ispell-dictionary "british")
 (setq confirm-kill-emacs 'y-or-n-p)
 (setq-default dired-listing-switches "-Alh --group-directories-first")
@@ -30,9 +30,9 @@
  kept-old-versions 2
  version-control t)
 (setq backup-directory-alist
-      `((".*" . ,"~/.emacs.d/saves/")))
+	  `((".*" . ,"~/.emacs.d/saves/")))
 (setq auto-save-file-name-transforms
-      `((".*" ,"~/.emacs.d/saves/" t)))
+	  `((".*" ,"~/.emacs.d/saves/" t)))
 (setq isearch-lazy-count t)
 (setq
  shr-use-fonts  nil                          ; No special fonts
@@ -50,15 +50,15 @@
 (setq native-comp-async-report-warnings-errors nil)
 (setq warning-minimum-level :error)
 (setq read-file-name-completion-ignore-case t
-      read-buffer-completion-ignore-case t
-      completion-ignore-case t)
+	  read-buffer-completion-ignore-case t
+	  completion-ignore-case t)
 (global-set-key [remap dabbrev-expand] 'hippie-expand)
 (add-hook 'prog-mode-hook #'(lambda ()
 							  (local-set-key (kbd "RET") 'newline-and-indent)))
 
 (add-hook 'prog-mode-hook  #'(lambda ()(setq show-trailing-whitespace t)))
 (setq display-time-default-load-average nil)
-(setq display-time-format "%I:%M")
+(setq display-time-format "%H:%M")
 (display-time-mode 1)
 (display-battery-mode 1)
 (global-subword-mode 1)
@@ -105,17 +105,21 @@
 (setq-default org-display-custom-times t)
 (setq org-time-stamp-custom-formats '("%a %b %e %Y" . "%a %b %e %Y %H:%M"))
 
-(setq electric-pair-pairs '(
-							(?\{ . ?\})
-							(?\( . ?\))
-							(?\[ . ?\])
-							(?\" . ?\")
-							))
+;;(setq electric-pair-pairs '(
+;;							(?\{ . ?\})
+;;							(?\( . ?\))
+;;							(?\[ . ?\])
+;;							(?\" . ?\")
+;;							))
+;;
+;;(add-hook 'prog-mode-hook 'electric-pair-mode)
 
-(add-hook 'prog-mode-hook 'electric-pair-mode)
 
 
 (use-package diminish)
+
+(use-package smartparens
+  :hook (prog-mode . smartparens-strict-mode))
 
 (use-package vertico
   :config
@@ -128,8 +132,8 @@
   ;;  (completion-styles '(basic substring initials flex orderless)))
   :init
   (setq completion-styles '(orderless basic)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
+		completion-category-defaults nil
+		completion-category-overrides '((file (styles partial-completion)))))
 
 (use-package marginalia
   :custom
@@ -139,31 +143,30 @@
 
 (use-package consult
   :bind (("C-c M-x" . consult-mode-command)
-         ([remap Info-search] . consult-info)
-         ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
-         ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
-         ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
-         ;; M-g bindings in `goto-map'
-         ("M-g e" . consult-compile-error)
-         ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
-         ("M-g g" . consult-goto-line)             ;; orig. goto-line
-         ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
-         ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
-         ("M-g m" . consult-mark)
-         ("M-g k" . consult-global-mark)
-         ("M-g i" . consult-imenu)
-         ("M-g I" . consult-imenu-multi)
-         ;; M-s bindings in `search-map'
-         ("M-s d" . consult-find)                  ;; Alternative: consult-fd
-         ("M-s D" . consult-locate)
-         ("M-s g" . consult-grep)
-         ("M-s G" . consult-git-grep)
-         ("M-s r" . consult-ripgrep)
-         ("M-s l" . consult-line)
-         ("M-s L" . consult-line-multi)
-         ("M-s k" . consult-keep-lines)
-         ("M-s u" . consult-focus-lines)))
-
+		 ([remap Info-search] . consult-info)
+		 ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
+		 ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
+		 ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
+		 ;; M-g bindings in `goto-map'
+		 ("M-g e" . consult-compile-error)
+		 ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
+		 ("M-g g" . consult-goto-line)             ;; orig. goto-line
+		 ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
+		 ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
+		 ("M-g m" . consult-mark)
+		 ("M-g k" . consult-global-mark)
+		 ("M-g i" . consult-imenu)
+		 ("M-g I" . consult-imenu-multi)
+		 ;; M-s bindings in `search-map'
+		 ("M-s d" . consult-find)                  ;; Alternative: consult-fd
+		 ("M-s D" . consult-locate)
+		 ("M-s g" . consult-grep)
+		 ("M-s G" . consult-git-grep)
+		 ("M-s r" . consult-ripgrep)
+		 ("M-s l" . consult-line)
+		 ("M-s L" . consult-line-multi)
+		 ("M-s k" . consult-keep-lines)
+		 ("M-s u" . consult-focus-lines)))
 
 (use-package embark
   :bind
@@ -171,17 +174,59 @@
    ("C-;" . embark-dwim)        ;; good alternative: M-.
    ("C-h B" . embark-bindings))) ;; alternative for `describe-bindings'
 
-(use-package format-all
-  :hook ((prog-mode . format-all-mode)
-		 (format-all-mode . format-all-ensure-formatter))
+(use-package apheleia
+  :hook ((prog-mode . apheleia-mode))
   :config
-  (diminish 'format-all-mode))
-(add-hook 'cshap-mode-hook (setq format-all-formatters '(("C#" (astyle "--mode=cs" "--style=whitesmith")))))
+  (diminish apheleia-mode)
+  (setf (alist-get 'astyle apheleia-formatters)
+		'("astyle" "--mode=c" "--style=allman"))
+  (add-to-list 'apheleia-mode-alist '(c-ts-mode . astyle))
+  (setf (alist-get 'csharpier apheleia-formatters)
+		'("~/.dotnet/tools/dotnet-csharpier" "--write-stdout")) ;;dotnet tool install --global csharpier to install
+  (add-to-list 'apheleia-mode-alist '(csharp-ts-mode . csharpier))
+  (setf (alist-get 'shfmt apheleia-formatters)
+		'("shfmt"))
+  (add-to-list 'apheleia-mode-alist '(bash-ts-mode . shfmt)))
 
+(setq treesit-language-source-alist
+	  '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+		(c "https://github.com/tree-sitter/tree-sitter-c")
+		(c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
+		(css "https://github.com/tree-sitter/tree-sitter-css")
+		(elisp "https://github.com/Wilfred/tree-sitter-elisp")
+		(go "https://github.com/tree-sitter/tree-sitter-go")
+		(haskell "https://github.com/tree-sitter/tree-sitter-haskell")
+		(html "https://github.com/tree-sitter/tree-sitter-html")
+		(javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+		(json "https://github.com/tree-sitter/tree-sitter-json")
+		(make "https://github.com/alemuller/tree-sitter-make")
+		(markdown "https://github.com/ikatyang/tree-sitter-markdown")
+		(python "https://github.com/tree-sitter/tree-sitter-python")
+		(toml "https://github.com/tree-sitter/tree-sitter-toml")
+		(tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+		(typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+		(yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+;;(mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
+
+(setq major-mode-remap-alist
+	  '((yaml-mode . yaml-ts-mode)
+		(bash-mode . bash-ts-mode)
+		(js2-mode . js-ts-mode)
+		(typescript-mode . typescript-ts-mode)
+		(json-mode . json-ts-mode)
+		(c-mode . c-ts-mode)
+		(csharp-mode . csharp-ts-mode)
+		(css-mode . css-ts-mode)
+		(python-mode . python-ts-mode)))
+
+
+;;(use-package treesit-auto
+;;  :config
+;;  (global-treesit-auto-mode))
 
 (use-package pulsar
   :hook ((next-error . pulsar-pulse-line)
-         (minibuffer-setup . pulsar-pulse-line)))
+		 (minibuffer-setup . pulsar-pulse-line)))
 
 (use-package rainbow-mode
   :hook (prog-mode . rainbow-mode)
@@ -199,55 +244,24 @@
 (use-package elpy
   :mode ("*\\.py\\'" . elpy-mode))
 
-;;(use-package corfu
-;;  :custom
-;;  (setq completion-cycle-threshold 3)
-;;  (corfu-auto t)
-;;  (corfu-cycle t)
-;;  (setq corfu-quit-no-match 'separator)
-;;  (corfu-preselect 'prompt)
-;;  (setq corfu-popupinfo-delay 1)
-;;  :hook ((prog-mode . corfu-mode)
-;;		 (prog-mode . corfu-popupinfo-mode)))
-;;
-;;(use-package cape
-;;  :bind (("C-c p w" . cape-dict)
-;;		 ("C-c p l" . cape-line))
-;;  :init
-;;  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-;;  (add-to-list 'completion-at-point-functions #'cape-abbrev)
-;;  (add-to-list 'completion-at-point-functions #'cape-file)
-;;  (add-to-list 'completion-at-point-functions #'cape-elisp-block)
-;;  (add-to-list 'completion-at-point-functions #'cape-history)
-;;  (add-to-list 'completion-at-point-functions #'cape-keyword)
-;;  (add-to-list 'completion-at-point-functions #'cape-line)
-;;  (setq-local completion-at-point-functions
-;;			  (mapcar #'cape-company-to-capf
-;;					  (list #'company-files #'company-keywords #'company-dabbrev))))
-;;
-
-;;(use-package company
-;;  :hook ((prog-mode . company-mode)))
-
-
 (use-package corfu
   :custom
   (corfu-cycle t)
   (corfu-auto t)
   (corfu-auto-prefix 3)
-  ;;  (corfu-preview-current 'insert)
+  (corfu-preview-current 'insert)
   (corfu-preselect 'prompt)
   (corfu-on-exact-match nil)
   :hook ((prog-mode . corfu-mode)
-  		 (prog-mode . corfu-popupinfo-mode))
+		 (prog-mode . corfu-popupinfo-mode))
   :bind (:map corfu-map
-              ("M-SPC"      . corfu-insert-separator)
-              ("TAB"        . corfu-next)
-              ([tab]        . corfu-next)
-              ("S-TAB"      . corfu-previous)
-              ([backtab]    . corfu-previous)
-              ("S-<return>" . corfu-insert)
-              ("RET"        . nil)))
+			  ("M-SPC"      . corfu-insert-separator)
+			  ("TAB"        . corfu-next)
+			  ([tab]        . corfu-next)
+			  ("S-TAB"      . corfu-previous)
+			  ([backtab]    . corfu-previous)
+			  ("S-<return>" . corfu-insert)
+			  ("RET"        . nil)))
 
 
 (use-package cape
@@ -259,16 +273,16 @@
 			  (mapcar #'cape-company-to-capf
 					  (list #'company-files #'company-keywords #'company-dabbrev))))
 
+
 (use-package lsp-mode
   :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-c l")
   ;;  (setq lsp-csharp-omnisharp-roslyn-server-path "/nix/store/2w8wkhkhd0b85fz48pnsds5msy31iyhm-omnisharp-roslyn-1.39.10/bin/OmniSharp")
-  :hook ((csharp-mode . lsp)))
+  :hook ((csharp-ts-mode . lsp)))
 
 (use-package lsp-ui
-  :ensure t
   :commands lsp-ui-mode)
-
 
 (use-package yasnippet
   :hook ((prog-mode . yas-minor-mode)
@@ -324,8 +338,10 @@
 		 ("C-C C-@" . mc/mark-all-like-this)
 		 ("C-C M-v" . mc/edit-beggineing-of-lines)))
 
-(use-package expand-region
-  :bind ("C-@" . er/expand-region)) ;;add other binds
+(use-package expreg
+  :bind ("C-@" . expreg-expand))
+;;(use-package expand-region
+;;  :bind ("C-@" . er/expand-region)) ;;add other binds
 
 (use-package vlf
   :init
@@ -347,7 +363,7 @@
   :init
   (setq dired-subtree-use-backgrounds nil)
   (let ((map dired-mode-map))
-    (define-key map (kbd "TAB") #'dired-subtree-cycle)
+	(define-key map (kbd "TAB") #'dired-subtree-cycle)
 	(define-key map (kbd "M-^") #'dired-subtree-remove)))
 
 (use-package sudo-edit
@@ -355,10 +371,10 @@
   ("M-s e" . sudo-edit)
   ("M-s f" . sudo-edit-find-file))
 
-(use-package zoxide
-  :hook (find-file . zoxide-add)
-  :bind
-  ("M-s z f" . zoxide-find-file))
+;;(use-package zoxide
+;;  :hook (find-file . zoxide-add)
+;;  :bind
+;;  ("M-s z f" . zoxide-find-file))
 
 (use-package god-mode
   :bind ("C-`" . god-local-mode))
@@ -370,11 +386,13 @@
   (define-key map (kbd "TAB") #'dired-subtree-toggle))
 ;;(global-set-key [C-backspace] 'hungry-delete-backward)
 ;;(global-set-key [C-delete] 'hungry-delete-forward)
+;; (define-key org-mode-map YOURKEY YOURCOMMAND)
 (global-set-key (kbd "C-c t") 'edit-todo)
 (global-set-key (kbd "C-c l a c") 'avy-copy-line)
 (global-set-key (kbd "C-c a k") 'avy-kill-whole-line)
 (global-set-key (kbd "C-c l a m") 'avy-move-line)
 (global-set-key (kbd "C-c l a g") 'avy-goto-char)
+(global-set-key (kbd "C-c l a l") 'avy-goto-line)
 (global-set-key (kbd "C-c c") 'flyspell-buffer)
 (global-set-key (kbd "C-c s") 'ispell-buffer)
 (global-set-key (kbd "M-Z") 'zap-up-to-char)
@@ -387,10 +405,10 @@
 				  "copies the whole line without moving the cursor"
 				  (interactive)
 				  (save-excursion
-                	(kill-new
-                	 (buffer-substring
-                	  (line-beginning-position)
-                	  (line-end-position))))))
+					(kill-new
+					 (buffer-substring
+					  (line-beginning-position)
+					  (line-end-position))))))
 
 (define-key isearch-mode-map (kbd "<backspace>") 'isearch-del-char)
 
@@ -439,15 +457,3 @@
 
 (provide 'init)
 ;;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
