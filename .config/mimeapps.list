@@ -3,6 +3,7 @@ application/zip=org.gnome.FileRoller.desktop;xarchiver.desktop;
 text/markdown=nvim.desktop;
 application/x-compressed-tar=xarchiver.desktop;
 application/x-xz-compressed-tar=xarchiver.desktop;
+text/plain=writer.desktop;
 
 [Default Applications]
 text/plain=nvim.desktop

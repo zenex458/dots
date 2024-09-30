@@ -1,7 +1,6 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 
 {
@@ -46,6 +45,7 @@
     displayManager.startx.enable = true;
     windowManager.xmonad.enable = true;
     windowManager.xmonad.enableContribAndExtras = true;
+    windowManager.dwm.enable = true;
     libinput.enable = true;
     layout = "gb";
     xkbVariant = "";
@@ -58,14 +58,14 @@
   users.users.zenex = {
     isNormalUser = true;
     description = "zenex";
-    extraGroups = [ "networkmanager" "wheel" "video" "audio" ];
+    extraGroups = [ "networkmanager" "wheel" "video" "audio" ]; #libvirtd
     packages = with pkgs; [];
   };
 
   programs.light.enable = true;
 
   nixpkgs.config.allowUnfree = true;
-
+  users.extraGroups.vboxusers.members = [ "zenex" ];
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -103,7 +103,7 @@
   yt-dlp
   gcc
   #arandr
-  sdcv
+ # sdcv
   tmux
   microcodeIntel
   tela-icon-theme
@@ -113,9 +113,37 @@
   pavucontrol
   xclip
   xsel
+  httrack
+  ghc
+  haskell-language-server
+  mono
+  omnisharp-roslyn
+  vscode-with-extensions
+  dotnet-sdk
+  vscode-extensions.ms-dotnettools.csharp
+  nodejs
+  #virt-manager
+    (st.overrideAttrs (oldAttrs: rec {
+    patches = [
+    /home/zenex/.config/st/st-bold-is-not-bright.diff
+    ];
+    configFile = writeText "config.def.h" (builtins.readFile /home/zenex/.config/st/config.h);
+    postPatch = "${oldAttrs.postPatch}\n cp ${configFile} config.def.h";
+  }))
+
   ];
 
+ nixpkgs.overlays = [
+    (final: prev: {
+      dwm = prev.dwm.overrideAttrs (old: { src = /home/zenex/.config/dwm ;});
+    })
+];
+
+
   environment.variables.EDITOR = "nvim";
+
+  #virtualisation.libvirtd.enable = true;
+  #programs.dconf.enable = true;
 
   fonts.fonts = with pkgs; [
   (nerdfonts.override { fonts = [ "FiraMono"]; })
@@ -137,7 +165,6 @@
   enable = true;
   interval = "weekly";
   };
-
 
   networking.firewall.enable = true;
   # This value determines the NixOS release from which the default
