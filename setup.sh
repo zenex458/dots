@@ -53,13 +53,6 @@ postsetup() {
 		echo "ad-blocking hosts not added"
 	fi
 
-	read -rp "Do you want to install ALL FONTS (this will install all the texlive-fonts so it will install over 200 packages, around 6GB in size)?(y/n) " fontstex
-	if [[ $fontstex == "y" || $fontstex == "Y" ]]; then
-		sudo $pkg texlive-full || echo "Issue with package selection"
-	else
-		echo "fonts not added"
-	fi
-
 	cd ~/ || cd $HOME || echo "$HOME not found, please set $HOME variable"
 	git clone https://codeberg.org/zenex/looks
 	cd looks || echo "looks directory not found"
