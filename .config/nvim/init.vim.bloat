@@ -5,18 +5,30 @@ call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 Plug 'preservim/nerdtree'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'vimwiki/vimwiki'
-Plug 'vim-syntastic/syntastic'
-"Plug 'jiangmiao/auto-pairs'
-"Plug 'luochen1990/rainbow'
+"Plug 'vim-syntastic/syntastic'
+Plug 'jiangmiao/auto-pairs'
+Plug 'luochen1990/rainbow'
+"c#
+Plug 'Omnisharp/omnisharp-vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"haskell
+Plug 'neovimhaskell/haskell-vim'
 call plug#end()
-"let g:rainbow_active = 1
+let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
+let g:rainbow_active = 1
 let mapleader = " "
 let NERDTreeShowHidden= 1
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
-let g:syntastic_cs_checkers = ['code_checker']
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 1
+"let g:syntastic_cs_checkers = ['code_checker']
 " }}}
 " {{{ options
 let g:currentmode={
@@ -48,13 +60,13 @@ set wildmode=longest,list,full
 set clipboard+=unnamedplus
 set termguicolors
 set noshowmode
-set guicursor=n-v-c:hor50-Cursor
-set guicursor+=i:hor50-Cursor
+"set guicursor=n-v-c:hor50-Cursor
+"set guicursor+=i:hor50-Cursor
 set statusline+=\%{toupper(g:currentmode[mode()])} 
 set statusline+=%<%f%m\ \ \ %=\ %R%H%W\ %l/%L:%c\ %p%% "add %Y for file type
-"set guicursor=i:block-iCursor
-"set guicursor+=i:blinkon100
-"set guicursor+=n-v-c:blinkon100
+set guicursor=i:block-iCursor
+set guicursor+=i:blinkon100
+set guicursor+=n-v-c:blinkon100
 "set mouse=a
 "set number
 "set linebreak
