@@ -1,7 +1,8 @@
 Config { 
 
    -- appearance
-     font =         "xft:Bitstream Vera Sans Mono:size=9:bold:antialias=true"
+   -- font =         "xft:Bitstream Vera Sans Mono:size=9:bold:antialias=true"
+   font =	    "xft:FiraMono Nerd Font:size=9:bold:antialias=true" 
    , bgColor =      "black"
    , fgColor =      "#c6c6c6"
    , position =     Top
@@ -35,18 +36,18 @@ Config {
                                        , "-O"	, "[C]"
                                        -- charged status
                                        , "-i"	, "[F]"
-                             ] 20
+                             ] 500
 
 	, Run Volume	     "default" "Master" 
 			     [ "--template" , "<volume>%"
 
-			     ] 10	
+			     ] 400	
 	, Run Mpris2	     "cmus" 
 			     ["-t" , "<title> - <artist>"
 
-			     ] 10
+			     ] 100
 
-        , Run Date           "%a %d/%m | %T" "date" 1
+        , Run Date           "%a %d/%m | %T" "date" 10
 	, Run UnsafeStdinReader
 
         ]
