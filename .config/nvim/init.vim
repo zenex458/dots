@@ -34,6 +34,7 @@ let g:currentmode={
        \ 'Rv' : '[V·Replace] ',
        \ 'c'  : '[Command] ',
        \}
+
 syntax on
 filetype plugin indent on
 "set laststatus=0
@@ -65,8 +66,9 @@ set statusline+=%<%f%m\ \ \ %=\ %R%H%W\ %l/%L:%c\ %p%% "[%n] %Y
 "set guicursor+=i:blinkon100
 "set guicursor+=n-v-c:blinkon100
 "set mouse=a
-set number
 "set linebreak
+"set number relativenumber "nu rnu
+set rnu
 
 colorscheme dalton
 " }}}
