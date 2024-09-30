@@ -1,26 +1,31 @@
 {
-  "timeStamp": 1677274396738,
-  "version": "1.47.0",
+  "timeStamp": 1678539203218,
+  "version": "1.47.4",
   "userSettings": {
     "advancedUserEnabled": true,
-    "importedLists": [],
+    "externalLists": "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt",
+    "importedLists": [
+      "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt"
+    ],
     "popupPanelSections": 31
   },
   "selectedFilterLists": [
     "user-filters",
-    "assets.json",
-    "public_suffix_list.dat",
-    "ublock-badlists",
     "ublock-filters",
     "ublock-badware",
     "ublock-privacy",
+    "ublock-quick-fixes",
     "ublock-abuse",
     "ublock-unbreak",
-    "ublock-quick-fixes",
     "easylist",
+    "adguard-spyware-url",
     "easyprivacy",
     "urlhaus-1",
-    "plowe-0"
+    "adguard-annoyance",
+    "fanboy-social",
+    "ublock-annoyances",
+    "plowe-0",
+    "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt"
   ],
   "hiddenSettings": {},
   "whitelist": [
