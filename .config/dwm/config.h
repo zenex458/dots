@@ -5,8 +5,8 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 0;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "Monospace Bold:size=10" };
-static const char dmenufont[]       = "Monospace Bold:size=10";
+static const char *fonts[]          = { "FiraMono NF:Bold:size=10" };
+static const char dmenufont[]       = "FiraMono NF:Bold:size=10";
 static const char col_gray1[]       = "#000000";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
