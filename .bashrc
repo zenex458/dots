@@ -1,5 +1,5 @@
 alias nv="nvim"
-alias n="nnn"
+alias n="tmux new-session "nnn""
 alias ls="ls -F"
 alias ga="git add"
 alias gc="git commit -m"
