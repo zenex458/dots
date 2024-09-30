@@ -62,8 +62,9 @@ postsetup ()
 	git clone https://codeberg.org/zenex/looks
 	cd looks || echo "looks directory not found"
 	sudo cp -r Future* /usr/share/icons
+	sudo cp -r plan9 /usr/share/icons
 	sudo cp -r Material* /usr/share/themes
-	sudo cp -r FiraCode /usr/share/fonts
+	sudo cp -r iosevka /usr/share/fonts
 }
 
 
