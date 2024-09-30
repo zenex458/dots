@@ -1,97 +1,49 @@
-# See dunst(5) for all configuration options
 [global]
-    monitor = 0
-    follow = none
-    # dynamic width from 0 to 300
-    # width = (0, 300)
-    # constant width of 300
-    width = 300
-    height = 300
-    origin = top-right
-    offset = 3x23
-    notification_limit = 0
-    # Show how many messages are currently hidden (because of
-    # notification_limit).
-    indicate_hidden = yes
-    # Draw a line of "separator_height" pixel height between two
-    # notifications.
-    # Set to 0 to disable.
-    # If gap_size is greater than 0, this setting will be ignored.
-    separator_height = 2
-    # Padding between text and separator.
-    padding = 8
-    # Horizontal padding.
-    horizontal_padding = 8
-    # Defines width in pixels of frame around the notification window.
-    # Set to 0 to disable.
-    frame_width = 2
-    # Sort messages by urgency.
-    sort = yes
-    font = Monospace 8
-    # Alignment of message text.
-    # Possible values are "left", "center" and "right".
-    alignment = center
-    # Vertical alignment of message text and icon.
-    # Possible values are "top", "center" and "bottom".
-    vertical_alignment = center
-    # Show age of message if message is older than show_age_threshold
-    # seconds.
-    # Set to -1 to disable.
-    show_age_threshold = 60
-    # Specify where to make an ellipsis in long lines.
-    # Possible values are "start", "middle" and "end".
-    ellipsize = middle
-    # Ignore newlines '\n' in notifications.
-    ignore_newline = no
-    # Stack together notifications with the same content
-    stack_duplicates = true
-    # Hide the count of stacked notifications with the same content
-    hide_duplicate_count = false
-    # Display indicators for URLs (U) and actions (A).
-    show_indicators = yes
-    ### Icons ###
-    enable_recursive_icon_lookup = true
-    # Set icon theme (only used for recursive icon lookup)
-    icon_theme = Adwaita
-    icon_position = left
-    min_icon_size = 32
-    max_icon_size = 64
-    # Paths to default icons (only neccesary when not using recursive icon lookup)
-    icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
-    # Should a notification popped up from history be sticky or timeout
-    # as if it would normally do.
-    sticky_history = yes
-    # Maximum amount of notifications kept in history
-    history_length = 20
-    mouse_left_click = close_current
-    mouse_middle_click = do_action, close_current
-    mouse_right_click = close_all
-
-[urgency_low]
-    # IMPORTANT: colors have to be defined in quotation marks.
-    # Otherwise the "#" and following would be interpreted as a comment.
-    background = "#222222"
-    foreground = "#888888"
-    timeout = 10
-    # Icon for notifications with low urgency, uncomment to enable
-    #default_icon = /path/to/icon
-
-[urgency_normal]
-    background = "#000000"
-    foreground = "#ffffff"
-    timeout = 10
-    # Icon for notifications with normal urgency, uncomment to enable
-    #default_icon = /path/to/icon
+alignment="center"
+ellipsize="middle"
+enable_recursive_icon_lookup=yes
+follow="mouse"
+font="iosevka custom bold 8"
+frame_width=2
+height=300
+hide_duplicate_count=no
+history_length=20
+horizontal_padding=8
+icon_position="left"
+icon_theme="Adwaita"
+ignore_newline="no"
+indicate_hidden="yes"
+max_icon_size=64
+min_icon_size=32
+monitor=0
+mouse_left_click="close_current"
+mouse_middle_click="do_action, close_current"
+mouse_right_click="close_all"
+notification_limit=0
+offset="3x23"
+origin="top-right"
+padding=8
+separator_height=2
+show_age_threshold=60
+show_indicators="yes"
+sort="yes"
+stack_duplicates=yes
+sticky_history="yes"
+vertical_alignment="center"
+width=300
 
 [urgency_critical]
-    background = "#900000"
-    foreground = "#ffffff"
-    frame_color = "#ff0000"
-    timeout = 0
-    # Icon for notifications with critical urgency, uncomment to enable
-    #default_icon = /path/to/icon
-    
-    
-    [espeak]
-    	summary ="*"
-	script = /home/zenex/.config/dunst/sound.sh
+background="#900000"
+foreground="#ffffff"
+frame_color="#ff0000"
+timeout=0
+
+[urgency_low]
+background="#222222"
+foreground="#888888"
+timeout=10
+
+[urgency_normal]
+background="#000000"
+foreground="#ffffff"
+timeout=10
