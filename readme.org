@@ -1,23 +1,36 @@
 * dots
-This contains all my config files for linux. It can be installed my =setup.sh= or by [[https:nixos.org][Nixos]].
+This contains all my config files for Linux. It can be installed my =setup.sh= or by using [[https://nixos.org/][Nixos]].
+* Screenshot
 [[file:screenshot.png]]
+/Screenshot showing my three monitors. The left showing a the output of the neofetch command. The middle showing an Emacs frame, editing my Nixos config. The right showing my music playing./
+* Emacs
+** Why Emacs?
+*** No context switching
+Emacs feels more fluid to me as you can do a lot of things, in a few keybinds, without any context switching. I did use [[https://neovim.io/][Neovim]], and its predecessor, [[https://www.vim.org/][Vim]] for a few years with [[https://en.wikipedia.org/wiki/Tmux][tmux]]. While using tmux in conjuction doesn't take too much brain power, it still doesn't feel as /connected/ as Emacs does. I think it just feels nice to have everything in once place.
+*** Dynamic state
+Emacs is basically a [[https://en.wikipedia.org/wiki/Lisp_(programming_language)][Lisp]] interpreter, that also edits text. It feels nice to be able to directly manipulate your editor with code, /without restart it/. Since Neovim has [[https://en.wikipedia.org/wiki/Lua_(programming_language)][Lua]] support, I think this more achievable now.
+** Why Not Emacs?
+*** Can be slow
+Lisp is an interpreted language, which means it is slower than compiled languages. However, in recent releases Emacs has gotten faster.
+*** Weird keybinds
+Emacs does have some weird keybinds, for example to search for a file you do this: =C-s=. This means hold down control key and press the =s= key at the same time without releasing. To split your view you can press =C-x 2=, for a horizontal split and =C-x 3= for a vertical split. These can be read as hold down control and press the =x= key at the same time, let go, then press =2= or =3=. This is different to Neovim's [[https://en.wikipedia.org/wiki/Vi_(text_editor)#Interface][modal editing]] which, generally is more efficient, and does not induce [[https://en.wikipedia.org/wiki/Emacs#Emacs_pinky][Emacs pinky]].
 * Nixos
 ** Why Nixos?
 *** Stable
-Every package is installed with its own libraries. Let say that you have two packages that depend on the same library: package =foo=, =bar= and library =baz0.9=. When =baz= gets a =baz1.0= release, =foo= will make the neccessary changes, but lets say for some reason, =bar= does not make these changes. This ends up breaking =bar= because =bar= depends on =baz0.9=, instead of =baz1.0=. If you are using Nixos, then you would have /two instances/ of =baz=, one for =foo= and one for =bar=. This means if there is a new version of =baz=, then, only =foo's= =baz= gets updated because it needs it. This allows them to both work with different versions of =baz=. Not =bar's=. This means there is no mutation of your operating system state, so if you want to make changes, the current state is copied over. This is called atomic updates and this is stable because it means that there is no half-working state.  This means that that it will not bork your system if your system loses power or internet when updating, just reconnect then rebuild!
+Every package is installed with its own libraries. Let say that you have two packages that depend on the same library: package =foo=, =bar= and library =baz0.9=. When =baz= gets a =baz1.0= release, =foo= will make the necessary changes, but lets say for some reason, =bar= does not make these changes. This ends up breaking =bar= because =bar= depends on =baz0.9=, instead of =baz1.0=. If you are using Nixos, then you would have /two instances/ of =baz=, one for =foo= and one for =bar=. This means if there is a new version of =baz=, then, only =foo's= =baz= gets updated because it needs it. This allows them to both work with different versions of =baz=. Not =bar's=. This means there is no mutation of your operating system state, so if you want to make changes, the current state is copied over. This is called atomic updates and this is stable because it means that there is no half-working state.  This means that that it will not bork your system if your system loses power or internet when updating, just reconnect then rebuild!
 *** Rollbacks
 Because the system state is copied over, every change is tracked in a new rollback. So if you do make a mistake you can just rollback. You can achieve this in a normal system with the BTRFS file system, but this is not as extensive. It does not track /every change/.
 *** Lazy Configs
-Write it once and never worry about it again. It is basically an install script, but all the work done for you. This is good if you are like me and like tweaking your system. I have some files which are part of the =/etc/= directory, quite a large set of config settings for firefox in the =arkenfox= directory and I have some more for other progams. It is a lot of mental overhead to keep track of the files which i have modified in different places of my filesystem. Nixos /forces/ me to put everything in /one/ directory and it does the rest for me. It also means that if I ever move to a different system, then I just have to worry about backing up one directory.
+Write it once and never worry about it again. It is basically an install script, but all the work done for you. This is good if you are like me and like tweaking your system. I have some files which are part of the =/etc/= directory, quite a large set of config settings for Firefox in the =arkenfox= directory and I have some more for other programs. It is a lot of mental overhead to keep track of the files which i have modified in different places of my file system. Nixos /forces/ me to put everything in /one/ directory and it does the rest for me. It also means that if I ever move to a different system, then I just have to worry about backing up one directory.
 ** Why not Nixos
 *** Learning curve
-The learning curve is a bit high, but doable, especially once you start looking into [[https:][flakes]] and the documentation is sparse. But once you get everything just right then, at least in my case, it is just the matter of searching a package on =https://search.nixos.org/packages= or =https://search.nixos.org/options?=, then adding it to your config. Although my config is quite basic at the moment and I am still learning nix.
+The learning curve is a bit high, but doable, especially once you start looking into [[https:][flakes]] and the documentation is sparse. But once you get everything just right then, at least in my case, it is just the matter of searching a package on [[https://search.nixos.org/packages]] or a option on [[https://search.nixos.org/options?]], then adding it to your config. Although my config is quite basic at the moment and I am still learning nix.
 *** Forcing everything to be in nix
 One other caveat is that it only understands nix expressions. This can lead to some programs not working because Nixos does not use
 [[https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard][Unix Filesystem Hierarchy Standard]].
 
 * Getting Started
-** Prequisits
+** Prerequisites
 - [[https://git-scm.com/downloads][Git]]
 ** For Nixos based systems
 1)
@@ -50,6 +63,6 @@ cd dots && ./setup.sh
 #+end_src
 The script will only setup the appearance.
 * Notes
-For my Nixos setup I used the "standard config" in this [[https://github.com/Misterio77/nix-starter-configs][starter config]]. You can see a more indepth explanation of how Nixos works at: =https://nixos.org/guides/how-nix-works/=.
-* Acknowledgments
+For my Nixos setup I used the "standard config" in this [[https://github.com/Misterio77/nix-starter-configs][starter config]]. You can see a more indepth explanation of how Nixos works at: https://nixos.org/guides/how-nix-works/.
+* Acknowledgements
 - Brother for spending hours proof reading.

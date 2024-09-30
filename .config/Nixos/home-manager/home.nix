@@ -607,7 +607,11 @@
     enableBashIntegration = true;
   };
 
-  programs.zsh.enable = true;
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+  };
+
   programs.bash = {
     enableCompletion = true;
     historyControl = [ "ignoredups" ];
@@ -705,7 +709,7 @@
       FZF_DEFAULT_OPTS = "-e --no-scrollbar --border=none --reverse --no-info";
       LESSHISTFILE = "/tmp/.lesshst";
       MOZ_ENABLE_WAYLAND = "1";
-      QT_QPA_PLATFORM = "wayland";
+      #QT_QPA_PLATFORM = "wayland";
       GDK_BACKEND = "wayland";
       _JAVA_AWT_WM_NONREPARENTING = 1;
       SAL_USE_VCLPLUGIN = "gtk3";
@@ -828,6 +832,7 @@
   programs.tmux = {
     enable = true;
     aggressiveResize = true;
+    prefix = "C-.";
     baseIndex = 0;
     escapeTime = 0;
     historyLimit = 100000;
@@ -835,7 +840,7 @@
     mouse = true;
     terminal = "tmux-256color";
     extraConfig = ''
-              set -g set-titles on
+      set -g set-titles on
       		set -s set-clipboard external
               set -g status-style fg=#c6c6c6,bg=#212121
               setw -g monitor-activity on
@@ -1006,6 +1011,7 @@
     # imhex
     # kismet
     # rlwrap
+    # jami
     alacritty
     alsa-utils
     anki-bin
@@ -1013,7 +1019,6 @@
     astyle
     bc
     bemenu
-    briar-desktop
     bsdgames
     ccls
     chess-tui
@@ -1023,7 +1028,6 @@
     clojure
     clojure-lsp
     fd
-    fluffychat
     ffmpeg
     ffmpegthumbnailer
     fuse3
@@ -1055,14 +1059,12 @@
     mpc-cli
     mpv
     mpvScripts.mpris
-    mpvScripts.mpris
     mupdf
     neovim
     nil
     nixfmt-rfc-style
     nodePackages.bash-language-server
     nodePackages.prettier
-    nwg-look
     obs-studio
     openssl
     ormolu
@@ -1075,7 +1077,6 @@
     rsync
     shellcheck
     shfmt
-    signal-desktop
     simplex-chat-desktop
     slurp
     smartmontools

@@ -30,7 +30,13 @@
     # kernelParams = [
     #   "quiet"
     #   "splash"
+    ############### i have now idea if the below works
+    ####"vga=current"
+    ####"rd.udev.log_level=3"
+    ####"udev.log_priority=3"
     # ];
+    ##consoleLogLevel = 0;
+    ##initrd.verbose = false;
     #tmp.cleanOnBoot = true;
     tmp.useTmpfs = true;
     initrd.luks.devices."luks-c747cca5-93f7-40d7-836c-ef71a364d53b" = {
@@ -153,7 +159,7 @@
     logind = {
       lidSwitch = "suspend";
     };
-    # irqbalance.enable = true;
+    #irqbalance.enable = true;
     #with hardened profile this is needed otherwise nix will not build
     #    logrotate.checkConfig = false;
     #    fwupd.enable = true;
@@ -211,18 +217,14 @@
     usbguard.presentControllerPolicy = "apply-policy";
     usbguard.implicitPolicyTarget = "block";
     usbguard.rules = ''
-      allow id 1d6b:0002 serial "0000:00:14.0" name "xHCI Host Controller" with-interface 09:00:00 with-connect-type ""
-      allow id 1d6b:0003 serial "0000:00:14.0" name "xHCI Host Controller" with-interface 09:00:00 with-connect-type ""
-      allow id 0951:16dc serial "" name "HyperX Alloy FPS RGB" with-interface { 03:01:01 03:01:01 03:00:00 } with-connect-type "hotplug"
-      allow id 046d:c07e serial "497530453739" name "Gaming Mouse G402" with-interface { 03:01:02 03:00:00 } with-connect-type "hotplug"
-      allow id 13d3:5248 serial "NULL" name "Integrated Camera" with-interface { 0e:01:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 } with-connect-type "not used"
-      allow id 0bc2:2343 serial "NACAPZXW" name "Portable" with-interface { 08:06:50 08:06:62 } with-connect-type "hotplug"
-      allow id 090c:1000 serial "0320619110005669" name "Flash Drive" with-interface 08:06:50 with-connect-type "hotplug"
-      allow id 047d:1022 serial "" name "Kensington USB Orbit" with-interface 03:01:02 with-connect-type "hotplug"
-      allow id 1038:184c serial "" name "SteelSeries Rival 3" with-interface { 03:01:02 03:00:00 03:00:00 03:00:00 } with-connect-type "hotplug"
-      allow id 30de:6545 serial "C03FD5F7713EE410A3130379" name "TransMemory" with-interface 08:06:50 with-connect-type "hotplug"
-      allow id 046d:c08b serial "1285335A3232" name "G502 HERO Gaming Mouse" with-interface { 03:01:02 03:00:00 } with-connect-type "hotplug"
-      allow id 0781:5575 serial "04020130092220073710" name "Cruzer Glide" with-interface 08:06:50 with-connect-type "hotplug"
+      allow id 1d6b:0002 serial "0000:00:14.0" name "xHCI Host Controller" hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" parent-hash "rV9bfLq7c2eA4tYjVjwO4bxhm+y6GgZpl9J60L0fBkY=" with-interface 09:00:00 with-connect-type ""
+      allow id 1d6b:0003 serial "0000:00:14.0" name "xHCI Host Controller" hash "3Wo3XWDgen1hD5xM3PSNl3P98kLp1RUTgGQ5HSxtf8k=" parent-hash "rV9bfLq7c2eA4tYjVjwO4bxhm+y6GgZpl9J60L0fBkY=" with-interface 09:00:00 with-connect-type ""
+      allow id 0951:16dc serial "" name "HyperX Alloy FPS RGB" hash "H/mSsemErhu6jSIjbiA0PEz4NYHdH0Q5juMtNDc0eGA=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" via-port "1-6" with-interface { 03:01:01 03:01:01 03:00:00 } with-connect-type "hotplug"
+      allow id 13d3:5248 serial "NULL" name "Integrated Camera" hash "vOb1VgH5t/BCYgTlNwrs6lWKhJmuwyvRE9dEeCJLIDY=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" with-interface { 0e:01:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 } with-connect-type "not used"
+      allow id 0bc2:2343 serial "NACAPZXW" name "Portable" hash "uNlV1Q6teT1NaR89ByP5xMO1US495x/RUOVCAStUXtA=" parent-hash "3Wo3XWDgen1hD5xM3PSNl3P98kLp1RUTgGQ5HSxtf8k=" with-interface { 08:06:50 08:06:62 } with-connect-type "hotplug"
+      allow id 090c:1000 serial "0378623070002866" name "Flash Drive" hash "26QA1cD/Y0OQ39RG37alHNi4YKqSkA6hl+wiT+3SVzk=" parent-hash "3Wo3XWDgen1hD5xM3PSNl3P98kLp1RUTgGQ5HSxtf8k=" with-interface 08:06:50 with-connect-type "hotplug"
+      allow id 04e8:61fb serial "S6YJNJ0X301164A" name "PSSD T7 Shield" hash "m0oln1SciQzP6k4TPn9ZFC03YkSkbwUSkNQCHS9PvTw=" parent-hash "3Wo3XWDgen1hD5xM3PSNl3P98kLp1RUTgGQ5HSxtf8k=" with-interface { 08:06:50 08:06:62 } with-connect-type "hotplug"
+      allow id 046d:c08b serial "1285335A3232" name "G502 HERO Gaming Mouse" hash "ukNMlamAkPMh7baihqjodyq1X2cF75bqoMTP6vnHADw=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" with-interface { 03:01:02 03:00:00 } with-connect-type "hotplug"
     '';
     #    opensnitch.enable = true;
     ntp.enable = false;
