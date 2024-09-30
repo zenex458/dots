@@ -5,8 +5,8 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 0;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "FiraMono NF:Bold:size=10" };
-static const char dmenufont[]       = "FiraMono NF:Bold:size=10";
+static const char *fonts[]          = { "FiraMono Nerd Font:Bold:size=10" };
+static const char dmenufont[]       = "FiraMono Nerd Font:Bold:size=10";
 static const char col_gray1[]       = "#000000";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
@@ -57,16 +57,17 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "st", NULL };
 static const char *firefox[] = { "firefox", NULL };
-static const char *slock[] = { "slock", NULL };
+static const char *lock[] = { "xsecurelock", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ Mod1Mask,			XK_o,      spawn,	   SHCMD("cmus-remote -n") }, //next
-	{ Mod1Mask,			XK_i,	   spawn,	   SHCMD("cmus-remote -r") }, //prev
-	{ Mod1Mask, 			XK_p,	   spawn,	   SHCMD("cmus-remote -u") }, //toggle pause
-	{ Mod1Mask|ControlMask,		XK_s,	   spawn,	   SHCMD("slock & systemctl suspend") },
+	{ Mod1Mask,			XK_o,	   spawn, 	   SHCMD("mpc -p 6601 next") },
+	{ Mod1Mask,			XK_i,	   spawn,	   SHCMD("mpc -p 6601 prev") },
+	{ Mod1Mask,		        XK_p,	   spawn,	   SHCMD("mpc -p 6601 toggle") },
+	{ Mod1Mask,			XK_bracketleft, spawn,     SHCMD("amixer sset Master 2%-") },
+	{ Mod1Mask,			XK_bracketright, spawn,	   SHCMD("amixer sset Master 2%+") },
+	{ Mod1Mask|ControlMask,		XK_s,	   spawn,	   SHCMD("systemctl suspend && xsecurelock") },
 	{ Mod1Mask,			XK_m,      spawn,          SHCMD("amixer sset Master toggle") },
 	{ Mod1Mask,			XK_bracketleft,  spawn,	   SHCMD("amixer sset Master 2%-") },
 	{ Mod1Mask,	        	XK_bracketright, spawn,    SHCMD("amixer sset Master 2%+") },
@@ -75,11 +76,10 @@ static Key keys[] = {
 	{ MODKEY,			XK_a,      spawn,	   SHCMD("st -e alsamixer") },
 	{ MODKEY|ShiftMask,             XK_r,      spawn,          SHCMD("redshift -o -c ~/.config/redshift.conf") },
 	{ Mod1Mask,			XK_c,      spawn,          SHCMD("firefox -P priv") },
-	{ Mod1Mask|ControlMask,		XK_c,      spawn,          SHCMD("firefox -P inc") },
 	{ MODKEY,			XK_c,	   spawn,          {.v = firefox } },
-	{ Mod1Mask|ControlMask,         XK_l,      spawn,          {.v = slock } },
+	{ Mod1Mask|ControlMask,         XK_l,      spawn,          {.v = lock } },
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_Return, spawn,          SHCMD("st -e tmux") },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -120,7 +120,6 @@ static Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
