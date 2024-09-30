@@ -834,6 +834,8 @@
   };
 
   programs.tmux = {
+    # add new-window -c "#{pane_current_path}"
+    # add splitp -c "#{pane_current_path}"
     enable = true;
     aggressiveResize = true;
     prefix = "C-.";
