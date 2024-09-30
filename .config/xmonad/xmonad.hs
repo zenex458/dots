@@ -9,8 +9,8 @@ import XMonad.Layout.Tabbed
 import qualified XMonad.StackSet as W
 import XMonad.Util.Loggers
 import XMonad.Layout.SubLayouts
---import XMonad.Layout.WindowNavigation
---import XMonad.Layout.Decoration
+import XMonad.Layout.WindowNavigation
+import XMonad.Layout.Decoration
 
 myTerminal = "st -e tmux"
 
@@ -174,11 +174,11 @@ myTabConfig = def { inactiveBorderColor = "#000000"
                   , inactiveColor = "#000000" }
 
 -- which denotes layout choice.
--- myLayout =  windowNavigation $ subTabbed $ smartBorders $ tiled ||| noBorders Full {-||| tabbed shrinkText myTabConfig -}
+--myLayout = smartBorders tiled ||| noBorders Full {-||| tabbed shrinkText myTabConfig -}
 
 myLayout = addTabs shrinkText def
          $ subLayout [0,1,2] (tabbed shrinkText myTabConfig)
-         $ smartBorders $ Tall 1 0.2 0.5 ||| noBorders Full
+         $ smartBorders tiled ||| noBorders Full
 
 
 
