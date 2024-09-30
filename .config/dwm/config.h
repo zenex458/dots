@@ -5,8 +5,8 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 0;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "Unifont:Bold:size=10" }; //FuraMono Nerd Font:Bold:size=9
-static const char dmenufont[]       = "Unifont:Bold:size=10";
+static const char *fonts[]          = { "Hack Nerd Font:Bold:size=10" }; //FuraMono Nerd Font:Bold:size=9
+static const char dmenufont[]       = "Hack Nerd Font:Bold:size=10";
 static const char col_gray1[]       = "#000000";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
@@ -57,14 +57,11 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *sttmux[] = { "st", "-e", "tmux", NULL};
-static const char *term[] = {"alacritty", NULL};
+static const char *term[] = { "st", "-e", "tmux", NULL };
 static const char *firefox[] = { "firefox", NULL };
 static const char *firefoxpriv[] = { "firefox", "-P", "priv", NULL };
-static const char *firefoxpara[] = { "firefox", "-P", "para", NULL };
 static const char *lock[] = { "xsecurelock", NULL };
 static const char *redshiftoff[] = { "redshift", "-x", NULL };
-//static const char *alsamixer[] = { "st", "-e", "alsamixer", NULL };
 static const char *brightdown[] = { "light", "-U", "2", NULL };
 static const char *brightup[] = { "light", "-A", "2", NULL };
 static const char *volup[] = { "amixer", "sset", "Master", "2%+", NULL };
@@ -79,8 +76,6 @@ static Key keys[] = {
 	{ Mod1Mask,			XK_o,	   spawn, 	   {.v = munext } },
 	{ Mod1Mask,			XK_i,	   spawn,	   {.v = muprev } },
 	{ Mod1Mask,		        XK_p,	   spawn,	   {.v = mutoggle } },
-	//{ Mod1Mask|ControlMask,		XK_s,	   spawn,	   {.v = slep } },
-	{ Mod1Mask|ControlMask,		XK_s,	   spawn,	   SHCMD("systemctl suspend && xsecurelock") },
 	{ Mod1Mask,			XK_m,      spawn,          {.v = voltoggle } },
 	{ Mod1Mask,			XK_bracketleft,  spawn,	   {.v = voldown } },
 	{ Mod1Mask,	        	XK_bracketright, spawn,    {.v = volup } },
@@ -89,13 +84,11 @@ static Key keys[] = {
 	{ MODKEY,			XK_a,      spawn,	   SHCMD("st -e alsamixer -V all") },
 	{ Mod1Mask,			XK_r,      spawn, 	   {.v = redshiftoff } },
 	{ MODKEY|ShiftMask,             XK_r,      spawn,          SHCMD("redshift -o -c /home/zenex/.config/redshift.conf") },
-	{ Mod1Mask|ControlMask,		XK_c,      spawn,          {.v = firefoxpara} },
-	{ Mod1Mask,			XK_c,      spawn,          {.v = firefoxpriv } },
-	{ MODKEY,			XK_c,	   spawn,          {.v = firefox } },
+	{ Mod1Mask,			XK_f,      spawn,          {.v = firefoxpriv } },
+	{ MODKEY,			XK_f,	   spawn,          {.v = firefox } },
 	{ Mod1Mask|ControlMask,         XK_l,      spawn,          {.v = lock } },
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ Mod1Mask,			XK_Return, spawn,	   {.v = term } },
-	{ MODKEY,                       XK_Return, spawn,          {.v = sttmux } },
+	{ MODKEY,                       XK_Return, spawn,          {.v = term } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
