@@ -1,3 +1,6 @@
+" vim: fdm=marker foldenable sw=4 ts=4 sts=4
+" "zo" opens, "zc" closes, "zn" disable
+" {{{ Plugins
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 Plug 'preservim/nerdtree'
 Plug 'norcalli/nvim-colorizer.lua'
@@ -14,6 +17,8 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 let g:syntastic_cs_checkers = ['code_checker']
+" }}}
+" {{{ options
 let g:currentmode={
        \ 'n'  : '[N] ',
        \ 'v'  : '[V] ',
@@ -24,10 +29,8 @@ let g:currentmode={
        \ 'Rv' : '[V·Replace] ',
        \ 'c'  : '[Command] ',
        \}
-
 syntax on
 filetype plugin indent on
-
 set ruler
 set ignorecase
 set smartcase
@@ -53,7 +56,8 @@ set statusline+=%<%f%m\ \ \ %=\ %R%H%W\ %l/%L:%c\ %p%% "add %Y for file type
 "set number
 
 colorscheme dalton
-
+" }}}
+" {{{ keybinds
 map <leader>t :NERDTreeToggle<CR>
 map <leader>r :%s/
 map <leader>+ <C-w>+
@@ -64,3 +68,4 @@ map <leader>sp :setlocal spell! spelllang=en_gb<CR>
 tnoremap <Esc> <C-\><C-n>
 vmap <C-c> "+y
 lua require'colorizer'.setup()
+" }}}
