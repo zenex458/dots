@@ -79,6 +79,22 @@ SAVEHIST=100000
 unsetopt beep extendedglob
 bindkey -v
 
+autoload -U compinit
+zstyle ':completion:*' menu select
+zmodload zsh/complist
+compinit
+_comp_options+=(globdots)
+bindkey -v
+export KEYTIMEOUT=1
+# Change cursor shape for different vi modes.
+function zle-keymap-select () {
+    case $KEYMAP in
+        vicmd) echo -ne '\e[1 q';;      # block
+        viins|main) echo -ne '\e[5 q';; # beam
+    esac
+}
+zle -N zle-keymap-select
+
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export ASPNETCORE_ENVIRONMENT=Development
 export NNN_FCOLORS='c1e2c42e006033f7c6d6ab27'
