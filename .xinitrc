@@ -2,6 +2,7 @@
 feh --no-fehbg --bg-fill '/home/zenex/Downloads/Images/balls.png' & \
 #~/.config/status.sh & \
 ~/.config/batt.sh & \
+~/.local/bin/notify-log & \
 #~/.config/redshift.sh & \
 dunst & \
 xsetroot -cursor_name left_ptr & \
