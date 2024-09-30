@@ -1,6 +1,19 @@
 (setq gc-cons-threshold 20000000) ;take of a zero if runtime is slow
 (set-face-attribute 'default nil :font "Hack Nerd Font Mono" :height 110)
 
+(require 'package)
+(add-to-list 'package-archives '("gnu"   . "https://elpa.gnu.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(package-initialize)
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(eval-and-compile
+  (setq use-package-always-ensure t
+        use-package-expand-minimally t))
+;(setq use-package-compute-statistics t) ;then do (use-package-report)
+
 (use-package nyx-theme
   :ensure t
   :config
@@ -28,19 +41,6 @@
  (setq auto-save-file-name-transforms
         `((".*" ,"~/.emacs.d/saves" t)))
 
-(require 'package)
-(add-to-list 'package-archives '("gnu"   . "https://elpa.gnu.org/packages/"))
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(package-initialize)
-
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-(eval-and-compile
-  (setq use-package-always-ensure t
-        use-package-expand-minimally t))
-;(setq use-package-compute-statistics t) ;then do (use-package-report)
-
 (defun config-reload ()
   (interactive)
   (load-file (expand-file-name "~/.emacs.d/init.el")))
@@ -56,10 +56,10 @@
 
 (electric-pair-mode t)
 
-;;(use-package rainbow-mode
-;;  :ensure t
-;;  :init
-;;  (add-hook 'prog-mode-hook 'rainbow-mode))
+(use-package rainbow-mode
+  :ensure t
+  :init
+  (add-hook 'prog-mode-hook 'rainbow-mode))
 
 (use-package rainbow-delimiters
   :ensure t
@@ -73,14 +73,14 @@
 ;;  :ensure t
 ;;  :init (dired-async-mode 1))
 
-(use-package evil
-  :ensure t)
-(require 'evil)
-(evil-mode 1)
-
-(setq evil-insert-state-cursor '(hbar)
-      evil-replace-state-cursor '(box))
-(setq evil-want-minibuffer t)
+;(use-package evil
+;  :ensure t)
+;(require 'evil)
+;(evil-mode 1)
+;
+;(setq evil-insert-state-cursor '(hbar)
+;      evil-replace-state-cursor '(box))
+;(setq evil-want-minibuffer t)
 ;(setq ring-bell-function 'ignore)
 
 (setq display-time-24hr-format t)
@@ -176,7 +176,8 @@
 
 
 (setq-default mode-line-format
-	       '("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification mode-line-position (vc-mode vc-mode) "" mode-line-misc-info mode-line-end-spaces))
+	       '("%e" mode-line-front-space mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification mode-line-position (vc-mode vc-mode) "" mode-line-misc-info mode-line-end-spaces))
+
 
 (use-package omnisharp
   :after company
@@ -186,16 +187,19 @@
   (define-key omnisharp-mode-map (kbd ".") 'omnisharp-add-dot-and-auto-complete)
   (define-key omnisharp-mode-map (kbd "<C-SPC>") 'omnisharp-auto-complete))
 
-;(use-package ivy
-;  :config
-;(ivy-mode 1))
-;
+(use-package ivy
+  :init
+  :config
+  (ivy-mode 1))
+
 (use-package ivy-rich
   :after ivy
   :init
   (ivy-rich-mode 1))
 
 (use-package counsel
+  :init
+  :ensure t
   :config
   (counsel-mode 1))
 
@@ -204,12 +208,23 @@
 (setq ido-auto-merge-work-directories-length -1)
 (ido-mode t)
 
-;;(require 'org)
-;;(define-key global-map "\C-cl" 'org-store-link)
-;;(define-key global-map "\C-ca" 'org-agenda)
-;;(setq org-log-done t)
-;;
-;;(setq org-agenda-files (list "~/org/todo.org"))
+(setq org-startup-indented t
+          org-pretty-entities t
+          org-hide-emphasis-markers t)
+
+(use-package beacon
+  :ensure t
+  :config
+  (beacon-mode 1)
+  (setq beacon-color "#ffffff")
+  (setq beacon-blink-duration 1))
+
+(use-package aggressive-indent
+  :ensure t
+  :config
+  (global-aggressive-indent-mode 1))
+  
+
 
 (setq ispell-dictionary "british")
 (setq confirm-kill-emacs 'y-or-n-p)
