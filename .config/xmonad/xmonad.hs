@@ -82,7 +82,6 @@ myXmobarPP = def
         ( \x -> case x of
             "Tall" -> "" --[]=
             "Full" -> "" --[]
-            "Tabbed Simplest" -> "" --[--]
         )
     }
   where
@@ -96,4 +95,4 @@ myXmobarPP = def
     white    = xmobarColor "#f8f8f2" ""
     yellow   = xmobarColor "#ffff00" ""
     red      = xmobarColor "#ff0000" ""
-    lowWhite    = xmobarColor "#bbbbbb" ""
+    lowWhite = xmobarColor "#bbbbbb" ""

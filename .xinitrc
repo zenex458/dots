@@ -8,5 +8,5 @@ xsetroot -cursor_name left_ptr & \
 lxqt-policykit-agent & \
 urxvtd -q -o -f & \
 xrdb ~/.Xresources & \
-#setxkbmap -option caps:swapescape & \
+setxkbmap -option caps:swapescape & \
 exec xmonad
