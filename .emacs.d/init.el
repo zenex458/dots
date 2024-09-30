@@ -1,23 +1,13 @@
 ;; -*- lexical-binding: t; -*-
-(defvar bootstrap-version)
-(let ((bootstrap-file
-	   (expand-file-name
-		"straight/repos/straight.el/bootstrap.el"
-		(or (bound-and-true-p straight-base-dir)
-			user-emacs-directory)))
-	  (bootstrap-version 7))
-  (unless (file-exists-p bootstrap-file)
-	(with-current-buffer
-		(url-retrieve-synchronously
-		 "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-		 'silent 'inhibit-cookies)
-	  (goto-char (point-max))
-	  (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
+(add-to-list 'package-archives '("gnu"   . "https://elpa.gnu.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
+(package-initialize)
 
-(straight-use-package 'use-package)
+(require 'use-package-ensure)
+(setq use-package-always-ensure t)
 
-(setq straight-use-package-by-default t)
+(setq use-package-expand-minimally t)
 
 ;;(setq custom-file (make-temp-file "emacs-custom-"))
 (defvar ispell-dictionary "british")
@@ -116,7 +106,8 @@
 (setq-default org-display-custom-times t)
 (setq org-time-stamp-custom-formats '("%a %b %e %Y" . "%a %b %e %Y %H:%M"))
 
-(use-package diminish)
+(use-package diminish
+  :ensure t)
 (add-hook 'prog-mode-hook 'electric-pair-mode)
 
 (use-package vertico
@@ -376,13 +367,13 @@
 ;;;  :magic ("%PDF" . pdf-view-mode)
 ;;;  :hook (pdf-view-mode . pdf-view-themed-minor-mode))
 
-(use-package elfeed)
+;; (use-package elfeed)
 
-(use-package elfeed-org
-  :defer t
-  :config
-  (elfeed-org)
-  (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org")))
+;; (use-package elfeed-org
+;;   :defer t
+;;   :config
+;;   (elfeed-org)
+;;   (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org")))
 
 (use-package dired-subtree
   :init
@@ -399,12 +390,12 @@
   :bind
   ("M-s z f" . zoxide-find-file))
 
-(use-package god-mode
-  :bind ("C-`" . god-local-mode))
+;; (use-package god-mode
+;;   :bind ("C-`" . god-local-mode))
 
 (use-package magit)
 
-(use-package writeroom-mode)
+;; (use-package writeroom-mode)
 
 (use-package emms
   :config
@@ -476,19 +467,19 @@
   (global-set-key (kbd "C-h k") #'helpful-key)
   (global-set-key (kbd "C-h x") #'helpful-command))
 
-(use-package dired-ranger)
+;; (use-package dired-ranger)
 
-(use-package hydra
-  :config
-  ;;hydra for controlling brightness
-  ;;hydra for controlling volume
-  )
+;; (use-package hydra
+;;   :config
+;;   ;;hydra for controlling brightness
+;;   ;;hydra for controlling volume
+;;   )
 
-(use-package hammy
-  :config
-  ;;hammy config for looking away every 20mins
-  ;;hammy config for resting hands every 4min
-  )
+;; (use-package hammy
+;;   :config
+;;   ;;hammy config for looking away every 20mins
+;;   ;;hammy config for resting hands every 4min
+;;   )
 
 (require 'upmu)
 (global-set-key (kbd "C-c u") 'upmu-add-entry)
@@ -540,51 +531,6 @@
 								 mode-line-position
 								 (vc-mode vc-mode) mode-line-modes mode-line-misc-info mode-line-end-spaces))
 
-;; (setq mode-line-position (list "(%P):%C %I) "))
-;; ;;https://emacs.stackexchange.com/questions/26721/display-max-line-in-bottom-line-nox-aka-mode-line
-;; (defvar ml-selected-window nil)
-
-;; (defvar ml-total-lines nil
-;;   "Previously recorded total lines in a buffer -- used for inactive windows.")
-;; (make-variable-buffer-local 'ml-total-lines)
-
-;; (defun ml-record-selected-window ()
-;;   (setq ml-selected-window (selected-window)))
-
-;; (defun ml-update-all ()
-;;   (force-mode-line-update t))
-
-;; (add-hook 'post-command-hook 'ml-record-selected-window)
-;; (add-hook 'buffer-list-update-hook 'ml-update-all)
-
-;; ;;https://www.emacs.dyerdwelling.family/emacs/20230902114449-emacs--my-evolving-modeline/
-;; (setq-default mode-line-format '(
-;; 								 (:eval
-;; 								  (if (and (buffer-file-name) (buffer-modified-p))
-;; 									  (propertize "**" 'face
-;; 												  '(:background "#e20023" :foreground "#000000" :inherit bold)) " "))
-;; 								 (:eval
-;; 								  (if (and buffer-read-only (mode-line-window-selected-p))
-;; 									  (propertize "%%%%" 'face
-;; 												  '(:background "#c6c6c6" :foreground "#000000" :inherit bold)) " "))
-;; 								 " "
-;; 								 (:eval
-;; 								  (if (mode-line-window-selected-p)
-;; 									  (propertize (buffer-name) 'face '(:foreground "#c6c6c6" :inherit bold))
-;; 									(propertize (buffer-name) 'face '(:foreground "#222222" :inherit bold))))
-;; 								 " (%l/"
-;; 								 (:eval
-;; 								  (let ((win (selected-window)))
-;; 									(with-current-buffer (window-buffer win)
-;; 									  (if (or (eq ml-selected-window win) (null ml-total-lines))
-;; 										  (save-excursion
-;; 											(goto-char (point-max))
-;; 											(setq ml-total-lines (format-mode-line "%l")))
-;; 										ml-total-lines))))
-;; 								 mode-line-position
-;; 								 (vc-mode vc-mode) mode-line-modes mode-line-misc-info mode-line-end-spaces))
-
-
 (setq minor-mode-alist nil)
 
 (server-start)
@@ -592,3 +538,16 @@
 (provide 'init)
 ;;; init.el ends here
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(helpful emms magit zoxide sudo-edit dired-subtree vlf expand-region expreg vundo multiple-cursors ace-window hungry-delete gcmh volatile-highlights markdown-mode org-bullets which-key async yasnippet cape corfu nix-ts-mode haskell-mode rainbow-delimiters rainbow-mode pulsar apheleia embark-consult embark consult marginalia orderless vertico diminish pdf-tools)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
