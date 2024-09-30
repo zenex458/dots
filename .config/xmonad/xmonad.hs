@@ -41,6 +41,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       ((modm, xK_c), spawn "firefox"),
       -- private firefox
       ((mod1Mask, xK_c), spawn "firefox -P priv"),
+      ((mod1Mask .|. controlMask, xK_c), spawn "firefox -P para"),
       -- next song
       ((mod1Mask, xK_o), spawn "mpc -p 6601 next"),
       -- previous song
@@ -58,7 +59,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
       -- lock
       ((mod1Mask .|. controlMask, xK_l), spawn "xsecurelock"),
       -- spawn alsamixer
-      ((modm, xK_a), spawn "alacritty -e alsamixer"),
+      ((modm, xK_a), spawn "st -e alsamixer"),
       -- brightness up by 2
       ((mod1Mask, xK_Prior), spawn "light -A 2"),
       -- brightness down by 2
