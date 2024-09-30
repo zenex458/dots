@@ -45,17 +45,7 @@
     displayManager.startx.enable = true;
     windowManager.xmonad.enable = true;
     windowManager.xmonad.enableContribAndExtras = true;
-    windowManager.dwm.enable = true;
-
-       windowManager.awesome = {
-      enable = true;
-      luaModules = with pkgs.luaPackages; [
-        luarocks # is the package manager for Lua modules
-        luadbi-mysql # Database abstraction layer
-      ];
-
-    };
-
+   # windowManager.dwm.enable = true;
     libinput.enable = true;
     layout = "gb";
     xkbVariant = "";
@@ -64,6 +54,8 @@
   # Configure console keymap
   console.keyMap = "uk";
 
+ #  virtualisation.libvirtd.enable = true;
+ #  programs.dconf.enable = true;
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.zenex = {
     isNormalUser = true;
@@ -73,35 +65,53 @@
   };
 
   programs.light.enable = true;
+  services.tlp.enable = true;
+  services.tlp.settings = {
+    CPU_SCALING_GOVERNOR_ON_BAT="powersave";
+    CPU_SCALING_GOVERNOR_ON_AC="performance";
+    CPU_SCALING_MIN_FREQ_ON_AC=0;
+    CPU_SCALING_MAX_FREQ_ON_AC=24000000;
+    CPU_SCALING_MIN_FREQ_ON_BAT=0;
+    CPU_SCALING_MAX_FREQ_ON_BAT=20000000;
+
+
+  };
 
   nixpkgs.config.allowUnfree = true;
-  users.extraGroups.vboxusers.members = [ "zenex" ];
+  #users.extraGroups.vboxusers.members = [ "zenex" ];
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+  #shotcut
+  #ffmpeg
+  #gimp
   neovim
+  vimv
+  trash-cli
+  aria
   nvi
-  #emacs
   wget
   curl
   git
   firefox
   alacritty
-  #termonad
-  xfce.thunar
+  pcmanfm
   bashmount
   nnn
   xmobar
   htop
   feh
   redshift
+  clifm
   libreoffice
   dunst
   libnotify
   #batsignal
-  #scrot
-  maim
+  scrot
+  #maim
+  xdotool
   mupdf
+  #imagemagick
   bc
   zip
   unzip
@@ -109,71 +119,80 @@
   mpv
   mpg123
   keepassxc
-  vimix-gtk-themes
+  paper-icon-theme
+  orchis-theme
   lxappearance
   dmenu
   xsecurelock
   alsa-utils
   lua
+  #zoxide
+  fzf
+  shellcheck
+  rsync
+  fzf-obc
   yt-dlp
   freetube
+  oneshot
+  #syncthing
+  kdeconnect
   gcc
   #arandr
   #sdcv
   tmux
   microcodeIntel
-  tela-icon-theme
   mpd
   mpc-cli
   ncmpcpp
   pavucontrol
   xclip
   xsel
-  httrack
-  sbcl
+  #httrack
+  #sbcl
+  #nodejs
   ghc
   haskell-language-server
+  #android-tools
+  #android-file-transfer
+  #usbutils
   mono
   omnisharp-roslyn
-  vscode-with-extensions
   dotnet-sdk
+  dotnetPackages.Nuget
   #dotnet-aspnetcore
   #dotnet-runtime
-  vscode-extensions.ms-dotnettools.csharp
-  zsh
+  #vscode-with-extensions
+  #vscode-extensions.ms-dotnettools.csharp
   #openssh
-  nodejs
-  gimp
-  inkscape
   lxqt.lxqt-policykit
   dbus
   #cpu-x
-  #selenium packages
-  python39Packages.selenium
-  chromedriver
-  google-chrome
-  dotnetPackages.Nuget
-  python3Full
-  python39Packages.pip
+  ##selenium packages
+  #python39Packages.selenium
+  #chromedriver
+  #google-chrome
+  #dotnetPackages.Nuget
+  #python3Full
+  #python39Packages.pip
   #python.pkgs.pip
-  #end selenium packages
+  ##end selenium packages
   #virt-manager
-    (st.overrideAttrs (oldAttrs: rec {
-    patches = [
-    /home/zenex/.config/st/st-blinking_cursor.diff
-    /home/zenex/.config/st/st-bold-is-not-bright.diff
-    ];
-    configFile = writeText "config.def.h" (builtins.readFile /home/zenex/.config/st/config.h);
-    postPatch = "${oldAttrs.postPatch}\n cp ${configFile} config.def.h";
-  }))
-
+#    (st.overrideAttrs (oldAttrs: rec {
+#    patches = [
+##    /home/zenex/.config/st/st-blinking_cursor.diff
+#    /home/zenex/.config/st/st-bold-is-not-bright.diff
+#    ];
+#    configFile = writeText "config.def.h" (builtins.readFile /home/zenex/.config/st/config.h);
+#    postPatch = "${oldAttrs.postPatch}\n cp ${configFile} config.def.h";
+#  }))
+#
   ];
 
- nixpkgs.overlays = [
-    (final: prev: {
-      dwm = prev.dwm.overrideAttrs (old: { src = /home/zenex/.config/dwm ;});
-    })
-];
+# nixpkgs.overlays = [
+#    (final: prev: {
+#      dwm = prev.dwm.overrideAttrs (old: { src = /home/zenex/.config/dwm ;});
+#    })
+#];
 
 #  services.openssh = {
 #  enable = true;
@@ -183,11 +202,14 @@
 
   environment.variables.EDITOR = "nvim";
 
-  #virtualisation.libvirtd.enable = true;
-  #programs.dconf.enable = true;
+#  fonts.fonts = with pkgs; [
+#  (nerdfonts.override { fonts = [ "FiraMono"]; })
+#  vistafonts
+#];
 
   fonts.fonts = with pkgs; [
-  (nerdfonts.override { fonts = [ "FiraMono"]; })
+  hack-font
+  inconsolata
   vistafonts
 ];
 
@@ -205,6 +227,11 @@
 
   nix.settings.auto-optimise-store = true;
   
+  #hardware.bluetooth.enable = true;
+  #services.blueman.enable = true;
+
+  services.gvfs.enable = true;
+  
   services.fstrim = {
   enable = true;
   interval = "weekly";
@@ -216,7 +243,24 @@
 #    hostsFile = builtins.fetchurl hostsPath;
 #  in builtins.readFile "${hostsFile}";
 
-  networking.firewall.enable = true;
+  networking.firewall = {
+    enable = true;
+ #   allowedUDPPorts = [
+ #   42000
+ #   42001
+ #   ];
+ #   allowedTCPPorts = [
+ #   42000
+ #   42001
+ #   ];
+    allowedTCPPortRanges = [
+      { from = 1714; to = 1764; }
+    ];
+    allowedUDPPortRanges = [
+      { from = 1714; to = 1764; }
+    ];
+  };
+
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
