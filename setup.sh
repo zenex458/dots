@@ -48,7 +48,7 @@ Arch ()
 Debian ()
 {
 	sudo apt update &&
-	$pkg neovim wget curl firefox-esr htop feh playerctl redshift libreoffice libreoffice-gtk dunst libnotify4 libnotify-dev libnotify-bin scrot mupdf bc cmus tar zip unzip fuse3 ntfs-3g thunar mpv light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw make gcc nnn arandr libxrandr-dev pipewire pipewire-audio-client-libraries alsa-utils intel-microcode &&
+	$pkg neovim wget curl firefox-esr htop feh playerctl redshift libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin scrot mupdf network-manager lua5.4 bc cmus tar zip unzip fuse3 ntfs-3g thunar mpv light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw make gcc nnn arandr libxrandr-dev alsa-utils intel-microcode &&
 
 	suck_less &&  
 
