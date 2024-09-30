@@ -7,6 +7,7 @@
 !Xft.rgba: rgb
 !XTerm.vt100
 URxvt.font: xft:Hack Nerd Font Mono:Regular:pixelsize=16=antialias=false
+!*.font: xft:Hack Nerd Font Mono:Regular:pixelsize=16=antialias=false
 !URxvt.letterSpace: 0
 !URxvt.lineSpace: 0
 URxvt.cursorBlink: true
@@ -16,13 +17,13 @@ URxvt.scrollBar_right: false
 URxvt.urgentOnBell: false
 URxvt.visualBell: true
 URxvt.saveLines: 0
-URxvt.iso14755: false
+URxvt.iso14755: flase
 URxvt.iso14755_52: false
 URxvt.keysym.Shift-Control-V: eval:paste_clipboard
 URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
-URxvt.keysym.C-minus: resize-font:smaller
-URxvt.keysym.C-plus: resize-font:bigger
-URxvt.keysym.C-equal: resize-font:reset
+!URxvt.keysym.C-minus: resize-font:smaller
+!URxvt.keysym.C-plus: resize-font:bigger
+!URxvt.keysym.C-equal: resize-font:reset
 !https://github.com/simmel/urxvt-resize-font
 URxvt.buffered: false
 URxvt.pointerBlank: true
@@ -70,9 +71,3 @@ URxvt.color14: #00ffff
 ! white
 URxvt.color7: #e5e5e5
 URxvt.color15: #ffffff
-
-
-
-Zutty.font:                    Hack
-Zutty.fontsize:                18
-Zutty.fontpath:                /usr/share/fonts
