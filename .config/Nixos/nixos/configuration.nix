@@ -6,7 +6,7 @@
   inputs,
   outputs,
   lib,
-  config,
+  #config,
   pkgs,
   ...
 }:
@@ -183,7 +183,7 @@
     };
     dbus = {
       enable = true;
-      implementation = "broker";
+      #      implementation = "broker"; # this breaks and printing and probably some other things
     };
     smartd.enable = true;
     # mysql = {
@@ -283,7 +283,7 @@
   environment = {
     sessionVariables.NIXOS_OZONE_WL = "1";
     defaultPackages = lib.mkForce [ ];
-    systemPackages = with pkgs; [ ];
+    systemPackages = with pkgs; [ git ];
     pathsToLink = [
       "/share/zsh"
       "/share/bash-completion"

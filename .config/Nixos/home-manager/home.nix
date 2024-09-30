@@ -1,9 +1,9 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 {
-inputs,
-outputs,
-lib,
+  inputs,
+  outputs,
+  lib,
   config,
   pkgs,
   ...
@@ -619,6 +619,16 @@ lib,
       bind 'set show-all-if-ambiguous on'
       bind 'set completion-ignore-case on'
       bind 'TAB:menu-complete'
+      cd() {
+      	if [ -z "$#" ]; then
+      		builtin cd
+      	else
+      		builtin cd "$@"
+      	fi
+      	if [ $? -eq 0 ]; then
+      		ls -F -h --color=always
+      	fi
+      }
     '';
     shellAliases = {
       upd = "sudo nixos-rebuild switch --flake ~/dots/.config/Nixos/#eukaryotic";
@@ -939,13 +949,39 @@ lib,
     };
   };
 
-  # enable this in 24.05
-  # services.hyprpaper = {
-  #   enable = true;
-  #   ipc = "off";
-  #   preload = [ "~/Downloads/Images/klemg.jpeg" ];
-  #   wallpaper = [ ",~/Downloads/Images/klemg.jpeg" ];
-  # };
+  services.hyprpaper = {
+    enable = true;
+    settings = {
+      ipc = false;
+      splash = false;
+      preload = [ "~/Downloads/Images/realsat.jpg" ];
+      wallpaper = [ ",~/Downloads/Images/realsat.jpg" ];
+    };
+  };
+
+  services.hypridle = {
+    enable = true;
+    settings = {
+      general = {
+        after_sleep_cmd = "hyprctl dispatch dpms on";
+        ignore_dbus_inhibit = false;
+        ignore_systemd_inhibit = false;
+        lock_cmd = "swaylock";
+      };
+
+      listener = [
+        {
+          timeout = 900;
+          on-timeout = "swaylock";
+        }
+        {
+          timeout = 1200;
+          on-timeout = "hyprctl dispatch dpms off";
+          on-resume = "hyprctl dispatch dpms on";
+        }
+      ];
+    };
+  };
 
   programs.swaylock = {
     enable = true;
@@ -993,7 +1029,6 @@ lib,
     hunspell
     hunspellDicts.en-gb-large
     hunspellDicts.en_GB-large
-    hyprpaper
     imagemagick
     imv
     kdeconnect
@@ -1020,6 +1055,8 @@ lib,
     pandoc
     poppler_utils
     pulsemixer
+    # imhex
+    # rlwrap
     rage
     ripgrep
     rsync
