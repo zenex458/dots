@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#write in posix sh
 suck_less ()
 {
 	$perm make install -C "$HOME/.config/dwm/"
@@ -7,6 +8,8 @@ suck_less ()
 
 postsetup ()
 {
+        $perm systemctl enable ufw
+	$perm systemctl start ufw
 	$perm ufw enable
 	$perm ufw default deny incoming
 	$perm ufw default allow outgoing
@@ -37,10 +40,7 @@ Arch ()
 {
 	$pkg neovim wget curl firefox htop feh thunar sudo ufw playerctl redshift libreoffice slock dunst libnotify scrot mupdf bc cmus yt-dlp zip unzip tar fuse3 ntfs-3g exfat-utils networkmanager mpv light keepassxc xorg xorg-server xorg-xinit base-devel git libx11 libxft xorg-server xorg-xinit terminus-font lua dmenu pipewire pipewire-alsa pipewire-pulse
 	suck_less
-        $perm systemctl enable ufw
-	$perm systemctl start ufw
 	postsetup
-	$perm systemctl enable fstrim.timer
 
 }
 
@@ -53,8 +53,6 @@ Debian ()
 	$perm systemctl disable bluetooth
 	$perm systemctl enable tlp
 	#sudo systemctl enable fstrim.timer &&
-        $perm systemctl enable ufw
-	$perm systemctl start ufw
 	postsetup 
 }
 
@@ -69,25 +67,16 @@ Fedora()
 	$perm systemctl disable firewalld
 	$perm systemctl disable bluetooth
 	$perm systemctl stop firewalld
-        $perm systemctl enable ufw
-	$perm systemctl start ufw
 	postsetup 
 }
 	
-
-read -rp "Are you using sudo or doas? " perm
-
-cp -r .xinitrc .bashrc ~/
-mkdir -p ~/Downloads/
-mkdir -p ~/.config && cp -r .config/. ~/.config
-
+Menu()
+{
 echo " "
 echo "(A)rch"
 echo "(D)ebian"
 echo "(F)edora"                               
 echo "(Z)other"
-
-
 read -rp "Please enter your os: " os
 
 case $os in
@@ -95,6 +84,15 @@ case $os in
 	D)  pkg="$perm apt install" && Debian ;;
 	F)  pkg="$perm dnf install" && Fedora;;
 	Z)  exit;;
-	*)  echo "Invalid os name" && echo "your os is :" && uname -a;;
-esac &&
-cd ~/ && echo "All done!"
+	*)  echo "Invalid os name" && echo "your os is :" && uname -a && Menu;;
+esac 
+}
+
+read -rp "Are you using sudo or doas? " perm
+
+cp -r .xinitrc .bashrc ~/
+mkdir -p ~/Downloads/
+mkdir -p ~/.config && cp -r .config/. ~/.config
+Menu
+
+echo "All done!"
