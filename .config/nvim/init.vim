@@ -31,6 +31,7 @@ set guicursor+=i:hor50-Cursor
 set statusline+=\%{toupper(g:currentmode[mode()])} 
 set statusline+=%<%f%m\ \ \ %=\ %R%H%W\ %l/%L:%c\ %p%% "add %Y for file type
 "%R=readonly, %H=helpbuffer, %W=preview window
+"set linebreak
 colorscheme dalton
 map <leader>sp :setlocal spell! spelllang=en_gb<CR>
 vmap <C-c> "+y
