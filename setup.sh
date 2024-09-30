@@ -49,7 +49,7 @@ Debian_install_firefox() {
 	sudo apt install firefox || sudo apt install firefox-esr || echo "Issue with package selection"
 
 }
-
+#add arch linux
 Debian() {
 	sudo apt update
 	$pkg emacs elpa-pdf-tools-server astyle shfmt ormolu qt5ct pandoc wget curl htop libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin zathura bc network-manager tar zip unzip fuse3 ntfs-3g thunar light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw nnn gcc alsa-utils tlp tmux zsh zoxide mpc mpd ncmpcpp p7zip-full intel-microcode make trash-cli mpv xterm fzf wireplumber pulsemixer pipewire-alsa apt-listbugs apt-listchanges hunspell-en-gb apparmor-profiles apparmor-profiles-extra libseccomp-dev seccomp libbpf-dev lxqt-policykit libpam-tmpdir opensnitch clamav chrony fd-find libtree-sitter-dev firejail thunderbird || echo "Issue with package selection" # xbanish xautolock feh redshift needrestart debian-goodies fail2ban rkhunter smartmontools smart-notifier

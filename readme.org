@@ -1,0 +1,36 @@
+#+Title dots
+* dots
+This contains all my config files for linux. It can be installed my a =setup.sh= or by [[https:nixos.org][Nixos]].
+* Getting Started
+** Prerequisits
+- [[https://git-scm.com/downloads][Git]]
+** For Nixos based systems
+1)
+#+begin_src bash 
+git clone https://github.com/zenex458/dots
+#+end_src
+2)
+#+begin_src bash 
+sudo nixos-rebuild switch --flake ~/dots/.config/Nixos/#eukaryotic
+#+end_src
+** For Fedora and Debian based distros
+1)
+#+begin_src bash 
+git clone https://github.com/zenex458/dots
+#+end_src
+2)
+#+begin_src bash 
+cd dots && ./setup.sh
+#+end_src
+The script will install packages, prompt for some application options and setup the appearance.
+** For other distros
+#+begin_src bash 
+git clone https://github.com/zenex458/dots
+#+end_src
+2)
+#+begin_src bash 
+cd dots && ./setup.sh
+#+end_src
+The script will only setup the appearance.
+* Notes
+For my Nixos set up I used the "standard config" in this [[https://github.com/Misterio77/nix-starter-configs][starter config]].
