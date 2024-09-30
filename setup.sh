@@ -24,13 +24,13 @@ postsetup ()
 	wget https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts &&
 	$perm mv /etc/hosts /etc/hosts.old && 
 	$perm mv hosts /etc/hosts
-	cp ~/dots/Downloads/FiraMono.zip ~/dots/Downloads/vimix-dark.tar.xz ~/Downloads/ &&
+	cp ~/dots/Downloads/FiraMono.tar.7z ~/dots/Downloads/vimix-dark.tar.7z ~/Downloads/ &&
 	cd ~/Downloads/ &&
-	unzip FiraMono.zip -d FiraMono &&
+	7za x -so FiraMono.tar.7z | tar xf -
 	$perm mv FiraMono /usr/share/fonts/ &&
-	tar -xf vimix-dark.tar.xz &&
+	7za x -so vimix-dark.tar.7z | tar xf -
 	$perm mv vimix-dark /usr/share/themes/ &&
-	rm -r vimix-dark-* FiraMono.zip &&
+	rm -r vimix-dark.tar.7z FiraMono.tar.7z &&
 	cd ~/
 }
 
