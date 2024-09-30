@@ -9,9 +9,6 @@ suck_less ()
 	cd ~/.config/st &&
 	$perm make install &&
 	sleep 2 &&
-	cd ~/.config/batsignal &&
-	$perm make clean install &&
-	sleep 2 &&
 	cd ~/
 }
 
@@ -48,9 +45,11 @@ Arch ()
 Debian ()
 {
 	sudo apt update &&
-	$pkg neovim wget curl firefox-esr htop feh playerctl redshift libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin scrot mupdf network-manager lua5.4 bc cmus tar zip unzip fuse3 ntfs-3g thunar mpv light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw make gcc nnn arandr libxrandr-dev alsa-utils intel-microcode &&
+	$pkg neovim wget curl firefox-esr htop feh redshift libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin scrot mupdf network-manager lua5.4 bc cmus tar zip unzip fuse3 ntfs-3g thunar mpv light keepassxc sdcv p7zip-full acpi xorg libx11-dev libxft-dev libxinerama-dev ufw make gcc nnn arandr libxrandr-dev alsa-utils intel-microcode &&
 
 	suck_less &&  
+	sudo systemctl disable bluetooth &&
+	sudo systemctl enable fstrim.timer &&
 
 	postsetup 
 }
