@@ -3,8 +3,6 @@ suck_less ()
 {
 	cd ~/.config/dwm
 	$perm make install
-	cd ~/.config/st
-	$perm make install
 	cd ~/
 }
 
@@ -34,11 +32,9 @@ postsetup ()
 
 	cp ~/dots/Downloads/vimix-dark.tar.7z ~/Downloads/ &&
 	cd ~/Downloads/ &&
-	7za x -so hack.tar.7z | tar xf -
-	$perm mv hack /usr/share/fonts/ &&
-	7za x -so vimix-dark.tar.7z | tar xf -
+	7za x -so vimix-dark.tar.7z | tar xf - &&
 	$perm mv vimix-dark /usr/share/themes/ &&
-	rm -r vimix-dark.tar.7z FiraMono.tar.7z &&
+	rm -r vimix-dark.tar.7z &&
 	cd ~/
 }
 
@@ -53,39 +49,9 @@ Arch ()
 
 }
 
-Alpine ()
-{
-	$pkg util-linux pciutils usbutils coreutils binutils findutils grep iproute2 bash bash-doc bash-completion udisks2 udisks2-doc git make gcc g++ libx11-dev libxft-dev libxinerama-dev ncurses dbus-x11 firefox adwaita-icon-theme ttf-dejavu mandoc man-pages docs gcompat alsa-utils alsa-utils-doc alsa-lib alsaconf alsa-ucm-conf pciutils neovim wget curl htop feh redshift libreoffice dunst libnotify-dev dmenu slock scrot mupdf tar zip unzip fuse3 ntfs-3g thunar mpv light keepassxc sdcv p7zip ufw nnn arandr libxrandr-dev xsetroot pm-utils setxkbmap libuser lua5.4 #xf86-video-intel mesa-dri-gallium libva-intel-driver kbd xf86-input-libinput
-	$perm setup-xorg-base
-        read -p "what did you call the user? " USER
-	$perm adduser $USER audio
-	$perm adduser root audio
-	$perm adduser $USER video
-	$perm adduser $USER input
-	$perm mkdir -p /etc/acpi/LID/
-	$perm touch /etc/acpi/LID/00000080
-	$perm doas chmod 777 /etc/acpi/LID/00000080
-	$perm echo "#!bin/sh" >> /etc/acpi/LID/00000080
-	$perm echo "exec pm-suspend" >> /etc/acpi/LID/00000080
-        $perm doas chmod 755 /etc/acpi/LID/00000080
-	$perm chmod +x /etc/acpi/LID/00000080
-	$perm /etc/init.d/acpid start
-	suck_less
-	postsetup
-	$perm rc-update add ufw
-	$perm touch /etc/login.defs
-	$perm mkdir /etc/default
-	$perm touch /etc/default/useradd
-	echo "/bin/bash"
-	$perm lchsh $USER
-	sleep 2
-	$perm reboot
-
-}
-
 Debian ()
 {
-	sudo apt update &&
+	$perm apt update &&
 	$pkg neovim wget curl firefox htop feh redshift libreoffice libreoffice-gnome dunst libnotify4 libnotify-dev libnotify-bin scrot zathura network-manager tar zip unzip fuse3 ntfs-3g pcmanfm mpv light keepassxc xorg libx11-dev libxft-dev libxinerama-dev ufw nnn gcc alsa-utils thermald tlp tmux mpd mpd ncmpcpp p7zip-full rxvt-unicode dmenu xsecurelock && #intel-microcode kdeconnect libxrandr-dev arandr
 
 	suck_less &&  
@@ -99,12 +65,14 @@ Debian ()
 
 Fedora()
 {
-	$pkg neovim curl wget firefox slock dmenu make gcc htop feh playerctl redshift libreoffice dunst libnotify libnotify-devel scrot mupdf bc @base-x yt-dlp zip unzip fuse3 NetworkManager-tui NetworkManager-wifi light keepassxc tar zoxide nnn ufw iwl* thunar alsa-firmware alsa-lib alsa-lib-devel alsa-utils xterm ntfs-3g xz libX11-devel libXft-devel libXinerama-devel xorg-x11-xinit-session && suck_less; 
+	$pkg neovim curl wget firefox slock dmenu make gcc htop feh redshift libreoffice dunst libnotify libnotify-devel scrot zathura @base-x yt-dlp zip unzip fuse3 NetworkManager-tui NetworkManager-wifi light keepassxc tar nnn ufw iwl* pcmanfm alsa-firmware alsa-lib alsa-lib-devel alsa-utils xterm ntfs-3g xz libX11-devel libXft-devel libXinerama-devel xorg-x11-xinit-session rxvt-unicode tmux fzf tlp udisks udisks-devel
+        suck_less && 
 	#sway gammastep waybar
 	$perm dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm && 
 	$perm dnf upgrade &&
-	$perm dnf install mpv cmus &&
+	$perm dnf install mpv mpd mpc ncmpcpp &&
 	$perm systemctl disable firewalld &&
+	$perm systemctl disable bluetooth &&
 	$perm systemctl stop firewalld &&
         $perm systemctl enable ufw &&
 	$perm systemctl start ufw &&
@@ -114,7 +82,6 @@ Fedora()
 
 read -p "Are you using sudo or doas? " perm
 
-
 cp -r .xinitrc .bashrc ~/
 mkdir -p ~/Downloads/
 cp -r Downloads/* ~/Downloads
@@ -123,7 +90,6 @@ cp -r .config/* ~/.config
 
 echo " "
 echo "(A)rch"
-echo "(AL)pine"
 echo "(D)ebian"
 echo "(F)edora"                               
 echo "(Z)other"
@@ -133,7 +99,6 @@ read -p "Please enter your os: " os
 
 case $os in
 	A)  pkg="$perm pacman -S" && Arch;;
-	AL) pkg="$perm apk add" && Alpine;;
 	D)  pkg="$perm apt install" && Debian ;;
 	F)  pkg="$perm dnf install" && Fedora;;
 	Z)  exit;;
