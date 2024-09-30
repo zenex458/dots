@@ -1075,6 +1075,9 @@
     unzip
     virt-manager
     wlr-randr
+    wl-clipboard
+    wl-clip-persist
+    cliphist
     wdisplays
     xdg-utils
     yt-dlp
