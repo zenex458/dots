@@ -102,7 +102,7 @@
     # cursorTheme.package = pkgs.bibata-cursors;
     # cursorTheme.name = "Bibata-Original-Classic";
     # cursorTheme.size = 20;
-    cursorTheme.name = "plan9"; # try to get this in a flake https://github.com/zenex458/looks/tree/main/plan9
+    cursorTheme.name = "plan9";
     cursorTheme.size = 20;
     font.package = pkgs.iosevka;
     font.name = "Iosevka Extended";
@@ -830,7 +830,7 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
-    extraConfig = builtins.readFile ./hyprland.conf;
+    extraConfig = builtins.readFile ./hyprland.conf; # #too much effort to do it with options and extraConfig
   };
 
   programs.tmux = {

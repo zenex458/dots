@@ -15,7 +15,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    #./hardened.nix
+    #./hardened.nix ##this breaks
     inputs.home-manager.nixosModules.home-manager
   ];
 
@@ -58,7 +58,7 @@
     networkmanager.enable = true;
     networkmanager.wifi = {
       # macAddress = "random";
-      macAddress = "stable-ssid";
+      macAddress = "stable-ssid"; # #random mac adress per wifi
       # backend = "iwd";
     };
     # wireless.iwd.settings = {
@@ -146,9 +146,10 @@
       "libvirtd"
       "wireshark"
     ];
-    packages = with pkgs; [ (chromium.override { enableWideVine = true; }) ];
+    packages = with pkgs; [ (chromium.override { enableWideVine = true; }) ]; # doesnt work in home-manager for some reason
   };
 
+  #https://en.wikipedia.org/wiki/Network_Time_Protocol#Secure_extensions servers
   networking.timeServers = [
     "time.cloudflare.com"
     "ntppool1.time.nl"
@@ -231,13 +232,14 @@
       allow id 046d:c08b serial "1285335A3232" name "G502 HERO Gaming Mouse" hash "ukNMlamAkPMh7baihqjodyq1X2cF75bqoMTP6vnHADw=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" with-interface { 03:01:02 03:00:00 } with-connect-type "hotplug"
       allow id 22d9:2769 serial "2d3a83b0" name "OnePlus NordCE 5G" hash "otW4Gq81kNDNk0jPk176y7iqEp56g4nLwM4sVQiqq2M=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" with-interface ff:42:01 with-connect-type "hotplug"
     '';
-    #    opensnitch.enable = true;
-    ntp.enable = false;
+    # opensnitch.enable = true;
+    ntp.enable = false; # #disable the systemd-timesyncd
     chrony = {
       enable = true;
       initstepslew.enabled = true;
       serverOption = "iburst";
       enableNTS = true;
+      #https://raw.githubusercontent.com/GrapheneOS/infrastructure/main/chrony.conf
       extraConfig = ''
         minsources 2
         authselectmode require
