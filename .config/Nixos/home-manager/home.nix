@@ -753,7 +753,7 @@
   services.mpd = {
     enable = true;
     musicDirectory = "/run/media/zenex/musicsd/Alt";
-    #change so instead of zenex it is the current user, do this also for the mounting
+    #change so instead of zenex it is the current user, do this also for the mounting, #change to a home.file
     extraConfig = ''
            audio_output {
               	type "pipewire"
@@ -1145,10 +1145,9 @@
     xdg-utils
     yt-dlp
     usbutils
-    pyright
-    python3
+    python3Full
     black
-    python311Packages.flask
+    # python311Packages.flask
     glib
     zip
     (aspellWithDicts (
