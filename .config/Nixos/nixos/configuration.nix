@@ -46,7 +46,7 @@
   };
 
   systemd.services.nix-daemon = {
-    environment.TMPDIR = "/var/tmp";
+    environment.TMPDIR = "/tmp";
   };
   hardware.opengl = {
     enable = true;
@@ -185,11 +185,12 @@
 
     printing.enable = true;
     printing.drivers = [
-      pkgs.gutenprint
+      # pkgs.gutenprint
       pkgs.gutenprintBin
       pkgs.epson-escpr
       pkgs.epson-escpr2
-      pkgs.foomatic-db-ppds-withNonfreeDb
+      # pkgs.foomatic-db-ppds-withNonfreeDb
+      pkgs.foomatic-db-nonfree
     ];
     avahi = {
       enable = true;
@@ -255,7 +256,7 @@
       '';
     };
 
-    thermald.enable = true;
+    thermald.enable = false;
     tlp.enable = true;
     tlp.settings = {
       CPU_SCALING_MIN_FREQ_ON_AC = 2800000;
@@ -298,7 +299,7 @@
   # $ nix search wget
   environment = {
     sessionVariables.NIXOS_OZONE_WL = "1";
-    # defaultPackages = lib.mkForce [ ];
+    defaultPackages = lib.mkForce [ ];
     systemPackages = with pkgs; [ git ];
     pathsToLink = [
       "/share/zsh"

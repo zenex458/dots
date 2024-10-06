@@ -405,6 +405,8 @@
               ];
             }
           ];
+          iconUpdateURL = "https://www.startpage.com/sp/cdn/favicons/favicon-32x32-gradient.png";
+          definedAliases = [ "@st" ];
         };
         "Searx" = {
           urls = [
@@ -419,7 +421,6 @@
             }
           ];
           iconUpdateURL = "https://priv.au/static/themes/simple/img/favicon.png?60321eeb6e2f478f0e5704529308c594d5924246";
-          updateInterval = 24 * 60 * 60 * 1000; # every day
           definedAliases = [ "@pv" ];
 
         };
@@ -436,7 +437,6 @@
             }
           ];
           iconUpdateURL = "https://search.nixos.org/favicon.png";
-          updateInterval = 24 * 60 * 60 * 1000; # every day
           definedAliases = [ "@np" ];
 
         };
@@ -453,14 +453,12 @@
             }
           ];
           iconUpdateURL = "https://search.nixos.org/favicon.png";
-          updateInterval = 24 * 60 * 60 * 1000; # every day
           definedAliases = [ "@no" ];
         };
 
         "NixosWiki" = {
           urls = [ { template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; } ];
           iconUpdateURL = "https://wiki.nixos.org/favicon.ico";
-          updateInterval = 24 * 60 * 60 * 1000; # every day
           definedAliases = [ "@nw" ];
         };
 
@@ -471,13 +469,21 @@
             }
           ];
           iconUpdateURL = "https://home-manager-options.extranix.com/images/favicon.png";
-          updateInterval = 24 * 60 * 60 * 1000; # every day
           definedAliases = [ "@hs" ];
         };
 
       };
       search.default = "Searx";
       search.force = true;
+      search.order = [
+        "Searx"
+        "DuckDuckgo"
+        "Startpage"
+        "NixosPackage"
+        "NixosOption"
+        "HomemanagerSearch"
+        "NixosWiki"
+      ];
       userChrome = ''
         /* hides the native tabs */
         #TabsToolbar {
@@ -583,7 +589,7 @@
         "browser.shell.shortcutFavicons" = true;
         "browser.shopping.experience2023.enabled" = false;
         # "browser.startup.page" = 0;
-        browser.startup.page = "https://priv.au";
+        "browser.startup.page" = "https://priv.au";
         "browser.tabs.crashReporting.sendReport" = false;
         "browser.tabs.firefox-view" = false;
         "browser.tabs.firefox-view-newIcon" = false;
@@ -710,14 +716,15 @@
   };
 
   programs.bash = {
+    enable = true;
     enableCompletion = true;
     historyControl = [ "ignoredups" ];
     historyFile = "$HOME/.local/share/.bash_history";
     historyFileSize = 10000;
     historySize = 10000;
-    enable = true;
     shellOptions = [
       "cdspell"
+      "dirspell"
       "autocd"
       "histappend"
     ];
@@ -811,7 +818,7 @@
       FZF_DEFAULT_OPTS = "-e --no-scrollbar --border=none --reverse --no-info";
       LESSHISTFILE = "/tmp/.lesshst";
       MOZ_ENABLE_WAYLAND = "1";
-      #QT_QPA_PLATFORM = "wayland";
+      QT_QPA_PLATFORM = "wayland;xcb";
       GDK_BACKEND = "wayland";
       _JAVA_AWT_WM_NONREPARENTING = 1;
       SAL_USE_VCLPLUGIN = "gtk3";
@@ -1184,11 +1191,10 @@
     gojq
     grim
     htop
-    hunspell
-    hunspellDicts.en-gb-large
-    hunspellDicts.en_GB-large
+    # hunspell
+    # hunspellDicts.en-gb-large
     hyprshade
-    imagemagick
+    # imagemagick
     imv
     jetbrains.idea-ultimate
     kdeconnect
@@ -1198,8 +1204,8 @@
     lsof
     lxqt.lxqt-policykit
     magic-wormhole
-    man-pages
-    man-pages-posix
+    # man-pages
+    # man-pages-posix
     mpc-cli
     mpv
     mpvScripts.mpris
@@ -1208,17 +1214,16 @@
     nil
     nixfmt-rfc-style
     nodePackages.bash-language-server
-    nodePackages.prettier
-    obs-studio
-    openssl
-
+    # nodePackages.prettier
+    # obs-studio
+    # openssl
     p7zip
     pandoc
     poppler_utils
     pulsemixer
     python312Packages.jedi-language-server
     python3Full
-    ripgrep
+    # ripgrep
     rsync
     shellcheck
     shfmt
@@ -1227,8 +1232,8 @@
     slurp
     smartmontools
     syncthing
-    texliveFull
-    ghostscript
+    # texliveFull
+    texliveSmall
     traceroute
     trash-cli
     unzip
