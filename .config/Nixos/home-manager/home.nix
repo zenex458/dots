@@ -45,14 +45,20 @@
     extraPackages = epkgs: [
       epkgs.pdf-tools
       epkgs.vterm
+      epkgs.auctex
     ];
     extraConfig = ''
       (use-package pdf-tools
-         :magic ("%PDF" . pdf-view-mode)
-         :hook (pdf-view-mode . pdf-view-themed-minor-mode)
-         :config
-          (setq pdf-info-epdfinfo-program "${pkgs.emacsPackages.pdf-tools}/share/emacs/site-lisp/elpa/pdf-tools-20240411.1703/epdfinfo")
-          (pdf-tools-install))
+          :magic ("%PDF" . pdf-view-mode)
+          :hook (pdf-view-mode . pdf-view-themed-minor-mode)
+          :config
+            (setq pdf-info-epdfinfo-program "${pkgs.emacsPackages.pdf-tools}/share/emacs/site-lisp/elpa/pdf-tools-20240411.1703/epdfinfo")
+           (pdf-tools-install))
+      (use-package tex
+         :ensure auctex)
+
+      (setq TeX-data-directory "${pkgs.emacsPackages.auctex}/share/emacs/site-lisp/elpa")
+      (setq TeX-lisp-directory "${pkgs.emacsPackages.auctex}/share/emacs/site-lisp/elpa")
     '';
   };
 
@@ -412,6 +418,61 @@
               ];
             }
           ];
+          iconUpdateURL = "https://priv.au/static/themes/simple/img/favicon.png?60321eeb6e2f478f0e5704529308c594d5924246";
+          updateInterval = 24 * 60 * 60 * 1000; # every day
+          definedAliases = [ "@pv" ];
+
+        };
+        "NixosPackage" = {
+          urls = [
+            {
+              template = "https://search.nixos.org/packages?channel=24.05&from=0&size=50&sort=relevance&type=packages";
+              params = [
+                {
+                  name = "query";
+                  value = "{searchTerms}";
+                }
+              ];
+            }
+          ];
+          iconUpdateURL = "https://search.nixos.org/favicon.png";
+          updateInterval = 24 * 60 * 60 * 1000; # every day
+          definedAliases = [ "@np" ];
+
+        };
+        "NixosOption" = {
+          urls = [
+            {
+              template = "https://search.nixos.org/options?channel=24.05&from=0&size=50&sort=relevance&type=packages";
+              params = [
+                {
+                  name = "query";
+                  value = "{searchTerms}";
+                }
+              ];
+            }
+          ];
+          iconUpdateURL = "https://search.nixos.org/favicon.png";
+          updateInterval = 24 * 60 * 60 * 1000; # every day
+          definedAliases = [ "@no" ];
+        };
+
+        "NixosWiki" = {
+          urls = [ { template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; } ];
+          iconUpdateURL = "https://wiki.nixos.org/favicon.ico";
+          updateInterval = 24 * 60 * 60 * 1000; # every day
+          definedAliases = [ "@nw" ];
+        };
+
+        "HomemanagerSearch" = {
+          urls = [
+            {
+              template = "https://home-manager-options.extranix.com/?query={searchTerms}&release=release-24.05";
+            }
+          ];
+          iconUpdateURL = "https://home-manager-options.extranix.com/images/favicon.png";
+          updateInterval = 24 * 60 * 60 * 1000; # every day
+          definedAliases = [ "@hs" ];
         };
 
       };
@@ -606,11 +667,46 @@
   programs.zoxide = {
     enable = true;
     enableBashIntegration = true;
+    enableZshIntegration = true;
+  };
+
+  programs.fzf = {
+    enable = true;
+    enableBashIntegration = true;
   };
 
   programs.zsh = {
-    enable = true;
+    enable = false;
     enableCompletion = true;
+    historySubstringSearch.enable = true;
+    defaultKeymap = "emacs";
+    autosuggestion = {
+      enable = true;
+      highlight = "fg=#c6c6c6,bg=black,bold,underline";
+    };
+    syntaxHighlighting = {
+      enable = true;
+      styles = {
+        suffix-alias = "fg=#c6c6c6";
+        precommand = "fg=#c6c6c6";
+        arg0 = "fg=#c6c6c6";
+        alias = "fg=#c6c6c6";
+        path = "fg=#c6c6c6";
+        unknown-token = "fg=#c6c6c6,underline";
+        command_error = "fg=#c6c6c6,underline";
+      };
+    };
+    initExtra = ''
+      PROMPT="[%~]''\nλ "
+      zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate _aliases _functions
+      zstyle ':completion:*' use-cache on
+      zstyle ':completion:*' cache-path "$HOME/.cache/.zcompcache"
+      zstyle ':completion:*' group-name ' '
+      zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+      zstyle ':completion:*' verbose true
+      zstyle ':completion:*' menu select search
+    '';
+
   };
 
   programs.bash = {
@@ -1132,6 +1228,7 @@
     smartmontools
     syncthing
     texliveFull
+    ghostscript
     traceroute
     trash-cli
     unzip

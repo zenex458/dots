@@ -170,7 +170,7 @@
     openssh = {
       enable = true;
       # require public key authentication for better security
-      #settings.PasswordAuthentication = false;
+      # settings.PasswordAuthentication = false;
       settings.KbdInteractiveAuthentication = false;
       settings.PermitRootLogin = "no";
       allowSFTP = false;
@@ -329,7 +329,6 @@
   };
 
   security = {
-    pam.services.swaylock = { };
     pam.services.hyprlock = { };
     apparmor = {
       enable = true;
@@ -378,7 +377,7 @@
     };
     gc = {
       automatic = true;
-      dates = "17:00";
+      dates = "19:00";
       options = "--delete-older-than 7d";
     };
 
