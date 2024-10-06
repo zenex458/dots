@@ -314,7 +314,16 @@
         # Allow screensharing under Wayland.
         dbus-user.talk org.freedesktop.portal.Desktop
         disable-mnt
+        #restrict-namespaces ##understand this more
+        private-bin dbus-launch,dbus-send,firefox,which
       '';
+      "firejail/firefox-common.local".text = ''
+        private-etc fonts,group,hosts,localtime,nsswitch.conf,pki,pulse,resolv.conf,ssl
+      '';
+      "firejail/nolocal.net" = {
+        source = "${pkgs.firejail}/etc/firejail/nolocal.net";
+        mode = "0644";
+      };
     };
   };
   fonts.packages = with pkgs; [
@@ -340,6 +349,7 @@
     sudo.execWheelOnly = true;
   };
   networking.firewall = {
+    #    nftables.enable = true;
     enable = true;
     #    pingLimit = "--limit 1/minute --limit-burst 5";
     allowedTCPPorts = [
