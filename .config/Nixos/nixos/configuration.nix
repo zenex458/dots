@@ -44,7 +44,10 @@
       allowDiscards = true;
     };
   };
-
+  console = {
+    useXkbConfig = true;
+    font = "Lat2-Terminus16";
+  };
   systemd.services.nix-daemon = {
     environment.TMPDIR = "/tmp";
   };
@@ -343,6 +346,9 @@
     apparmor = {
       enable = true;
     };
+    auditd.enable = true;
+    audit.enable = true;
+    audit.rules = [ "-a exit,always -F arch=b64 -S execve" ];
     chromiumSuidSandbox.enable = true;
     rtkit.enable = true;
     polkit.enable = true;
