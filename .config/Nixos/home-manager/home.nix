@@ -1178,8 +1178,6 @@
     bemenu
     ccls
     cinnamon.nemo
-    # connmanFull
-    # connman-notify
     cliphist
     exfatprogs
     fd
@@ -1225,8 +1223,6 @@
     pulsemixer
     python312Packages.jedi-language-server
     python3Full
-    connmanFull
-    cmst
     # ripgrep
     rsync
     shellcheck
@@ -1248,7 +1244,6 @@
     wl-clip-persist
     wl-clipboard
     wlr-randr
-    networkmanagerapplet
     xdg-utils
     yapf
     yt-dlp

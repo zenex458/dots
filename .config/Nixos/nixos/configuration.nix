@@ -58,34 +58,22 @@
 
   networking = {
     hostName = "eukaryotic";
-    networkmanager.enable = true;
-    # wireless.iwd = {
-    #   enable = true;
-    #   settings = {
-    #     Network = {
-    #       "EnableIPv6" = false;
-    #     };
-    #     General = {
-    #       "EnableNetworkConfiguration" = true;
-    #     };
-    #     Settings = {
-    #       "AutoConnect" = true;
-    #       "AddressRandomization" = "network";
-    #       "AlwaysRandomizeAddress" = true;
-    #     };
-    #   };
-    # };
-    networkmanager.wifi = {
-      # macAddress = "random";
-      macAddress = "stable-ssid"; # #random mac adress per wifi
-      # backend = "iwd";
+    wireless.iwd = {
+      enable = true;
+      settings = {
+        Network = {
+          "EnableIPv6" = false;
+        };
+        General = {
+          "EnableNetworkConfiguration" = true;
+          "AddressRandomization" = "network";
+          "AddressRandomizationRange" = "nic";
+        };
+        Settings = {
+          "AutoConnect" = true;
+        };
+      };
     };
-    # wireless.iwd.settings = {
-    #   Settings = {
-    #     "AddressRandomization" = "network";
-    #     "AlwaysRandomizeAddress" = true;
-    #   };
-    # };
     enableIPv6 = false;
   };
 
@@ -157,7 +145,6 @@
     isNormalUser = true;
     description = "zenex";
     extraGroups = [
-      "networkmanager"
       "wheel"
       "video"
       "audio"
@@ -177,9 +164,6 @@
   ];
 
   services = {
-    # connman = {
-    #   enable = true;
-    # };
     journald.extraConfig = "SystemMaxUse=250M\n";
     logind = {
       lidSwitch = "suspend";
@@ -411,11 +395,11 @@
       auto-optimise-store = true;
       allowed-users = [ "@wheel" ];
     };
-    gc = {
-      automatic = true;
-      dates = "19:00";
-      options = "--delete-older-than 7d";
-    };
+    # gc = {
+    #   automatic = true;
+    #   dates = "19:00";
+    #   options = "--delete-older-than 7d";
+    # };
 
   };
 
