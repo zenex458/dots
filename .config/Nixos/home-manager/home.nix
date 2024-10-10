@@ -750,7 +750,7 @@
       #     enc = "sudo $EDITOR /etc/nixos/configuration.nix";
       #    updc = "sudo nixos-rebuild switch";
       listnixgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
-      nixgc = "nix-collect-garbage";
+      nixgc = "nix-collect-garbage --delete-old";
       remoldgen = "sudo nix-collect-garbage --delete-older-than 2d && upd";
       re = "systemctl reboot";
       off = "systemctl poweroff";
@@ -1178,6 +1178,8 @@
     bemenu
     ccls
     cinnamon.nemo
+    # connmanFull
+    # connman-notify
     cliphist
     exfatprogs
     fd
@@ -1223,6 +1225,8 @@
     pulsemixer
     python312Packages.jedi-language-server
     python3Full
+    connmanFull
+    cmst
     # ripgrep
     rsync
     shellcheck
@@ -1244,6 +1248,7 @@
     wl-clip-persist
     wl-clipboard
     wlr-randr
+    networkmanagerapplet
     xdg-utils
     yapf
     yt-dlp

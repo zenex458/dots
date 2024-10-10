@@ -59,6 +59,22 @@
   networking = {
     hostName = "eukaryotic";
     networkmanager.enable = true;
+    # wireless.iwd = {
+    #   enable = true;
+    #   settings = {
+    #     Network = {
+    #       "EnableIPv6" = false;
+    #     };
+    #     General = {
+    #       "EnableNetworkConfiguration" = true;
+    #     };
+    #     Settings = {
+    #       "AutoConnect" = true;
+    #       "AddressRandomization" = "network";
+    #       "AlwaysRandomizeAddress" = true;
+    #     };
+    #   };
+    # };
     networkmanager.wifi = {
       # macAddress = "random";
       macAddress = "stable-ssid"; # #random mac adress per wifi
@@ -161,6 +177,9 @@
   ];
 
   services = {
+    # connman = {
+    #   enable = true;
+    # };
     journald.extraConfig = "SystemMaxUse=250M\n";
     logind = {
       lidSwitch = "suspend";
@@ -302,7 +321,7 @@
   # $ nix search wget
   environment = {
     sessionVariables.NIXOS_OZONE_WL = "1";
-    defaultPackages = lib.mkForce [ ];
+    #defaultPackages = lib.mkForce [ ];
     systemPackages = with pkgs; [ git ];
     pathsToLink = [
       "/share/zsh"
