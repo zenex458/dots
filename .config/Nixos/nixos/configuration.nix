@@ -61,20 +61,19 @@
     wireless.iwd = {
       enable = true;
       settings = {
-        Network = {
-          "EnableIPv6" = false;
-        };
         General = {
           "EnableNetworkConfiguration" = true;
-          "AddressRandomization" = "network";
-          "AddressRandomizationRange" = "nic";
+          # "AddressRandomization" = "network";
+          # "AddressRandomizationRange" = "nic";
         };
         Settings = {
-          "AutoConnect" = true;
+          AutoConnect = true;
+        };
+        Network = {
+          NameResolvingService = "resolvconf";
         };
       };
     };
-    enableIPv6 = false;
   };
 
   hardware.cpu.intel.updateMicrocode = true;
@@ -164,6 +163,8 @@
   ];
 
   services = {
+    # services.resolved.enable = true;
+    gnome.gnome-keyring.enable = true;
     journald.extraConfig = "SystemMaxUse=250M\n";
     logind = {
       lidSwitch = "suspend";
@@ -325,6 +326,7 @@
       '';
       "firejail/firefox-common.local".text = ''
         private-etc fonts,group,hosts,localtime,nsswitch.conf,pki,pulse,resolv.conf,ssl
+        private-tmp
       '';
       "firejail/nolocal.net" = {
         source = "${pkgs.firejail}/etc/firejail/nolocal.net";

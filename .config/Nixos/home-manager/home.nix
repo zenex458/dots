@@ -1232,8 +1232,8 @@
     slurp
     smartmontools
     syncthing
-    # texliveFull
-    texliveSmall
+    texliveFull
+    # texliveSmall
     traceroute
     trash-cli
     unzip
