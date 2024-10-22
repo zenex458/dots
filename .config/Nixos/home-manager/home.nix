@@ -133,6 +133,16 @@
       OfferToSaveLogins = false;
       OfferToSaveLoginsDefault = false;
     };
+    profiles."test" = {
+      id = 2;
+      search.engines = {
+        "Bing".metaData.hidden = true;
+        "Google".metaData.hidden = true;
+        "Amazon.co.uk".metaData.hidden = true;
+        "eBay".metaData.hidden = true;
+      };
+      search.force = true;
+    };
     profiles.priv = {
       id = 1;
       search.engines = {
