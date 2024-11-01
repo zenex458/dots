@@ -93,7 +93,13 @@
     LC_TIME = "en_GB.UTF-8";
   };
 
-  virtualisation.libvirtd.enable = true;
+  virtualisation = {
+    libvirtd.enable = true;
+    docker = {
+      enable = true;
+      rootless.setSocketVariable = true;
+    };
+  };
   programs = {
     gnupg.agent.enable = true;
     wireshark = {
@@ -150,6 +156,7 @@
       "input"
       "libvirtd"
       "wireshark"
+      "docker"
     ];
     packages = with pkgs; [ (chromium.override { enableWideVine = true; }) ]; # doesnt work in home-manager for some reason
   };
@@ -239,6 +246,8 @@
       allow id 0951:16dc serial "" name "HyperX Alloy FPS RGB" hash "H/mSsemErhu6jSIjbiA0PEz4NYHdH0Q5juMtNDc0eGA=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" with-interface { 03:01:01 03:01:01 03:00:00 } with-connect-type "hotplug"
       allow id 046d:c08b serial "1285335A3232" name "G502 HERO Gaming Mouse" hash "ukNMlamAkPMh7baihqjodyq1X2cF75bqoMTP6vnHADw=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" with-interface { 03:01:02 03:00:00 } with-connect-type "hotplug"
       allow id 22d9:2769 serial "2d3a83b0" name "OnePlus NordCE 5G" hash "otW4Gq81kNDNk0jPk176y7iqEp56g4nLwM4sVQiqq2M=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" with-interface ff:42:01 with-connect-type "hotplug"
+      allow id 090c:1000 serial "0378623070002866" name "Flash Drive" hash "1/RruVSzVscnzrC1F2G9vbXXh5TSrNFf7UZ3aEBxar8=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" with-interface 08:06:50 with-connect-type "hotplug"
+      allow id 0781:5583 serial "4C531001400313104105" name "Ultra Fit" hash "FIp1dacmLw5lMGjbAgLw//HPgWhrQDdDm9jRfpSr69Y=" parent-hash "3Wo3XWDgen1hD5xM3PSNl3P98kLp1RUTgGQ5HSxtf8k=" with-interface 08:06:50 with-connect-type "hotplug"
     '';
     # opensnitch.enable = true;
     ntp.enable = false; # #disable the systemd-timesyncd
@@ -322,16 +331,17 @@
         dbus-user.talk org.freedesktop.portal.Desktop
         disable-mnt
         #restrict-namespaces ##understand this more
+        #private-bin dbus-launch,dbus-send,firefox,which
         private-bin dbus-launch,dbus-send,firefox,which
       '';
       "firejail/firefox-common.local".text = ''
         private-etc fonts,group,hosts,localtime,nsswitch.conf,pki,pulse,resolv.conf,ssl
         private-tmp
       '';
-      "firejail/nolocal.net" = {
-        source = "${pkgs.firejail}/etc/firejail/nolocal.net";
-        mode = "0644";
-      };
+      # "firejail/nolocal.net" = {
+      #   source = "${pkgs.firejail}/etc/firejail/nolocal.net";
+      #   mode = "0644";
+      # };
     };
   };
   fonts.packages = with pkgs; [

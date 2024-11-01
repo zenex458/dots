@@ -37,8 +37,6 @@
 
 ;; (org-babel-do-load-languages 'org-babel-load-languages '((C . t)))
 
-
-
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq save-interprogram-paste-before-kill t)
 (setq delete-by-moving-to-trash t)
@@ -114,6 +112,10 @@
 	  org-enforce-todo-dependencies t
 	  calendar-week-start-day 1)
 (setq org-agenda-files '("~/Documents/Notes/Org/todo.org"))
+(setq org-todo-keywords '((type "TODO" "IN PROGRESS(I!)" "CANCELED(C@/!)" "|" "DONE")))
+(setq org-todo-keyword-faces
+	  '(("TODO" .  "#bdae93" )("IN PROGRESS" . "#BD8700") ("CANCELED" . "red"))
+	  )
 
 (setq-default org-display-custom-times t)
 (setq org-time-stamp-custom-formats '("%a %b %e %Y" . "%a %b %e %Y %H:%M"))
@@ -189,9 +191,10 @@
   (setf (alist-get 'shfmt apheleia-formatters)
 		'("shfmt"))
   (add-to-list 'apheleia-mode-alist '(bash-ts-mode . shfmt))
-  (setf (alist-get 'black apheleia-formatters)
-		'("yapf"))
-  (add-to-list 'apheleia-mode-alist '(python-ts-mode . black))
+  (setf (alist-get 'ruff apheleia-formatters)
+		;; '("yapf"))
+		'("ruff format"))
+  (add-to-list 'apheleia-mode-alist '(python-ts-mode . ruff))
   (setf (alist-get 'tidy apheleia-formatters)
 		'("tidy" "-i" "-q" "-f" "err"))
   (add-to-list 'apheleia-mode-alist '(html-mode . tidy))
@@ -243,11 +246,11 @@
 		(css-mode . css-ts-mode)
 		(python-mode . python-ts-mode)))
 
-(use-package pulsar
-  :hook ((next-error . pulsar-pulse-line)
- 		 (minibuffer-setup . pulsar-pulse-line))
-  :config
-  (pulsar-global-mode))
+;;(use-package pulsar
+;;  :hook ((next-error . pulsar-pulse-line)
+;; 		 (minibuffer-setup . pulsar-pulse-line))
+;;  :config
+;;  (pulsar-global-mode))
 
 (use-package rainbow-mode
   :hook (prog-mode . rainbow-mode)
@@ -257,15 +260,17 @@
 (use-package rainbow-delimiters
   :hook (emacs-lisp-mode . rainbow-delimiters-mode))
 
-(use-package haskell-mode
-  :magic ("%hs" . haskell-mode))
+;;(use-package haskell-mode
+;;  :magic ("%hs" . haskell-mode))
 
-(use-package clojure-mode
-  :magic ("%clj" . clojure-mode))
+;;(use-package clojure-mode
+;;  :magic ("%clj" . clojure-mode))
+;;
+;;(use-package cider
+;;  :custom
+;;  (cider-repl-history-file t))
 
-(use-package cider
-  :custom
-  (cider-repl-history-file t))
+(use-package pyvenv)
 
 (use-package nix-ts-mode
   :mode "\\.nix\\'")
@@ -358,13 +363,13 @@
 ;;   :config
 ;;   (load "preview-latex.el" nil t t))
 
-;; (setq TeX-auto-save t)
-;; (setq TeX-parse-self t)
-;; (setq-default TeX-master nil)
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq-default TeX-master nil)
 
-(use-package auctex
-  :ensure t
-  :defer t)
+;; (use-package auctex
+;;   :ensure t
+;;   :defer t)
 
 (use-package volatile-highlights
   :config
@@ -394,6 +399,12 @@
 
 ;;(use-package vundo)
 
+(use-package undo-fu-session
+  :config
+  (setq undo-fu-session-compression 'zst))
+
+(undo-fu-session-global-mode)
+
 (use-package expreg
   :bind ("C-@" . expreg-expand)
   ("C-'" . expreg-contract))
@@ -407,8 +418,6 @@
 ;;;(use-package pdf-tools
 ;;;  :magic ("%PDF" . pdf-view-mode)
 ;;;  :hook (pdf-view-mode . pdf-view-themed-minor-mode))
-
-(use-package vterm)
 
 (use-package dired-subtree
   :init
@@ -442,8 +451,12 @@
   (global-set-key (kbd "C-h k") #'helpful-key)
   (global-set-key (kbd "C-h x") #'helpful-command))
 
+(require 'dired+)
+(use-package indent-guide
+  :hook (python-ts-mode . indent-guide-mode))
+
 ;; (use-package dired-ranger)
-;; https://github.com/jcfk/dired-nnn
+
 ;; (use-package hydra
 ;;   :config
 ;;   ;;hydra for controlling brightness
@@ -520,7 +533,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(ein lsp-pyright editorconfig auctex aggressive-indent org-babel cider clojure-mode elfeed-org elfeed helpful magit zoxide sudo-edit dired-subtree vlf expand-region expreg vundo multiple-cursors ace-window hungry-delete gcmh volatile-highlights markdown-mode org-bullets which-key async yasnippet cape corfu nix-ts-mode haskell-mode rainbow-delimiters rainbow-mode pulsar apheleia embark-consult embark consult marginalia orderless vertico diminish pdf-tools)))
+   '(undo-fu-session undo-fu pyvenv indent-guide dired+ dired-ranger editorconfig auctex org-babel elfeed-org elfeed helpful magit zoxide sudo-edit dired-subtree vlf expand-region expreg vundo multiple-cursors ace-window hungry-delete gcmh volatile-highlights markdown-mode org-bullets async yasnippet cape corfu nix-ts-mode rainbow-delimiters rainbow-mode apheleia embark-consult embark consult marginalia orderless vertico diminish pdf-tools)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

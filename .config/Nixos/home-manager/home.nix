@@ -761,7 +761,8 @@
       #    updc = "sudo nixos-rebuild switch";
       listnixgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
       nixgc = "nix-collect-garbage --delete-old";
-      remoldgen = "sudo nix-collect-garbage --delete-older-than 2d && upd";
+      remoldgen = "nix-collect-garbage --delete-older-than 2d && upd";
+      # remoldgen = "sudo nix-collect-garbage --delete-older-than 2d && upd";
       re = "systemctl reboot";
       off = "systemctl poweroff";
       nv = "nvim";
@@ -947,7 +948,6 @@
     enable = true;
     extraConfig = builtins.readFile ./hyprland.conf; # #too much effort to do it with options and extraConfig
   };
-
   programs.tmux = {
     # add new-window -c "#{pane_current_path}"
     # add splitp -c "#{pane_current_path}"
@@ -962,30 +962,70 @@
     terminal = "tmux-256color";
     extraConfig = ''
       set -g set-titles on
-      		set -s set-clipboard external
-              set -g status-style fg=#c6c6c6,bg=#212121
-              setw -g monitor-activity on
-              set -g visual-activity on
-              set -g status-right ""
-              set -g status-left "#{session_group}"
-              set -g window-status-current-format "#[fg=black bg=black]|#[fg=white bg=black]#W#[fg=black bg=black]|"
-              set -g window-status-last-style "fg=#444444 bg=black"
-            	bind-key -n M-"v" split-window -v
-            	bind-key -n M-"V" split-window -h
-            	bind-key -n M-h select-pane -L
-            	bind-key -n M-j select-pane -D
-            	bind-key -n M-k select-pane -U
-            	bind-key -n M-l select-pane -R
-            	bind-key -n M-H swap-pane -U
-            	bind-key -n M-J swap-pane -D
-            	bind-key -n M-K swap-pane -U
-            	bind-key -n M-L swap-pane -D
-            	bind-key -n M-C-h resize-pane -L
-            	bind-key -n M-C-j resize-pane -D
-            	bind-key -n M-C-k resize-pane -U
-            	bind-key -n M-C-l resize-pane -R
+      set -g status-keys emacs
+      set -s set-clipboard external
+      set -g status-style fg=#c6c6c6,bg=#212121
+      setw -g monitor-activity on
+      set -g visual-activity on
+      set -g status-right ""
+      set -g status-left "#{session_group}"
+      set -g window-status-current-format "#[fg=black bg=black]|#[fg=white bg=black]#W#[fg=black bg=black]|"
+      set -g window-status-last-style "fg=#444444 bg=black"
+      bind-key -n M-"v" split-window -v
+      bind-key -n M-"V" split-window -h
+      bind-key -n M-h select-pane -L
+      bind-key -n M-j select-pane -D
+      bind-key -n M-k select-pane -U
+      bind-key -n M-l select-pane -R
+      bind-key -n M-H swap-pane -U
+      bind-key -n M-J swap-pane -D
+      bind-key -n M-K swap-pane -U
+      bind-key -n M-L swap-pane -D
+      bind-key -n M-C-h resize-pane -L
+      bind-key -n M-C-j resize-pane -D
+      bind-key -n M-C-k resize-pane -U
+      bind-key -n M-C-l resize-pane -R
     '';
   };
+
+  # programs.tmux = {
+  #   # add new-window -c "#{pane_current_path}"
+  #   # add splitp -c "#{pane_current_path}"
+  #   enable = true;
+  #   aggressiveResize = true;
+  #   prefix = "C-.";
+  #   baseIndex = 0;
+  #   escapeTime = 0;
+  #   historyLimit = 100000;
+  #   keyMode = "emacs";
+  #   mouse = true;
+  #   terminal = "tmux-256color";
+  #   extraConfig = ''
+  #     set -g set-titles on
+  #     		set -s set-clipboard external
+  #             set -g status-style fg=#c6c6c6,bg=#212121
+  #             setw -g monitor-activity on
+  #             set -g visual-activity on
+  #             set -g status-right ""
+  #             set -g status-left "#{session_group}"
+  #             set -g window-status-current-format "#[fg=black bg=black]|#[fg=white bg=black]#W#[fg=black bg=black]|"
+  #             set -g window-status-last-style "fg=#444444 bg=black"
+  #           	bind-key -n M-"v" split-window -v
+  #           	bind-key -n M-"V" split-window -h
+  #           	bind-key -n M-h select-pane -L
+  #           	bind-key -n M-j select-pane -D
+  #           	bind-key -n M-k select-pane -U
+  #           	bind-key -n M-l select-pane -R
+  #           	bind-key -n M-H swap-pane -U
+  #           	bind-key -n M-J swap-pane -D
+  #           	bind-key -n M-K swap-pane -U
+  #           	bind-key -n M-L swap-pane -D
+  #           	bind-key -n M-C-h resize-pane -L
+  #           	bind-key -n M-C-j resize-pane -D
+  #           	bind-key -n M-C-k resize-pane -U
+  #           	bind-key -n M-C-l resize-pane -R
+  #   '';
+  # };
 
   # services.gammastep = {
   #   enable = true;
@@ -1196,6 +1236,7 @@
     fuse3
     gcc
     gh
+    codeberg-cli
     gimp
     git
     gojq
@@ -1231,7 +1272,8 @@
     pandoc
     poppler_utils
     pulsemixer
-    python312Packages.jedi-language-server
+    ruff-lsp
+    ruff
     python3Full
     # ripgrep
     rsync
@@ -1255,6 +1297,9 @@
     wl-clipboard
     wlr-randr
     xdg-utils
+    logisim-evolution
+    logisim
+    gnumake
     yapf
     yt-dlp
     zip
