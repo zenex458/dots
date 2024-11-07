@@ -316,7 +316,10 @@
   environment = {
     sessionVariables.NIXOS_OZONE_WL = "1";
     #defaultPackages = lib.mkForce [ ];
-    systemPackages = with pkgs; [ git ];
+    systemPackages = with pkgs; [
+      git
+      vim
+    ];
     pathsToLink = [
       "/share/zsh"
       "/share/bash-completion"

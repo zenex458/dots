@@ -1275,6 +1275,7 @@
     ruff-lsp
     ruff
     python3Full
+    python312Packages.conda
     # ripgrep
     rsync
     shellcheck
@@ -1301,8 +1302,11 @@
     logisim
     gnumake
     yapf
+    vesktop
     yt-dlp
     zip
+    hunspell
+    hunspellDicts.en-gb-large
     (aspellWithDicts (
       dicts: with dicts; [
         en
