@@ -7,8 +7,7 @@
   config,
   pkgs,
   ...
-}:
-{
+}: {
   # You can import other home-manager modules here
   imports = [
     # If you want to use modules your own flake exports (from modules/home-manager):
@@ -393,9 +392,7 @@
         "browser.preferences.moreFromMozilla" = false;
         "extensions.quarantinedDomains.enabled" = true;
         "extensions.quarantinedDomain=.list" = "";
-
       };
-
     };
     profiles."work" = {
       search.engines = {
@@ -416,7 +413,7 @@
             }
           ];
           iconUpdateURL = "https://www.startpage.com/sp/cdn/favicons/favicon-32x32-gradient.png";
-          definedAliases = [ "@st" ];
+          definedAliases = ["@st"];
         };
         "Searx" = {
           urls = [
@@ -431,8 +428,7 @@
             }
           ];
           iconUpdateURL = "https://priv.au/static/themes/simple/img/favicon.png?60321eeb6e2f478f0e5704529308c594d5924246";
-          definedAliases = [ "@pv" ];
-
+          definedAliases = ["@pv"];
         };
         "NixosPackage" = {
           urls = [
@@ -447,8 +443,7 @@
             }
           ];
           iconUpdateURL = "https://search.nixos.org/favicon.png";
-          definedAliases = [ "@np" ];
-
+          definedAliases = ["@np"];
         };
         "NixosOption" = {
           urls = [
@@ -463,13 +458,13 @@
             }
           ];
           iconUpdateURL = "https://search.nixos.org/favicon.png";
-          definedAliases = [ "@no" ];
+          definedAliases = ["@no"];
         };
 
         "NixosWiki" = {
-          urls = [ { template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; } ];
+          urls = [{template = "https://wiki.nixos.org/w/index.php?search={searchTerms}";}];
           iconUpdateURL = "https://wiki.nixos.org/favicon.ico";
-          definedAliases = [ "@nw" ];
+          definedAliases = ["@nw"];
         };
 
         "HomemanagerSearch" = {
@@ -479,9 +474,8 @@
             }
           ];
           iconUpdateURL = "https://home-manager-options.extranix.com/images/favicon.png";
-          definedAliases = [ "@hs" ];
+          definedAliases = ["@hs"];
         };
-
       };
       search.default = "Searx";
       search.force = true;
@@ -722,13 +716,12 @@
       zstyle ':completion:*' verbose true
       zstyle ':completion:*' menu select search
     '';
-
   };
 
   programs.bash = {
     enable = true;
     enableCompletion = true;
-    historyControl = [ "ignoredups" ];
+    historyControl = ["ignoredups"];
     historyFile = "$HOME/.local/share/.bash_history";
     historyFileSize = 10000;
     historySize = 10000;
@@ -831,7 +824,7 @@
       MOZ_ENABLE_WAYLAND = "1";
       QT_QPA_PLATFORM = "wayland;xcb";
       GDK_BACKEND = "wayland";
-      _JAVA_AWT_WM_NONREPARENTING = 1;
+      # _JAVA_AWT_WM_NONREPARENTING = 1;
       SAL_USE_VCLPLUGIN = "gtk3";
       # BEMENU_OPTS = ''
       #   -i --fn "Iosevka" --tb "#c6c6c6" --tf "#212121" --nb "#212121" --nf "#c6c6c6" --sf "#c6c6c6" --sb "#212121"  --hb "#c6c6c6" --hf "#212121" --ab "#212121" --af "#c6c6c6"'';
@@ -859,8 +852,8 @@
   };
   dconf.settings = {
     "org/virt-manager/virt-manager/connections" = {
-      autoconnect = [ "qemu:///system" ];
-      uris = [ "qemu:///system" ];
+      autoconnect = ["qemu:///system"];
+      uris = ["qemu:///system"];
     };
   };
 
@@ -869,12 +862,12 @@
     musicDirectory = "/run/media/zenex/musicsd/Alt";
     #change so instead of zenex it is the current user, do this also for the mounting, #change to a home.file
     extraConfig = ''
-           audio_output {
-              	type "pipewire"
-               	name "pipewire"
-           }
-          #volume_normalization "yes"
-      	  #replaygain "track"
+        audio_output {
+           	type "pipewire"
+            	name "pipewire"
+        }
+       #volume_normalization "yes"
+      #replaygain "track"
     '';
   };
 
@@ -918,7 +911,7 @@
       message_delay_time = 1;
       default_find_mode = "wrapped";
     };
-    bindings = [ ];
+    bindings = [];
   };
 
   programs.htop = {
@@ -1056,7 +1049,6 @@
         mouse_right_click = "close_all";
         notification_limit = 0;
         follow = "mouse";
-
       };
       urgency_low = {
         background = "#333333";
@@ -1076,7 +1068,6 @@
         frame_color = "#900000";
         timeout = 0;
       };
-
     };
   };
 
@@ -1117,7 +1108,6 @@
         bright5 = "feabf2"; # bright magenta
         bright6 = "24dfc4"; # bright cyan
         bright7 = "ffffff"; # bright white
-
       };
     };
   };
@@ -1127,8 +1117,8 @@
     settings = {
       ipc = false;
       splash = false;
-      preload = [ "~/Downloads/Images/realsat.jpg" ];
-      wallpaper = [ ",~/Downloads/Images/realsat.jpg" ];
+      preload = ["~/Downloads/Images/realsat.jpg"];
+      wallpaper = [",~/Downloads/Images/realsat.jpg"];
     };
   };
 
@@ -1169,7 +1159,7 @@
           no_fade_out = true;
         }
       ];
-      background = [ { color = "rgb(0, 0, 0)"; } ];
+      background = [{color = "rgb(0, 0, 0)";}];
       input-field = [
         {
           size = "300, 50";
@@ -1190,7 +1180,6 @@
           rounding = 0;
         }
       ];
-
     };
   };
 
@@ -1219,7 +1208,6 @@
     # haskell-language-server
     # ormolu
     age
-    alacritty
     alsa-utils
     anki-bin
     aria2
@@ -1242,8 +1230,8 @@
     gojq
     grim
     htop
-    # hunspell
-    # hunspellDicts.en-gb-large
+    hunspell
+    hunspellDicts.en-gb-large
     hyprshade
     # imagemagick
     imv
@@ -1273,6 +1261,10 @@
     poppler_utils
     pulsemixer
     ruff-lsp
+#    pipx
+    # pyright
+    cargo
+    # rustup
     ruff
     python3Full
     python312Packages.conda
@@ -1297,22 +1289,20 @@
     wl-clip-persist
     wl-clipboard
     wlr-randr
+	wl-color-picker
     xdg-utils
-    logisim-evolution
-    logisim
     gnumake
     yapf
     vesktop
     yt-dlp
     zip
-    hunspell
-    hunspellDicts.en-gb-large
     (aspellWithDicts (
-      dicts: with dicts; [
-        en
-        en-computers
-        en-science
-      ]
+      dicts:
+        with dicts; [
+          en
+          en-computers
+          en-science
+        ]
     ))
   ];
 

@@ -1,7 +1,6 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
 {
   inputs,
   outputs,
@@ -9,9 +8,7 @@
   #config,
   pkgs,
   ...
-}:
-
-{
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -21,7 +18,7 @@
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
-    supportedFilesystems = [ "ntfs" ];
+    supportedFilesystems = ["ntfs"];
     loader = {
       systemd-boot.enable = true;
       systemd-boot.editor = false;
@@ -44,6 +41,20 @@
       allowDiscards = true;
     };
   };
+
+# systemd.services.histwipe = {
+#   enable = true;
+#   before = [ "reboot.target" "shutdown.target"];
+#   wantedBy = [ "multi-user.target" ];
+#   description = "Clear clipboard at shutdown";
+#   serviceConfig = {
+#       Type = "oneshot";
+#       ExecStart = ''/my/cool/user/service'';
+#   };
+# };
+  # https://wiki.nixos.org/wiki/Systemd/User_Services/en
+  # https://nixos.wiki/wiki/Extend_NixOS
+  # https://opensource.com/life/16/11/running-commands-shutdown-linux
   console = {
     useXkbConfig = true;
     font = "Lat2-Terminus16";
@@ -158,7 +169,7 @@
       "wireshark"
       "docker"
     ];
-    packages = with pkgs; [ (chromium.override { enableWideVine = true; }) ]; # doesnt work in home-manager for some reason
+    packages = with pkgs; [(chromium.override {enableWideVine = true;})]; # doesnt work in home-manager for some reason
   };
 
   #https://en.wikipedia.org/wiki/Network_Time_Protocol#Secure_extensions servers
@@ -223,6 +234,10 @@
     libinput.enable = true;
     xserver = {
       enable = true;
+	  windowManager.xmonad ={
+		enable = true;
+		enableContribAndExtras = true;
+	  };
       displayManager.startx.enable = true;
       xkb = {
         layout = "gb";
@@ -360,13 +375,13 @@
   };
 
   security = {
-    pam.services.hyprlock = { };
+    pam.services.hyprlock = {};
     apparmor = {
       enable = true;
     };
     auditd.enable = true;
     audit.enable = true;
-    audit.rules = [ "-a exit,always -F arch=b64 -S execve" ];
+    audit.rules = ["-a exit,always -F arch=b64 -S execve"];
     chromiumSuidSandbox.enable = true;
     rtkit.enable = true;
     polkit.enable = true;
@@ -408,14 +423,13 @@
         "flakes"
       ];
       auto-optimise-store = true;
-      allowed-users = [ "@wheel" ];
+      allowed-users = ["@wheel"];
     };
     # gc = {
     #   automatic = true;
     #   dates = "19:00";
     #   options = "--delete-older-than 7d";
     # };
-
   };
 
   # This value determines the NixOS release from which the default
