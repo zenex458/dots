@@ -824,7 +824,7 @@
       MOZ_ENABLE_WAYLAND = "1";
       QT_QPA_PLATFORM = "wayland;xcb";
       GDK_BACKEND = "wayland";
-      # _JAVA_AWT_WM_NONREPARENTING = 1;
+      _JAVA_AWT_WM_NONREPARENTING = 1;
       SAL_USE_VCLPLUGIN = "gtk3";
       # BEMENU_OPTS = ''
       #   -i --fn "Iosevka" --tb "#c6c6c6" --tf "#212121" --nb "#212121" --nf "#c6c6c6" --sf "#c6c6c6" --sb "#212121"  --hb "#c6c6c6" --hf "#212121" --ab "#212121" --af "#c6c6c6"'';
@@ -1204,9 +1204,11 @@
     #  cljfmt
     # clojure
     # clojure-lsp
-    # ghc
-    # haskell-language-server
-    # ormolu
+    ghc
+    haskell-language-server
+    ormolu
+	alacritty
+	dmenu
     age
     alsa-utils
     anki-bin
