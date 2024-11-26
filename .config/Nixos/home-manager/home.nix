@@ -7,7 +7,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   # You can import other home-manager modules here
   imports = [
     # If you want to use modules your own flake exports (from modules/home-manager):
@@ -413,7 +414,7 @@
             }
           ];
           iconUpdateURL = "https://www.startpage.com/sp/cdn/favicons/favicon-32x32-gradient.png";
-          definedAliases = ["@st"];
+          definedAliases = [ "@st" ];
         };
         "Searx" = {
           urls = [
@@ -428,7 +429,7 @@
             }
           ];
           iconUpdateURL = "https://priv.au/static/themes/simple/img/favicon.png?60321eeb6e2f478f0e5704529308c594d5924246";
-          definedAliases = ["@pv"];
+          definedAliases = [ "@pv" ];
         };
         "NixosPackage" = {
           urls = [
@@ -443,7 +444,7 @@
             }
           ];
           iconUpdateURL = "https://search.nixos.org/favicon.png";
-          definedAliases = ["@np"];
+          definedAliases = [ "@np" ];
         };
         "NixosOption" = {
           urls = [
@@ -458,13 +459,13 @@
             }
           ];
           iconUpdateURL = "https://search.nixos.org/favicon.png";
-          definedAliases = ["@no"];
+          definedAliases = [ "@no" ];
         };
 
         "NixosWiki" = {
-          urls = [{template = "https://wiki.nixos.org/w/index.php?search={searchTerms}";}];
+          urls = [ { template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; } ];
           iconUpdateURL = "https://wiki.nixos.org/favicon.ico";
-          definedAliases = ["@nw"];
+          definedAliases = [ "@nw" ];
         };
 
         "HomemanagerSearch" = {
@@ -474,7 +475,7 @@
             }
           ];
           iconUpdateURL = "https://home-manager-options.extranix.com/images/favicon.png";
-          definedAliases = ["@hs"];
+          definedAliases = [ "@hs" ];
         };
       };
       search.default = "Searx";
@@ -721,7 +722,7 @@
   programs.bash = {
     enable = true;
     enableCompletion = true;
-    historyControl = ["ignoredups"];
+    historyControl = [ "ignoredups" ];
     historyFile = "$HOME/.local/share/.bash_history";
     historyFileSize = 10000;
     historySize = 10000;
@@ -821,11 +822,13 @@
       # VISUAL = "emacsclient -c -a emacs";
       FZF_DEFAULT_OPTS = "-e --no-scrollbar --border=none --reverse --no-info";
       LESSHISTFILE = "/tmp/.lesshst";
-      MOZ_ENABLE_WAYLAND = "1";
+      MOZ_ENABLE_WAYLAND = 1;
       QT_QPA_PLATFORM = "wayland;xcb";
       GDK_BACKEND = "wayland";
       _JAVA_AWT_WM_NONREPARENTING = 1;
       SAL_USE_VCLPLUGIN = "gtk3";
+      XCURSOR_THEME = "plan9";
+      XCURSOR_SIZE = 20;
       # BEMENU_OPTS = ''
       #   -i --fn "Iosevka" --tb "#c6c6c6" --tf "#212121" --nb "#212121" --nf "#c6c6c6" --sf "#c6c6c6" --sb "#212121"  --hb "#c6c6c6" --hf "#212121" --ab "#212121" --af "#c6c6c6"'';
       BEMENU_OPTS = ''
@@ -852,8 +855,8 @@
   };
   dconf.settings = {
     "org/virt-manager/virt-manager/connections" = {
-      autoconnect = ["qemu:///system"];
-      uris = ["qemu:///system"];
+      autoconnect = [ "qemu:///system" ];
+      uris = [ "qemu:///system" ];
     };
   };
 
@@ -911,7 +914,7 @@
       message_delay_time = 1;
       default_find_mode = "wrapped";
     };
-    bindings = [];
+    bindings = [ ];
   };
 
   programs.htop = {
@@ -1117,8 +1120,8 @@
     settings = {
       ipc = false;
       splash = false;
-      preload = ["~/Downloads/Images/realsat.jpg"];
-      wallpaper = [",~/Downloads/Images/realsat.jpg"];
+      preload = [ "~/Downloads/Images/realsat.jpg" ];
+      wallpaper = [ ",~/Downloads/Images/realsat.jpg" ];
     };
   };
 
@@ -1159,7 +1162,7 @@
           no_fade_out = true;
         }
       ];
-      background = [{color = "rgb(0, 0, 0)";}];
+      background = [ { color = "rgb(0, 0, 0)"; } ];
       input-field = [
         {
           size = "300, 50";
@@ -1196,46 +1199,58 @@
   };
 
   home.packages = with pkgs; [
-    # glib
-    # imhex
-    # kismet
-    # rlwrap
+    # pipx
     #  bsdgames
     #  cljfmt
     # clojure
     # clojure-lsp
-    ghc
-    haskell-language-server
-    ormolu
-	alacritty
-	dmenu
+    # glib
+    # imagemagick
+    # imhex
+    # kismet
+    # man-pages
+    # man-pages-posix
+    # nodePackages.prettier
+    # obs-studio
+    # openssl
+    # pyright
+    # ripgrep
+    # rlwrap
+    # rustup
+    # texliveSmall
     age
+    alacritty
     alsa-utils
     anki-bin
     aria2
     astyle
     bc
     bemenu
+    cargo
     ccls
     cinnamon.nemo
     cliphist
+    codeberg-cli
+    dmenu
     exfatprogs
     fd
     ffmpeg
     ffmpegthumbnailer
+    file
     fuse3
     gcc
     gh
-    codeberg-cli
+    ghc
     gimp
     git
+    gnumake
     gojq
     grim
+    haskell-language-server
     htop
     hunspell
     hunspellDicts.en-gb-large
     hyprshade
-    # imagemagick
     imv
     jetbrains.idea-ultimate
     kdeconnect
@@ -1245,8 +1260,6 @@
     lsof
     lxqt.lxqt-policykit
     magic-wormhole
-    # man-pages
-    # man-pages-posix
     mpc-cli
     mpv
     mpvScripts.mpris
@@ -1255,23 +1268,20 @@
     nil
     nixfmt-rfc-style
     nodePackages.bash-language-server
-    # nodePackages.prettier
-    # obs-studio
-    # openssl
+    obs-studio
+    openssl
+    ormolu
     p7zip
     pandoc
     poppler_utils
+    progress
     pulsemixer
-    ruff-lsp
-#    pipx
-    # pyright
-    cargo
-    # rustup
-    ruff
-    python3Full
+    pv
     python312Packages.conda
-    # ripgrep
+    python3Full
     rsync
+    ruff
+    ruff-lsp
     shellcheck
     shfmt
     signal-desktop
@@ -1280,31 +1290,29 @@
     smartmontools
     syncthing
     texliveFull
-    # texliveSmall
     traceroute
     trash-cli
     unzip
     usbutils
     ventoy-full
+    vesktop
     virt-manager
     wdisplays
     wl-clip-persist
     wl-clipboard
+    wl-color-picker
     wlr-randr
-	wl-color-picker
     xdg-utils
-    gnumake
     yapf
-    vesktop
     yt-dlp
     zip
+    glib
     (aspellWithDicts (
-      dicts:
-        with dicts; [
-          en
-          en-computers
-          en-science
-        ]
+      dicts: with dicts; [
+        en
+        en-computers
+        en-science
+      ]
     ))
   ];
 

@@ -112,6 +112,9 @@
     };
   };
   programs = {
+	steam = {
+	  enable =true;
+	};
     gnupg.agent.enable = true;
     wireshark = {
       enable = true;
