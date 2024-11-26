@@ -24,6 +24,7 @@
 ;; This file is not part of Emacs.
 
 ;;; Commentary:
+;; This was inspired by https://github.com/guidoschmidt/emacs-nyx-theme.
 
 ;;; Code:
 
@@ -31,10 +32,10 @@
 
 (deftheme morest)
 (let ((class '((class color) (min-colors 89)))
-      (fg1 "#c6c6c6")
-      (fg2 "#b6b6b6")
-      (fg3 "#a6a6a6")
-      (fg4 "#969696")
+      (fg1 "#bdae93") ;;c6c6c6
+      (fg2 "#b3a283") ;;b6b6b6
+      (fg3 "#aa9673") ;;a6a6a6
+      (fg4 "#a08a64") ;;969696
       (bg1 "#212121")
       (bg2 "#2e2e2e")
       (bg3 "#414141")
@@ -82,13 +83,13 @@
    `(link ((,class (:foreground ,const :underline t))))
    `(org-code ((,class (:foreground ,fg2))))
    `(org-hide ((,class (:foreground ,fg4))))
-   `(org-level-1 ((,class (:bold t :foreground ,fg1 :height 1.1))))
+   `(org-level-1 ((,class (:bold t :foreground ,"#6cb2eb"))))
    `(org-level-2 ((,class (:bold t :foreground ,builtin))))
-   `(org-level-3 ((,class (:bold t :foreground ,fg1))))
+   `(org-level-3 ((,class (:bold t :foreground ,"#6cb2eb"))))
    `(org-level-4 ((,class (:bold t :foreground ,builtin))))
-   `(org-level-5 ((,class (:bold t :foreground ,fg1))))
+   `(org-level-5 ((,class (:bold t :foreground ,"#6cb2eb"))))
    `(org-level-6 ((,class (:bold t :foreground ,builtin))))
-   `(org-level-7 ((,class (:bold t :foreground ,fg1))))
+   `(org-level-7 ((,class (:bold t :foreground ,"#6cb2eb"))))
    `(org-level-8 ((,class (:bold t :foreground ,builtin))))
    `(org-document-info-keyword ((,class (:bold t :foreground ,keyword))))
    `(org-document-title ((,class (:bold t :foreground ,fg1))))
@@ -228,6 +229,27 @@
    `(markdown-header-face-6 ((t (:bold t :foreground ,builtin))))
    `(sh-quoted-exec ((t (:foreground , builtin))))
    `(dired-directory ((t (:foreground , "#6cb2eb"))))
+   `(diredp-dir-name ((t (:foreground , "#6cb2eb"))))
+   `(diredp-symlink ((,class (:foreground ,fg4))))
+   `(diredp-file-name ((,class (:foreground ,fg1))))
+   `(diredp-date-time ((,class (:foreground ,fg1))))
+   `(diredp-number ((,class (:foreground ,fg1))))
+   `(diredp-file-suffix ((,class (:foreground ,fg1))))
+   `(diredp-executable-tag ((,class (:foreground ,str))))
+   `(diredp-exec-priv ((,class (:foreground ,str))))
+   `(diredp-read-priv ((,class (:foreground ,keyword))))
+   `(diredp-write-priv ((,class (:foreground ,const))))
+   `(diredp-no-priv ((,class (:foreground ,fg1))))
+   `(diredp-dir-priv ((t (:foreground , "#6cb2eb"))))
+   `(diredp-link-priv ((,class (:foreground ,fg4))))
+   `(diredp-dir-heading ((,class (:foreground ,fg1))))
+   `(diredp-compressed-file-name ((,class (:foreground ,"#a52a2a"))))
+   `(diredp-compressed-file-suffix ((,class (:foreground ,"#a52a2a"))))
+   `(marginalia-file-priv-exec ((,class (:foreground ,str))))
+   `(marginalia-file-priv-read ((,class (:foreground ,keyword))))
+   `(marginalia-file-priv-write ((,class (:foreground ,const))))
+   `(marginalia-file-priv-dir ((t (:foreground , "#6cb2eb"))))
+
    ;;  `(markdown-header-face-6 ((t (:bold t :foreground "#0073e6"))))
    ;; `(sh-quoted-exec ((t (:foreground "#0073e6"))))
    ;; `(dired-directory ((t (:foreground "#0073e6"))))

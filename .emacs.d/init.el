@@ -7,13 +7,25 @@
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
-  (package-install 'use-package))
+  (package-install 'use-package)
+  )
 (eval-and-compile
   (setq use-package-always-ensure t
 		use-package-expand-minimally t))
 
+(unless package-archive-contents
+  (package-refresh-contents))
+
+(eval-when-compile
+  (require 'use-package))
+
 ;;(setq custom-file (make-temp-file "emacs-custom-"))
+(setq warning-suppress-types '((lexical-binding)))
 (defvar ispell-dictionary "british")
+(setq auto-save-default t)
+(setq comment-multi-line t)
+(setq sentence-end-double-space nil)
+(setq fill-column 80)
 (setq confirm-kill-emacs 'y-or-n-p)
 (setq dired-listing-switches "-AlF --si -Gg --group-directories-first")
 (setq scroll-conservatively 100)
@@ -42,7 +54,7 @@
 (setq delete-by-moving-to-trash t)
 (setq-default tab-width 4)
 ;;;(setopt ediff-window-setup-function #'ediff-setup-windows-plain)
-;;(setq dired-dwim-target t)
+(setq dired-dwim-target t)
 (setq-default indent-tabs-mode t)
 (setq backup-by-copying t)
 (setq password-cache-expiry 3600)
@@ -120,8 +132,7 @@
 (setq-default org-display-custom-times t)
 (setq org-time-stamp-custom-formats '("%a %b %e %Y" . "%a %b %e %Y %H:%M"))
 
-(use-package diminish
-  :ensure t)
+(use-package diminish)
 (add-hook 'prog-mode-hook 'electric-pair-mode)
 
 (use-package vertico
@@ -178,7 +189,8 @@
 (use-package embark-consult)
 
 (use-package apheleia
-  :hook ((prog-mode . apheleia-mode))
+  :hook ((prog-mode . apheleia-mode)
+		 (LaTeX-mode . apheleia-mode))
   :config
   (diminish apheleia-mode)
   ;;  (setq apheleia-remote-algorithm 'local)
@@ -214,7 +226,6 @@
 		(cpp "https://github.com/tree-sitter/tree-sitter-cpp")
 		(c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
 		(css "https://github.com/tree-sitter/tree-sitter-css")
-		(elisp "https://github.com/Wilfred/tree-sitter-elisp")
 		(go "https://github.com/tree-sitter/tree-sitter-go")
 		(haskell "https://github.com/tree-sitter/tree-sitter-haskell")
 		(html "https://github.com/tree-sitter/tree-sitter-html")
@@ -260,8 +271,8 @@
 (use-package rainbow-delimiters
   :hook (emacs-lisp-mode . rainbow-delimiters-mode))
 
-;;(use-package haskell-mode
-;;  :magic ("%hs" . haskell-mode))
+(use-package haskell-mode
+  :magic ("%hs" . haskell-mode))
 
 ;;(use-package clojure-mode
 ;;  :magic ("%clj" . clojure-mode))
@@ -270,7 +281,22 @@
 ;;  :custom
 ;;  (cider-repl-history-file t))
 
-(use-package pyvenv)
+(use-package elfeed)
+(use-package elfeed-org)
+;; Load elfeed-org
+(require 'elfeed-org)
+
+;; Initialize elfeed-org
+;; This hooks up elfeed-org to read the configuration when elfeed
+;; is started with =M-x elfeed=
+(elfeed-org)
+
+;; Optionally specify a number of files containing elfeed
+;; configuration. If not set then the location below is used.
+;; Note: The customize interface is also supported.
+(setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org"))
+
+
 
 (use-package nix-ts-mode
   :mode "\\.nix\\'")
@@ -321,8 +347,16 @@
 			   `(nix-ts-mode  . ("nil"))
 			   ))
 
+;;below is eglot `optimistions'
+(setq eglot-events-buffer-config '(:size 0 :format full))
+(setq eglot-events-buffer-size 0)
+(fset #'jsonrpc--log-event #'ignore)
+(setq jsonrpc-event-hook nil)
+;;
+
 (use-package flymake
-  :hook (emacs-lisp-mode . flymake-mode))
+  :hook ((emacs-lisp-mode . flymake-mode)
+		 (LaTeX-mode . flymake-mode)))
 
 ;;(use-package dart-mode
 ;;  :custom
@@ -334,7 +368,8 @@
 
 (use-package yasnippet
   :hook ((prog-mode . yas-minor-mode)
-		 (org-mode . yas-minor-mode))
+		 (org-mode . yas-minor-mode)
+		 (LaTeX-mode . yas-minor-mode))
   :config
   (add-hook 'prog-mode-hook  #'(lambda ()(yas-reload-all)))
   ;;yas-hippie-try-expand
@@ -362,6 +397,12 @@
 ;;   :ensure auctex
 ;;   :config
 ;;   (load "preview-latex.el" nil t t))
+
+;; (use-package auctex-latexmk)
+;; (use-package auctex-cont-latexmk)
+
+(use-package auctex
+  :hook (tex-mode . LaTeX-mode))
 
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
@@ -451,7 +492,26 @@
   (global-set-key (kbd "C-h k") #'helpful-key)
   (global-set-key (kbd "C-h x") #'helpful-command))
 
+(use-package hardtime
+  :init
+  (unless (package-installed-p 'hardtime)
+    (package-vc-install
+     '(hardtime
+       :vc-backend Git
+       :url "https://github.com/ichernyshovvv/hardtime.el"
+       :branch "master")))
+  :config
+  (hardtime-mode))
+(pixel-scroll-precision-mode)
+
+;; (use-package visual-replace
+;;    :bind (("C-c r" . visual-replace)
+;;           :map isearch-mode-map
+;;           ("C-c r" . visual-replace-from-isearch)))
+
 (require 'dired+)
+(diredp-toggle-find-file-reuse-dir 1)
+
 (use-package indent-guide
   :hook (python-ts-mode . indent-guide-mode))
 
@@ -468,15 +528,19 @@
 ;;   ;;hammy config for looking away every 20mins
 ;;   ;;hammy config for resting hands every 4min
 ;;   )
-
+;; (setq sort-fold-case t)
 (require 'upmu)
+(define-prefix-command 'vterm-n-map)
+(global-set-key (kbd "C-v") 'vterm-n-map)
+(global-set-key (kbd "C-v 1") 'vterm)
+(global-set-key (kbd "C-v 2") 'vterm-other-window)
 (global-set-key (kbd "C-c u") 'upmu-add-entry)
-(define-prefix-command 'avy-n-map);; add this? http://yummymelon.com/devnull/announcing-casual-avy.html
-(global-set-key (kbd "M-j") 'avy-n-map)
-(global-set-key (kbd "<C-S-D>") 'backward-delete-char) ;;https://www.emacswiki.org/emacs/ShiftedKeys and https://www.emacswiki.org/emacs/TheMysteriousCaseOfShiftedFunctionKeys to fix
+;;(global-set-key (kbd "<C-S-D>") 'backward-delete-char) ;;https://www.emacswiki.org/emacs/ShiftedKeys and https://www.emacswiki.org/emacs/TheMysteriousCaseOfShiftedFunctionKeys to fix
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 (global-set-key [remap dabbrev-expand] 'hippie-expand)
 (global-set-key (kbd "C-M-x") 'embark-export)
+(define-prefix-command 'avy-n-map);; add this? http://yummymelon.com/devnull/announcing-casual-avy.html
+(global-set-key (kbd "M-j") 'avy-n-map)
 (global-set-key (kbd "M-j l") 'avy-copy-line)
 (global-set-key (kbd "M-j k") 'avy-kill-whole-line)
 (global-set-key (kbd "M-j m") 'avy-move-line)
@@ -533,10 +597,13 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(undo-fu-session undo-fu pyvenv indent-guide dired+ dired-ranger editorconfig auctex org-babel elfeed-org elfeed helpful magit zoxide sudo-edit dired-subtree vlf expand-region expreg vundo multiple-cursors ace-window hungry-delete gcmh volatile-highlights markdown-mode org-bullets async yasnippet cape corfu nix-ts-mode rainbow-delimiters rainbow-mode apheleia embark-consult embark consult marginalia orderless vertico diminish pdf-tools)))
+   '(writegood-mode writegood auctex-latexmk haskell-mode undo-fu-session undo-fu pyvenv indent-guide dired+ dired-ranger editorconfig auctex org-babel elfeed-org elfeed helpful magit zoxide sudo-edit dired-subtree vlf expand-region expreg vundo multiple-cursors ace-window hungry-delete gcmh volatile-highlights markdown-mode org-bullets async yasnippet cape corfu nix-ts-mode rainbow-delimiters rainbow-mode apheleia embark-consult embark consult marginalia orderless vertico diminish pdf-tools))
+ '(package-vc-selected-packages
+   '((hardtime :vc-backend Git :url "https://github.com/ichernyshovvv/hardtime.el" :branch "master"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(put 'dired-find-alternate-file 'disabled nil)
