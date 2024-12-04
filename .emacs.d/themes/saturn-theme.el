@@ -1,4 +1,4 @@
-;;; morest-theme.el --- Theme
+;;; saturn-theme.el --- Theme
 
 ;; Copyright (C) 2023 , zenex
 
@@ -28,15 +28,14 @@
 
 ;;; Code:
 
-;;TODO: figure out how to change the orderless matching colours, look at `modus-vivendi' for how to do it.
-
-(deftheme morest)
+(deftheme saturn)
 (let ((class '((class color) (min-colors 89)))
       (fg1 "#bdae93") ;;c6c6c6
       (fg2 "#b3a283") ;;b6b6b6
       (fg3 "#aa9673") ;;a6a6a6
       (fg4 "#a08a64") ;;969696
-      (bg1 "#212121")
+      ;; (bg1 "#212121")
+      (bg1 "#000000")
       (bg2 "#2e2e2e")
       (bg3 "#414141")
       (bg4 "#555555")
@@ -51,7 +50,7 @@
       (warning "#ff0000")
       (warning2 "#e67300"))
   (custom-theme-set-faces
-   'morest
+   'saturn
    `(default ((,class (:background ,bg1 :foreground ,fg1))))
    `(font-lock-builtin-face ((,class (:foreground ,builtin))))
    `(font-lock-comment-face ((,class (:slant italic :foreground ,comment))))
@@ -66,7 +65,7 @@
    `(font-lock-variable-name-face ((,class (:foreground ,var))))
    `(font-lock-warning-face ((,class (:foreground ,warning :background ,bg2))))
    `(term-color-black ((,class (:foreground ,fg2 :background nil))))
-   `(region ((,class (:background ,"#888888" :foreground ,"#000000"))))
+   `(region ((,class (:background ,"#a08a64" :foreground ,"#000000"))))
    `(highlight ((,class (:foreground ,fg2 :background ,bg4))))
    `(hl-line ((,class (:background  ,bg3))))
    `(fringe ((,class (:background ,bg1 :foreground ,builtin))))
@@ -249,6 +248,12 @@
    `(marginalia-file-priv-read ((,class (:foreground ,keyword))))
    `(marginalia-file-priv-write ((,class (:foreground ,const))))
    `(marginalia-file-priv-dir ((t (:foreground , "#6cb2eb"))))
+   `(completions-first-difference ((t (:background , "#bdae93" :foreground, bg1))))
+   `(completions-highlight ((t (:background , "#e67300" :foreground , "#e67300" ))))
+   `(completions-common-part ((t (:foreground , "#B33929"))))
+   `(goggles-removed ((t (:background , "#B33929"))))
+   `(goggles-added ((t (:background , "#75B329"))))
+   `(goggles-changed ((t (:background , "#2874B2"))))
 
    ;;  `(markdown-header-face-6 ((t (:bold t :foreground "#0073e6"))))
    ;; `(sh-quoted-exec ((t (:foreground "#0073e6"))))
@@ -263,11 +268,11 @@
   ;; Legacy
   (if (< emacs-major-version 22)
       (custom-theme-set-faces
-	   'morest
+	   'saturn
 	   `(show-paren-match-face ((,class (:background ,warning)))) ;; obsoleted in 22.1, removed 2016
 	   )
 	(custom-theme-set-faces
-	 'morest
+	 'saturn
 	 `(show-paren-match ((,class (:foreground ,bg1 :background ,str))))
 	 `(show-paren-mismatch ((,class (:foreground ,bg1 :background ,warning))))
 	 )
@@ -275,13 +280,13 @@
   ;; emacs >= 26.1
   (when (>= emacs-major-version 26)
 	(custom-theme-set-faces
-	 'morest
+	 'saturn
 	 `(line-number ((t (:inherit fringe))))
 	 `(line-number-current-line ((t (:inherit fringe :foreground "white" :weight bold))))))
   ;; emacs >= 27.1
   (when (>= emacs-major-version 27)
 	(custom-theme-set-faces
-	 'morest
+	 'saturn
 	 `(tab-line              ((,class (:background ,bg2 :foreground ,fg4))))
 	 `(tab-line-tab          ((,class (:inherit tab-line))))
 	 `(tab-line-tab-inactive ((,class (:background ,bg2 :foreground ,fg4))))
@@ -294,10 +299,10 @@
   (add-to-list 'custom-theme-load-path
 			   (file-name-as-directory (file-name-directory load-file-name))))
 
-(provide-theme 'morest)
+(provide-theme 'saturn)
 
 ;; Local Variables:
 ;; no-byte-compile: t
 ;; End:
 
-;;; morest-theme.el ends here
+;;; saturn-theme.el ends here

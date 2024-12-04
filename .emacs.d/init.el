@@ -1,17 +1,10 @@
 ;; -*- lexical-binding: t; -*-
-(require 'package)
-(add-to-list 'package-archives '("gnu"   . "https://elpa.gnu.org/packages/"))
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
 (package-initialize)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package)
   )
-(eval-and-compile
-  (setq use-package-always-ensure t
-		use-package-expand-minimally t))
 
 (unless package-archive-contents
   (package-refresh-contents))
@@ -19,15 +12,26 @@
 (eval-when-compile
   (require 'use-package))
 
-;;(setq custom-file (make-temp-file "emacs-custom-"))
-(setq warning-suppress-types '((lexical-binding)))
+(use-package diminish)
+
+(setq custom-file (make-temp-file "emacs-custom-"))
+(setq ffap-machine-p-known 'reject)
 (defvar ispell-dictionary "british")
 (setq auto-save-default t)
+(setq sort-fold-case t)
 (setq comment-multi-line t)
 (setq sentence-end-double-space nil)
 (setq fill-column 80)
 (setq confirm-kill-emacs 'y-or-n-p)
 (setq dired-listing-switches "-AlF --si -Gg --group-directories-first")
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program '"firefox"
+      browse-url-generic-args '("--private-window"))
+
+(setq minibuffer-prompt-properties
+      '(read-only t point-entered minibuffer-avoid-prompt face minibuffer-prompt))
+(setq enable-recursive-minibuffers t)
+(minibuffer-depth-indicate-mode 1)
 (setq scroll-conservatively 100)
 (setq
  backup-by-copying t
@@ -41,7 +45,7 @@
 (setq auto-save-file-name-transforms
 	  `((".*" ,"~/.emacs.d/saves/" t)))
 (setq isearch-lazy-count t)
-(setq line-number-display-limit-width 2000000) ;;stop the question marks from showing in a large file
+;; (setq line-number-display-limit-width 2000000) ;;stop the question marks from showing in a large file
 (setq
  shr-use-fonts  nil                          ; No special fonts
  shr-use-colors nil                          ; No colours
@@ -50,13 +54,13 @@
 ;; (org-babel-do-load-languages 'org-babel-load-languages '((C . t)))
 
 (defalias 'yes-or-no-p 'y-or-n-p)
-(setq save-interprogram-paste-before-kill t)
+;; (setq save-interprogram-paste-before-kill nil)
 (setq delete-by-moving-to-trash t)
 (setq-default tab-width 4)
 ;;;(setopt ediff-window-setup-function #'ediff-setup-windows-plain)
 (setq dired-dwim-target t)
-(setq-default indent-tabs-mode t)
-(setq backup-by-copying t)
+(setq-default indent-tabs-mode nil)
+(electric-indent-mode)
 (setq password-cache-expiry 3600)
 (setq history-length 2000)
 (setq dired-kill-when-opening-new-dired-buffer t)
@@ -70,6 +74,8 @@
 							  (local-set-key (kbd "RET") 'newline-and-indent)))
 
 (add-hook 'prog-mode-hook  #'(lambda ()(setq show-trailing-whitespace t)))
+
+(add-hook 'before-save-hook #'delete-trailing-whitespace)
 (setq display-time-default-load-average nil)
 (setq display-time-format "%H:%M")
 (display-time-mode 1)
@@ -81,7 +87,6 @@
 	(defvar my-term-shell "/run/current-system/sw/bin/bash")
   (defvar my-term-shell "/usr/bin/env bash"))
 
-;; (defvar my-term-shell "/usr/bin/env bash") ;; add conditional
 ;; (defadvice ansi-term (before force-bash)
 ;;   "https://github.com/daedreth/UncleDavesEmacs#default-shell-should-be-bash"
 ;;   (interactive (list my-term-shell)))
@@ -132,68 +137,24 @@
 (setq-default org-display-custom-times t)
 (setq org-time-stamp-custom-formats '("%a %b %e %Y" . "%a %b %e %Y %H:%M"))
 
-(use-package diminish)
+
 (add-hook 'prog-mode-hook 'electric-pair-mode)
 
-(use-package vertico
-  :config
-  (vertico-mode)
-  (setq vertico-resize nil))
-
-(use-package orderless
-  :init
-  (setq completion-category-overrides '((file (partial-completion))))
-  (setq completion-styles '(substring orderless))) ;;add flex for more completion candiates
-
-(use-package marginalia
-  :custom
-  (marginalia-align 'right)
-  :init
-  (marginalia-mode))
-
-(setq completion-in-region-function #'consult-completion-in-region)
-
-(use-package consult
-  :bind (("C-c M-x" . consult-mode-command)
-		 ([remap Info-search] . consult-info)
-		 ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
-		 ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
-		 ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
-		 ;; M-g bindings in `goto-map'
-		 ("M-g e" . consult-compile-error)
-		 ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
-		 ("M-g g" . consult-goto-line)             ;; orig. goto-line
-		 ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
-		 ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
-		 ("M-g m" . consult-mark)
-		 ("M-g k" . consult-global-mark)
-		 ("M-g i" . consult-imenu)
-		 ("M-g I" . consult-imenu-multi)
-		 ;; M-s bindings in `search-map'
-		 ("M-s d" . consult-find)                  ;; Alternative: consult-fd
-		 ("M-s D" . consult-locate)
-		 ("M-s g" . consult-grep)
-		 ("M-s G" . consult-git-grep)
-		 ("M-s r" . consult-ripgrep)
-		 ("M-s l" . consult-line)
-		 ("M-s L" . consult-line-multi)
-		 ("M-s k" . consult-keep-lines)
-		 ("M-s u" . consult-focus-lines)))
-
-(use-package embark
-  :bind
-  (("C-." . embark-act)         ;; pick some comfortable binding
-   ("M-;" . embark-dwim)        ;; good alternative: M-.
-   ("C-h B" . embark-bindings))) ;; alternative for `describe-bindings'
-
-(use-package embark-consult)
+(fido-mode)
+(setq completion-category-overrides '((file (initials))))
+;; (setq completion-styles '(initials partial-completion flex ))
+(setq completion-styles '(basic substring initials partial-completion flex ))
+(global-set-key [remap minibuffer-complete] 'icomplete-fido-ret)
+(setq icomplete-compute-delay 0)
 
 (use-package apheleia
+  :init
+
   :hook ((prog-mode . apheleia-mode)
 		 (LaTeX-mode . apheleia-mode))
   :config
-  (diminish apheleia-mode)
-  ;;  (setq apheleia-remote-algorithm 'local)
+  (diminish 'apheleia-mode)
+  (setq apheleia-remote-algorithm 'local)
   (setf (alist-get 'astyle apheleia-formatters)
 		'("astyle" "--mode=c" "--style=google"))
   (add-to-list 'apheleia-mode-alist '(c-ts-mode . astyle))
@@ -217,8 +178,8 @@
 		'("ormolu" "--stdin-input-file" "--"))
   (add-to-list 'apheleia-mode-alist '(haskell-mode . ormolu)))
 
-;; (use-package aggressive-indent
-;;   :hook (prog-mode . aggressive-indent-mode))
+(use-package aggressive-indent
+  :hook (python-ts-mode . aggressive-indent-mode))
 
 (setq treesit-language-source-alist
 	  '((bash "https://github.com/tree-sitter/tree-sitter-bash")
@@ -241,7 +202,7 @@
 		(yaml "https://github.com/ikatyang/tree-sitter-yaml")))
 
 (if (file-directory-p "~/.emacs.d/tree-sitter")
-	(message "Tree-sitter grammers already installed")
+	(message "")
   (message "Downloading treesiter grammers")
   (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist)))
 
@@ -257,12 +218,6 @@
 		(css-mode . css-ts-mode)
 		(python-mode . python-ts-mode)))
 
-;;(use-package pulsar
-;;  :hook ((next-error . pulsar-pulse-line)
-;; 		 (minibuffer-setup . pulsar-pulse-line))
-;;  :config
-;;  (pulsar-global-mode))
-
 (use-package rainbow-mode
   :hook (prog-mode . rainbow-mode)
   :config
@@ -274,29 +229,12 @@
 (use-package haskell-mode
   :magic ("%hs" . haskell-mode))
 
-;;(use-package clojure-mode
-;;  :magic ("%clj" . clojure-mode))
-;;
-;;(use-package cider
-;;  :custom
-;;  (cider-repl-history-file t))
-
 (use-package elfeed)
-(use-package elfeed-org)
-;; Load elfeed-org
-(require 'elfeed-org)
-
-;; Initialize elfeed-org
-;; This hooks up elfeed-org to read the configuration when elfeed
-;; is started with =M-x elfeed=
-(elfeed-org)
-
-;; Optionally specify a number of files containing elfeed
-;; configuration. If not set then the location below is used.
-;; Note: The customize interface is also supported.
-(setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org"))
-
-
+(use-package elfeed-org
+  :init
+  (elfeed-org)
+  :config
+  (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org")))
 
 (use-package nix-ts-mode
   :mode "\\.nix\\'")
@@ -343,46 +281,29 @@
   :config
   (setq eglot-autoshutdown t)
   (add-to-list 'eglot-server-programs
-			   ;;			   `(csharp-ts-mode . ("/nix/store/jdp56g0j6mf7yjvqy9npw28y4pxcvgsw-omnisharp-roslyn-1.39.10/bin/OmniSharp" "-lsp"))
-			   `(nix-ts-mode  . ("nil"))
-			   ))
+    		   `(nix-ts-mode  . ("nixd"))
+    		   ))
 
-;;below is eglot `optimistions'
-(setq eglot-events-buffer-config '(:size 0 :format full))
-(setq eglot-events-buffer-size 0)
-(fset #'jsonrpc--log-event #'ignore)
-(setq jsonrpc-event-hook nil)
-;;
+;; (use-package dape)
 
 (use-package flymake
   :hook ((emacs-lisp-mode . flymake-mode)
-		 (LaTeX-mode . flymake-mode)))
-
-;;(use-package dart-mode
-;;  :custom
-;;  (eglot-ignored-server-capabilities '(:signatureHelpProvider)))
-;;
-;;(use-package flutter
-;;  :after dart-mode)
-;;
+		 (LaTeX-mode . flymake-mode))
+  :config
+  ;;  make this only happen in elisp mode
+  (setq elisp-flymake-byte-compile-load-path load-path))
 
 (use-package yasnippet
   :hook ((prog-mode . yas-minor-mode)
 		 (org-mode . yas-minor-mode)
 		 (LaTeX-mode . yas-minor-mode))
   :config
-  (add-hook 'prog-mode-hook  #'(lambda ()(yas-reload-all)))
-  ;;yas-hippie-try-expand
+  (yas-reload-all)
   (diminish 'yas-minor-mode))
 
 (use-package async
   :config
   (dired-async-mode t))
-
-;; (use-package which-key
-;;   :config
-;;   (which-key-mode)
-;;   (diminish 'which-key-mode))
 
 (use-package org-bullets
   :hook (org-mode . org-bullets-mode)
@@ -393,14 +314,6 @@
   :magic ("%md" . markdown-mode)
   :init (setq markdown-command "pandoc"))
 
-;; (use-package tex
-;;   :ensure auctex
-;;   :config
-;;   (load "preview-latex.el" nil t t))
-
-;; (use-package auctex-latexmk)
-;; (use-package auctex-cont-latexmk)
-
 (use-package auctex
   :hook (tex-mode . LaTeX-mode))
 
@@ -408,14 +321,11 @@
 (setq TeX-parse-self t)
 (setq-default TeX-master nil)
 
-;; (use-package auctex
-;;   :ensure t
-;;   :defer t)
-
-(use-package volatile-highlights
+(use-package goggles
+  :hook ((prog-mode text-mode) . goggles-mode)
   :config
-  (volatile-highlights-mode t)
-  (diminish 'volatile-highlights-mode))
+  (setq-default goggles-pulse nil)
+  (diminish 'goggles-mode))
 
 (use-package gcmh
   :init
@@ -423,6 +333,7 @@
 		gcmh-high-cons-threshold (* 20 1024 1024)) ;;20mb
   (gcmh-mode 1)
   (diminish 'gcmh-mode))
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
 
 (use-package hungry-delete
   :bind (([C-backspace] . hungry-delete-backward)
@@ -442,9 +353,16 @@
 
 (use-package undo-fu-session
   :config
-  (setq undo-fu-session-compression 'zst))
-
-(undo-fu-session-global-mode)
+  (setq undo-fu-session-compression 'zst)
+  (setq undo-fu-session-incompatible-files
+        '("COMMIT_EDITMSG"
+          "NOTES_EDITMSG"
+          "MERGE_MSG"
+          "TAG_EDITMSG"
+          "\\.gpg\\'"
+          "/tmp"
+          file-remote-p))
+  (undo-fu-session-global-mode))
 
 (use-package expreg
   :bind ("C-@" . expreg-expand)
@@ -455,10 +373,6 @@
 (use-package vlf
   :init
   (require 'vlf-setup))
-
-;;;(use-package pdf-tools
-;;;  :magic ("%PDF" . pdf-view-mode)
-;;;  :hook (pdf-view-mode . pdf-view-themed-minor-mode))
 
 (use-package dired-subtree
   :init
@@ -471,13 +385,10 @@
   ("M-s e" . sudo-edit)
   ("M-s f" . sudo-edit-find-file))
 
-(use-package zoxide
-  :hook (find-file . zoxide-add)
-  :bind
-  ("M-s z f" . zoxide-find-file))
-
-;; (use-package god-mode
-;;   :bind ("C-`" . god-local-mode))
+;; (use-package zoxide
+;;   :hook (find-file . zoxide-add)
+;;   :bind
+;;   ("M-s z f" . zoxide-find-file))
 
 (use-package magit)
 
@@ -501,39 +412,34 @@
        :url "https://github.com/ichernyshovvv/hardtime.el"
        :branch "master")))
   :config
-  (hardtime-mode))
-(pixel-scroll-precision-mode)
-
-;; (use-package visual-replace
-;;    :bind (("C-c r" . visual-replace)
-;;           :map isearch-mode-map
-;;           ("C-c r" . visual-replace-from-isearch)))
+  (hardtime-mode 1))
 
 (require 'dired+)
 (diredp-toggle-find-file-reuse-dir 1)
 
+(use-package sdcv)
+
+;; (use-package golden-ratio
+;;   :config
+;;   (setq golden-ratio-auto-scale t)
+;;   (add-to-list 'golden-ratio-extra-commands 'ace-window)
+;;   (golden-ratio-mode -1))
+
+;; (use-package edwina
+;;   :config
+;;   (setq display-buffer-base-action '(display-buffer-below-selected))
+;;   (setq edwina-mode-line-format "")
+;;   (edwina-mode -1))
+
+
 (use-package indent-guide
   :hook (python-ts-mode . indent-guide-mode))
 
-;; (use-package dired-ranger)
-
-;; (use-package hydra
-;;   :config
-;;   ;;hydra for controlling brightness
-;;   ;;hydra for controlling volume
-;;   )
-
-;; (use-package hammy
-;;   :config
-;;   ;;hammy config for looking away every 20mins
-;;   ;;hammy config for resting hands every 4min
-;;   )
-;; (setq sort-fold-case t)
 (require 'upmu)
 (define-prefix-command 'vterm-n-map)
-(global-set-key (kbd "C-v") 'vterm-n-map)
-(global-set-key (kbd "C-v 1") 'vterm)
-(global-set-key (kbd "C-v 2") 'vterm-other-window)
+(global-set-key (kbd "C-x v") 'vterm-n-map)
+(global-set-key (kbd "C-x v v") 'vterm)
+(global-set-key (kbd "C-x v o") 'vterm-other-window)
 (global-set-key (kbd "C-c u") 'upmu-add-entry)
 ;;(global-set-key (kbd "<C-S-D>") 'backward-delete-char) ;;https://www.emacswiki.org/emacs/ShiftedKeys and https://www.emacswiki.org/emacs/TheMysteriousCaseOfShiftedFunctionKeys to fix
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
@@ -553,7 +459,7 @@
 (global-set-key (kbd "C-x K")(lambda ()"kills curent buffer without confirmation"(interactive)(kill-buffer (current-buffer))))
 (global-set-key (kbd "C-c r")(lambda ()"reloads emacs config"(interactive)(load-file "~/.emacs.d/init.el")))
 (global-set-key (kbd "C-c t")(lambda ()"opens todo"(interactive)(find-file "~/Documents/Notes/Org/todo.org")))
-(global-set-key (kbd "C-c l s c")
+(global-set-key (kbd "C-c l")
 				(lambda ()
 				  "copies the whole line without moving the cursor"
 				  (interactive)
@@ -575,11 +481,11 @@
 								 (:eval
 								  (if (and buffer-read-only (mode-line-window-selected-p))
 									  (propertize "%%%%" 'face
-												  '(:background "#c6c6c6" :foreground "#000000" :inherit bold)) " "))
+												  '(:background "#bdae93" :foreground "#000000" :inherit bold)) " "))
 								 " "
 								 (:eval
 								  (if (mode-line-window-selected-p)
-									  (propertize (buffer-name) 'face '(:foreground "#c6c6c6" :inherit bold))
+									  (propertize (buffer-name) 'face '(:foreground "#bdae93" :inherit bold))
 									(propertize (buffer-name) 'face '(:foreground "#222222" :inherit bold))))
 								 mode-line-position
 								 (vc-mode vc-mode) mode-line-modes mode-line-misc-info mode-line-end-spaces))
@@ -590,20 +496,3 @@
 
 (provide 'init)
 ;;; init.el ends here
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(writegood-mode writegood auctex-latexmk haskell-mode undo-fu-session undo-fu pyvenv indent-guide dired+ dired-ranger editorconfig auctex org-babel elfeed-org elfeed helpful magit zoxide sudo-edit dired-subtree vlf expand-region expreg vundo multiple-cursors ace-window hungry-delete gcmh volatile-highlights markdown-mode org-bullets async yasnippet cape corfu nix-ts-mode rainbow-delimiters rainbow-mode apheleia embark-consult embark consult marginalia orderless vertico diminish pdf-tools))
- '(package-vc-selected-packages
-   '((hardtime :vc-backend Git :url "https://github.com/ichernyshovvv/hardtime.el" :branch "master"))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-(put 'dired-find-alternate-file 'disabled nil)
