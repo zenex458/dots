@@ -8,7 +8,8 @@
   #config,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -18,7 +19,7 @@
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
-    supportedFilesystems = ["ntfs"];
+    supportedFilesystems = [ "ntfs" ];
     loader = {
       systemd-boot.enable = true;
       systemd-boot.editor = false;
@@ -42,48 +43,39 @@
     };
   };
 
-# systemd.services.histwipe = {
-#   enable = true;
-#   before = [ "reboot.target" "shutdown.target"];
-#   wantedBy = [ "multi-user.target" ];
-#   description = "Clear clipboard at shutdown";
-#   serviceConfig = {
-#       Type = "oneshot";
-#       ExecStart = ''/my/cool/user/service'';
-#   };
-# };
-  # https://wiki.nixos.org/wiki/Systemd/User_Services/en
-  # https://nixos.wiki/wiki/Extend_NixOS
-  # https://opensource.com/life/16/11/running-commands-shutdown-linux
   console = {
     useXkbConfig = true;
     font = "Lat2-Terminus16";
   };
-  systemd.services.nix-daemon = {
-    environment.TMPDIR = "/tmp";
-  };
-  hardware.opengl = {
+  #TODO: https://wiki.nixos.org/wiki/Systemd/Hardening
+  # https://www.opensourcerers.org/2022/04/25/optimizing-a-systemd-service-for-security/
+  # https://github.com/alegrey91/systemd-service-hardening
+  # https://blog.sergeantbiggs.net/posts/hardening-applications-with-systemd/
+  # https://www.linuxjournal.com/content/systemd-service-strengthening
+  # systemd.services = {
+  #   macrand = {
+  #     wantedBy = [ "multi-user.target" ];
+  #     after = [ "network.target" ];
+  #     description = "Randomise MAC address";
+  #     serviceConfig = {
+  #       Type = "oneshot";
+  #       ExecStart = ''${pkgs.macchanger}/bin/macchanger -e wlp4s0'';
+  #     };
+  #   };
+  #   nix-daemon = {
+  #     environment.TMPDIR = "/tmp";
+  #   };
+  # };
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
   };
 
   networking = {
     hostName = "eukaryotic";
-    wireless.iwd = {
+    networkmanager = {
+      wifi.macAddress = "stable-ssid";
+      wifi.scanRandMacAddress = true;
       enable = true;
-      settings = {
-        General = {
-          "EnableNetworkConfiguration" = true;
-          # "AddressRandomization" = "network";
-          # "AddressRandomizationRange" = "nic";
-        };
-        Settings = {
-          AutoConnect = true;
-        };
-        Network = {
-          NameResolvingService = "resolvconf";
-        };
-      };
     };
   };
 
@@ -112,9 +104,14 @@
     };
   };
   programs = {
-	steam = {
-	  enable =true;
-	};
+    nh = {
+      enable = true;
+      clean = {
+        enable = true;
+        extraArgs = "--keep-since 2d";
+      };
+      flake = "/home/zenex/dots/.config/Nixos/";
+    };
     gnupg.agent.enable = true;
     wireshark = {
       enable = true;
@@ -171,8 +168,9 @@
       "libvirtd"
       "wireshark"
       "docker"
+      "networkmanager"
     ];
-    packages = with pkgs; [(chromium.override {enableWideVine = true;})]; # doesnt work in home-manager for some reason
+    packages = with pkgs; [ (chromium.override { enableWideVine = true; }) ]; # doesnt work in home-manager for some reason
   };
 
   #https://en.wikipedia.org/wiki/Network_Time_Protocol#Secure_extensions servers
@@ -184,7 +182,6 @@
   ];
 
   services = {
-    # services.resolved.enable = true;
     gnome.gnome-keyring.enable = true;
     journald.extraConfig = "SystemMaxUse=250M\n";
     logind = {
@@ -225,10 +222,7 @@
       nssmdns4 = true;
       openFirewall = true;
     };
-    dbus = {
-      enable = true;
-      #      implementation = "broker"; # this breaks and printing and probably some other things
-    };
+    dbus.enable = true;
     smartd.enable = true;
     # mysql = {
     #   enable = true;
@@ -237,10 +231,10 @@
     libinput.enable = true;
     xserver = {
       enable = true;
-	  windowManager.xmonad ={
-		enable = true;
-		enableContribAndExtras = true;
-	  };
+      windowManager.xmonad = {
+        enable = true;
+        enableContribAndExtras = true;
+      };
       displayManager.startx.enable = true;
       xkb = {
         layout = "gb";
@@ -266,6 +260,7 @@
       allow id 22d9:2769 serial "2d3a83b0" name "OnePlus NordCE 5G" hash "otW4Gq81kNDNk0jPk176y7iqEp56g4nLwM4sVQiqq2M=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" with-interface ff:42:01 with-connect-type "hotplug"
       allow id 090c:1000 serial "0378623070002866" name "Flash Drive" hash "1/RruVSzVscnzrC1F2G9vbXXh5TSrNFf7UZ3aEBxar8=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" with-interface 08:06:50 with-connect-type "hotplug"
       allow id 0781:5583 serial "4C531001400313104105" name "Ultra Fit" hash "FIp1dacmLw5lMGjbAgLw//HPgWhrQDdDm9jRfpSr69Y=" parent-hash "3Wo3XWDgen1hD5xM3PSNl3P98kLp1RUTgGQ5HSxtf8k=" with-interface 08:06:50 with-connect-type "hotplug"
+      allow id 1038:184c serial "" name "SteelSeries Rival 3" hash "sYta/t0uxVWU/6EekbEp2yRDxjGzoHfZ9UK4M3wxVn4=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" via-port "1-6" with-interface { 03:01:02 03:00:00 03:00:00 03:00:00 } with-connect-type "hotplug"
     '';
     # opensnitch.enable = true;
     ntp.enable = false; # #disable the systemd-timesyncd
@@ -378,13 +373,13 @@
   };
 
   security = {
-    pam.services.hyprlock = {};
+    pam.services.hyprlock = { };
     apparmor = {
       enable = true;
     };
     auditd.enable = true;
     audit.enable = true;
-    audit.rules = ["-a exit,always -F arch=b64 -S execve"];
+    audit.rules = [ "-a exit,always -F arch=b64 -S execve" ];
     chromiumSuidSandbox.enable = true;
     rtkit.enable = true;
     polkit.enable = true;
@@ -420,13 +415,14 @@
   };
 
   nix = {
+    nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
     settings = {
       experimental-features = [
         "nix-command"
         "flakes"
       ];
       auto-optimise-store = true;
-      allowed-users = ["@wheel"];
+      allowed-users = [ "@wheel" ];
     };
     # gc = {
     #   automatic = true;

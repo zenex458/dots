@@ -37,7 +37,7 @@
   };
   manual.manpages.enable = true;
   programs.man.enable = true;
-  #  programs.man.generateCaches = true;
+  programs.man.generateCaches = false;
 
   programs.emacs = {
     enable = true;
@@ -45,7 +45,6 @@
     extraPackages = epkgs: [
       epkgs.pdf-tools
       epkgs.vterm
-      epkgs.auctex
     ];
     extraConfig = ''
       (use-package pdf-tools
@@ -54,11 +53,6 @@
           :config
             (setq pdf-info-epdfinfo-program "${pkgs.emacsPackages.pdf-tools}/share/emacs/site-lisp/elpa/pdf-tools-20240411.1703/epdfinfo")
            (pdf-tools-install))
-      (use-package tex
-         :ensure auctex)
-
-      (setq TeX-data-directory "${pkgs.emacsPackages.auctex}/share/emacs/site-lisp/elpa")
-      (setq TeX-lisp-directory "${pkgs.emacsPackages.auctex}/share/emacs/site-lisp/elpa")
     '';
   };
 
@@ -79,6 +73,7 @@
         "image/jpeg" = "imv.desktop";
         "image/gif" = "imv.desktop";
         "video/mp4" = "mpv.desktop";
+        "audio/x-mpegurl" = "mpv.desktop";
         "application/pdf" = "org.pwmt.zathura.desktop";
         "application/vnd.ms-powerpoint" = "libreoffice-impress.desktop;";
         "application/vnd.ms-powerpoint.presentation" = "libreoffice-impress.desktop;";
@@ -150,8 +145,93 @@
         "Google".metaData.hidden = true;
         "Amazon.co.uk".metaData.hidden = true;
         "eBay".metaData.hidden = true;
+        "Startpage" = {
+          urls = [
+            {
+              template = "https://www.startpage.com/do/search";
+              params = [
+                {
+                  name = "query";
+                  value = "{searchTerms}";
+                }
+              ];
+            }
+          ];
+          iconUpdateURL = "https://www.startpage.com/sp/cdn/favicons/favicon-32x32-gradient.png";
+          definedAliases = [ "@st" ];
+        };
+        "Searx" = {
+          urls = [
+            {
+              template = "https://priv.au/search";
+              params = [
+                {
+                  name = "q";
+                  value = "{searchTerms}";
+                }
+              ];
+            }
+          ];
+          iconUpdateURL = "https://priv.au/static/themes/simple/img/favicon.png?60321eeb6e2f478f0e5704529308c594d5924246";
+          definedAliases = [ "@pv" ];
+        };
+        "NixosPackage" = {
+          urls = [
+            {
+              template = "https://search.nixos.org/packages?channel=24.05&from=0&size=50&sort=relevance&type=packages";
+              params = [
+                {
+                  name = "query";
+                  value = "{searchTerms}";
+                }
+              ];
+            }
+          ];
+          iconUpdateURL = "https://search.nixos.org/favicon.png";
+          definedAliases = [ "@np" ];
+        };
+        "NixosOption" = {
+          urls = [
+            {
+              template = "https://search.nixos.org/options?channel=24.05&from=0&size=50&sort=relevance&type=packages";
+              params = [
+                {
+                  name = "query";
+                  value = "{searchTerms}";
+                }
+              ];
+            }
+          ];
+          iconUpdateURL = "https://search.nixos.org/favicon.png";
+          definedAliases = [ "@no" ];
+        };
+
+        "NixosWiki" = {
+          urls = [ { template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; } ];
+          iconUpdateURL = "https://wiki.nixos.org/favicon.ico";
+          definedAliases = [ "@nw" ];
+        };
+
+        "HomemanagerSearch" = {
+          urls = [
+            {
+              template = "https://home-manager-options.extranix.com/?query={searchTerms}&release=release-24.05";
+            }
+          ];
+          iconUpdateURL = "https://home-manager-options.extranix.com/images/favicon.png";
+          definedAliases = [ "@hs" ];
+        };
       };
       search.force = true;
+      search.default = "Searx";
+      search.order = [
+        "Searx"
+        "DuckDuckgo"
+        "NixosPackage"
+        "NixosOption"
+        "HomemanagerSearch"
+        "NixosWiki"
+      ];
       userChrome = ''
         /* hides the native tabs */
         #TabsToolbar {
@@ -225,6 +305,9 @@
 
       '';
       settings = {
+        "app.normandy.api_url" = "";
+        "app.normandy.enabled" = false;
+        "app.shield.optoutstudies.enabled" = false;
         "accessibility.force_disabled" = 1;
         "reader.parse-on-load.enabled" = false;
         "privacy.firstparty.isolate" = true;
@@ -262,7 +345,7 @@
         "security.pki.sha1_enforcement_level" = 1;
         "security.ssl.require_safe_negotiation" = true;
         "signon.formlessCapture.enabled" = false;
-        "keyword.enabled" = false;
+        "keyword.enabled" = true; # false = no automatic search engine
         "network.cookie.cookieBehavior" = 2;
         "dom.event.clipboardevents.enabled" = false;
         "media.gmp-widevinecdm.enabled" = false;
@@ -416,79 +499,9 @@
           iconUpdateURL = "https://www.startpage.com/sp/cdn/favicons/favicon-32x32-gradient.png";
           definedAliases = [ "@st" ];
         };
-        "Searx" = {
-          urls = [
-            {
-              template = "https://priv.au/search";
-              params = [
-                {
-                  name = "q";
-                  value = "{searchTerms}";
-                }
-              ];
-            }
-          ];
-          iconUpdateURL = "https://priv.au/static/themes/simple/img/favicon.png?60321eeb6e2f478f0e5704529308c594d5924246";
-          definedAliases = [ "@pv" ];
-        };
-        "NixosPackage" = {
-          urls = [
-            {
-              template = "https://search.nixos.org/packages?channel=24.05&from=0&size=50&sort=relevance&type=packages";
-              params = [
-                {
-                  name = "query";
-                  value = "{searchTerms}";
-                }
-              ];
-            }
-          ];
-          iconUpdateURL = "https://search.nixos.org/favicon.png";
-          definedAliases = [ "@np" ];
-        };
-        "NixosOption" = {
-          urls = [
-            {
-              template = "https://search.nixos.org/options?channel=24.05&from=0&size=50&sort=relevance&type=packages";
-              params = [
-                {
-                  name = "query";
-                  value = "{searchTerms}";
-                }
-              ];
-            }
-          ];
-          iconUpdateURL = "https://search.nixos.org/favicon.png";
-          definedAliases = [ "@no" ];
-        };
-
-        "NixosWiki" = {
-          urls = [ { template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; } ];
-          iconUpdateURL = "https://wiki.nixos.org/favicon.ico";
-          definedAliases = [ "@nw" ];
-        };
-
-        "HomemanagerSearch" = {
-          urls = [
-            {
-              template = "https://home-manager-options.extranix.com/?query={searchTerms}&release=release-24.05";
-            }
-          ];
-          iconUpdateURL = "https://home-manager-options.extranix.com/images/favicon.png";
-          definedAliases = [ "@hs" ];
-        };
       };
-      search.default = "Searx";
       search.force = true;
-      search.order = [
-        "Searx"
-        "DuckDuckgo"
-        "Startpage"
-        "NixosPackage"
-        "NixosOption"
-        "HomemanagerSearch"
-        "NixosWiki"
-      ];
+      search.default = "Startpage";
       userChrome = ''
         /* hides the native tabs */
         #TabsToolbar {
@@ -816,11 +829,11 @@
       WGETRC = "$XDG_CONFIG_HOME/wgetrc";
       DOTNET_CLI_TELEMETRY_OPTOUT = 1;
       TERMINAL = "foot";
-      EDITOR = "nvim";
-      VISUAL = "nvim";
-      # EDITOR = "emacsclient -c -a emacs";
-      # VISUAL = "emacsclient -c -a emacs";
-      FZF_DEFAULT_OPTS = "-e --no-scrollbar --border=none --reverse --no-info";
+      # EDITOR = "nvim";
+      # VISUAL = "nvim";
+      EDITOR = "emacsclient -c -a emacs";
+      VISUAL = "emacsclient -c -a emacs";
+      FZF_DEFAULT_OPTS = "-e -i --no-scrollbar --border=none --reverse --no-info";
       LESSHISTFILE = "/tmp/.lesshst";
       MOZ_ENABLE_WAYLAND = 1;
       QT_QPA_PLATFORM = "wayland;xcb";
@@ -829,25 +842,7 @@
       SAL_USE_VCLPLUGIN = "gtk3";
       XCURSOR_THEME = "plan9";
       XCURSOR_SIZE = 20;
-      # BEMENU_OPTS = ''
-      #   -i --fn "Iosevka" --tb "#c6c6c6" --tf "#212121" --nb "#212121" --nf "#c6c6c6" --sf "#c6c6c6" --sb "#212121"  --hb "#c6c6c6" --hf "#212121" --ab "#212121" --af "#c6c6c6"'';
-      BEMENU_OPTS = ''
-        --tb '#c6c6c6'
-         --tf '#212121'
-         --fb '#212121'
-         --ff '#c6c6c6'
-         --nb '#212121'
-         --nf '#c6c6c6'
-         --hb '#c6c6c6'
-         --hf '#212121'
-         --sb '#c6c6c6'
-         --sf '#212121'
-         --scb '#444444'
-         --scf '#c6c6c6'
-         -f
-         -p '>'
-         -n
-         --fn 'Iosevka' '';
+      BEMENU_OPTS = ''-i --fn 'Iosevka' -B '1' -f -p '>' -n --tb '#bdae93' --tf '#000000' --fb '#000000' --ff '#bdae93' --nb '#000000' --nf '#bdae93' --ab '#000000' --af '#bdae93' --sb '#000000' --sf '#bdae93' --cb '#bdae93' --cf '#bdae93' --hb '#bdae93' --hf '#000000' --sb '#bdae93' --sf '#000000' --scb '#000000' --scf '#bdae93' --bdr '#bdae93' '';
     };
     initExtra = ''
       PROMPT_COMMAND="''${PROMPT_COMMAND:+$PROMPT_COMMAND$'
@@ -862,7 +857,7 @@
 
   services.mpd = {
     enable = true;
-    musicDirectory = "/run/media/zenex/musicsd/Alt";
+    musicDirectory = "/home/zenex/music";
     #change so instead of zenex it is the current user, do this also for the mounting, #change to a home.file
     extraConfig = ''
         audio_output {
@@ -876,7 +871,7 @@
 
   programs.ncmpcpp = {
     enable = true;
-    mpdMusicDir = "/run/media/zenex/musicsd/Alt";
+    mpdMusicDir = "/home/zenex/music";
     settings = {
       ncmpcpp_directory = "~/.config/ncmpcpp";
       mpd_crossfade_time = 1;
@@ -939,11 +934,11 @@
       database = "sqlite";
     };
   };
-
   wayland.windowManager.hyprland = {
     enable = true;
     extraConfig = builtins.readFile ./hyprland.conf; # #too much effort to do it with options and extraConfig
   };
+
   programs.tmux = {
     # add new-window -c "#{pane_current_path}"
     # add splitp -c "#{pane_current_path}"
@@ -960,13 +955,13 @@
       set -g set-titles on
       set -g status-keys emacs
       set -s set-clipboard external
-      set -g status-style fg=#c6c6c6,bg=#212121
+      set -g status-style "fg=#bdae93,bg=#000000"
       setw -g monitor-activity on
       set -g visual-activity on
       set -g status-right ""
       set -g status-left "#{session_group}"
-      set -g window-status-current-format "#[fg=black bg=black]|#[fg=white bg=black]#W#[fg=black bg=black]|"
-      set -g window-status-last-style "fg=#444444 bg=black"
+      set -g window-status-current-format "#[fg=#000000 bg=#000000]|#[fg=#bdae93 bg=#000000]#W#[fg=#000000 bg=#000000]|"
+      set -g window-status-last-style "fg=#a08a64 bg=#000000"
       bind-key -n M-"v" split-window -v
       bind-key -n M-"V" split-window -h
       bind-key -n M-h select-pane -L
@@ -1043,7 +1038,7 @@
         offset = "0x0";
         origin = "top-right";
         transparency = 0;
-        frame_color = "#c6c6c6";
+        frame_color = "#bdae93"; # c6c6c6
         font = "Iosevka Bold 10";
         vertical_alignment = "center";
         alignment = "center";
@@ -1054,21 +1049,21 @@
         follow = "mouse";
       };
       urgency_low = {
-        background = "#333333";
-        foreground = "#888888";
+        background = "#111111";
+        foreground = "#a08a64";
         timeout = 10;
       };
 
       urgency_normal = {
-        background = "#141414";
-        foreground = "#c6c6c6";
+        background = "#000000";
+        foreground = "#bdae93";
         timeout = 10;
       };
 
       urgency_critical = {
-        background = "#FF0000";
+        background = "#900000";
         foreground = "#FFFFFF";
-        frame_color = "#900000";
+        frame_color = "#FF0000";
         timeout = 0;
       };
     };
@@ -1091,7 +1086,8 @@
         blink = "yes";
       };
       colors = {
-        background = "212121";
+        # background = "212121";
+        background = "000000";
         foreground = "bdae93";
         regular0 = "242424"; # black
         regular1 = "f62b5a"; # red
@@ -1186,18 +1182,6 @@
     };
   };
 
-  programs.swaylock = {
-    enable = true;
-    settings = {
-      color = "808080";
-      font-size = 24;
-      indicator-idle-visible = false;
-      indicator-radius = 100;
-      line-color = "ffffff";
-      show-failed-attempts = true;
-    };
-  };
-
   home.packages = with pkgs; [
     # pipx
     #  bsdgames
@@ -1218,29 +1202,32 @@
     # rlwrap
     # rustup
     # texliveSmall
-    age
+    # age
     alacritty
     alsa-utils
     anki-bin
-    aria2
+    # aria2
     astyle
     bc
     bemenu
+    # mmtc
     cargo
     ccls
-    cinnamon.nemo
+    nemo
     cliphist
-    codeberg-cli
+    # codeberg-cli
     dmenu
     exfatprogs
     fd
     ffmpeg
-    ffmpegthumbnailer
+    # ffmpegthumbnailer
     file
     fuse3
     gcc
+    gdb
     gh
     ghc
+    sbcl
     gimp
     git
     gnumake
@@ -1252,8 +1239,7 @@
     hunspellDicts.en-gb-large
     hyprshade
     imv
-    jetbrains.idea-ultimate
-    kdeconnect
+    kdePackages.kdeconnect-kde
     keepassxc
     libnotify
     libreoffice
@@ -1265,7 +1251,7 @@
     mpvScripts.mpris
     mupdf
     neovim
-    nil
+    nixd
     nixfmt-rfc-style
     nodePackages.bash-language-server
     obs-studio
@@ -1277,7 +1263,6 @@
     progress
     pulsemixer
     pv
-    python312Packages.conda
     python3Full
     rsync
     ruff
@@ -1289,6 +1274,7 @@
     slurp
     smartmontools
     syncthing
+    sdcv
     texliveFull
     traceroute
     trash-cli
@@ -1304,6 +1290,7 @@
     wlr-randr
     xdg-utils
     yapf
+    macchanger
     yt-dlp
     zip
     glib
