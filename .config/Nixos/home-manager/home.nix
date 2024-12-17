@@ -1117,7 +1117,11 @@
       ipc = false;
       splash = false;
       preload = [ "~/Downloads/Images/realsat.jpg" ];
-      wallpaper = [ ",~/Downloads/Images/realsat.jpg" ];
+      wallpaper = [
+        "eDP-1,~/Downloads/Images/realsat.jpg"
+        "HDMI-A-1,~/Downloads/Images/realsat.jpg"
+        "HDMI-A-2,~/Downloads/Images/realsat.jpg"
+      ];
     };
   };
 
