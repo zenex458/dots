@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 case $XDG_SESSION_TYPE in
-"wayland") menu="bemenu -i --no-exec -p" && lock="swaylock -e -F -f -c 212121 --font Iosevka --line-color 212121
-" ;;
+"wayland") menu="bemenu -i --no-exec -p" && lock="hyprlock" ;;
 *) menu="dmenu -i -p" && lock="xsecurelock" ;; ## rofi -dmenu -p
 esac
 
@@ -21,6 +20,7 @@ case "$sel" in
 Lock) doubts && $lock ;;
 Poweroff) doubts && systemctl poweroff ;;
 Reboot) doubts && systemctl reboot ;;
-Sleep) doubts && systemctl suspend && $lock ;;
+Sleep) doubts && systemctl suspend ;;
+	   # Sleep) doubts && systemctl suspend && $lock ;;
 *) exit ;;
 esac

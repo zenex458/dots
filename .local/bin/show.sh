@@ -9,7 +9,7 @@ window="$(echo "$state" |
     gojq -r '.[] | select(.monitor != -1 ) | "\(.address)    \(.workspace.name)    \(.title)"' |
     sed "s|$current_addr|focused ->|" |
     sort -r |
-    bemenu -l 20 -p Open\ Windows: -P\> )"
+    bemenu -l 20 -i -p Open\ Windows: -P\> )"
 
 addr="$(echo "$window" | awk '{print $1}')"
 ws="$(echo "$window" | awk '{print $2}')"
