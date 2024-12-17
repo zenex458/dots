@@ -1,5 +1,11 @@
 * dots
 This contains all my config files for Linux. It can be installed my =setup.sh= or by using [[https://nixos.org/][Nixos]].
+| OS       | Nixos    |
+| WM       | Hyprland |
+| Terminal | Foot     |
+| Editor   | Emacs    |
+| Shell    | Bash     |
+
 * Screenshot
 [[file:screenshot.png]]
 /Screenshot showing my three monitors. The left showing the output of the neofetch command. The middle showing an Emacs frame, editing my Nixos config. The right showing my wallpaper./
