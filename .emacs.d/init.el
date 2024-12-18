@@ -1,20 +1,26 @@
 ;; -*- lexical-binding: t; -*-
-(package-initialize)
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name
+        "straight/repos/straight.el/bootstrap.el"
+        (or (bound-and-true-p straight-base-dir)
+            user-emacs-directory)))
+      (bootstrap-version 7))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+(setq straight-use-package-by-default t)
 
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package)
-  )
-
-(unless package-archive-contents
-  (package-refresh-contents))
-
-(eval-when-compile
-  (require 'use-package))
 
 (use-package diminish)
 
-(setq custom-file (make-temp-file "emacs-custom-"))
+;; (setq custom-file (make-temp-file "emacs-custom-"))
+(setq custom-file "/home/zenex/.emacs.d/emacs-custom.el")
 (setq ffap-machine-p-known 'reject)
 (defvar ispell-dictionary "british")
 (setq auto-save-default t)
@@ -26,7 +32,7 @@
 (setq dired-listing-switches "-AlF --si -Gg --group-directories-first")
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program '"firefox"
-      browse-url-generic-args '("--private-window"))
+      browse-url-generic-args '("-P" "priv"))
 
 (setq minibuffer-prompt-properties
       '(read-only t point-entered minibuffer-avoid-prompt face minibuffer-prompt))
@@ -75,7 +81,7 @@
 
 (add-hook 'prog-mode-hook  #'(lambda ()(setq show-trailing-whitespace t)))
 
-(add-hook 'before-save-hook #'delete-trailing-whitespace)
+;; (add-hook 'before-save-hook #'delete-trailing-whitespace)
 (setq display-time-default-load-average nil)
 (setq display-time-format "%H:%M")
 (display-time-mode 1)
@@ -140,20 +146,40 @@
 
 (add-hook 'prog-mode-hook 'electric-pair-mode)
 
-(fido-mode)
-(setq completion-category-overrides '((file (initials))))
-;; (setq completion-styles '(initials partial-completion flex ))
-(setq completion-styles '(basic substring initials partial-completion flex ))
-(global-set-key [remap minibuffer-complete] 'icomplete-fido-ret)
-(setq icomplete-compute-delay 0)
+
+(use-package vertico
+  :config
+  (vertico-mode 1)
+  (vertico-flat-mode 1)
+  (setq vertico-count 40))
+
+(use-package vertico-directory
+  :straight nil
+  :after vertico
+  :ensure nil
+  ;; More convenient directory navigation commands
+  :bind (:map vertico-map
+              ("RET" . vertico-directory-enter)
+              ("DEL" . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word))
+  ;; Tidy shadowed file names
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+
+(use-package orderless
+  :custom
+  (completion-styles '(substring orderless basic))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion)))))
+
+
+(use-package dired+)
+(diredp-toggle-find-file-reuse-dir 1)
 
 (use-package apheleia
   :init
-
   :hook ((prog-mode . apheleia-mode)
 		 (LaTeX-mode . apheleia-mode))
   :config
-  (diminish 'apheleia-mode)
   (setq apheleia-remote-algorithm 'local)
   (setf (alist-get 'astyle apheleia-formatters)
 		'("astyle" "--mode=c" "--style=google"))
@@ -229,7 +255,12 @@
 (use-package haskell-mode
   :magic ("%hs" . haskell-mode))
 
-(use-package elfeed)
+(use-package slime)
+
+(use-package elfeed
+  :config
+  (setq elfeed-search-title-max-width '130)
+  (setq elfeed-search-filter "@1-months-ago +unread"))
 (use-package elfeed-org
   :init
   (elfeed-org)
@@ -237,7 +268,8 @@
   (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org")))
 
 (use-package nix-ts-mode
-  :mode "\\.nix\\'")
+  :mode "\\.nix\\'"
+  :bind ("C-c r" . updnix))
 
 (use-package corfu
   :custom
@@ -403,20 +435,6 @@
   (global-set-key (kbd "C-h k") #'helpful-key)
   (global-set-key (kbd "C-h x") #'helpful-command))
 
-(use-package hardtime
-  :init
-  (unless (package-installed-p 'hardtime)
-    (package-vc-install
-     '(hardtime
-       :vc-backend Git
-       :url "https://github.com/ichernyshovvv/hardtime.el"
-       :branch "master")))
-  :config
-  (hardtime-mode 1))
-
-(require 'dired+)
-(diredp-toggle-find-file-reuse-dir 1)
-
 (use-package sdcv)
 
 ;; (use-package golden-ratio
@@ -434,8 +452,9 @@
 
 (use-package indent-guide
   :hook (python-ts-mode . indent-guide-mode))
-
+(require 'updnix)
 (require 'upmu)
+(global-set-key (kbd "<f5>") 'recompile)
 (define-prefix-command 'vterm-n-map)
 (global-set-key (kbd "C-x v") 'vterm-n-map)
 (global-set-key (kbd "C-x v v") 'vterm)
@@ -444,6 +463,7 @@
 ;;(global-set-key (kbd "<C-S-D>") 'backward-delete-char) ;;https://www.emacswiki.org/emacs/ShiftedKeys and https://www.emacswiki.org/emacs/TheMysteriousCaseOfShiftedFunctionKeys to fix
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 (global-set-key [remap dabbrev-expand] 'hippie-expand)
+(global-set-key (kbd "C-c b") 'bookmark-jump)
 (global-set-key (kbd "C-M-x") 'embark-export)
 (define-prefix-command 'avy-n-map);; add this? http://yummymelon.com/devnull/announcing-casual-avy.html
 (global-set-key (kbd "M-j") 'avy-n-map)

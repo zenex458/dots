@@ -15,7 +15,7 @@
   "Add a music entry to a file."
   (interactive)
   (progn
-	(setq paths '("/home/zenex/Documents/3.Other/Txt/hmb" "/home/zenex/Documents/3.Other/Txt/THEBEST"))
+	(setq paths '("/home/zenex/Documents/Notes/hmb" "/home/zenex/Documents/Notes/THEBEST"))
 	(setq input-file (completing-read (message "Enter path: ") paths))
 
 	(setq song-meta-data '("Artist" "Song" "Description"))
