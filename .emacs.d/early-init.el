@@ -36,6 +36,9 @@
 (unless (daemonp)
   (advice-add #'display-startup-echo-area-message :override #'ignore))
 (setq frame-inhibit-implied-resize t)
-(setq package-enable-at-startup nil)
-
+(setq use-package-always-ensure t
+	  use-package-expand-minimally t)
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("gnu" . "https://elpa.gnu.org/packages/")
+                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
 (provide 'early-init)

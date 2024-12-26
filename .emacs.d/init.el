@@ -1,26 +1,20 @@
 ;; -*- lexical-binding: t; -*-
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name
-        "straight/repos/straight.el/bootstrap.el"
-        (or (bound-and-true-p straight-base-dir)
-            user-emacs-directory)))
-      (bootstrap-version 7))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
-(setq straight-use-package-by-default t)
 
+(package-initialize)
 
-(use-package diminish)
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(unless package-archive-contents
+  (package-refresh-contents))
+
+(eval-when-compile
+  (require 'use-package))
 
 ;; (setq custom-file (make-temp-file "emacs-custom-"))
-(setq custom-file "/home/zenex/.emacs.d/emacs-custom.el")
+(expand-file-name "")
+(setq custom-file (expand-file-name "~/.emacs.d/emacs-custom.el"))
 (setq ffap-machine-p-known 'reject)
 (defvar ispell-dictionary "british")
 (setq auto-save-default t)
@@ -33,7 +27,6 @@
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program '"firefox"
       browse-url-generic-args '("-P" "priv"))
-
 (setq minibuffer-prompt-properties
       '(read-only t point-entered minibuffer-avoid-prompt face minibuffer-prompt))
 (setq enable-recursive-minibuffers t)
@@ -45,7 +38,6 @@
  kept-new-versions 6
  kept-old-versions 2
  version-control t)
-;;(setq tab-always-indent 'complete)
 (setq backup-directory-alist
 	  `((".*" . ,"~/.emacs.d/saves/")))
 (setq auto-save-file-name-transforms
@@ -67,6 +59,8 @@
 (setq dired-dwim-target t)
 (setq-default indent-tabs-mode nil)
 (electric-indent-mode)
+(setq tab-always-indent 'complete)
+(setq read-extended-command-predicate #'command-completion-default-include-p)
 (setq password-cache-expiry 3600)
 (setq history-length 2000)
 (setq dired-kill-when-opening-new-dired-buffer t)
@@ -78,10 +72,8 @@
 
 (add-hook 'prog-mode-hook #'(lambda ()
 							  (local-set-key (kbd "RET") 'newline-and-indent)))
-
 (add-hook 'prog-mode-hook  #'(lambda ()(setq show-trailing-whitespace t)))
 
-;; (add-hook 'before-save-hook #'delete-trailing-whitespace)
 (setq display-time-default-load-average nil)
 (setq display-time-format "%H:%M")
 (display-time-mode 1)
@@ -89,29 +81,7 @@
 (global-subword-mode 1)
 (pending-delete-mode t)
 (savehist-mode 1)
-(if '((system-name "eukaryotic"))
-	(defvar my-term-shell "/run/current-system/sw/bin/bash")
-  (defvar my-term-shell "/usr/bin/env bash"))
-
-;; (defadvice ansi-term (before force-bash)
-;;   "https://github.com/daedreth/UncleDavesEmacs#default-shell-should-be-bash"
-;;   (interactive (list my-term-shell)))
-;; (ad-activate 'ansi-term)
-
-(defun split-and-follow-horizontally ()
-  (interactive)
-  (split-window-below)
-  (balance-windows)
-  (other-window 1))
-(global-set-key (kbd "C-x 2") 'split-and-follow-horizontally)
-
-(defun split-and-follow-vertically ()
-  (interactive)
-  (split-window-right)
-  (balance-windows)
-  (other-window 1))
-(global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
-
+(add-hook 'prog-mode-hook 'electric-pair-mode)
 (defun close-or-kill-emacs ()
   "Close the current frame if there are multiple visible frames otherwise kill Emacs."
   (interactive)
@@ -123,7 +93,6 @@
 		  (save-buffers-kill-emacs))
 	  (save-buffers-kill-emacs))))
 (global-set-key (kbd "C-x C-c") 'close-or-kill-emacs)
-
 
 (setq org-startup-indented t
 	  org-pretty-entities t
@@ -137,43 +106,22 @@
 (setq org-agenda-files '("~/Documents/Notes/Org/todo.org"))
 (setq org-todo-keywords '((type "TODO" "IN PROGRESS(I!)" "CANCELED(C@/!)" "|" "DONE")))
 (setq org-todo-keyword-faces
-	  '(("TODO" .  "#bdae93" )("IN PROGRESS" . "#BD8700") ("CANCELED" . "red"))
-	  )
-
+	  '(("TODO" .  "#bdae93" )("IN PROGRESS" . "#BD8700") ("CANCELED" . "red")))
 (setq-default org-display-custom-times t)
-(setq org-time-stamp-custom-formats '("%a %b %e %Y" . "%a %b %e %Y %H:%M"))
+(setq org-time-stamp-custom-formats '("%a/%b/%e/%Y" . "%a/%b/%e/%Y %H:%M"))
 
 
-(add-hook 'prog-mode-hook 'electric-pair-mode)
+(use-package diminish)
+(diminish 'subword-mode)
+(diminish 'visual-line-mode)
+(diminish 'eldoc-mode)
 
-
-(use-package vertico
-  :config
-  (vertico-mode 1)
-  (vertico-flat-mode 1)
-  (setq vertico-count 40))
-
-(use-package vertico-directory
-  :straight nil
-  :after vertico
-  :ensure nil
-  ;; More convenient directory navigation commands
-  :bind (:map vertico-map
-              ("RET" . vertico-directory-enter)
-              ("DEL" . vertico-directory-delete-char)
-              ("M-DEL" . vertico-directory-delete-word))
-  ;; Tidy shadowed file names
-  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
-
-(use-package orderless
-  :custom
-  (completion-styles '(substring orderless basic))
-  (completion-category-defaults nil)
-  (completion-category-overrides '((file (styles partial-completion)))))
-
-
-(use-package dired+)
-(diredp-toggle-find-file-reuse-dir 1)
+(fido-mode)
+(setq completion-category-overrides '((file (initials))))
+;; (setq completion-styles '(initials partial-completion flex ))
+(setq completion-styles '(basic substring initials partial-completion flex ))
+(global-set-key [remap minibuffer-complete] 'icomplete-fido-ret)
+(setq icomplete-compute-delay 0)
 
 (use-package apheleia
   :init
@@ -204,16 +152,12 @@
 		'("ormolu" "--stdin-input-file" "--"))
   (add-to-list 'apheleia-mode-alist '(haskell-mode . ormolu)))
 
-(use-package aggressive-indent
-  :hook (python-ts-mode . aggressive-indent-mode))
-
 (setq treesit-language-source-alist
 	  '((bash "https://github.com/tree-sitter/tree-sitter-bash")
 		(c "https://github.com/tree-sitter/tree-sitter-c")
 		(cpp "https://github.com/tree-sitter/tree-sitter-cpp")
 		(c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
 		(css "https://github.com/tree-sitter/tree-sitter-css")
-		(go "https://github.com/tree-sitter/tree-sitter-go")
 		(haskell "https://github.com/tree-sitter/tree-sitter-haskell")
 		(html "https://github.com/tree-sitter/tree-sitter-html")
 		(javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
@@ -222,9 +166,6 @@
 		(markdown "https://github.com/ikatyang/tree-sitter-markdown")
 		(nix "https://github.com/nix-community/tree-sitter-nix")
 		(python "https://github.com/tree-sitter/tree-sitter-python")
-		(toml "https://github.com/tree-sitter/tree-sitter-toml")
-		(tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-		(typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
 		(yaml "https://github.com/ikatyang/tree-sitter-yaml")))
 
 (if (file-directory-p "~/.emacs.d/tree-sitter")
@@ -261,6 +202,7 @@
   :config
   (setq elfeed-search-title-max-width '130)
   (setq elfeed-search-filter "@1-months-ago +unread"))
+
 (use-package elfeed-org
   :init
   (elfeed-org)
@@ -272,30 +214,16 @@
   :bind ("C-c r" . updnix))
 
 (use-package corfu
-  :custom
-  (corfu-cycle t)
-  (corfu-auto t)
-  (corfu-auto-prefix 1)
-  (corfu-preview-current 'insert)
-  (corfu-preselect 'prompt)
-  (corfu-quit-no-match t)
-  (corfu-on-exact-match 'insert)
   :hook ((prog-mode . corfu-mode)
-		 (prog-mode . corfu-popupinfo-mode))
-  :bind (:map corfu-map
-			  ("M-SPC"      . corfu-insert-separator)
-			  ("TAB"        . corfu-next)
-			  ([tab]        . corfu-next)
-			  ("S-TAB"      . corfu-previous)
-			  ([backtab]    . corfu-previous)
-			  ("M-SPC" . corfu-insert-separator)
-			  ("RET" . corfu-insert)))
+		 (prog-mode . corfu-popupinfo-mode)))
 
 (use-package cape
   :init
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-abbrev)
   (add-to-list 'completion-at-point-functions #'cape-history)
+  (add-to-list 'completion-at-point-functions #'cape-dict)
+  (add-to-list 'completion-at-point-functions #'cape-file)
   (setq-local completion-at-point-functions
 			  (mapcar #'cape-company-to-capf
 					  (list #'company-files #'company-keywords #'company-dabbrev))))
@@ -313,16 +241,12 @@
   :config
   (setq eglot-autoshutdown t)
   (add-to-list 'eglot-server-programs
-    		   `(nix-ts-mode  . ("nixd"))
-    		   ))
-
-;; (use-package dape)
+    		   `(nix-ts-mode  . ("nixd"))))
 
 (use-package flymake
   :hook ((emacs-lisp-mode . flymake-mode)
 		 (LaTeX-mode . flymake-mode))
   :config
-  ;;  make this only happen in elisp mode
   (setq elisp-flymake-byte-compile-load-path load-path))
 
 (use-package yasnippet
@@ -381,8 +305,6 @@
 		 ("C-C C-@" . mc/mark-all-like-this)
 		 ("C-C M-v" . mc/edit-beggineing-of-lines)))
 
-;;(use-package vundo)
-
 (use-package undo-fu-session
   :config
   (setq undo-fu-session-compression 'zst)
@@ -400,8 +322,6 @@
   :bind ("C-@" . expreg-expand)
   ("C-'" . expreg-contract))
 
-(use-package expand-region)
-
 (use-package vlf
   :init
   (require 'vlf-setup))
@@ -417,48 +337,39 @@
   ("M-s e" . sudo-edit)
   ("M-s f" . sudo-edit-find-file))
 
-;; (use-package zoxide
-;;   :hook (find-file . zoxide-add)
-;;   :bind
-;;   ("M-s z f" . zoxide-find-file))
-
 (use-package magit)
 
-;; (use-package writeroom-mode)
-
-(use-package editorconfig)
-
-(use-package helpful
-  :config
-  (global-set-key (kbd "C-h f") #'helpful-callable)
-  (global-set-key (kbd "C-h v") #'helpful-variable)
-  (global-set-key (kbd "C-h k") #'helpful-key)
-  (global-set-key (kbd "C-h x") #'helpful-command))
+;;(use-package editorconfig)
 
 (use-package sdcv)
 
-;; (use-package golden-ratio
-;;   :config
-;;   (setq golden-ratio-auto-scale t)
-;;   (add-to-list 'golden-ratio-extra-commands 'ace-window)
-;;   (golden-ratio-mode -1))
+(use-package golden-ratio
+  :config
+  (setq golden-ratio-auto-scale t)
+  (add-to-list 'golden-ratio-extra-commands 'ace-window)
+  (golden-ratio-mode 1))
 
-;; (use-package edwina
-;;   :config
-;;   (setq display-buffer-base-action '(display-buffer-below-selected))
-;;   (setq edwina-mode-line-format "")
-;;   (edwina-mode -1))
+(use-package edwina
+  :config
+  (setq display-buffer-base-action '(display-buffer-below-selected))
+  (setq edwina-mode-line-format "")
+  (edwina-mode 1))
 
+(use-package vterm)
+(use-package multi-vterm)
 
 (use-package indent-guide
   :hook (python-ts-mode . indent-guide-mode))
+
 (require 'updnix)
 (require 'upmu)
 (global-set-key (kbd "<f5>") 'recompile)
 (define-prefix-command 'vterm-n-map)
 (global-set-key (kbd "C-x v") 'vterm-n-map)
-(global-set-key (kbd "C-x v v") 'vterm)
-(global-set-key (kbd "C-x v o") 'vterm-other-window)
+(global-set-key (kbd "C-x v v") 'multi-vterm)
+(global-set-key (kbd "C-x v n") 'multi-vterm-next)
+(global-set-key (kbd "C-x v p") 'multi-vterm-prev)
+(global-set-key (kbd "C-x v d") 'multi-vterm-dedicated-toggle)
 (global-set-key (kbd "C-c u") 'upmu-add-entry)
 ;;(global-set-key (kbd "<C-S-D>") 'backward-delete-char) ;;https://www.emacswiki.org/emacs/ShiftedKeys and https://www.emacswiki.org/emacs/TheMysteriousCaseOfShiftedFunctionKeys to fix
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
@@ -479,22 +390,21 @@
 (global-set-key (kbd "C-x K")(lambda ()"kills curent buffer without confirmation"(interactive)(kill-buffer (current-buffer))))
 (global-set-key (kbd "C-c r")(lambda ()"reloads emacs config"(interactive)(load-file "~/.emacs.d/init.el")))
 (global-set-key (kbd "C-c t")(lambda ()"opens todo"(interactive)(find-file "~/Documents/Notes/Org/todo.org")))
-(global-set-key (kbd "C-c l")
+(global-set-key (kbd "C-c C-l")
 				(lambda ()
-				  "copies the whole line without moving the cursor"
+				  "Copies the whole line without moving the cursor"
 				  (interactive)
 				  (save-excursion
 					(kill-new
 					 (buffer-substring
 					  (line-beginning-position)
-					  (line-end-position))))))
-
+					  (line-end-position))))
+                  (message "Line copied.")))
 (define-key isearch-mode-map (kbd "<backspace>") 'isearch-del-char)
 
 (setq mode-line-position (list " (%l:%C %P %I) "))
 ;;https://www.emacs.dyerdwelling.family/emacs/20230902114449-emacs--my-evolving-modeline/
-(setq-default mode-line-format '(
-								 (:eval
+(setq-default mode-line-format '((:eval
 								  (if (and (buffer-file-name) (buffer-modified-p))
 									  (propertize "**" 'face
 												  '(:background "#e20023" :foreground "#000000" :inherit bold)) " "))
@@ -509,8 +419,6 @@
 									(propertize (buffer-name) 'face '(:foreground "#222222" :inherit bold))))
 								 mode-line-position
 								 (vc-mode vc-mode) mode-line-modes mode-line-misc-info mode-line-end-spaces))
-
-(setq minor-mode-alist nil)
 
 (server-start)
 
