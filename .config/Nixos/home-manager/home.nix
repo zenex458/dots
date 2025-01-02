@@ -1,5 +1,3 @@
-# This is your home-manager configuration file
-# Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 {
   inputs,
   outputs,
@@ -24,7 +22,6 @@
   nixpkgs = {
     # Configure your nixpkgs instance
     config = {
-      # Disable if you don't want unfree packages
       allowUnfree = true;
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
       allowUnfreePredicate = _: true;
@@ -39,21 +36,24 @@
   programs.man.enable = true;
   programs.man.generateCaches = false;
 
+  services.emacs = {
+    enable = true;
+    client = {
+      enable = true;
+      arguments = [
+        "-c"
+        "-a"
+        "emacs"
+      ];
+    };
+    startWithUserSession = "graphical";
+  };
   programs.emacs = {
     enable = true;
     package = pkgs.emacs29-pgtk;
     extraPackages = epkgs: [
-      epkgs.pdf-tools
       epkgs.vterm
     ];
-    extraConfig = ''
-      (use-package pdf-tools
-          :magic ("%PDF" . pdf-view-mode)
-          :hook (pdf-view-mode . pdf-view-themed-minor-mode)
-          :config
-            (setq pdf-info-epdfinfo-program "${pkgs.emacsPackages.pdf-tools}/share/emacs/site-lisp/elpa/pdf-tools-20240411.1703/epdfinfo")
-           (pdf-tools-install))
-    '';
   };
 
   xdg = {
@@ -100,19 +100,16 @@
     theme.name = "Shades-of-gray";
     iconTheme.package = pkgs.paper-icon-theme;
     iconTheme.name = "Paper-Mono-Dark";
-    # cursorTheme.package = pkgs.bibata-cursors;
-    # cursorTheme.name = "Bibata-Original-Classic";
-    # cursorTheme.size = 20;
     cursorTheme.name = "plan9";
     cursorTheme.size = 20;
     font.package = pkgs.iosevka;
     font.name = "Iosevka Extended";
     font.size = 10;
   };
-  # programs.chromium = {
-  #   enable = true;
-  #   package = pkgs.ungoogled-chromium;
-  # };
+  programs.chromium = {
+    enable = true;
+    package = pkgs.ungoogled-chromium.override { enableWideVine = true; };
+  };
   programs.firefox = {
     enable = true;
     policies = {
@@ -761,20 +758,14 @@
     shellAliases = {
       upd = "sudo nixos-rebuild switch --flake ~/dots/.config/Nixos/#eukaryotic";
       updflake = "nix flake update --commit-lock-file";
-      #      upd = "sudo nix-channel --update && sudo nixos-rebuild switch";
-      #     enc = "sudo $EDITOR /etc/nixos/configuration.nix";
-      #    updc = "sudo nixos-rebuild switch";
       listnixgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
-      nixgc = "nix-collect-garbage --delete-old";
-      remoldgen = "nix-collect-garbage --delete-older-than 2d && upd";
-      # remoldgen = "sudo nix-collect-garbage --delete-older-than 2d && upd";
+      remoldgen = "nix-collect-garbage --delete-older-than 2d && sudo nix-collect-garbage --delete-older-than 2d && upd";
       re = "systemctl reboot";
       off = "systemctl poweroff";
       nv = "nvim";
       ls = "ls -F -h --color=always --group-directories-first";
       ga = "git add";
       gc = "git commit -m";
-      gp = "git push -u origin main";
       updoff = "upd && sleep 2 && off";
       updr = "upd && sleep 2 && re";
       grep = "grep -i --colour=always";
@@ -784,7 +775,6 @@
       rm = "rm -iv";
       ll = "ls -lA";
       tm = "ps auxww | grep";
-      lines = "ls | wc -l";
       tk = "tmux kill-session";
       cco = "gcc -O -Wall -W -pedantic";
       ytmp3 = "yt-dlp --progress -q -x -o '%(title)s.%(ext)s' --audio-format mp3 --audio-quality 0 --embed-thumbnail";
@@ -827,8 +817,6 @@
       WGETRC = "$XDG_CONFIG_HOME/wgetrc";
       DOTNET_CLI_TELEMETRY_OPTOUT = 1;
       TERMINAL = "foot";
-      # EDITOR = "nvim";
-      # VISUAL = "nvim";
       EDITOR = "emacsclient -c -a emacs";
       VISUAL = "emacsclient -c -a emacs";
       FZF_DEFAULT_OPTS = "-e -i --no-scrollbar --border=none --reverse --no-info";
@@ -942,7 +930,7 @@
     # add splitp -c "#{pane_current_path}"
     enable = true;
     aggressiveResize = true;
-    prefix = "C-.";
+    prefix = "C-q";
     baseIndex = 0;
     escapeTime = 0;
     historyLimit = 100000;
@@ -976,56 +964,6 @@
       bind-key -n M-C-l resize-pane -R
     '';
   };
-
-  # programs.tmux = {
-  #   # add new-window -c "#{pane_current_path}"
-  #   # add splitp -c "#{pane_current_path}"
-  #   enable = true;
-  #   aggressiveResize = true;
-  #   prefix = "C-.";
-  #   baseIndex = 0;
-  #   escapeTime = 0;
-  #   historyLimit = 100000;
-  #   keyMode = "emacs";
-  #   mouse = true;
-  #   terminal = "tmux-256color";
-  #   extraConfig = ''
-  #     set -g set-titles on
-  #     		set -s set-clipboard external
-  #             set -g status-style fg=#c6c6c6,bg=#212121
-  #             setw -g monitor-activity on
-  #             set -g visual-activity on
-  #             set -g status-right ""
-  #             set -g status-left "#{session_group}"
-  #             set -g window-status-current-format "#[fg=black bg=black]|#[fg=white bg=black]#W#[fg=black bg=black]|"
-  #             set -g window-status-last-style "fg=#444444 bg=black"
-  #           	bind-key -n M-"v" split-window -v
-  #           	bind-key -n M-"V" split-window -h
-  #           	bind-key -n M-h select-pane -L
-  #           	bind-key -n M-j select-pane -D
-  #           	bind-key -n M-k select-pane -U
-  #           	bind-key -n M-l select-pane -R
-  #           	bind-key -n M-H swap-pane -U
-  #           	bind-key -n M-J swap-pane -D
-  #           	bind-key -n M-K swap-pane -U
-  #           	bind-key -n M-L swap-pane -D
-  #           	bind-key -n M-C-h resize-pane -L
-  #           	bind-key -n M-C-j resize-pane -D
-  #           	bind-key -n M-C-k resize-pane -U
-  #           	bind-key -n M-C-l resize-pane -R
-  #   '';
-  # };
-
-  # services.gammastep = {
-  #   enable = true;
-  #   dawnTime = "7:00";
-  #   duskTime = "20:00";
-  #   provider = "manual";
-  #   temperature = {
-  #     day = 6300;
-  #     night = 2000;
-  #   };
-  # };
 
   services.dunst = {
     enable = true;
@@ -1115,11 +1053,7 @@
       ipc = false;
       splash = false;
       preload = [ "~/Downloads/Images/realsat.jpg" ];
-      wallpaper = [
-        "eDP-1,~/Downloads/Images/realsat.jpg"
-        "HDMI-A-1,~/Downloads/Images/realsat.jpg"
-        "HDMI-A-2,~/Downloads/Images/realsat.jpg"
-      ];
+      wallpaper = [ ",~/Downloads/Images/realsat.jpg" ];
     };
   };
 
@@ -1133,7 +1067,6 @@
         ignore_systemd_inhibit = false;
         lock_cmd = "hypridle";
       };
-
       listener = [
         {
           timeout = 900;
@@ -1185,54 +1118,52 @@
   };
 
   home.packages = with pkgs; [
-    # pipx
+    # aria2
     #  bsdgames
     #  cljfmt
     # clojure
     # clojure-lsp
     # glib
-    # imagemagick
+    # codeberg-cli
+    # ffmpegthumbnailer
     # imhex
     # kismet
-    # man-pages
-    # man-pages-posix
+    # macchanger
     # nodePackages.prettier
-    # obs-studio
-    # openssl
     # pyright
     # ripgrep
-    # rlwrap
+    # rlwrap # for the readline
     # rustup
-    # texliveSmall
     # age
     # sigrok-cli
+    # gron # json grepper
+    # fq # jq for binary formats
+    # entr # run a command when files change
+    # https://github.com/ducaale/xh # httpie replacement
+    # https://viric.name/soft/ts/
+    # https://www.gnu.org/software/parallel
     alacritty
     alsa-utils
     anki-bin
-    # aria2
     astyle
     bc
     bemenu
-    # mmtc
     cargo
     ccls
-    nemo
     cliphist
-    # codeberg-cli
     dmenu
     exfatprogs
     fd
     ffmpeg
-    # ffmpegthumbnailer
     file
     fuse3
     gcc
     gdb
     gh
     ghc
-    sbcl
     gimp
     git
+    glib
     gnumake
     gojq
     grim
@@ -1241,6 +1172,7 @@
     hunspell
     hunspellDicts.en-gb-large
     hyprshade
+    imagemagick
     imv
     kdePackages.kdeconnect-kde
     keepassxc
@@ -1249,10 +1181,13 @@
     lsof
     lxqt.lxqt-policykit
     magic-wormhole
+    man-pages
+    man-pages-posix
     mpc-cli
     mpv
     mpvScripts.mpris
     mupdf
+    nemo
     neovim
     nixd
     nixfmt-rfc-style
@@ -1267,10 +1202,12 @@
     pulsemixer
     pv
     python3Full
-    rsync
     ripgrep-all
+    rsync
     ruff
     ruff-lsp
+    sbcl
+    sdcv
     shellcheck
     shfmt
     signal-desktop
@@ -1278,7 +1215,6 @@
     slurp
     smartmontools
     syncthing
-    sdcv
     texliveFull
     traceroute
     trash-cli
@@ -1294,10 +1230,8 @@
     wlr-randr
     xdg-utils
     yapf
-    macchanger
     yt-dlp
     zip
-    glib
     (aspellWithDicts (
       dicts: with dicts; [
         en

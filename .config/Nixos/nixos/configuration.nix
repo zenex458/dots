@@ -170,7 +170,8 @@
       "docker"
       "networkmanager"
     ];
-    packages = with pkgs; [ (chromium.override { enableWideVine = true; }) ]; # doesnt work in home-manager for some reason
+    packages = with pkgs; [
+    ];
   };
 
   #https://en.wikipedia.org/wiki/Network_Time_Protocol#Secure_extensions servers
