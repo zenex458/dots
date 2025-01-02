@@ -38,6 +38,7 @@
 
   services.emacs = {
     enable = true;
+    startWithUserSession = true;
     client = {
       enable = true;
       arguments = [
@@ -45,15 +46,26 @@
         "-a"
         "emacs"
       ];
+
     };
-    startWithUserSession = "graphical";
   };
+
   programs.emacs = {
     enable = true;
-    package = pkgs.emacs29-pgtk;
+    package = pkgs.emacs;
     extraPackages = epkgs: [
       epkgs.vterm
+      epkgs.pdf-tools
+      epkgs.multi-vterm
     ];
+    extraConfig = ''
+      (use-package pdf-tools
+          :magic ("%PDF" . pdf-view-mode)
+          :hook (pdf-view-mode . pdf-view-themed-minor-mode)
+          :config
+            (setq pdf-info-epdfinfo-program "${pkgs.emacsPackages.pdf-tools}/share/emacs/site-lisp/elpa/pdf-tools-20240429.407/epdfinfo")
+           (pdf-tools-install))
+    '';
   };
 
   xdg = {
@@ -175,7 +187,7 @@
         "NixosPackage" = {
           urls = [
             {
-              template = "https://search.nixos.org/packages?channel=24.05&from=0&size=50&sort=relevance&type=packages";
+              template = "https://search.nixos.org/packages?channel=24.11&from=0&size=50&sort=relevance&type=packages";
               params = [
                 {
                   name = "query";
@@ -190,7 +202,7 @@
         "NixosOption" = {
           urls = [
             {
-              template = "https://search.nixos.org/options?channel=24.05&from=0&size=50&sort=relevance&type=packages";
+              template = "https://search.nixos.org/options?channel=24.11&from=0&size=50&sort=relevance&type=packages";
               params = [
                 {
                   name = "query";
@@ -212,7 +224,7 @@
         "HomemanagerSearch" = {
           urls = [
             {
-              template = "https://home-manager-options.extranix.com/?query={searchTerms}&release=release-24.05";
+              template = "https://home-manager-options.extranix.com/?query={searchTerms}&release=release-24.11";
             }
           ];
           iconUpdateURL = "https://home-manager-options.extranix.com/images/favicon.png";
@@ -1222,6 +1234,7 @@
     usbutils
     ventoy-full
     vesktop
+    xmlformat
     virt-manager
     wdisplays
     wl-clip-persist
