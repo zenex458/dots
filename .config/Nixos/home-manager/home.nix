@@ -5,8 +5,7 @@
   config,
   pkgs,
   ...
-}:
-{
+}: {
   # You can import other home-manager modules here
   imports = [
     # If you want to use modules your own flake exports (from modules/home-manager):
@@ -46,7 +45,6 @@
         "-a"
         "emacs"
       ];
-
     };
   };
 
@@ -114,13 +112,15 @@
     iconTheme.name = "Paper-Mono-Dark";
     cursorTheme.name = "plan9";
     cursorTheme.size = 20;
-    font.package = pkgs.iosevka;
-    font.name = "Iosevka Extended";
+    # font.package = pkgs.iosevka;
+    # font.name = "Iosevka";
+    font.package = pkgs.uw-ttyp0;
+    font.name = "Ttyp0";
     font.size = 10;
   };
   programs.chromium = {
     enable = true;
-    package = pkgs.ungoogled-chromium.override { enableWideVine = true; };
+    package = pkgs.ungoogled-chromium.override {enableWideVine = true;};
   };
   programs.firefox = {
     enable = true;
@@ -167,7 +167,7 @@
             }
           ];
           iconUpdateURL = "https://www.startpage.com/sp/cdn/favicons/favicon-32x32-gradient.png";
-          definedAliases = [ "@st" ];
+          definedAliases = ["@st"];
         };
         "Searx" = {
           urls = [
@@ -182,7 +182,7 @@
             }
           ];
           iconUpdateURL = "https://priv.au/static/themes/simple/img/favicon.png?60321eeb6e2f478f0e5704529308c594d5924246";
-          definedAliases = [ "@pv" ];
+          definedAliases = ["@pv"];
         };
         "NixosPackage" = {
           urls = [
@@ -197,7 +197,7 @@
             }
           ];
           iconUpdateURL = "https://search.nixos.org/favicon.png";
-          definedAliases = [ "@np" ];
+          definedAliases = ["@np"];
         };
         "NixosOption" = {
           urls = [
@@ -212,13 +212,13 @@
             }
           ];
           iconUpdateURL = "https://search.nixos.org/favicon.png";
-          definedAliases = [ "@no" ];
+          definedAliases = ["@no"];
         };
 
         "NixosWiki" = {
-          urls = [ { template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; } ];
+          urls = [{template = "https://wiki.nixos.org/w/index.php?search={searchTerms}";}];
           iconUpdateURL = "https://wiki.nixos.org/favicon.ico";
-          definedAliases = [ "@nw" ];
+          definedAliases = ["@nw"];
         };
 
         "HomemanagerSearch" = {
@@ -228,7 +228,7 @@
             }
           ];
           iconUpdateURL = "https://home-manager-options.extranix.com/images/favicon.png";
-          definedAliases = [ "@hs" ];
+          definedAliases = ["@hs"];
         };
       };
       search.force = true;
@@ -506,7 +506,7 @@
             }
           ];
           iconUpdateURL = "https://www.startpage.com/sp/cdn/favicons/favicon-32x32-gradient.png";
-          definedAliases = [ "@st" ];
+          definedAliases = ["@st"];
         };
       };
       search.force = true;
@@ -691,6 +691,202 @@
       };
     };
   };
+
+  wayland.windowManager.hyprland = {
+    enable = true;
+    settings = {
+      input = {
+        kb_layout = "gb";
+        kb_options = "altwin:ctrl_alt_win,caps:shift_nocancel,caps:backspace";
+        repeat_rate = 25;
+        repeat_delay = 600;
+        follow_mouse = 1;
+        sensitivity = 0;
+        touchpad.natural_scroll = "no";
+      };
+      general = {
+        gaps_in = 0;
+        gaps_out = 0;
+        border_size = 1;
+        "col.active_border" = "rgba(bdae93ff)";
+        "col.inactive_border" = "rgba(000000aa)";
+        layout = "master";
+        allow_tearing = false;
+      };
+      cursor = {
+        hide_on_key_press = false;
+        inactive_timeout = 20;
+      };
+      decoration = {
+        rounding = 0;
+        blur = {
+          enabled = false;
+          size = 3;
+          passes = 1;
+        };
+      };
+      animations = {
+        enabled = "no";
+      };
+      gestures = {
+        workspace_swipe = "off";
+      };
+      misc = {
+        force_default_wallpaper = 0;
+        disable_hyprland_logo = true;
+        disable_splash_rendering = true;
+      };
+      bind = [
+        "$mainMod, Return, exec, footclient tmux"
+        "$mainMod, A, exec, vol.sh"
+        "$mainMod SHIFT, Q, killactive,"
+        "$mainMod SHIFT CTRL, Z, exit,"
+        "$mainMod, V, togglefloating"
+        "$mainMod, C, exec, firejail firefox -P priv"
+        "$mainMod SHIFT, C, exec, firejail firefox"
+        "$mainMod, U, exec, emacsclient -c -a emacs"
+        "$mainMod, P, exec, bemenu-run"
+        "$mainMod SHIFT, O, exec, mpc next"
+        "$mainMod SHIFT, I, exec, mpc prev"
+        "$mainMod SHIFT, P, exec, mpc toggle"
+        "$mainMod SHIFT, Prior, exec, light -A 2"
+        "$mainMod SHIFT, Next, exec, light -U 2"
+        "$mainMod SHIFT, Home, exec, light.sh"
+        "$mainMod, M, exec, Menu"
+        "ALT, Tab, exec, show.sh"
+        "$mainMod, Y, exec, clipshow.sh"
+        "$mainMod, F, fullscreen, 0"
+        "$mainMod, W, focusmonitor, HDMI-A-1"
+        "$mainMod, E, focusmonitor, eDP-1"
+        "$mainMod, R, focusmonitor, HDMI-A-2"
+        "$mainMod, h, movefocus, l"
+        "$mainMod, l, movefocus, r"
+        "$mainMod, j, movefocus, u"
+        "$mainMod, k, movefocus, d"
+        "SUPER, 1, focusworkspaceoncurrentmonitor, 1"
+        "SUPER, 2, focusworkspaceoncurrentmonitor, 2"
+        "SUPER, 3, focusworkspaceoncurrentmonitor, 3"
+        "SUPER, 4, focusworkspaceoncurrentmonitor, 4"
+        "SUPER, 5, focusworkspaceoncurrentmonitor, 5"
+        "SUPER, 6, focusworkspaceoncurrentmonitor, 6"
+        "SUPER, 7, focusworkspaceoncurrentmonitor, 7"
+        "SUPER, 8, focusworkspaceoncurrentmonitor, 8"
+        "SUPER, 9, focusworkspaceoncurrentmonitor, 9"
+        "$mainMod SHIFT, 1, movetoworkspacesilent, 1"
+        "$mainMod SHIFT, 2, movetoworkspacesilent, 2"
+        "$mainMod SHIFT, 3, movetoworkspacesilent, 3"
+        "$mainMod SHIFT, 4, movetoworkspacesilent, 4"
+        "$mainMod SHIFT, 5, movetoworkspacesilent, 5"
+        "$mainMod SHIFT, 6, movetoworkspacesilent, 6"
+        "$mainMod SHIFT, 7, movetoworkspacesilent, 7"
+        "$mainMod SHIFT, 8, movetoworkspacesilent, 8"
+        "$mainMod SHIFT, 9, movetoworkspacesilent, 9"
+        "$mainMod SHIFT, 0, movetoworkspacesilent, 10"
+      ];
+      bindm = [
+        "$mainMod, mouse:272, movewindow"
+        "$mainMod, mouse:273, resizewindow"
+      ];
+      "$mainMod" = "SUPER";
+    };
+    extraConfig = ''
+      monitor=HDMI-A-1,1280x1024,0x0, 1
+      monitor=eDP-1,1920x1080,1280x0, 1
+      monitor=HDMI-A-2,1280x1024,3200x0, 1
+
+      exec-once = dunst
+      exec-once = lxqt-policykit-agent
+      exec-once = hyprpaper
+      exec-once = hypridle
+      exec-once = ~/.local/bin/batt.sh
+      exec-once = ~/.local/bin/dark.sh
+      exec-once = wlsunset -S 07:00 -s 20:00 -T 4800 -t 2600
+      exec-once = wl-paste --watch cliphist store
+      exec-once = cliphist wipe
+      exec-once = hyprctl setcursor plan9 20
+      exec-once = dconf write /org/gnome/desktop/interface/cursor-theme "plan9"
+      exec-once = gsettings set org.gnome.desktop.interface cursor-theme 'plan9'
+
+      env = HYPRCURSOR_THEME,plan9
+      env = HYPRCURSOR_SIZE,20
+      env = XCURSOR_THEME,plan9
+      env = XCURSOR_SIZE,20
+
+      windowrulev2 = workspace 1,class:^(firefox)$,
+      windowrulev2 = workspace 2,class:^(emacs)$,
+      windowrulev2 = workspace 8,fullscreen,class:^(mpv)$,
+    '';
+  };
+  services.hyprpaper = {
+    enable = true;
+    settings = {
+      ipc = false;
+      splash = false;
+      preload = ["~/Downloads/Images/realsat.jpg"];
+      wallpaper = [",~/Downloads/Images/realsat.jpg"];
+    };
+  };
+
+  services.hypridle = {
+    enable = true;
+    settings = {
+      general = {
+        after_sleep_cmd = "hyprctl dispatch dpms on";
+        before_sleep_cmd = "hyprlock";
+        ignore_dbus_inhibit = false;
+        ignore_systemd_inhibit = false;
+        lock_cmd = "hypridle";
+      };
+      listener = [
+        {
+          timeout = 900;
+          on-timeout = "hypridle";
+        }
+        {
+          timeout = 1200;
+          on-timeout = "hyprctl dispatch dpms off";
+          on-resume = "hyprctl dispatch dpms on";
+        }
+      ];
+    };
+  };
+
+  programs.hyprlock = {
+    enable = true;
+    settings = {
+      general = [
+        {
+          monitor = "";
+          ignore_empty_input = true;
+          hide_cursor = true;
+          no_fade_in = true;
+          no_fade_out = true;
+        }
+      ];
+      background = [{color = "rgb(0, 0, 0)";}];
+      input-field = [
+        {
+          size = "300, 50";
+          position = "0, -80";
+          halign = "center";
+          valign = "center";
+          monitor = "";
+          dots_center = true;
+          fade_on_empty = true;
+          font_color = "rgb(202, 211, 245)";
+          # inner_color = "rgb(91, 96, 120)";
+          inner_color = "rgb(0, 0, 0)";
+          # outer_color = "rgb(24, 25, 38)";
+          outer_color = "rgb(0, 0, 0)";
+          outline_thickness = 3;
+          placeholder_text = "";
+          shadow_passes = 0;
+          rounding = 0;
+        }
+      ];
+    };
+  };
+
   home.sessionPath = [
     "$HOME/.local/bin"
     "$HOME/.dotnet/tools"
@@ -742,7 +938,7 @@
   programs.bash = {
     enable = true;
     enableCompletion = true;
-    historyControl = [ "ignoredups" ];
+    historyControl = ["ignoredups"];
     historyFile = "$HOME/.local/share/.bash_history";
     historyFileSize = 10000;
     historySize = 10000;
@@ -840,7 +1036,7 @@
       SAL_USE_VCLPLUGIN = "gtk3";
       XCURSOR_THEME = "plan9";
       XCURSOR_SIZE = 20;
-      BEMENU_OPTS = ''-i --fn 'Iosevka' -B '1' -f -p '>' -n --tb '#bdae93' --tf '#000000' --fb '#000000' --ff '#bdae93' --nb '#000000' --nf '#bdae93' --ab '#000000' --af '#bdae93' --sb '#000000' --sf '#bdae93' --cb '#bdae93' --cf '#bdae93' --hb '#bdae93' --hf '#000000' --sb '#bdae93' --sf '#000000' --scb '#000000' --scf '#bdae93' --bdr '#bdae93' '';
+      BEMENU_OPTS = ''-i --fn 'Ttyp0' -B '1' -f -p '>' -n --tb '#bdae93' --tf '#000000' --fb '#000000' --ff '#bdae93' --nb '#000000' --nf '#bdae93' --ab '#000000' --af '#bdae93' --sb '#000000' --sf '#bdae93' --cb '#bdae93' --cf '#bdae93' --hb '#bdae93' --hf '#000000' --sb '#bdae93' --sf '#000000' --scb '#000000' --scf '#bdae93' --bdr '#bdae93' '';
     };
     initExtra = ''
       PROMPT_COMMAND="''${PROMPT_COMMAND:+$PROMPT_COMMAND$'
@@ -848,8 +1044,8 @@
   };
   dconf.settings = {
     "org/virt-manager/virt-manager/connections" = {
-      autoconnect = [ "qemu:///system" ];
-      uris = [ "qemu:///system" ];
+      autoconnect = ["qemu:///system"];
+      uris = ["qemu:///system"];
     };
   };
 
@@ -907,7 +1103,7 @@
       message_delay_time = 1;
       default_find_mode = "wrapped";
     };
-    bindings = [ ];
+    bindings = [];
   };
 
   programs.htop = {
@@ -931,10 +1127,6 @@
       sandbox = "strict";
       database = "sqlite";
     };
-  };
-  wayland.windowManager.hyprland = {
-    enable = true;
-    extraConfig = builtins.readFile ./hyprland.conf; # #too much effort to do it with options and extraConfig
   };
 
   programs.tmux = {
@@ -987,7 +1179,7 @@
         origin = "top-right";
         transparency = 0;
         frame_color = "#bdae93"; # c6c6c6
-        font = "Iosevka Bold 10";
+        font = "Ttyp0 Bold 10";
         vertical_alignment = "center";
         alignment = "center";
         mouse_left_click = "close_current";
@@ -1023,7 +1215,7 @@
     settings = {
       main = {
         term = "xterm-256color";
-        font = "Iosevka:size=11";
+        font = "Ttyp0:style=Regular:size=11";
         dpi-aware = "no";
       };
       mouse = {
@@ -1056,76 +1248,6 @@
         bright6 = "24dfc4"; # bright cyan
         bright7 = "ffffff"; # bright white
       };
-    };
-  };
-
-  services.hyprpaper = {
-    enable = true;
-    settings = {
-      ipc = false;
-      splash = false;
-      preload = [ "~/Downloads/Images/realsat.jpg" ];
-      wallpaper = [ ",~/Downloads/Images/realsat.jpg" ];
-    };
-  };
-
-  services.hypridle = {
-    enable = true;
-    settings = {
-      general = {
-        after_sleep_cmd = "hyprctl dispatch dpms on";
-        before_sleep_cmd = "hyprlock";
-        ignore_dbus_inhibit = false;
-        ignore_systemd_inhibit = false;
-        lock_cmd = "hypridle";
-      };
-      listener = [
-        {
-          timeout = 900;
-          on-timeout = "hypridle";
-        }
-        {
-          timeout = 1200;
-          on-timeout = "hyprctl dispatch dpms off";
-          on-resume = "hyprctl dispatch dpms on";
-        }
-      ];
-    };
-  };
-
-  programs.hyprlock = {
-    enable = true;
-    settings = {
-      general = [
-        {
-          monitor = "";
-          ignore_empty_input = true;
-          hide_cursor = true;
-          no_fade_in = true;
-          no_fade_out = true;
-        }
-      ];
-      background = [ { color = "rgb(0, 0, 0)"; } ];
-      input-field = [
-        {
-          size = "300, 50";
-          position = "0, -80";
-          halign = "center";
-          valign = "center";
-          monitor = "";
-          dots_center = true;
-          fade_on_empty = true;
-          font_color = "rgb(202, 211, 245)";
-          # inner_color = "rgb(91, 96, 120)";
-          inner_color = "rgb(0, 0, 0)";
-          # outer_color = "rgb(24, 25, 38)";
-          outer_color = "rgb(0, 0, 0)";
-          outline_thickness = 3;
-          placeholder_text = "";
-          shadow_passes = 0;
-          rounding = 0;
-        }
-      ];
     };
   };
 
@@ -1183,7 +1305,9 @@
     htop
     hunspell
     hunspellDicts.en-gb-large
-    hyprshade
+    # hyprshade
+    # hyprsunset
+    wlsunset
     imagemagick
     imv
     kdePackages.kdeconnect-kde
@@ -1202,7 +1326,8 @@
     nemo
     neovim
     nixd
-    nixfmt-rfc-style
+    # nixfmt-rfc-style
+    alejandra
     nodePackages.bash-language-server
     obs-studio
     openssl
@@ -1246,11 +1371,12 @@
     yt-dlp
     zip
     (aspellWithDicts (
-      dicts: with dicts; [
-        en
-        en-computers
-        en-science
-      ]
+      dicts:
+        with dicts; [
+          en
+          en-computers
+          en-science
+        ]
     ))
   ];
 

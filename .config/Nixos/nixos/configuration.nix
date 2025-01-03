@@ -8,8 +8,7 @@
   #config,
   pkgs,
   ...
-}:
-{
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -19,7 +18,7 @@
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
-    supportedFilesystems = [ "ntfs" ];
+    supportedFilesystems = ["ntfs"];
     loader = {
       systemd-boot.enable = true;
       systemd-boot.editor = false;
@@ -119,6 +118,7 @@
     };
     hyprland = {
       enable = true;
+      withUWSM = true;
       xwayland.enable = true;
     };
     firejail = {
@@ -329,6 +329,7 @@
   # $ nix search wget
   environment = {
     sessionVariables.NIXOS_OZONE_WL = "1";
+    sessionVariables.FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
     #defaultPackages = lib.mkForce [ ];
     systemPackages = with pkgs; [
       git
@@ -362,7 +363,8 @@
     };
   };
   fonts.packages = with pkgs; [
-    iosevka
+    iosevka-bin
+    uw-ttyp0
     vistafonts
     #    (nerdfonts.override { fonts = [ "Iosevka" "IosevkaTerm" ]; })
   ];
@@ -374,13 +376,13 @@
   };
 
   security = {
-    pam.services.hyprlock = { };
+    pam.services.hyprlock = {};
     apparmor = {
       enable = true;
     };
     auditd.enable = true;
     audit.enable = true;
-    audit.rules = [ "-a exit,always -F arch=b64 -S execve" ];
+    audit.rules = ["-a exit,always -F arch=b64 -S execve"];
     chromiumSuidSandbox.enable = true;
     rtkit.enable = true;
     polkit.enable = true;
@@ -416,14 +418,14 @@
   };
 
   nix = {
-    nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+    nixPath = ["nixpkgs=${inputs.nixpkgs}"];
     settings = {
       experimental-features = [
         "nix-command"
         "flakes"
       ];
       auto-optimise-store = true;
-      allowed-users = [ "@wheel" ];
+      allowed-users = ["@wheel"];
     };
     # gc = {
     #   automatic = true;
