@@ -13,14 +13,18 @@
   (require 'use-package))
 
 ;; (setq custom-file (make-temp-file "emacs-custom-"))
-(expand-file-name "")
-(setq custom-file (expand-file-name "~/.emacs.d/emacs-custom.el"))
+;; (setq custom-file (expand-file-name "~/.emacs.d/emacs-custom.el"))
 (setq ffap-machine-p-known 'reject)
+(setq ring-bell-function 'ignore)
+(setq visible-bell nil)
 (defvar ispell-dictionary "british")
 (setq auto-save-default t)
 (setq sort-fold-case t)
 (setq comment-multi-line t)
 (setq sentence-end-double-space nil)
+(setq compilation-scroll-output t)
+(setq compilation-auto-jump-to-first-error t)
+(add-hook 'compilation-filter-hook #'ansi-color-compilation-filter)
 (setq fill-column 80)
 (setq confirm-kill-emacs 'y-or-n-p)
 (setq dired-listing-switches "-AlF --si -Gg --group-directories-first")
@@ -60,6 +64,7 @@
 (setq-default indent-tabs-mode nil)
 (electric-indent-mode)
 (setq tab-always-indent 'complete)
+(setq completion-cycle-threshold 3)
 (setq read-extended-command-predicate #'command-completion-default-include-p)
 (setq password-cache-expiry 3600)
 (setq history-length 2000)
@@ -116,12 +121,131 @@
 (diminish 'visual-line-mode)
 (diminish 'eldoc-mode)
 
-(fido-mode)
-(setq completion-category-overrides '((file (initials))))
-;; (setq completion-styles '(initials partial-completion flex ))
-(setq completion-styles '(basic substring initials partial-completion flex ))
-(global-set-key [remap minibuffer-complete] 'icomplete-fido-ret)
-(setq icomplete-compute-delay 0)
+(use-package vertico
+  :config
+  (vertico-mode 1)
+  (vertico-flat-mode 1)
+  (setq vertico-count 40))
+
+(use-package vertico-directory
+  :after vertico
+  :ensure nil
+  :bind (:map vertico-map
+              ("RET" . vertico-directory-enter)
+              ("DEL" . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word))
+  ;; Tidy shadowed file names
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+
+(use-package orderless
+  :custom
+  (completion-styles '(orderless basic substring initials partial-completion))
+  (completion-category-defaults nil)
+  ;; (completion-category-overrides '((file (styles partial-completion))))
+  (completion-category-overrides '((file (initials))))
+  )
+
+(use-package consult
+  :bind (;; C-c bindings in `mode-specific-map'
+         ("C-c M-x" . consult-mode-command)
+         ("C-c h" . consult-history)
+         ("C-c k" . consult-kmacro)
+         ("C-c m" . consult-man)
+         ("C-c i" . consult-info)
+         ([remap Info-search] . consult-info)
+         ;; C-x bindings in `ctl-x-map'
+         ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
+         ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
+         ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
+         ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
+         ("C-x t b" . consult-buffer-other-tab)    ;; orig. switch-to-buffer-other-tab
+         ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
+         ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
+         ;; Custom M-# bindings for fast register access
+         ("M-#" . consult-register-load)
+         ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
+         ("C-M-#" . consult-register)
+         ;; Other custom bindings
+         ("M-y" . consult-yank-pop)                ;; orig. yank-pop
+         ;; M-g bindings in `goto-map'
+         ("M-g e" . consult-compile-error)
+         ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
+         ("M-g g" . consult-goto-line)             ;; orig. goto-line
+         ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
+         ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
+         ("M-g m" . consult-mark)
+         ("M-g k" . consult-global-mark)
+         ("M-g i" . consult-imenu)
+         ("M-g I" . consult-imenu-multi)
+         ;; M-s bindings in `search-map'
+         ("M-s d" . consult-find)                  ;; Alternative: consult-fd
+         ("M-s c" . consult-locate)
+         ("M-s g" . consult-grep)
+         ("M-s G" . consult-git-grep)
+         ("M-s r" . consult-ripgrep)
+         ("M-s l" . consult-line)
+         ("M-s L" . consult-line-multi)
+         ("M-s k" . consult-keep-lines)
+         ("M-s u" . consult-focus-lines)
+         ;; Isearch integration
+         ("M-s e" . consult-isearch-history)
+         :map isearch-mode-map
+         ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
+         ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
+         ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
+         ("M-s L" . consult-line-multi)            ;; needed by consult-line to detect isearch
+         ;; Minibuffer history
+         :map minibuffer-local-map
+         ("M-s" . consult-history)                 ;; orig. next-matching-history-element
+         ("M-r" . consult-history))                ;; orig. previous-matching-history-element
+
+  ;; Enable automatic preview at point in the *Completions* buffer. This is
+  ;; relevant when you use the default completion UI.
+  :hook (completion-list-mode . consult-preview-at-point-mode)
+  :init
+  (advice-add #'register-preview :override #'consult-register-window)
+  (setq register-preview-delay 0.5)
+  ;; Use Consult to select xref locations with preview
+  (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref)
+  :config
+  (consult-customize
+   consult-theme :preview-key '(:debounce 0.2 any)
+   consult-ripgrep consult-git-grep consult-grep
+   consult-bookmark consult-recent-file consult-xref
+   consult--source-bookmark consult--source-file-register
+   consult--source-recent-file consult--source-project-recent-file
+   :preview-key '(:debounce 0.4 any))
+  (setq consult-narrow-key "<"))
+
+(use-package embark
+  :bind
+  (("C-." . embark-act)         ;; pick some comfortable binding
+   ("C-;" . embark-dwim)        ;; good alternative: M-.
+   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+  :init
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command)
+
+  ;; Show the Embark target at point via Eldoc. You may adjust the
+  ;; Eldoc strategy, if you want to see the documentation from
+  ;; multiple providers. Beware that using this can be a little
+  ;; jarring since the message shown in the minibuffer can be more
+  ;; than one line, causing the modeline to move up and down:
+
+  ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
+  ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
+  :config
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+
+(use-package embark-consult
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package apheleia
   :init
@@ -146,8 +270,11 @@
 		'("tidy" "-i" "-q" "-f" "err"))
   (add-to-list 'apheleia-mode-alist '(html-mode . tidy))
   (setf (alist-get 'nixfmt apheleia-formatters)
-		'("nixfmt"))
+		'("alejandra"))
   (add-to-list 'apheleia-mode-alist '(nix-ts-mode . nixfmt))
+  (setf (alist-get 'xmlformat apheleia-formatters)
+		'("xmlformat"))
+  (add-to-list 'apheleia-mode-alist '(nxml-mode . xmlformat))
   (setf (alist-get 'ormolu apheleia-formatters)
 		'("ormolu" "--stdin-input-file" "--"))
   (add-to-list 'apheleia-mode-alist '(haskell-mode . ormolu)))
@@ -214,11 +341,21 @@
   :bind ("C-c r" . updnix))
 
 (use-package corfu
+  :custom
+  (corfu-cycle t)
+  (corfu-preselect 'prompt)
+  :bind
+  (:map corfu-map
+        ("TAB" . corfu-next)
+        ([tab] . corfu-next)
+        ("S-TAB" . corfu-previous)
+        ([backtab] . corfu-previous))
   :hook ((prog-mode . corfu-mode)
 		 (prog-mode . corfu-popupinfo-mode)))
 
 (use-package cape
   :init
+  (add-to-list 'completion-at-point-functions #'cape-keyword)
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-abbrev)
   (add-to-list 'completion-at-point-functions #'cape-history)
@@ -341,22 +478,11 @@
 
 ;;(use-package editorconfig)
 
+(use-package writeroom-mode
+  :custom
+  (writeroom-bottom-divider-width 0))
+
 (use-package sdcv)
-
-(use-package golden-ratio
-  :config
-  (setq golden-ratio-auto-scale t)
-  (add-to-list 'golden-ratio-extra-commands 'ace-window)
-  (golden-ratio-mode 1))
-
-(use-package edwina
-  :config
-  (setq display-buffer-base-action '(display-buffer-below-selected))
-  (setq edwina-mode-line-format "")
-  (edwina-mode 1))
-
-(use-package vterm)
-(use-package multi-vterm)
 
 (use-package indent-guide
   :hook (python-ts-mode . indent-guide-mode))
@@ -374,7 +500,6 @@
 ;;(global-set-key (kbd "<C-S-D>") 'backward-delete-char) ;;https://www.emacswiki.org/emacs/ShiftedKeys and https://www.emacswiki.org/emacs/TheMysteriousCaseOfShiftedFunctionKeys to fix
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 (global-set-key [remap dabbrev-expand] 'hippie-expand)
-(global-set-key (kbd "C-c b") 'bookmark-jump)
 (global-set-key (kbd "C-M-x") 'embark-export)
 (define-prefix-command 'avy-n-map);; add this? http://yummymelon.com/devnull/announcing-casual-avy.html
 (global-set-key (kbd "M-j") 'avy-n-map)
@@ -420,7 +545,7 @@
 								 mode-line-position
 								 (vc-mode vc-mode) mode-line-modes mode-line-misc-info mode-line-end-spaces))
 
-(server-start)
+;;(server-start)
 
 (provide 'init)
 ;;; init.el ends here
