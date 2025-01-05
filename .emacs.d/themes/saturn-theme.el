@@ -1,9 +1,9 @@
-;;; morest-theme.el --- Theme
+;;; saturn-theme.el --- Theme
 
 ;; Copyright (C) 2023 , zenex
 
 ;; Author: zenex
-;; Version: 0.3
+;; Version: 0.4
 ;; Package-Requires: ((emacs "24"))
 ;; Created with ThemeCreator, https://github.com/mswift42/themecreator.
 
@@ -24,18 +24,18 @@
 ;; This file is not part of Emacs.
 
 ;;; Commentary:
+;; This was inspired by https://github.com/guidoschmidt/emacs-nyx-theme.
 
 ;;; Code:
 
-;;TODO: figure out how to change the orderless matching colours, look at `modus-vivendi' for how to do it.
-
-(deftheme morest)
+(deftheme saturn)
 (let ((class '((class color) (min-colors 89)))
-      (fg1 "#c6c6c6")
-      (fg2 "#b6b6b6")
-      (fg3 "#a6a6a6")
-      (fg4 "#969696")
-      (bg1 "#212121")
+      (fg1 "#bdae93") ;;c6c6c6
+      (fg2 "#b3a283") ;;b6b6b6
+      (fg3 "#aa9673") ;;a6a6a6
+      (fg4 "#a08a64") ;;969696
+      ;; (bg1 "#212121")
+      (bg1 "#000000")
       (bg2 "#2e2e2e")
       (bg3 "#414141")
       (bg4 "#555555")
@@ -50,7 +50,7 @@
       (warning "#ff0000")
       (warning2 "#e67300"))
   (custom-theme-set-faces
-   'morest
+   'saturn
    `(default ((,class (:background ,bg1 :foreground ,fg1))))
    `(font-lock-builtin-face ((,class (:foreground ,builtin))))
    `(font-lock-comment-face ((,class (:slant italic :foreground ,comment))))
@@ -64,8 +64,7 @@
    `(font-lock-type-face ((,class (:foreground ,type ))))
    `(font-lock-variable-name-face ((,class (:foreground ,var))))
    `(font-lock-warning-face ((,class (:foreground ,warning :background ,bg2))))
-   `(term-color-black ((,class (:foreground ,fg2 :background nil))))
-   `(region ((,class (:background ,"#888888" :foreground ,"#000000"))))
+   `(region ((,class (:background ,"#a08a64" :foreground ,"#000000"))))
    `(highlight ((,class (:foreground ,fg2 :background ,bg4))))
    `(hl-line ((,class (:background  ,bg3))))
    `(fringe ((,class (:background ,bg1 :foreground ,builtin))))
@@ -82,13 +81,13 @@
    `(link ((,class (:foreground ,const :underline t))))
    `(org-code ((,class (:foreground ,fg2))))
    `(org-hide ((,class (:foreground ,fg4))))
-   `(org-level-1 ((,class (:bold t :foreground ,fg1 :height 1.1))))
+   `(org-level-1 ((,class (:bold t :foreground ,"#6cb2eb"))))
    `(org-level-2 ((,class (:bold t :foreground ,builtin))))
-   `(org-level-3 ((,class (:bold t :foreground ,fg1))))
+   `(org-level-3 ((,class (:bold t :foreground ,"#6cb2eb"))))
    `(org-level-4 ((,class (:bold t :foreground ,builtin))))
-   `(org-level-5 ((,class (:bold t :foreground ,fg1))))
+   `(org-level-5 ((,class (:bold t :foreground ,"#6cb2eb"))))
    `(org-level-6 ((,class (:bold t :foreground ,builtin))))
-   `(org-level-7 ((,class (:bold t :foreground ,fg1))))
+   `(org-level-7 ((,class (:bold t :foreground ,"#6cb2eb"))))
    `(org-level-8 ((,class (:bold t :foreground ,builtin))))
    `(org-document-info-keyword ((,class (:bold t :foreground ,keyword))))
    `(org-document-title ((,class (:bold t :foreground ,fg1))))
@@ -178,13 +177,14 @@
    `(magit-diff-file-header ((,class (:foreground ,fg2 :background ,bg3))))
    `(lazy-highlight ((,class (:foreground ,fg2 :background ,bg3))))
    `(term ((,class (:foreground ,fg1 :background ,bg1))))
-   `(term-color-black ((,class (:foreground ,bg3 :background ,bg3))))
-   `(term-color-blue ((,class (:foreground ,func :background ,func))))
-   `(term-color-red ((,class (:foreground ,keyword :background ,bg3))))
-   `(term-color-green ((,class (:foreground ,type :background ,bg3))))
-   `(term-color-yellow ((,class (:foreground ,var :background ,var))))
-   `(term-color-magenta ((,class (:foreground ,builtin :background ,builtin))))
-   `(term-color-cyan ((,class (:foreground ,str :background ,str))))
+   ;; `(term-color-black ((,class (:foreground ,bg3 :background ,bg3))))
+   `(term-color-black ((,class (:foreground ,fg2 :background unspecified))))
+   `(term-color-blue ((,class (:foreground ,type :background ,type))))
+   `(term-color-red ((,class (:foreground ,keyword :background ,keyword))))
+   `(term-color-green ((,class (:foreground ,str :background ,str))))
+   `(term-color-yellow ((,class (:foreground ,const :background ,const))))
+   `(term-color-magenta ((,class (:foreground ,var :background ,var))))
+   `(term-color-cyan ((,class (:foreground ,"#6cb2eb" :background ,"#6cb2eb"))))
    `(term-color-white ((,class (:foreground ,fg2 :background ,fg2))))
    `(rainbow-delimiters-unmatched-face ((,class :foreground ,warning)))
    `(company-echo-common ((,class (:foreground ,bg1 :background ,fg1))))
@@ -228,6 +228,44 @@
    `(markdown-header-face-6 ((t (:bold t :foreground ,builtin))))
    `(sh-quoted-exec ((t (:foreground , builtin))))
    `(dired-directory ((t (:foreground , "#6cb2eb"))))
+   `(diredp-dir-name ((t (:foreground , "#6cb2eb"))))
+   `(diredp-symlink ((,class (:foreground ,fg4))))
+   `(diredp-file-name ((,class (:foreground ,fg1))))
+   `(diredp-date-time ((,class (:foreground ,fg1))))
+   `(diredp-number ((,class (:foreground ,fg1))))
+   `(diredp-file-suffix ((,class (:foreground ,fg1))))
+   `(diredp-executable-tag ((,class (:foreground ,str))))
+   `(diredp-exec-priv ((,class (:foreground ,str))))
+   `(diredp-read-priv ((,class (:foreground ,keyword))))
+   `(diredp-write-priv ((,class (:foreground ,const))))
+   `(diredp-no-priv ((,class (:foreground ,fg1))))
+   `(diredp-dir-priv ((t (:foreground , "#6cb2eb"))))
+   `(diredp-link-priv ((,class (:foreground ,fg4))))
+   `(diredp-dir-heading ((,class (:foreground ,fg1))))
+   `(diredp-compressed-file-name ((,class (:foreground ,"#a52a2a"))))
+   `(diredp-compressed-file-suffix ((,class (:foreground ,"#a52a2a"))))
+   `(marginalia-file-priv-exec ((,class (:foreground ,str))))
+   `(marginalia-file-priv-read ((,class (:foreground ,keyword))))
+   `(marginalia-file-priv-write ((,class (:foreground ,const))))
+   `(marginalia-file-priv-dir ((t (:foreground , "#6cb2eb"))))
+   `(completions-first-difference ((t (:background , "#bdae93" :foreground, bg1))))
+   `(completions-highlight ((t (:background , "#e67300" :foreground , "#e67300" ))))
+   `(completions-common-part ((t (:foreground , "#B33929"))))
+   `(goggles-removed ((t (:background , "#B33929"))))
+   `(goggles-added ((t (:background , "#75B329"))))
+   `(goggles-changed ((t (:background , "#2874B2"))))
+   `(elfeed-search-unread-title-face ((t (:foreground ,fg1 :bold t))))
+   `(elfeed-search-title-face ((t (:foreground ,fg1))))
+   `(elfeed-search-date-face ((t (:foreground ,fg4))))
+   `(elfeed-search-tag-face ((t (:foreground ,fg4))))
+   `(elfeed-search-feed-face ((t (:foreground ,fg2))))
+   `(elfeed-search-last-update-face ((t (:foreground ,fg1))))
+   `(elfeed-search-filter-face ((t (:foreground ,fg1))))
+   `(elfeed-search-unread-count-face ((t (:foreground ,fg1))))
+   `(orderless-match-face-0 ((t (:foreground ,func))))
+   `(orderless-match-face-1 ((t (:foreground ,str))))
+   `(orderless-match-face-2 ((t (:foreground ,type))))
+   `(orderless-match-face-3 ((t (:foreground ,var))))
    ;;  `(markdown-header-face-6 ((t (:bold t :foreground "#0073e6"))))
    ;; `(sh-quoted-exec ((t (:foreground "#0073e6"))))
    ;; `(dired-directory ((t (:foreground "#0073e6"))))
@@ -238,33 +276,34 @@
    `(compilation-warning ((t (:bold t :foreground ,warning2))))
 
    )
+
   ;; Legacy
   (if (< emacs-major-version 22)
       (custom-theme-set-faces
-	   'morest
+	   'saturn
 	   `(show-paren-match-face ((,class (:background ,warning)))) ;; obsoleted in 22.1, removed 2016
 	   )
-	(custom-theme-set-faces
-	 'morest
-	 `(show-paren-match ((,class (:foreground ,bg1 :background ,str))))
-	 `(show-paren-mismatch ((,class (:foreground ,bg1 :background ,warning))))
-	 )
-	)
+    (custom-theme-set-faces
+     'saturn
+     `(show-paren-match ((,class (:foreground ,bg1 :background ,str))))
+     `(show-paren-mismatch ((,class (:foreground ,bg1 :background ,warning))))
+     )
+    )
   ;; emacs >= 26.1
   (when (>= emacs-major-version 26)
-	(custom-theme-set-faces
-	 'morest
-	 `(line-number ((t (:inherit fringe))))
-	 `(line-number-current-line ((t (:inherit fringe :foreground "white" :weight bold))))))
+    (custom-theme-set-faces
+     'saturn
+     `(line-number ((t (:inherit fringe))))
+     `(line-number-current-line ((t (:inherit fringe :foreground "white" :weight bold))))))
   ;; emacs >= 27.1
   (when (>= emacs-major-version 27)
-	(custom-theme-set-faces
-	 'morest
-	 `(tab-line              ((,class (:background ,bg2 :foreground ,fg4))))
-	 `(tab-line-tab          ((,class (:inherit tab-line))))
-	 `(tab-line-tab-inactive ((,class (:background ,bg2 :foreground ,fg4))))
-	 `(tab-line-tab-current  ((,class (:background ,bg1 :foreground ,fg1))))
-	 `(tab-line-highlight    ((,class (:background ,bg1 :foreground ,fg2))))))
+    (custom-theme-set-faces
+     'saturn
+     `(tab-line              ((,class (:background ,bg2 :foreground ,fg4))))
+     `(tab-line-tab          ((,class (:inherit tab-line))))
+     `(tab-line-tab-inactive ((,class (:background ,bg2 :foreground ,fg4))))
+     `(tab-line-tab-current  ((,class (:background ,bg1 :foreground ,fg1))))
+     `(tab-line-highlight    ((,class (:background ,bg1 :foreground ,fg2))))))
   )
 
 ;;;###autoload
@@ -272,10 +311,10 @@
   (add-to-list 'custom-theme-load-path
 			   (file-name-as-directory (file-name-directory load-file-name))))
 
-(provide-theme 'morest)
+(provide-theme 'saturn)
 
 ;; Local Variables:
 ;; no-byte-compile: t
 ;; End:
 
-;;; morest-theme.el ends here
+;;; saturn-theme.el ends here

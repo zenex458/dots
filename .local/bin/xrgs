@@ -2,4 +2,4 @@
 
 #if piped oneline or multple lines it will execute `$1' on the line(s) where `is a proggram passed through the script'
 
-xargs -r -I {} "$1" -- {}
+xargs -r -I {} "$1" {}

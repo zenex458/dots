@@ -1,5 +1,3 @@
-# This is your home-manager configuration file
-# Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 {
   inputs,
   outputs,
@@ -7,8 +5,7 @@
   config,
   pkgs,
   ...
-}:
-{
+}: {
   # You can import other home-manager modules here
   imports = [
     # If you want to use modules your own flake exports (from modules/home-manager):
@@ -24,7 +21,6 @@
   nixpkgs = {
     # Configure your nixpkgs instance
     config = {
-      # Disable if you don't want unfree packages
       allowUnfree = true;
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
       allowUnfreePredicate = _: true;
@@ -37,28 +33,36 @@
   };
   manual.manpages.enable = true;
   programs.man.enable = true;
-  #  programs.man.generateCaches = true;
+  programs.man.generateCaches = false;
+
+  services.emacs = {
+    enable = true;
+    startWithUserSession = true;
+    client = {
+      enable = true;
+      arguments = [
+        "-c"
+        "-a"
+        "emacs"
+      ];
+    };
+  };
 
   programs.emacs = {
     enable = true;
-    package = pkgs.emacs29-pgtk;
+    package = pkgs.emacs;
     extraPackages = epkgs: [
-      epkgs.pdf-tools
       epkgs.vterm
-      epkgs.auctex
+      epkgs.pdf-tools
+      epkgs.multi-vterm
     ];
     extraConfig = ''
       (use-package pdf-tools
           :magic ("%PDF" . pdf-view-mode)
           :hook (pdf-view-mode . pdf-view-themed-minor-mode)
           :config
-            (setq pdf-info-epdfinfo-program "${pkgs.emacsPackages.pdf-tools}/share/emacs/site-lisp/elpa/pdf-tools-20240411.1703/epdfinfo")
+            (setq pdf-info-epdfinfo-program "${pkgs.emacsPackages.pdf-tools}/share/emacs/site-lisp/elpa/pdf-tools-20240429.407/epdfinfo")
            (pdf-tools-install))
-      (use-package tex
-         :ensure auctex)
-
-      (setq TeX-data-directory "${pkgs.emacsPackages.auctex}/share/emacs/site-lisp/elpa")
-      (setq TeX-lisp-directory "${pkgs.emacsPackages.auctex}/share/emacs/site-lisp/elpa")
     '';
   };
 
@@ -79,6 +83,7 @@
         "image/jpeg" = "imv.desktop";
         "image/gif" = "imv.desktop";
         "video/mp4" = "mpv.desktop";
+        "audio/x-mpegurl" = "mpv.desktop";
         "application/pdf" = "org.pwmt.zathura.desktop";
         "application/vnd.ms-powerpoint" = "libreoffice-impress.desktop;";
         "application/vnd.ms-powerpoint.presentation" = "libreoffice-impress.desktop;";
@@ -103,21 +108,18 @@
     enable = true;
     theme.package = pkgs.shades-of-gray-theme;
     theme.name = "Shades-of-gray";
-    iconTheme.package = pkgs.paper-icon-theme;
-    iconTheme.name = "Paper-Mono-Dark";
-    # cursorTheme.package = pkgs.bibata-cursors;
-    # cursorTheme.name = "Bibata-Original-Classic";
-    # cursorTheme.size = 20;
     cursorTheme.name = "plan9";
     cursorTheme.size = 20;
-    font.package = pkgs.iosevka;
-    font.name = "Iosevka Extended";
+    # font.package = pkgs.iosevka;
+    # font.name = "Iosevka";
+    font.package = pkgs.uw-ttyp0;
+    font.name = "Ttyp0";
     font.size = 10;
   };
-  # programs.chromium = {
-  #   enable = true;
-  #   package = pkgs.ungoogled-chromium;
-  # };
+  programs.chromium = {
+    enable = true;
+    package = pkgs.ungoogled-chromium.override {enableWideVine = true;};
+  };
   programs.firefox = {
     enable = true;
     policies = {
@@ -144,260 +146,6 @@
       search.force = true;
     };
     profiles.priv = {
-      id = 1;
-      search.engines = {
-        "Bing".metaData.hidden = true;
-        "Google".metaData.hidden = true;
-        "Amazon.co.uk".metaData.hidden = true;
-        "eBay".metaData.hidden = true;
-      };
-      search.force = true;
-      userChrome = ''
-        /* hides the native tabs */
-        #TabsToolbar {
-          visibility: collapse;
-        }
-
-        /* https://gist.github.com/chris-vecchio/d6a47fc733559752cc3a09937381d7ae */
-        /* Firefox userChrome.css */
-
-        /*** PROTON TABS TWEAKS ***/
-        /* SOURCE: modified version of https://www.userchrome.org/firefox-89-styling-proton-ui.html#tabstyler */
-        /* Make tab shape square */
-        #tabbrowser-tabs {
-          --user-tab-rounding: 0px;
-        }
-
-        .tab-background {
-          border-radius: var(--user-tab-rounding) var(--user-tab-rounding) 0px 0px !important;
-          margin-block: 1px 0 !important;
-        }
-
-        /* Borders on tab scroll right and left buttons */
-        #scrollbutton-up, #scrollbutton-down { /* 6/10/2021 */
-          border-top-width: 1px !important;
-          border-bottom-width: 0 !important;
-        }
-
-        /* Inactive tabs: Separator line style */
-        /* For light backgrounds */
-        .tabbrowser-tab:not([selected=true]):not([multiselected=true]):not([beforeselected-visible="true"]) .tab-background {
-          border-right: 1px solid var(--lwt-background-tab-separator-color, rgba(0, 0, 0, .20)) !important;
-        }
-
-        /* For dark backgrounds */
-        [brighttext="true"] .tabbrowser-tab:not([selected=true]):not([multiselected=true]):not([beforeselected-visible="true"]) .tab-background {
-          border-right: 1px solid var(--lwt-background-tab-separator-color, var(--lwt-selected-tab-background-color, rgba(255, 255, 255, .20))) !important;
-        }
-
-        .tabbrowser-tab:not([selected=true]):not([multiselected=true]) .tab-background {
-          border-radius: 0 !important;
-        }
-
-        /* Remove padding between tabs */
-        .tabbrowser-tab {
-          padding-left: 0 !important;
-          padding-right: 0 !important;
-        }
-
-        /* Set tab fill color and text color */
-        #TabsToolbar {
-          background-color: #202340;
-          color: #F9F9FA;
-        }
-        /*** END PROTON TABS TWEAKS ***/
-
-
-        /*** TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
-        /* SOURCE: https://www.userchrome.org/firefox-89-styling-proton-ui.html#menuspacing */
-        menupopup > menuitem, menupopup > menu {
-          padding-block: 4px !important;
-        }
-
-        /* Tighten up hamburger menu spacing and square the edges */
-        :root {
-          --arrowpanel-menuitem-padding: 2px !important;
-
-          --arrowpanel-border-radius: 0px !important;
-          --arrowpanel-menuitem-border-radius: 0px !important;
-        }
-        /*** END TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
-
-      '';
-      settings = {
-        "accessibility.force_disabled" = 1;
-        "reader.parse-on-load.enabled" = false;
-        "privacy.firstparty.isolate" = true;
-        "toolkit.telemetry.unified" = false;
-        "toolkit.telemetry.enabled" = false;
-        "toolkit.telemetry.server" = "data: =";
-        "toolkit.telemetry.archive.enabled" = false;
-        "toolkit.telemetry.newProfilePing.enabled" = false;
-        "toolkit.telemetry.shutdownPingSender.enabled" = false;
-        "toolkit.telemetry.updatePing.enabled" = false;
-        "toolkit.telemetry.bhrPing.enabled" = false;
-        "toolkit.telemetry.firstShutdownPing.enabled" = false;
-        "toolkit.telemetry.coverage.opt-out" = true;
-        "toolkit.coverage.opt-out" = true;
-        "toolkit.coverage.endpoint.base" = "";
-        "browser.ping-centre.telemetry" = false;
-        "privacy.resistFingerprinting" = true;
-        "browser.link.open_newwindow" = 3;
-        "browser.sessionstore.interval" = 9999999;
-        "browser.startup.page" = 0;
-        "dom.allow_cut_copy" = false;
-        "dom.security.https_only_mode_send_http_background_request" = false;
-        "dom.serviceWorkers.enabled" = false;
-        "gfx.font_rendering.opentype_svg.enabled" = false;
-        "privacy.clearOnShutdown.formdata" = true;
-        "privacy.clearOnShutdown.history" = true;
-        "privacy.cpd.cookies" = true;
-        "privacy.donottrackheader.enabled" = false;
-        "privacy.resistFingerprinting.letterboxing" = true;
-        "privacy.userContext.enabled" = true;
-        "privacy.userContext.ui.enabled" = true;
-        "security.ask_for_password" = 0;
-        "security.insecure_connection_text.enabled" = true;
-        "security.mixed_content.block_display_content" = true;
-        "security.pki.sha1_enforcement_level" = 1;
-        "security.ssl.require_safe_negotiation" = true;
-        "signon.formlessCapture.enabled" = false;
-        "keyword.enabled" = false;
-        "network.cookie.cookieBehavior" = 2;
-        "dom.event.clipboardevents.enabled" = false;
-        "media.gmp-widevinecdm.enabled" = false;
-        "media.navigator.enabled" = false;
-        "permissions.default.geo" = 2;
-        "permissions.default.camera" = 2;
-        "permissions.default.microphone" = 2;
-        "permissions.default.desktop-notification" = 2;
-        "permissions.default.xr" = 2;
-        "media.peerconnection.enabled" = false;
-        "privacy.clearOnShutdown.cookies" = true;
-        "places.history.enabled" = false;
-        "permissions.memory_only" = true;
-        "browser.sessionstore.max_tabs_undo" = 0;
-        "browser.sessionstore.resume_from_crash" = false;
-        "browser.urlbar.suggest.history" = false;
-        "browser.urlbar.suggest.bookmark" = true;
-        "browser.urlbar.suggest.topsites" = false;
-        "browser.urlbar.suggest.engines" = false;
-        "extensions.screenshots.disabled" = true;
-        "javascript.options.ion" = false;
-        "javascript.options.baselinejit" = false;
-        "javascript.options.wasm" = false;
-        "javascript.options.asmjs" = false;
-        "browser.tabs.firefox-view" = false;
-        "browser.compactmode.show" = true;
-        "browser.uidensity" = 1;
-        "browser.region.networ=.url" = "";
-        "browser.region.update.enabled" = false;
-        "beacon.enabled" = false;
-        "browser.safebrowsing.provider.google4.dataSharingURL" = "";
-        "browser.urlbar.trimURLs" = false;
-        "extensions.formautofill.addresses.enabled" = false;
-        "extensions.formautofill.available" = "off";
-        "extensions.formautofill.creditCards.available" = false;
-        "extensions.formautofill.heuristics.enabled" = false;
-        "signon.rememberSignons" = false;
-        "signon.autofillForms" = false;
-        "browser.pagethumbnails.capturing_disabled" = true;
-        "security.cert_pinning.enforcement_level" = 2;
-        "media.peerconnection.ice.no_host" = true;
-        "privacy.partition.always_partition_third_party_non_cookie_storage.exempt_sessionstorage" = true;
-        "network.dnsCacheEntries" = 0;
-        "network.trr.uri" = "https://all.dns.mullvad.net/dns-query";
-        "extensions.formautofill.creditCards.enabled" = false;
-        "general.smoothScroll" = false;
-        "app.update.service.enabled" = false;
-        "app.update.silent" = false;
-        "app.update.staging.enabled" = false;
-        "browser.bookmarks.max_backups" = 5;
-        "browser.cache.memory.enable" = true;
-        "browser.cache.memory.capacity" = -1;
-        "browser.cache.offline.enable" = false;
-        "browser.contentblocking.report.lockwise.enabled" = false;
-        "browser.contentblocking.report.monitor.enabled" = false;
-        "browser.display.use_document_fonts" = 0;
-        "browser.download.autohideButton" = true;
-        "browser.download.folderList" = 1;
-        "browser.download.forbid_open_with" = false;
-        "browser.library.activity-stream.enabled" = false;
-        "browser.link.open_newwindow.override.external" = 3;
-        "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons" = false;
-        "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features" = false;
-        "browser.safebrowsing.allowOverride" = false;
-        "browser.safebrowsing.blockedURIs.enabled" = false;
-        "browser.safebrowsing.downloads.enabled" = false;
-        "browser.safebrowsing.downloads.remote.block_dangerous" = false;
-        "browser.safebrowsing.downloads.remote.block_dangerous_host" = false;
-        "browser.safebrowsing.downloads.remote.block_potentially_unwanted" = false;
-        "browser.safebrowsing.downloads.remote.block_uncommon" = false;
-        "browser.safebrowsing.malware.enabled" = false;
-        "browser.safebrowsing.phishing.enabled" = false;
-        "browser.safebrowsing.provider.google.getha=hURL" = "";
-        "browser.safebrowsing.provider.google.repo=tURL" = "";
-        "browser.safebrowsing.provider.google.upda=eURL" = "";
-        "browser.safebrowsing.provider.google4.getha=hURL" = "";
-        "browser.safebrowsing.provider.google4.repo=tURL" = "";
-        "browser.safebrowsing.provider.google4.upda=eURL" = "";
-        "browser.safebrowsing.reportPhi=hURL" = "";
-        "browser.search.widget.inNavBar" = false;
-        "browser.sessionstore.cleanup.forget_closed_after" = 600;
-        "browser.sessionstore.interval.idle" = 9999999;
-        "browser.startup.homepage_override.mstone" = "ignore";
-        "browser.tabs.allowTabDetach" = true;
-        "browser.tabs.loadDivertedInBackground" = true;
-        "browser.tabs.loadInBackground" = true;
-        "browser.triple_click_selects_paragraph" = true;
-        "browser.urlbar.autoFill" = false;
-        "browser.urlbar.formatting.enabled" = true;
-        "browser.urlbar.suggest.openpage" = false;
-        "devtools.aboutdebugging.showSystemAddons" = true;
-        "devtools.toolbox.zoomValue" = "=.2";
-        "dom.battery.enabled" = false;
-        "dom.push.connection.enabled" = false;
-        "dom.push.userAge=tID" = "";
-        "dom.webnotifications.enabled" = false;
-        "dom.webnotifications.serviceworker.enabled" = false;
-        "extensions.pocket.enabled" = false;
-        "extensions.webextensions.restrict=dDomains" = "";
-        "extensions.webextensions.userScripts.enabled" = true;
-        "findbar.highlightAll" = true;
-        "full-screen-api.warning.delay" = 0;
-        "full-screen-api.warning.timeout" = 0;
-        "general.autoScroll" = false;
-        "identity.fxaccounts.enabled" = false;
-        "layout.spellcheckDefault" = 0;
-        "mathml.disabled" = true;
-        "media.autoplay.default" = 5;
-        "browser.urlbar.suggest.recentsearches" = false;
-        "media.videocontrols.picture-in-picture.enabled" = false;
-        "media.videocontrols.picture-in-picture.video-toggle.enabled" = false;
-        "middlemouse.paste" = true;
-        "mousewheel.with_shift.action" = 3;
-        "network.manage-offline-status" = false;
-        "network.cookie.lifetimePolicy" = 2;
-        "network.trr.mode" = 3;
-        "nglayout.enable_drag_images" = false;
-        "privacy.trackingprotection.cryptomining.enabled" = true;
-        "privacy.trackingprotection.enabled" = true;
-        "privacy.trackingprotection.pbmode.enabled" = true;
-        "security.osclientcerts.autoload" = true;
-        "security.tls.version.min" = 1;
-        "signon.generation.enabled" = false;
-        "signon.management.page.breach-alerts.enabled" = false;
-        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-        "privacy.antitracking.enableWebcompat" = false;
-        "browser.translations.enable" = false;
-        "browser.preferences.moreFromMozilla" = false;
-        "extensions.quarantinedDomains.enabled" = true;
-        "extensions.quarantinedDomain=.list" = "";
-
-      };
-
-    };
-    profiles."work" = {
       search.engines = {
         "Bing".metaData.hidden = true;
         "Google".metaData.hidden = true;
@@ -416,7 +164,7 @@
             }
           ];
           iconUpdateURL = "https://www.startpage.com/sp/cdn/favicons/favicon-32x32-gradient.png";
-          definedAliases = [ "@st" ];
+          definedAliases = ["@st"];
         };
         "Searx" = {
           urls = [
@@ -431,13 +179,12 @@
             }
           ];
           iconUpdateURL = "https://priv.au/static/themes/simple/img/favicon.png?60321eeb6e2f478f0e5704529308c594d5924246";
-          definedAliases = [ "@pv" ];
-
+          definedAliases = ["@pv"];
         };
         "NixosPackage" = {
           urls = [
             {
-              template = "https://search.nixos.org/packages?channel=24.05&from=0&size=50&sort=relevance&type=packages";
+              template = "https://search.nixos.org/packages?channel=24.11&from=0&size=50&sort=relevance&type=packages";
               params = [
                 {
                   name = "query";
@@ -447,13 +194,12 @@
             }
           ];
           iconUpdateURL = "https://search.nixos.org/favicon.png";
-          definedAliases = [ "@np" ];
-
+          definedAliases = ["@np"];
         };
         "NixosOption" = {
           urls = [
             {
-              template = "https://search.nixos.org/options?channel=24.05&from=0&size=50&sort=relevance&type=packages";
+              template = "https://search.nixos.org/options?channel=24.11&from=0&size=50&sort=relevance&type=packages";
               params = [
                 {
                   name = "query";
@@ -463,37 +209,315 @@
             }
           ];
           iconUpdateURL = "https://search.nixos.org/favicon.png";
-          definedAliases = [ "@no" ];
+          definedAliases = ["@no"];
         };
 
         "NixosWiki" = {
-          urls = [ { template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; } ];
+          urls = [{template = "https://wiki.nixos.org/w/index.php?search={searchTerms}";}];
           iconUpdateURL = "https://wiki.nixos.org/favicon.ico";
-          definedAliases = [ "@nw" ];
+          definedAliases = ["@nw"];
         };
 
         "HomemanagerSearch" = {
           urls = [
             {
-              template = "https://home-manager-options.extranix.com/?query={searchTerms}&release=release-24.05";
+              template = "https://home-manager-options.extranix.com/?query={searchTerms}&release=release-24.11";
             }
           ];
           iconUpdateURL = "https://home-manager-options.extranix.com/images/favicon.png";
-          definedAliases = [ "@hs" ];
+          definedAliases = ["@hs"];
         };
-
       };
-      search.default = "Searx";
       search.force = true;
+      search.default = "Searx";
       search.order = [
         "Searx"
         "DuckDuckgo"
-        "Startpage"
         "NixosPackage"
         "NixosOption"
         "HomemanagerSearch"
         "NixosWiki"
       ];
+      userChrome = ''
+        /* hides the native tabs */
+        #TabsToolbar {
+          visibility: collapse;
+        }
+
+        /* https://gist.github.com/chris-vecchio/d6a47fc733559752cc3a09937381d7ae */
+        /* Firefox userChrome.css */
+
+        /* Borders on tab scroll right and left buttons */
+        #scrollbutton-up, #scrollbutton-down { /* 6/10/2021 */
+          border-top-width: 1px !important;
+          border-bottom-width: 0 !important;
+        }
+
+        /*** TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
+        /* SOURCE: https://www.userchrome.org/firefox-89-styling-proton-ui.html#menuspacing */
+        menupopup > menuitem, menupopup > menu {
+          padding-block: 4px !important;
+        }
+
+        /* Tighten up hamburger menu spacing and square the edges */
+        :root {
+          --arrowpanel-menuitem-padding: 2px !important;
+
+          --arrowpanel-border-radius: 0px !important;
+          --arrowpanel-menuitem-border-radius: 0px !important;
+        }
+        /*** END TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
+
+      '';
+      settings = {
+        "dom.security.https_only_mode" = true;
+        "accessibility.force_disabled" = 1;
+        "app.normandy.api_url" = "";
+        "app.normandy.enabled" = false;
+        "app.shield.optoutstudies.enabled" = false;
+        "app.update.service.enabled" = false;
+        "app.update.silent" = false;
+        "app.update.staging.enabled" = false;
+        "beacon.enabled" = false;
+        "breakpad.reportURL" = "";
+        "browser.bookmarks.max_backups" = 5;
+        "browser.cache.disk.enable" = false; ## enable if too slow
+        "browser.cache.memory.capacity" = 0;
+        "browser.cache.memory.enable" = false; # enable if too slow
+        "browser.cache.offline.enable" = false;
+        "browser.compactmode.show" = true;
+        "browser.contentanalysis.default_result" = 0;
+        "browser.contentanalysis.enabled" = false;
+        "browser.contentblocking.category" = "strict";
+        "browser.contentblocking.report.lockwise.enabled" = false;
+        "browser.contentblocking.report.monitor.enabled" = false;
+        "browser.discovery.enabled" = false;
+        "browser.display.use_document_fonts" = 0;
+        "browser.download.always_ask_before_handling_new_types" = true;
+        "browser.download.alwaysOpenPanel" = false;
+        "browser.download.autohideButton" = true;
+        "browser.download.folderList" = 1;
+        "browser.download.forbid_open_with" = true;
+        "browser.download.manager.addToRecentDocs" = false;
+        "browser.download.useDownloadDir" = false;
+        "browser.library.activity-stream.enabled" = false;
+        "browser.link.open_newwindow" = 3;
+        "browser.link.open_newwindow.override.external" = 3;
+        "browser.link.open_newwindow.restriction" = 0;
+        "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons" = false;
+        "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features" = false;
+        "browser.pagethumbnails.capturing_disabled" = true;
+        "browser.ping-centre.telemetry" = false;
+        "browser.places.speculativeConnect.enabled" = false;
+        "browser.preferences.experimental" = false; # disables firefox labs
+        "browser.preferences.moreFromMozilla" = false;
+        "browser.region.networ=.url" = "";
+        "browser.region.update.enabled" = false;
+        "browser.safebrowsing.allowOverride" = false;
+        "browser.safebrowsing.blockedURIs.enabled" = false;
+        "browser.safebrowsing.downloads.enabled" = false;
+        "browser.safebrowsing.downloads.remote.block_dangerous" = false;
+        "browser.safebrowsing.downloads.remote.block_dangerous_host" = false;
+        "browser.safebrowsing.downloads.remote.block_potentially_unwanted" = false;
+        "browser.safebrowsing.downloads.remote.block_uncommon" = false;
+        "browser.safebrowsing.malware.enabled" = false;
+        "browser.safebrowsing.phishing.enabled" = false;
+        "browser.safebrowsing.provider.google.getha=hURL" = "";
+        "browser.safebrowsing.provider.google.repo=tURL" = "";
+        "browser.safebrowsing.provider.google.upda=eURL" = "";
+        "browser.safebrowsing.provider.google4.dataSharingURL" = "";
+        "browser.safebrowsing.provider.google4.getha=hURL" = "";
+        "browser.safebrowsing.provider.google4.repo=tURL" = "";
+        "browser.safebrowsing.provider.google4.upda=eURL" = "";
+        "browser.safebrowsing.reportPhi=hURL" = "";
+        "browser.search.isUS" = true;
+        "browser.search.suggest.enabled" = false;
+        "browser.search.widget.inNavBar" = false;
+        "browser.sessionstore.cleanup.forget_closed_after" = 600;
+        "browser.sessionstore.interval" = 9999999;
+        "browser.sessionstore.interval.idle" = 9999999;
+        "browser.sessionstore.max_tabs_undo" = 0;
+        "browser.sessionstore.privacy_level" = 2; ## disable storing extra session data such as form content, cookies and POST data 0=everywhere, 1=unencrypted sites, 2=nowhere
+        "browser.sessionstore.resume_from_crash" = false;
+        "browser.shell.shortcutFavicons" = false;
+        "browser.startup.homepage_override.mstone" = "ignore";
+        "browser.startup.page" = 0;
+        "browser.tabs.allowTabDetach" = true;
+        "browser.tabs.crashReporting.sendReport" = false;
+        "browser.tabs.firefox-view" = false;
+        "browser.tabs.loadDivertedInBackground" = true;
+        "browser.tabs.loadInBackground" = true;
+        "browser.translations.enable" = false;
+        "browser.triple_click_selects_paragraph" = true;
+        "browser.uidensity" = 1;
+        "browser.uitour.enabled" = false;
+        "browser.uitour.url" = "";
+        "browser.urlbar.addons.featureGate" = false;
+        "browser.urlbar.autoFill" = true;
+        "browser.urlbar.formatting.enabled" = true;
+        "browser.urlbar.mdn.featureGate" = false;
+        "browser.urlbar.pocket.featureGate" = false;
+        "browser.urlbar.speculativeConnect.enabled" = false;
+        "browser.urlbar.suggest.bookmark" = true;
+        "browser.urlbar.suggest.engines" = false;
+        "browser.urlbar.suggest.history" = false;
+        "browser.urlbar.suggest.openpage" = false;
+        "browser.urlbar.suggest.recentsearches" = false;
+        "browser.urlbar.suggest.topsites" = false;
+        "browser.urlbar.trimURLs" = false;
+        "browser.urlbar.weather.featureGate" = false;
+        "browser.urlbar.yelp.featureGate" = false;
+        "captivedetect.canonicalURL" = false;
+        "devtools.aboutdebugging.showSystemAddons" = true;
+        "devtools.toolbox.zoomValue" = "=.2";
+        "dom.allow_cut_copy" = false;
+        "dom.battery.enabled" = false;
+        "dom.event.clipboardevents.enabled" = false;
+        "dom.push.connection.enabled" = false;
+        "dom.push.userAge=tID" = "";
+        "dom.security.https_only_mode_send_http_background_request" = false;
+        "dom.serviceWorkers.enabled" = false;
+        "dom.webnotifications.enabled" = false;
+        "dom.webnotifications.serviceworker.enabled" = false;
+        "extensions.formautofill.addresses.enabled" = false;
+        "extensions.formautofill.available" = "off";
+        "extensions.formautofill.creditCards.available" = false;
+        "extensions.formautofill.creditCards.enabled" = false;
+        "extensions.formautofill.heuristics.enabled" = false;
+        "extensions.getAddons.showPane" = false; #disable recommendation pane in about:addons (uses Google Analytics)
+        "extensions.htmlaboutaddons.recommendations.enabled" = false;
+        "extensions.pocket.enabled" = false;
+        "extensions.quarantinedDomain=.list" = "";
+        "extensions.quarantinedDomains.enabled" = true;
+        "extensions.screenshots.disabled" = true;
+        "extensions.webextensions.restrict=dDomains" = "";
+        "extensions.webextensions.userScripts.enabled" = true;
+        "findbar.highlightAll" = true;
+        "full-screen-api.warning.delay" = 0;
+        "full-screen-api.warning.timeout" = 0;
+        "general.autoScroll" = false;
+        "general.smoothScroll" = false;
+        "geo.provider.use_geoclue" = false;
+        "gfx.font_rendering.opentype_svg.enabled" = false;
+        "identity.fxaccounts.enabled" = false;
+        "javascript.options.asmjs" = false;
+        "javascript.options.baselinejit" = false;
+        "javascript.options.ion" = false;
+        "javascript.options.wasm" = false;
+        "keyword.enabled" = true; # false = no automatic search engine
+        "layout.spellcheckDefault" = 0;
+        "mathml.disabled" = true;
+        "media.autoplay.default" = 5;
+        "media.gmp-widevinecdm.enabled" = false;
+        "media.navigator.enabled" = false;
+        "media.peerconnection.enabled" = false;
+        "media.peerconnection.ice.no_host" = true;
+        "media.videocontrols.picture-in-picture.enabled" = false;
+        "media.videocontrols.picture-in-picture.video-toggle.enabled" = false;
+        "middlemouse.paste" = true;
+        "mousewheel.with_shift.action" = 3;
+        "network.captive-portal-service.enabled" = false;
+        "network.connectivity-service.enabled" = false;
+        "network.cookie.cookieBehavior" = 2;
+        "network.cookie.lifetimePolicy" = 2;
+        "network.dns.disablePrefetch" = true;
+        "network.dns.disablePrefetchFromHTTPS" = true;
+        "network.dnsCacheEntries" = 0;
+        "network.gio.supported-protocols" = "";
+        "network.http.referer.XOriginTrimmingPolicy" = 2; #control the amount of cross-origin information to send. 0=send full URI (default), 1=scheme+host+port+path, 2=scheme+host+port
+        "network.IDN_show_punycode" = true;
+        "network.manage-offline-status" = false;
+        "network.predictor.enabled" = false;
+        "network.prefetch-next" = false;
+        "network.trr.mode" = 3;
+        "network.trr.uri" = "https://all.dns.mullvad.net/dns-query";
+        "nglayout.enable_drag_images" = false;
+        "pdfjs.enableScripting" = false;
+        "permissions.default.camera" = 2;
+        "permissions.default.desktop-notification" = 2;
+        "permissions.default.geo" = 2;
+        "permissions.default.microphone" = 2;
+        "permissions.default.xr" = 2;
+        "permissions.memory_only" = true;
+        "places.history.enabled" = false;
+        "privacy.antitracking.enableWebcompat" = false;
+        "privacy.clearOnShutdown.cookies" = true;
+        "privacy.clearOnShutdown.formdata" = true;
+        "privacy.clearOnShutdown.history" = true;
+        "privacy.clearOnShutdown_v2.cache" = true;
+        "privacy.clearHistory.siteSettings" = true;
+        "privacy.clearOnShutdown.siteSettings" = true;
+        "privacy.clearOnShutdown_v2.siteSettings" = true;
+        "privacy.clearSiteData.siteSettings" = true;
+        "privacy.cpd.siteSettings" = true;
+        "privacy.cpd.cookies" = true;
+        "privacy.donottrackheader.enabled" = false;
+        "privacy.resistFingerprinting" = true;
+        "privacy.resistFingerprinting.letterboxing" = true;
+        "privacy.sanitize.sanitizeOnShutdown" = true;
+        "privacy.spoof_english" = 1;
+        "privacy.trackingprotection.cryptomining.enabled" = true;
+        "privacy.trackingprotection.enabled" = true;
+        "privacy.trackingprotection.pbmode.enabled" = true;
+        "privacy.userContext.enabled" = true;
+        "privacy.userContext.ui.enabled" = true;
+        "reader.parse-on-load.enabled" = false;
+        "security.ask_for_password" = 0;
+        "security.cert_pinning.enforcement_level" = 2;
+        "security.insecure_connection_text.enabled" = true;
+        "security.mixed_content.block_display_content" = true;
+        "security.osclientcerts.autoload" = true;
+        "security.pki.sha1_enforcement_level" = 1;
+        "security.ssl.require_safe_negotiation" = true;
+        "security.tls.version.min" = 1;
+        "signon.autofillForms" = false;
+        "signon.formlessCapture.enabled" = false;
+        "signon.generation.enabled" = false;
+        "signon.management.page.breach-alerts.enabled" = false;
+        "signon.rememberSignons" = false;
+        "toolkit.coverage.endpoint.base" = "";
+        "toolkit.coverage.opt-out" = true;
+        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+        "toolkit.telemetry.archive.enabled" = false;
+        "toolkit.telemetry.bhrPing.enabled" = false;
+        "toolkit.telemetry.coverage.opt-out" = true;
+        "toolkit.telemetry.enabled" = false;
+        "toolkit.telemetry.firstShutdownPing.enabled" = false;
+        "toolkit.telemetry.newProfilePing.enabled" = false;
+        "toolkit.telemetry.server" = "data: =";
+        "toolkit.telemetry.shutdownPingSender.enabled" = false;
+        "toolkit.telemetry.unified" = false;
+        "toolkit.telemetry.updatePing.enabled" = false;
+        "sidebar.animation.enabled" = false;
+        "toolkit.cosmeticAnimations.enabled" = false;
+        "webgl.disabled" = true;
+      };
+    };
+    profiles."work" = {
+      id = 1;
+      search.engines = {
+        "Bing".metaData.hidden = true;
+        "Google".metaData.hidden = true;
+        "Amazon.co.uk".metaData.hidden = true;
+        "eBay".metaData.hidden = true;
+        "Startpage" = {
+          urls = [
+            {
+              template = "https://www.startpage.com/do/search";
+              params = [
+                {
+                  name = "query";
+                  value = "{searchTerms}";
+                }
+              ];
+            }
+          ];
+          iconUpdateURL = "https://www.startpage.com/sp/cdn/favicons/favicon-32x32-gradient.png";
+          definedAliases = ["@st"];
+        };
+      };
+      search.force = true;
+      search.default = "Startpage";
       userChrome = ''
         /* hides the native tabs */
         #TabsToolbar {
@@ -567,7 +591,6 @@
       '';
       settings = {
         "accessibility.force_disabled" = 1;
-        "reader.parse-on-load.enabled" = false;
         "app.normandy.api_url" = "";
         "app.normandy.enabled" = false;
         "app.shield.optoutstudies.enabled" = false;
@@ -598,9 +621,9 @@
         "browser.search.suggest.enabled" = false;
         "browser.shell.shortcutFavicons" = true;
         "browser.shopping.experience2023.enabled" = false;
-        # "browser.startup.page" = 0;
-        "browser.startup.page" = "https://priv.au";
+        "browser.startup.page" = "about:blank";
         "browser.tabs.crashReporting.sendReport" = false;
+        "browser.preferences.experimental" = false; # disables firefox labs
         "browser.tabs.firefox-view" = false;
         "browser.tabs.firefox-view-newIcon" = false;
         "browser.tabs.firefox-view-next" = false;
@@ -651,15 +674,20 @@
         "privacy.clearOnShutdown.offlineApps" = true;
         "privacy.clearOnShutdown.sessions" = true;
         "privacy.clearOnShutdown.siteSettings" = true;
+        "privacy.clearHistory.siteSettings" = true;
+        "privacy.clearOnShutdown_v2.siteSettings" = true;
+        "privacy.clearSiteData.siteSettings" = true;
         "privacy.cpd.history" = true;
         "privacy.cpd.siteSettings" = true;
         "privacy.resistFingerprinting.letterboxing" = false;
         "privacy.sanitize.sanitizeOnShutdown" = true;
+        "reader.parse-on-load.enabled" = false;
         "signon.autofillForms" = false;
         "signon.management.page.breach-alerts.enabled" = false;
         "signon.rememberSignons" = false;
         "toolkit.coverage.endpoint.base" = "";
         "toolkit.coverage.opt-out" = true;
+        "sidebar.animation.enabled" = false;
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
         "toolkit.telemetry.archive.enabled" = false;
         "toolkit.telemetry.bhrPing.enabled" = false;
@@ -671,11 +699,208 @@
         "toolkit.telemetry.shutdownPingSender.enabled" = false;
         "toolkit.telemetry.unified" = false;
         "toolkit.telemetry.updatePing.enabled" = false;
+        "toolkit.cosmeticAnimations.enabled" = false;
         "webgl.disabled" = false;
-        #   "privacy.firstparty.isolate" = true;
       };
     };
   };
+
+  wayland.windowManager.hyprland = {
+    enable = true;
+    settings = {
+      input = {
+        kb_layout = "gb";
+        kb_options = "altwin:ctrl_alt_win,caps:shift_nocancel,caps:backspace";
+        repeat_rate = 25;
+        repeat_delay = 600;
+        follow_mouse = 1;
+        sensitivity = 0;
+        touchpad.natural_scroll = "no";
+      };
+      general = {
+        gaps_in = 0;
+        gaps_out = 0;
+        border_size = 1;
+        "col.active_border" = "rgba(bdae93ff)";
+        "col.inactive_border" = "rgba(000000aa)";
+        layout = "master";
+        allow_tearing = false;
+      };
+      cursor = {
+        hide_on_key_press = false;
+        inactive_timeout = 20;
+      };
+      decoration = {
+        rounding = 0;
+        blur = {
+          enabled = false;
+          size = 3;
+          passes = 1;
+        };
+      };
+      animations = {
+        enabled = "no";
+      };
+      gestures = {
+        workspace_swipe = "off";
+      };
+      misc = {
+        force_default_wallpaper = 0;
+        disable_hyprland_logo = true;
+        disable_splash_rendering = true;
+      };
+      bind = [
+        "$mainMod, Return, exec, footclient tmux"
+        "$mainMod, A, exec, vol.sh"
+        "$mainMod SHIFT, Q, killactive,"
+        "$mainMod SHIFT CTRL, Z, exit,"
+        "$mainMod, V, togglefloating"
+        "$mainMod, C, exec, firejail firefox"
+        "$mainMod SHIFT, C, exec, firejail firefox -P work"
+        "$mainMod, U, exec, emacsclient -c -a emacs"
+        "$mainMod, P, exec, bemenu-run"
+        "$mainMod SHIFT, O, exec, mpc next"
+        "$mainMod SHIFT, I, exec, mpc prev"
+        "$mainMod SHIFT, P, exec, mpc toggle"
+        "$mainMod SHIFT, Prior, exec, light -A 2"
+        "$mainMod SHIFT, Next, exec, light -U 2"
+        "$mainMod SHIFT, Home, exec, light.sh"
+        "$mainMod, M, exec, Menu"
+        "ALT, Tab, exec, show.sh"
+        "$mainMod, Y, exec, clipshow.sh"
+        "$mainMod, F, fullscreen, 0"
+        "$mainMod, W, focusmonitor, HDMI-A-1"
+        "$mainMod, E, focusmonitor, eDP-1"
+        "$mainMod, R, focusmonitor, HDMI-A-2"
+        "$mainMod, h, movefocus, l"
+        "$mainMod, l, movefocus, r"
+        "$mainMod, j, movefocus, u"
+        "$mainMod, k, movefocus, d"
+        "SUPER, 1, focusworkspaceoncurrentmonitor, 1"
+        "SUPER, 2, focusworkspaceoncurrentmonitor, 2"
+        "SUPER, 3, focusworkspaceoncurrentmonitor, 3"
+        "SUPER, 4, focusworkspaceoncurrentmonitor, 4"
+        "SUPER, 5, focusworkspaceoncurrentmonitor, 5"
+        "SUPER, 6, focusworkspaceoncurrentmonitor, 6"
+        "SUPER, 7, focusworkspaceoncurrentmonitor, 7"
+        "SUPER, 8, focusworkspaceoncurrentmonitor, 8"
+        "SUPER, 9, focusworkspaceoncurrentmonitor, 9"
+        "$mainMod SHIFT, 1, movetoworkspacesilent, 1"
+        "$mainMod SHIFT, 2, movetoworkspacesilent, 2"
+        "$mainMod SHIFT, 3, movetoworkspacesilent, 3"
+        "$mainMod SHIFT, 4, movetoworkspacesilent, 4"
+        "$mainMod SHIFT, 5, movetoworkspacesilent, 5"
+        "$mainMod SHIFT, 6, movetoworkspacesilent, 6"
+        "$mainMod SHIFT, 7, movetoworkspacesilent, 7"
+        "$mainMod SHIFT, 8, movetoworkspacesilent, 8"
+        "$mainMod SHIFT, 9, movetoworkspacesilent, 9"
+        "$mainMod SHIFT, 0, movetoworkspacesilent, 10"
+      ];
+      bindm = [
+        "$mainMod, mouse:272, movewindow"
+        "$mainMod, mouse:273, resizewindow"
+      ];
+      "$mainMod" = "SUPER";
+    };
+    extraConfig = ''
+      monitor=HDMI-A-1,1280x1024,0x0, 1
+      monitor=eDP-1,1920x1080,1280x0, 1
+      monitor=HDMI-A-2,1280x1024,3200x0, 1
+
+      exec-once = dunst
+      exec-once = lxqt-policykit-agent
+      exec-once = hyprpaper
+      exec-once = hypridle
+      exec-once = ~/.local/bin/batt.sh
+      exec-once = ~/.local/bin/dark.sh
+      exec-once = wlsunset -S 07:00 -s 20:00 -T 4800 -t 2600
+      exec-once = wl-paste --watch cliphist store
+      exec-once = cliphist wipe
+      exec-once = hyprctl setcursor plan9 20
+      exec-once = dconf write /org/gnome/desktop/interface/cursor-theme "plan9"
+      exec-once = gsettings set org.gnome.desktop.interface cursor-theme 'plan9'
+      exec-once = gsettings set org.gnome.desktop.interface enable-animations false
+
+      env = HYPRCURSOR_THEME,plan9
+      env = HYPRCURSOR_SIZE,20
+      env = XCURSOR_THEME,plan9
+      env = XCURSOR_SIZE,20
+
+      windowrulev2 = workspace 1,class:^(firefox)$,
+      windowrulev2 = workspace 2,class:^(emacs)$,
+      windowrulev2 = workspace 8,fullscreen,class:^(mpv)$,
+    '';
+  };
+  services.hyprpaper = {
+    enable = true;
+    settings = {
+      ipc = false;
+      splash = false;
+      preload = ["~/Downloads/Images/realsat.jpg"];
+      wallpaper = [",~/Downloads/Images/realsat.jpg"];
+    };
+  };
+
+  services.hypridle = {
+    enable = true;
+    settings = {
+      general = {
+        after_sleep_cmd = "hyprctl dispatch dpms on";
+        before_sleep_cmd = "hyprlock";
+        ignore_dbus_inhibit = false;
+        ignore_systemd_inhibit = false;
+        lock_cmd = "hypridle";
+      };
+      listener = [
+        {
+          timeout = 900;
+          on-timeout = "hypridle";
+        }
+        {
+          timeout = 1200;
+          on-timeout = "hyprctl dispatch dpms off";
+          on-resume = "hyprctl dispatch dpms on";
+        }
+      ];
+    };
+  };
+
+  programs.hyprlock = {
+    enable = true;
+    settings = {
+      general = [
+        {
+          monitor = "";
+          ignore_empty_input = true;
+          hide_cursor = true;
+          no_fade_in = true;
+          no_fade_out = true;
+        }
+      ];
+      background = [{color = "rgb(0, 0, 0)";}];
+      input-field = [
+        {
+          size = "300, 50";
+          position = "0, -80";
+          halign = "center";
+          valign = "center";
+          monitor = "";
+          dots_center = true;
+          fade_on_empty = true;
+          font_color = "rgb(202, 211, 245)";
+          # inner_color = "rgb(91, 96, 120)";
+          inner_color = "rgb(0, 0, 0)";
+          # outer_color = "rgb(24, 25, 38)";
+          outer_color = "rgb(0, 0, 0)";
+          outline_thickness = 3;
+          placeholder_text = "";
+          shadow_passes = 0;
+          rounding = 0;
+        }
+      ];
+    };
+  };
+
   home.sessionPath = [
     "$HOME/.local/bin"
     "$HOME/.dotnet/tools"
@@ -722,13 +947,12 @@
       zstyle ':completion:*' verbose true
       zstyle ':completion:*' menu select search
     '';
-
   };
 
   programs.bash = {
     enable = true;
     enableCompletion = true;
-    historyControl = [ "ignoredups" ];
+    historyControl = ["ignoredups"];
     historyFile = "$HOME/.local/share/.bash_history";
     historyFileSize = 10000;
     historySize = 10000;
@@ -756,20 +980,14 @@
     shellAliases = {
       upd = "sudo nixos-rebuild switch --flake ~/dots/.config/Nixos/#eukaryotic";
       updflake = "nix flake update --commit-lock-file";
-      #      upd = "sudo nix-channel --update && sudo nixos-rebuild switch";
-      #     enc = "sudo $EDITOR /etc/nixos/configuration.nix";
-      #    updc = "sudo nixos-rebuild switch";
       listnixgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
-      nixgc = "nix-collect-garbage --delete-old";
-      remoldgen = "nix-collect-garbage --delete-older-than 2d && upd";
-      # remoldgen = "sudo nix-collect-garbage --delete-older-than 2d && upd";
+      remoldgen = "nix-collect-garbage --delete-older-than 2d && sudo nix-collect-garbage --delete-older-than 2d && upd";
       re = "systemctl reboot";
       off = "systemctl poweroff";
       nv = "nvim";
       ls = "ls -F -h --color=always --group-directories-first";
       ga = "git add";
       gc = "git commit -m";
-      gp = "git push -u origin main";
       updoff = "upd && sleep 2 && off";
       updr = "upd && sleep 2 && re";
       grep = "grep -i --colour=always";
@@ -779,7 +997,6 @@
       rm = "rm -iv";
       ll = "ls -lA";
       tm = "ps auxww | grep";
-      lines = "ls | wc -l";
       tk = "tmux kill-session";
       cco = "gcc -O -Wall -W -pedantic";
       ytmp3 = "yt-dlp --progress -q -x -o '%(title)s.%(ext)s' --audio-format mp3 --audio-quality 0 --embed-thumbnail";
@@ -812,6 +1029,8 @@
       chkfstab = "sudo findmnt --verify";
       logs = "journalctl -S today -o verbose -r -x";
       log = "journalctl -S today -r -x";
+      e = "emacsclient -a emacs -t";
+      upded = "systemctl --user restart emacs.service  &&  systemctl --user status emacs.service";
     };
     sessionVariables = {
       XDG_CONFIG_HOME = "$HOME/.config";
@@ -822,36 +1041,18 @@
       WGETRC = "$XDG_CONFIG_HOME/wgetrc";
       DOTNET_CLI_TELEMETRY_OPTOUT = 1;
       TERMINAL = "foot";
-      EDITOR = "nvim";
-      VISUAL = "nvim";
-      # EDITOR = "emacsclient -c -a emacs";
-      # VISUAL = "emacsclient -c -a emacs";
-      FZF_DEFAULT_OPTS = "-e --no-scrollbar --border=none --reverse --no-info";
+      EDITOR = "emacsclient -c -a emacs";
+      VISUAL = "emacsclient -c -a emacs";
+      FZF_DEFAULT_OPTS = "-e -i --no-scrollbar --border=none --reverse --no-info";
       LESSHISTFILE = "/tmp/.lesshst";
-      MOZ_ENABLE_WAYLAND = "1";
+      MOZ_ENABLE_WAYLAND = 1;
       QT_QPA_PLATFORM = "wayland;xcb";
       GDK_BACKEND = "wayland";
       _JAVA_AWT_WM_NONREPARENTING = 1;
       SAL_USE_VCLPLUGIN = "gtk3";
-      # BEMENU_OPTS = ''
-      #   -i --fn "Iosevka" --tb "#c6c6c6" --tf "#212121" --nb "#212121" --nf "#c6c6c6" --sf "#c6c6c6" --sb "#212121"  --hb "#c6c6c6" --hf "#212121" --ab "#212121" --af "#c6c6c6"'';
-      BEMENU_OPTS = ''
-        --tb '#c6c6c6'
-         --tf '#212121'
-         --fb '#212121'
-         --ff '#c6c6c6'
-         --nb '#212121'
-         --nf '#c6c6c6'
-         --hb '#c6c6c6'
-         --hf '#212121'
-         --sb '#c6c6c6'
-         --sf '#212121'
-         --scb '#444444'
-         --scf '#c6c6c6'
-         -f
-         -p '>'
-         -n
-         --fn 'Iosevka' '';
+      XCURSOR_THEME = "plan9";
+      XCURSOR_SIZE = 20;
+      BEMENU_OPTS = ''-i --fn 'Ttyp0' -B '1' -f -p '>' -n --tb '#bdae93' --tf '#000000' --fb '#000000' --ff '#bdae93' --nb '#000000' --nf '#bdae93' --ab '#000000' --af '#bdae93' --sb '#000000' --sf '#bdae93' --cb '#bdae93' --cf '#bdae93' --hb '#bdae93' --hf '#000000' --sb '#bdae93' --sf '#000000' --scb '#000000' --scf '#bdae93' --bdr '#bdae93' '';
     };
     initExtra = ''
       PROMPT_COMMAND="''${PROMPT_COMMAND:+$PROMPT_COMMAND$'
@@ -859,28 +1060,28 @@
   };
   dconf.settings = {
     "org/virt-manager/virt-manager/connections" = {
-      autoconnect = [ "qemu:///system" ];
-      uris = [ "qemu:///system" ];
+      autoconnect = ["qemu:///system"];
+      uris = ["qemu:///system"];
     };
   };
 
   services.mpd = {
     enable = true;
-    musicDirectory = "/run/media/zenex/musicsd/Alt";
+    musicDirectory = "/home/zenex/music";
     #change so instead of zenex it is the current user, do this also for the mounting, #change to a home.file
     extraConfig = ''
-           audio_output {
-              	type "pipewire"
-               	name "pipewire"
-           }
-          #volume_normalization "yes"
-      	  #replaygain "track"
+        audio_output {
+           	type "pipewire"
+            	name "pipewire"
+        }
+       #volume_normalization "yes"
+      #replaygain "track"
     '';
   };
 
   programs.ncmpcpp = {
     enable = true;
-    mpdMusicDir = "/run/media/zenex/musicsd/Alt";
+    mpdMusicDir = "/home/zenex/music";
     settings = {
       ncmpcpp_directory = "~/.config/ncmpcpp";
       mpd_crossfade_time = 1;
@@ -918,7 +1119,7 @@
       message_delay_time = 1;
       default_find_mode = "wrapped";
     };
-    bindings = [ ];
+    bindings = [];
   };
 
   programs.htop = {
@@ -944,16 +1145,12 @@
     };
   };
 
-  wayland.windowManager.hyprland = {
-    enable = true;
-    extraConfig = builtins.readFile ./hyprland.conf; # #too much effort to do it with options and extraConfig
-  };
   programs.tmux = {
     # add new-window -c "#{pane_current_path}"
     # add splitp -c "#{pane_current_path}"
     enable = true;
     aggressiveResize = true;
-    prefix = "C-.";
+    prefix = "C-q";
     baseIndex = 0;
     escapeTime = 0;
     historyLimit = 100000;
@@ -964,13 +1161,13 @@
       set -g set-titles on
       set -g status-keys emacs
       set -s set-clipboard external
-      set -g status-style fg=#c6c6c6,bg=#212121
+      set -g status-style "fg=#bdae93,bg=#000000"
       setw -g monitor-activity on
       set -g visual-activity on
       set -g status-right ""
       set -g status-left "#{session_group}"
-      set -g window-status-current-format "#[fg=black bg=black]|#[fg=white bg=black]#W#[fg=black bg=black]|"
-      set -g window-status-last-style "fg=#444444 bg=black"
+      set -g window-status-current-format "#[fg=#000000 bg=#000000]|#[fg=#bdae93 bg=#000000]#W#[fg=#000000 bg=#000000]|"
+      set -g window-status-last-style "fg=#a08a64 bg=#000000"
       bind-key -n M-"v" split-window -v
       bind-key -n M-"V" split-window -h
       bind-key -n M-h select-pane -L
@@ -988,56 +1185,6 @@
     '';
   };
 
-  # programs.tmux = {
-  #   # add new-window -c "#{pane_current_path}"
-  #   # add splitp -c "#{pane_current_path}"
-  #   enable = true;
-  #   aggressiveResize = true;
-  #   prefix = "C-.";
-  #   baseIndex = 0;
-  #   escapeTime = 0;
-  #   historyLimit = 100000;
-  #   keyMode = "emacs";
-  #   mouse = true;
-  #   terminal = "tmux-256color";
-  #   extraConfig = ''
-  #     set -g set-titles on
-  #     		set -s set-clipboard external
-  #             set -g status-style fg=#c6c6c6,bg=#212121
-  #             setw -g monitor-activity on
-  #             set -g visual-activity on
-  #             set -g status-right ""
-  #             set -g status-left "#{session_group}"
-  #             set -g window-status-current-format "#[fg=black bg=black]|#[fg=white bg=black]#W#[fg=black bg=black]|"
-  #             set -g window-status-last-style "fg=#444444 bg=black"
-  #           	bind-key -n M-"v" split-window -v
-  #           	bind-key -n M-"V" split-window -h
-  #           	bind-key -n M-h select-pane -L
-  #           	bind-key -n M-j select-pane -D
-  #           	bind-key -n M-k select-pane -U
-  #           	bind-key -n M-l select-pane -R
-  #           	bind-key -n M-H swap-pane -U
-  #           	bind-key -n M-J swap-pane -D
-  #           	bind-key -n M-K swap-pane -U
-  #           	bind-key -n M-L swap-pane -D
-  #           	bind-key -n M-C-h resize-pane -L
-  #           	bind-key -n M-C-j resize-pane -D
-  #           	bind-key -n M-C-k resize-pane -U
-  #           	bind-key -n M-C-l resize-pane -R
-  #   '';
-  # };
-
-  # services.gammastep = {
-  #   enable = true;
-  #   dawnTime = "7:00";
-  #   duskTime = "20:00";
-  #   provider = "manual";
-  #   temperature = {
-  #     day = 6300;
-  #     night = 2000;
-  #   };
-  # };
-
   services.dunst = {
     enable = true;
     settings = {
@@ -1047,8 +1194,8 @@
         offset = "0x0";
         origin = "top-right";
         transparency = 0;
-        frame_color = "#c6c6c6";
-        font = "Iosevka Bold 10";
+        frame_color = "#bdae93"; # c6c6c6
+        font = "Ttyp0 Bold 10";
         vertical_alignment = "center";
         alignment = "center";
         mouse_left_click = "close_current";
@@ -1056,27 +1203,25 @@
         mouse_right_click = "close_all";
         notification_limit = 0;
         follow = "mouse";
-
       };
       urgency_low = {
-        background = "#333333";
-        foreground = "#888888";
+        background = "#111111";
+        foreground = "#a08a64";
         timeout = 10;
       };
 
       urgency_normal = {
-        background = "#141414";
-        foreground = "#c6c6c6";
+        background = "#000000";
+        foreground = "#bdae93";
         timeout = 10;
       };
 
       urgency_critical = {
-        background = "#FF0000";
+        background = "#900000";
         foreground = "#FFFFFF";
-        frame_color = "#900000";
+        frame_color = "#FF0000";
         timeout = 0;
       };
-
     };
   };
 
@@ -1086,7 +1231,7 @@
     settings = {
       main = {
         term = "xterm-256color";
-        font = "Iosevka:size=11";
+        font = "Ttyp0:style=Regular:size=11";
         dpi-aware = "no";
       };
       mouse = {
@@ -1097,7 +1242,8 @@
         blink = "yes";
       };
       colors = {
-        background = "212121";
+        # background = "212121";
+        background = "000000";
         foreground = "bdae93";
         regular0 = "242424"; # black
         regular1 = "f62b5a"; # red
@@ -1117,166 +1263,104 @@
         bright5 = "feabf2"; # bright magenta
         bright6 = "24dfc4"; # bright cyan
         bright7 = "ffffff"; # bright white
-
       };
-    };
-  };
-
-  services.hyprpaper = {
-    enable = true;
-    settings = {
-      ipc = false;
-      splash = false;
-      preload = [ "~/Downloads/Images/realsat.jpg" ];
-      wallpaper = [ ",~/Downloads/Images/realsat.jpg" ];
-    };
-  };
-
-  services.hypridle = {
-    enable = true;
-    settings = {
-      general = {
-        after_sleep_cmd = "hyprctl dispatch dpms on";
-        before_sleep_cmd = "hyprlock";
-        ignore_dbus_inhibit = false;
-        ignore_systemd_inhibit = false;
-        lock_cmd = "hypridle";
-      };
-
-      listener = [
-        {
-          timeout = 900;
-          on-timeout = "hypridle";
-        }
-        {
-          timeout = 1200;
-          on-timeout = "hyprctl dispatch dpms off";
-          on-resume = "hyprctl dispatch dpms on";
-        }
-      ];
-    };
-  };
-
-  programs.hyprlock = {
-    enable = true;
-    settings = {
-      general = [
-        {
-          monitor = "";
-          ignore_empty_input = true;
-          hide_cursor = true;
-          no_fade_in = true;
-          no_fade_out = true;
-        }
-      ];
-      background = [ { color = "rgb(0, 0, 0)"; } ];
-      input-field = [
-        {
-          size = "300, 50";
-          position = "0, -80";
-          halign = "center";
-          valign = "center";
-          monitor = "";
-          dots_center = true;
-          fade_on_empty = true;
-          font_color = "rgb(202, 211, 245)";
-          # inner_color = "rgb(91, 96, 120)";
-          inner_color = "rgb(0, 0, 0)";
-          # outer_color = "rgb(24, 25, 38)";
-          outer_color = "rgb(0, 0, 0)";
-          outline_thickness = 3;
-          placeholder_text = "";
-          shadow_passes = 0;
-          rounding = 0;
-        }
-      ];
-
-    };
-  };
-
-  programs.swaylock = {
-    enable = true;
-    settings = {
-      color = "808080";
-      font-size = 24;
-      indicator-idle-visible = false;
-      indicator-radius = 100;
-      line-color = "ffffff";
-      show-failed-attempts = true;
     };
   };
 
   home.packages = with pkgs; [
-    # glib
-    # imhex
-    # kismet
-    # rlwrap
+    # aria2
     #  bsdgames
     #  cljfmt
     # clojure
     # clojure-lsp
-    # ghc
-    # haskell-language-server
-    # ormolu
-    age
+    # glib
+    # codeberg-cli
+    # ffmpegthumbnailer
+    # imhex
+    # kismet
+    # macchanger
+    # nodePackages.prettier
+    # pyright
+    # ripgrep
+    # rlwrap # for the readline
+    # rustup
+    # age
+    # sigrok-cli
+    # gron # json grepper
+    # fq # jq for binary formats
+    # entr # run a command when files change
+    # https://github.com/ducaale/xh # httpie replacement
+    # https://viric.name/soft/ts/
+    # https://www.gnu.org/software/parallel
     alacritty
     alsa-utils
     anki-bin
-    aria2
     astyle
     bc
     bemenu
+    cargo
     ccls
-    cinnamon.nemo
     cliphist
+    dmenu
     exfatprogs
     fd
     ffmpeg
-    ffmpegthumbnailer
+    file
     fuse3
     gcc
+    gdb
     gh
-    codeberg-cli
+    ghc
     gimp
     git
+    glib
+    gnumake
     gojq
     grim
+    haskell-language-server
     htop
-    # hunspell
-    # hunspellDicts.en-gb-large
-    hyprshade
-    # imagemagick
+    hunspell
+    hunspellDicts.en-gb-large
+    # hyprshade
+    # hyprsunset
+    wlsunset
+    imagemagick
     imv
-    jetbrains.idea-ultimate
-    kdeconnect
+    kdePackages.kdeconnect-kde
     keepassxc
     libnotify
     libreoffice
     lsof
     lxqt.lxqt-policykit
     magic-wormhole
-    # man-pages
-    # man-pages-posix
+    man-pages
+    man-pages-posix
     mpc-cli
     mpv
     mpvScripts.mpris
     mupdf
+    nemo
     neovim
-    nil
-    nixfmt-rfc-style
+    nixd
+    # nixfmt-rfc-style
+    alejandra
     nodePackages.bash-language-server
-    # nodePackages.prettier
-    # obs-studio
-    # openssl
+    obs-studio
+    openssl
+    ormolu
     p7zip
     pandoc
     poppler_utils
+    progress
     pulsemixer
-    ruff-lsp
-    ruff
+    pv
     python3Full
-    # ripgrep
+    ripgrep-all
     rsync
+    ruff
+    ruff-lsp
+    sbcl
+    sdcv
     shellcheck
     shfmt
     signal-desktop
@@ -1285,30 +1369,30 @@
     smartmontools
     syncthing
     texliveFull
-    # texliveSmall
     traceroute
     trash-cli
     unzip
     usbutils
     ventoy-full
+    vesktop
+    xmlformat
     virt-manager
     wdisplays
     wl-clip-persist
     wl-clipboard
+    wl-color-picker
     wlr-randr
     xdg-utils
-    logisim-evolution
-    logisim
-    gnumake
     yapf
     yt-dlp
     zip
     (aspellWithDicts (
-      dicts: with dicts; [
-        en
-        en-computers
-        en-science
-      ]
+      dicts:
+        with dicts; [
+          en
+          en-computers
+          en-science
+        ]
     ))
   ];
 

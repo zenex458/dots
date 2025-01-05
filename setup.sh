@@ -24,19 +24,19 @@ postsetup() {
 	sudo ufw default allow outgoing
 	read -rp "Do you want xmonad?(y/n) " xmon
 	if [[ $xmon == "y" || $xmon == "Y" ]]; then
-		sudo $pkg xmonad xmobar xautolock
+		sudo "$pkg" xmonad xmobar xautolock
 	else
 		echo "xmonad not added"
 	fi
 
 	read -rp "Do you want sway?(y/n) " sw
 	if [[ $sw == "y" || $sw == "Y" ]]; then
-		sudo $pkg -y sway foot gammastep xwayland bemenu swaylock swayidle xdg-desktop-portal-wlr grim slurp imv emacs-pgtk python3-i3ipc
+		sudo "$pkg" -y sway foot gammastep xwayland bemenu swaylock swayidle xdg-desktop-portal-wlr grim slurp imv emacs-pgtk python3-i3ipc
 	else
 		echo "sway not added"
 	fi
 
-	cd ~/ || cd $HOME || echo "$HOME not found, please set $HOME variable"
+	cd ~/ || cd "$HOME" || echo "$HOME not found, please set $HOME variable"
 	git clone https://codeberg.org/zenex/looks
 	cd looks || echo "looks directory not found"
 	sudo cp -r Future* /usr/share/icons
@@ -64,7 +64,7 @@ Fedora() {
 	sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 	sudo dnf upgrade
 	sudo dnf install --allowerasing mpv mpd mpc ncmpcpp ffmpegthumbnailer
-	$pkg --allowerasing emacs curl wget firefox dmenu make gcc htop feh redshift libreoffice dunst libnotify libnotify-devel scrot zathura zathura-devel zathura-plugins-all zathura-pdf-mupdf @base-x yt-dlp zip unzip fuse3 NetworkManager-tui NetworkManager-wifi light keepassxc tar nnn ufw iwl* pcmanfm alsa-firmware alsa-lib alsa-lib-devel alsa-utils xterm ntfs-3g libX11-devel libXft-devel libXinerama-devel xorg-x11-xinit-session rxvt-unicode tmux fzf tlp udisks udisks-devel trash-cli xsetroot dash xsecurelock lxappearance patch texlive-cantarell p7zip redhat-rpm-config rpmautospec-rpm-macros 
+	$pkg --allowerasing emacs curl wget firefox dmenu make gcc htop feh redshift libreoffice dunst libnotify libnotify-devel scrot zathura zathura-devel zathura-plugins-all zathura-pdf-mupdf @base-x yt-dlp zip unzip fuse3 NetworkManager-tui NetworkManager-wifi light keepassxc tar nnn ufw iwl* pcmanfm alsa-firmware alsa-lib alsa-lib-devel alsa-utils xterm ntfs-3g libX11-devel libXft-devel libXinerama-devel xorg-x11-xinit-session rxvt-unicode tmux fzf tlp udisks udisks-devel trash-cli xsetroot dash xsecurelock lxappearance patch texlive-cantarell p7zip redhat-rpm-config rpmautospec-rpm-macros
 	sudo systemctl disable firewalld
 	sudo systemctl disable bluetooth
 	sudo systemctl stop firewalld
