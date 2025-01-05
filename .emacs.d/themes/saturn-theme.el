@@ -3,7 +3,7 @@
 ;; Copyright (C) 2023 , zenex
 
 ;; Author: zenex
-;; Version: 0.3
+;; Version: 0.4
 ;; Package-Requires: ((emacs "24"))
 ;; Created with ThemeCreator, https://github.com/mswift42/themecreator.
 
@@ -64,7 +64,6 @@
    `(font-lock-type-face ((,class (:foreground ,type ))))
    `(font-lock-variable-name-face ((,class (:foreground ,var))))
    `(font-lock-warning-face ((,class (:foreground ,warning :background ,bg2))))
-   `(term-color-black ((,class (:foreground ,fg2 :background nil))))
    `(region ((,class (:background ,"#a08a64" :foreground ,"#000000"))))
    `(highlight ((,class (:foreground ,fg2 :background ,bg4))))
    `(hl-line ((,class (:background  ,bg3))))
@@ -178,13 +177,14 @@
    `(magit-diff-file-header ((,class (:foreground ,fg2 :background ,bg3))))
    `(lazy-highlight ((,class (:foreground ,fg2 :background ,bg3))))
    `(term ((,class (:foreground ,fg1 :background ,bg1))))
-   `(term-color-black ((,class (:foreground ,bg3 :background ,bg3))))
-   `(term-color-blue ((,class (:foreground ,func :background ,func))))
-   `(term-color-red ((,class (:foreground ,keyword :background ,bg3))))
-   `(term-color-green ((,class (:foreground ,type :background ,bg3))))
-   `(term-color-yellow ((,class (:foreground ,var :background ,var))))
-   `(term-color-magenta ((,class (:foreground ,builtin :background ,builtin))))
-   `(term-color-cyan ((,class (:foreground ,str :background ,str))))
+   ;; `(term-color-black ((,class (:foreground ,bg3 :background ,bg3))))
+   `(term-color-black ((,class (:foreground ,fg2 :background unspecified))))
+   `(term-color-blue ((,class (:foreground ,type :background ,type))))
+   `(term-color-red ((,class (:foreground ,keyword :background ,keyword))))
+   `(term-color-green ((,class (:foreground ,str :background ,str))))
+   `(term-color-yellow ((,class (:foreground ,const :background ,const))))
+   `(term-color-magenta ((,class (:foreground ,var :background ,var))))
+   `(term-color-cyan ((,class (:foreground ,"#6cb2eb" :background ,"#6cb2eb"))))
    `(term-color-white ((,class (:foreground ,fg2 :background ,fg2))))
    `(rainbow-delimiters-unmatched-face ((,class :foreground ,warning)))
    `(company-echo-common ((,class (:foreground ,bg1 :background ,fg1))))
@@ -254,7 +254,18 @@
    `(goggles-removed ((t (:background , "#B33929"))))
    `(goggles-added ((t (:background , "#75B329"))))
    `(goggles-changed ((t (:background , "#2874B2"))))
-
+   `(elfeed-search-unread-title-face ((t (:foreground ,fg1 :bold t))))
+   `(elfeed-search-title-face ((t (:foreground ,fg1))))
+   `(elfeed-search-date-face ((t (:foreground ,fg4))))
+   `(elfeed-search-tag-face ((t (:foreground ,fg4))))
+   `(elfeed-search-feed-face ((t (:foreground ,fg2))))
+   `(elfeed-search-last-update-face ((t (:foreground ,fg1))))
+   `(elfeed-search-filter-face ((t (:foreground ,fg1))))
+   `(elfeed-search-unread-count-face ((t (:foreground ,fg1))))
+   `(orderless-match-face-0 ((t (:foreground ,func))))
+   `(orderless-match-face-1 ((t (:foreground ,str))))
+   `(orderless-match-face-2 ((t (:foreground ,type))))
+   `(orderless-match-face-3 ((t (:foreground ,var))))
    ;;  `(markdown-header-face-6 ((t (:bold t :foreground "#0073e6"))))
    ;; `(sh-quoted-exec ((t (:foreground "#0073e6"))))
    ;; `(dired-directory ((t (:foreground "#0073e6"))))
@@ -265,33 +276,34 @@
    `(compilation-warning ((t (:bold t :foreground ,warning2))))
 
    )
+
   ;; Legacy
   (if (< emacs-major-version 22)
       (custom-theme-set-faces
 	   'saturn
 	   `(show-paren-match-face ((,class (:background ,warning)))) ;; obsoleted in 22.1, removed 2016
 	   )
-	(custom-theme-set-faces
-	 'saturn
-	 `(show-paren-match ((,class (:foreground ,bg1 :background ,str))))
-	 `(show-paren-mismatch ((,class (:foreground ,bg1 :background ,warning))))
-	 )
-	)
+    (custom-theme-set-faces
+     'saturn
+     `(show-paren-match ((,class (:foreground ,bg1 :background ,str))))
+     `(show-paren-mismatch ((,class (:foreground ,bg1 :background ,warning))))
+     )
+    )
   ;; emacs >= 26.1
   (when (>= emacs-major-version 26)
-	(custom-theme-set-faces
-	 'saturn
-	 `(line-number ((t (:inherit fringe))))
-	 `(line-number-current-line ((t (:inherit fringe :foreground "white" :weight bold))))))
+    (custom-theme-set-faces
+     'saturn
+     `(line-number ((t (:inherit fringe))))
+     `(line-number-current-line ((t (:inherit fringe :foreground "white" :weight bold))))))
   ;; emacs >= 27.1
   (when (>= emacs-major-version 27)
-	(custom-theme-set-faces
-	 'saturn
-	 `(tab-line              ((,class (:background ,bg2 :foreground ,fg4))))
-	 `(tab-line-tab          ((,class (:inherit tab-line))))
-	 `(tab-line-tab-inactive ((,class (:background ,bg2 :foreground ,fg4))))
-	 `(tab-line-tab-current  ((,class (:background ,bg1 :foreground ,fg1))))
-	 `(tab-line-highlight    ((,class (:background ,bg1 :foreground ,fg2))))))
+    (custom-theme-set-faces
+     'saturn
+     `(tab-line              ((,class (:background ,bg2 :foreground ,fg4))))
+     `(tab-line-tab          ((,class (:inherit tab-line))))
+     `(tab-line-tab-inactive ((,class (:background ,bg2 :foreground ,fg4))))
+     `(tab-line-tab-current  ((,class (:background ,bg1 :foreground ,fg1))))
+     `(tab-line-highlight    ((,class (:background ,bg1 :foreground ,fg2))))))
   )
 
 ;;;###autoload

@@ -1,5 +1,5 @@
 ;; -*- lexical-binding: t; -*-
-
+(load-theme 'saturn t)
 (package-initialize)
 
 (unless (package-installed-p 'use-package)
@@ -14,7 +14,9 @@
 
 ;; (setq custom-file (make-temp-file "emacs-custom-"))
 ;; (setq custom-file (expand-file-name "~/.emacs.d/emacs-custom.el"))
-(setq ffap-machine-p-known 'reject)
+(setq auth-sources '("~/.authinfo.gpg"))
+(setq debug-on-error t)
+;; (setq ffap-machine-p-known 'reject)
 (setq ring-bell-function 'ignore)
 (setq visible-bell nil)
 (defvar ispell-dictionary "british")
@@ -36,6 +38,8 @@
 (setq enable-recursive-minibuffers t)
 (minibuffer-depth-indicate-mode 1)
 (setq scroll-conservatively 100)
+(setq dired-movement-style t)
+(setq auto-save-timeout 5)
 (setq
  backup-by-copying t
  delete-old-versions t
@@ -139,8 +143,9 @@
 
 (use-package orderless
   :custom
-  (completion-styles '(orderless basic substring initials partial-completion))
-  (completion-category-defaults nil)
+  ;; (completion-styles '(orderless basic substring initials partial-completion))
+  (completion-styles '(substring orderless))
+  ;; (completion-category-defaults nil)
   ;; (completion-category-overrides '((file (styles partial-completion))))
   (completion-category-overrides '((file (initials))))
   )
@@ -386,6 +391,7 @@
   :config
   (setq elisp-flymake-byte-compile-load-path load-path))
 
+
 (use-package yasnippet
   :hook ((prog-mode . yas-minor-mode)
 		 (org-mode . yas-minor-mode)
@@ -476,8 +482,6 @@
 
 (use-package magit)
 
-;;(use-package editorconfig)
-
 (use-package writeroom-mode
   :custom
   (writeroom-bottom-divider-width 0))
@@ -486,6 +490,8 @@
 
 (use-package indent-guide
   :hook (python-ts-mode . indent-guide-mode))
+
+(use-package trashed)
 
 (require 'updnix)
 (require 'upmu)
@@ -548,4 +554,18 @@
 ;;(server-start)
 
 (provide 'init)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(trashed pdf-tools yasnippet writeroom-mode vlf vertico undo-fu-session sudo-edit slime sdcv rainbow-mode rainbow-delimiters org-bullets orderless nix-ts-mode multiple-cursors multi-vterm markdown-mode magit indent-guide hungry-delete haskell-mode golden-ratio goggles gcmh expreg expand-region embark-consult elfeed-org edwina dired-subtree diminish corfu cape auctex async apheleia ace-window)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 ;;; init.el ends here
