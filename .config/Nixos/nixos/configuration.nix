@@ -329,12 +329,8 @@
   # $ nix search wget
   environment = {
     sessionVariables.NIXOS_OZONE_WL = "1";
-<<<<<<< HEAD
-    #defaultPackages = lib.mkForce [ ];
-=======
     sessionVariables.FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
     defaultPackages = lib.mkForce [];
->>>>>>> main
     systemPackages = with pkgs; [
       git
       vim
