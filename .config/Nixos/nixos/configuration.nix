@@ -330,7 +330,7 @@
   environment = {
     sessionVariables.NIXOS_OZONE_WL = "1";
     sessionVariables.FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
-    #defaultPackages = lib.mkForce [ ];
+    defaultPackages = lib.mkForce [];
     systemPackages = with pkgs; [
       git
       vim
@@ -366,7 +366,6 @@
     iosevka-bin
     uw-ttyp0
     vistafonts
-    #    (nerdfonts.override { fonts = [ "Iosevka" "IosevkaTerm" ]; })
   ];
 
   fonts.fontconfig = {

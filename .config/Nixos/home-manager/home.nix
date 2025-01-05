@@ -108,8 +108,6 @@
     enable = true;
     theme.package = pkgs.shades-of-gray-theme;
     theme.name = "Shades-of-gray";
-    iconTheme.package = pkgs.paper-icon-theme;
-    iconTheme.name = "Paper-Mono-Dark";
     cursorTheme.name = "plan9";
     cursorTheme.size = 20;
     # font.package = pkgs.iosevka;
@@ -148,7 +146,6 @@
       search.force = true;
     };
     profiles.priv = {
-      id = 1;
       search.engines = {
         "Bing".metaData.hidden = true;
         "Google".metaData.hidden = true;
@@ -250,52 +247,11 @@
         /* https://gist.github.com/chris-vecchio/d6a47fc733559752cc3a09937381d7ae */
         /* Firefox userChrome.css */
 
-        /*** PROTON TABS TWEAKS ***/
-        /* SOURCE: modified version of https://www.userchrome.org/firefox-89-styling-proton-ui.html#tabstyler */
-        /* Make tab shape square */
-        #tabbrowser-tabs {
-          --user-tab-rounding: 0px;
-        }
-
-        .tab-background {
-          border-radius: var(--user-tab-rounding) var(--user-tab-rounding) 0px 0px !important;
-          margin-block: 1px 0 !important;
-        }
-
         /* Borders on tab scroll right and left buttons */
         #scrollbutton-up, #scrollbutton-down { /* 6/10/2021 */
           border-top-width: 1px !important;
           border-bottom-width: 0 !important;
         }
-
-        /* Inactive tabs: Separator line style */
-        /* For light backgrounds */
-        .tabbrowser-tab:not([selected=true]):not([multiselected=true]):not([beforeselected-visible="true"]) .tab-background {
-          border-right: 1px solid var(--lwt-background-tab-separator-color, rgba(0, 0, 0, .20)) !important;
-        }
-
-        /* For dark backgrounds */
-        [brighttext="true"] .tabbrowser-tab:not([selected=true]):not([multiselected=true]):not([beforeselected-visible="true"]) .tab-background {
-          border-right: 1px solid var(--lwt-background-tab-separator-color, var(--lwt-selected-tab-background-color, rgba(255, 255, 255, .20))) !important;
-        }
-
-        .tabbrowser-tab:not([selected=true]):not([multiselected=true]) .tab-background {
-          border-radius: 0 !important;
-        }
-
-        /* Remove padding between tabs */
-        .tabbrowser-tab {
-          padding-left: 0 !important;
-          padding-right: 0 !important;
-        }
-
-        /* Set tab fill color and text color */
-        #TabsToolbar {
-          background-color: #202340;
-          color: #F9F9FA;
-        }
-        /*** END PROTON TABS TWEAKS ***/
-
 
         /*** TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
         /* SOURCE: https://www.userchrome.org/firefox-89-styling-proton-ui.html#menuspacing */
@@ -314,6 +270,7 @@
 
       '';
       settings = {
+        "dom.security.https_only_mode" = true;
         "accessibility.force_disabled" = 1;
         "app.normandy.api_url" = "";
         "app.normandy.enabled" = false;
@@ -322,24 +279,37 @@
         "app.update.silent" = false;
         "app.update.staging.enabled" = false;
         "beacon.enabled" = false;
+        "breakpad.reportURL" = "";
         "browser.bookmarks.max_backups" = 5;
-        "browser.cache.memory.capacity" = -1;
-        "browser.cache.memory.enable" = true;
+        "browser.cache.disk.enable" = false; ## enable if too slow
+        "browser.cache.memory.capacity" = 0;
+        "browser.cache.memory.enable" = false; # enable if too slow
         "browser.cache.offline.enable" = false;
         "browser.compactmode.show" = true;
+        "browser.contentanalysis.default_result" = 0;
+        "browser.contentanalysis.enabled" = false;
+        "browser.contentblocking.category" = "strict";
         "browser.contentblocking.report.lockwise.enabled" = false;
         "browser.contentblocking.report.monitor.enabled" = false;
+        "browser.discovery.enabled" = false;
         "browser.display.use_document_fonts" = 0;
+        "browser.download.always_ask_before_handling_new_types" = true;
+        "browser.download.alwaysOpenPanel" = false;
         "browser.download.autohideButton" = true;
         "browser.download.folderList" = 1;
-        "browser.download.forbid_open_with" = false;
+        "browser.download.forbid_open_with" = true;
+        "browser.download.manager.addToRecentDocs" = false;
+        "browser.download.useDownloadDir" = false;
         "browser.library.activity-stream.enabled" = false;
         "browser.link.open_newwindow" = 3;
         "browser.link.open_newwindow.override.external" = 3;
+        "browser.link.open_newwindow.restriction" = 0;
         "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons" = false;
         "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features" = false;
         "browser.pagethumbnails.capturing_disabled" = true;
         "browser.ping-centre.telemetry" = false;
+        "browser.places.speculativeConnect.enabled" = false;
+        "browser.preferences.experimental" = false; # disables firefox labs
         "browser.preferences.moreFromMozilla" = false;
         "browser.region.networ=.url" = "";
         "browser.region.update.enabled" = false;
@@ -360,23 +330,34 @@
         "browser.safebrowsing.provider.google4.repo=tURL" = "";
         "browser.safebrowsing.provider.google4.upda=eURL" = "";
         "browser.safebrowsing.reportPhi=hURL" = "";
+        "browser.search.isUS" = true;
+        "browser.search.suggest.enabled" = false;
         "browser.search.widget.inNavBar" = false;
         "browser.sessionstore.cleanup.forget_closed_after" = 600;
         "browser.sessionstore.interval" = 9999999;
         "browser.sessionstore.interval.idle" = 9999999;
         "browser.sessionstore.max_tabs_undo" = 0;
+        "browser.sessionstore.privacy_level" = 2; ## disable storing extra session data such as form content, cookies and POST data 0=everywhere, 1=unencrypted sites, 2=nowhere
         "browser.sessionstore.resume_from_crash" = false;
+        "browser.shell.shortcutFavicons" = false;
         "browser.startup.homepage_override.mstone" = "ignore";
         "browser.startup.page" = 0;
         "browser.tabs.allowTabDetach" = true;
+        "browser.tabs.crashReporting.sendReport" = false;
         "browser.tabs.firefox-view" = false;
         "browser.tabs.loadDivertedInBackground" = true;
         "browser.tabs.loadInBackground" = true;
         "browser.translations.enable" = false;
         "browser.triple_click_selects_paragraph" = true;
         "browser.uidensity" = 1;
+        "browser.uitour.enabled" = false;
+        "browser.uitour.url" = "";
+        "browser.urlbar.addons.featureGate" = false;
         "browser.urlbar.autoFill" = true;
         "browser.urlbar.formatting.enabled" = true;
+        "browser.urlbar.mdn.featureGate" = false;
+        "browser.urlbar.pocket.featureGate" = false;
+        "browser.urlbar.speculativeConnect.enabled" = false;
         "browser.urlbar.suggest.bookmark" = true;
         "browser.urlbar.suggest.engines" = false;
         "browser.urlbar.suggest.history" = false;
@@ -384,6 +365,9 @@
         "browser.urlbar.suggest.recentsearches" = false;
         "browser.urlbar.suggest.topsites" = false;
         "browser.urlbar.trimURLs" = false;
+        "browser.urlbar.weather.featureGate" = false;
+        "browser.urlbar.yelp.featureGate" = false;
+        "captivedetect.canonicalURL" = false;
         "devtools.aboutdebugging.showSystemAddons" = true;
         "devtools.toolbox.zoomValue" = "=.2";
         "dom.allow_cut_copy" = false;
@@ -393,13 +377,15 @@
         "dom.push.userAge=tID" = "";
         "dom.security.https_only_mode_send_http_background_request" = false;
         "dom.serviceWorkers.enabled" = false;
-        "dom.webnotifications.enabled" = true; # SET FALSE
-        "dom.webnotifications.serviceworker.enabled" = true; # SET FALSE FOR PRIV
+        "dom.webnotifications.enabled" = false;
+        "dom.webnotifications.serviceworker.enabled" = false;
         "extensions.formautofill.addresses.enabled" = false;
         "extensions.formautofill.available" = "off";
         "extensions.formautofill.creditCards.available" = false;
         "extensions.formautofill.creditCards.enabled" = false;
         "extensions.formautofill.heuristics.enabled" = false;
+        "extensions.getAddons.showPane" = false; #disable recommendation pane in about:addons (uses Google Analytics)
+        "extensions.htmlaboutaddons.recommendations.enabled" = false;
         "extensions.pocket.enabled" = false;
         "extensions.quarantinedDomain=.list" = "";
         "extensions.quarantinedDomains.enabled" = true;
@@ -411,6 +397,7 @@
         "full-screen-api.warning.timeout" = 0;
         "general.autoScroll" = false;
         "general.smoothScroll" = false;
+        "geo.provider.use_geoclue" = false;
         "gfx.font_rendering.opentype_svg.enabled" = false;
         "identity.fxaccounts.enabled" = false;
         "javascript.options.asmjs" = false;
@@ -429,15 +416,25 @@
         "media.videocontrols.picture-in-picture.video-toggle.enabled" = false;
         "middlemouse.paste" = true;
         "mousewheel.with_shift.action" = 3;
+        "network.captive-portal-service.enabled" = false;
+        "network.connectivity-service.enabled" = false;
         "network.cookie.cookieBehavior" = 2;
         "network.cookie.lifetimePolicy" = 2;
+        "network.dns.disablePrefetch" = true;
+        "network.dns.disablePrefetchFromHTTPS" = true;
         "network.dnsCacheEntries" = 0;
+        "network.gio.supported-protocols" = "";
+        "network.http.referer.XOriginTrimmingPolicy" = 2; #control the amount of cross-origin information to send. 0=send full URI (default), 1=scheme+host+port+path, 2=scheme+host+port
+        "network.IDN_show_punycode" = true;
         "network.manage-offline-status" = false;
+        "network.predictor.enabled" = false;
+        "network.prefetch-next" = false;
         "network.trr.mode" = 3;
         "network.trr.uri" = "https://all.dns.mullvad.net/dns-query";
         "nglayout.enable_drag_images" = false;
+        "pdfjs.enableScripting" = false;
         "permissions.default.camera" = 2;
-        "permissions.default.desktop-notification" = 1;
+        "permissions.default.desktop-notification" = 2;
         "permissions.default.geo" = 2;
         "permissions.default.microphone" = 2;
         "permissions.default.xr" = 2;
@@ -447,12 +444,18 @@
         "privacy.clearOnShutdown.cookies" = true;
         "privacy.clearOnShutdown.formdata" = true;
         "privacy.clearOnShutdown.history" = true;
+        "privacy.clearOnShutdown_v2.cache" = true;
+        "privacy.clearHistory.siteSettings" = true;
+        "privacy.clearOnShutdown.siteSettings" = true;
+        "privacy.clearOnShutdown_v2.siteSettings" = true;
+        "privacy.clearSiteData.siteSettings" = true;
+        "privacy.cpd.siteSettings" = true;
         "privacy.cpd.cookies" = true;
         "privacy.donottrackheader.enabled" = false;
-        "privacy.firstparty.isolate" = true;
-        "privacy.partition.always_partition_third_party_non_cookie_storage.exempt_sessionstorage" = true;
         "privacy.resistFingerprinting" = true;
         "privacy.resistFingerprinting.letterboxing" = true;
+        "privacy.sanitize.sanitizeOnShutdown" = true;
+        "privacy.spoof_english" = 1;
         "privacy.trackingprotection.cryptomining.enabled" = true;
         "privacy.trackingprotection.enabled" = true;
         "privacy.trackingprotection.pbmode.enabled" = true;
@@ -485,9 +488,13 @@
         "toolkit.telemetry.shutdownPingSender.enabled" = false;
         "toolkit.telemetry.unified" = false;
         "toolkit.telemetry.updatePing.enabled" = false;
+        "sidebar.animation.enabled" = false;
+        "toolkit.cosmeticAnimations.enabled" = false;
+        "webgl.disabled" = true;
       };
     };
     profiles."work" = {
+      id = 1;
       search.engines = {
         "Bing".metaData.hidden = true;
         "Google".metaData.hidden = true;
@@ -614,8 +621,9 @@
         "browser.search.suggest.enabled" = false;
         "browser.shell.shortcutFavicons" = true;
         "browser.shopping.experience2023.enabled" = false;
-        "browser.startup.page" = "https://priv.au";
+        "browser.startup.page" = "about:blank";
         "browser.tabs.crashReporting.sendReport" = false;
+        "browser.preferences.experimental" = false; # disables firefox labs
         "browser.tabs.firefox-view" = false;
         "browser.tabs.firefox-view-newIcon" = false;
         "browser.tabs.firefox-view-next" = false;
@@ -666,6 +674,9 @@
         "privacy.clearOnShutdown.offlineApps" = true;
         "privacy.clearOnShutdown.sessions" = true;
         "privacy.clearOnShutdown.siteSettings" = true;
+        "privacy.clearHistory.siteSettings" = true;
+        "privacy.clearOnShutdown_v2.siteSettings" = true;
+        "privacy.clearSiteData.siteSettings" = true;
         "privacy.cpd.history" = true;
         "privacy.cpd.siteSettings" = true;
         "privacy.resistFingerprinting.letterboxing" = false;
@@ -676,6 +687,7 @@
         "signon.rememberSignons" = false;
         "toolkit.coverage.endpoint.base" = "";
         "toolkit.coverage.opt-out" = true;
+        "sidebar.animation.enabled" = false;
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
         "toolkit.telemetry.archive.enabled" = false;
         "toolkit.telemetry.bhrPing.enabled" = false;
@@ -687,6 +699,7 @@
         "toolkit.telemetry.shutdownPingSender.enabled" = false;
         "toolkit.telemetry.unified" = false;
         "toolkit.telemetry.updatePing.enabled" = false;
+        "toolkit.cosmeticAnimations.enabled" = false;
         "webgl.disabled" = false;
       };
     };
@@ -742,8 +755,8 @@
         "$mainMod SHIFT, Q, killactive,"
         "$mainMod SHIFT CTRL, Z, exit,"
         "$mainMod, V, togglefloating"
-        "$mainMod, C, exec, firejail firefox -P priv"
-        "$mainMod SHIFT, C, exec, firejail firefox"
+        "$mainMod, C, exec, firejail firefox"
+        "$mainMod SHIFT, C, exec, firejail firefox -P work"
         "$mainMod, U, exec, emacsclient -c -a emacs"
         "$mainMod, P, exec, bemenu-run"
         "$mainMod SHIFT, O, exec, mpc next"
@@ -806,6 +819,7 @@
       exec-once = hyprctl setcursor plan9 20
       exec-once = dconf write /org/gnome/desktop/interface/cursor-theme "plan9"
       exec-once = gsettings set org.gnome.desktop.interface cursor-theme 'plan9'
+      exec-once = gsettings set org.gnome.desktop.interface enable-animations false
 
       env = HYPRCURSOR_THEME,plan9
       env = HYPRCURSOR_SIZE,20
@@ -1015,6 +1029,8 @@
       chkfstab = "sudo findmnt --verify";
       logs = "journalctl -S today -o verbose -r -x";
       log = "journalctl -S today -r -x";
+      e = "emacsclient -a emacs -t";
+      upded = "systemctl --user restart emacs.service  &&  systemctl --user status emacs.service";
     };
     sessionVariables = {
       XDG_CONFIG_HOME = "$HOME/.config";
