@@ -1,82 +1,67 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
 {
   inputs,
-  outputs,
-  lib,
-  #config,
   pkgs,
+  lib,
   ...
 }: {
   imports = [
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-    #./hardened.nix ##this breaks
     inputs.home-manager.nixosModules.home-manager
+    inputs.impermanence.nixosModules.impermanence
+    inputs.disko.nixosModules.disko
+    ./disko-config.nix
+    ./hardware-configuration.nix
   ];
 
-  boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
-    supportedFilesystems = ["ntfs"];
-    loader = {
-      systemd-boot.enable = true;
-      systemd-boot.editor = false;
-      efi.canTouchEfiVariables = true;
-    };
-    # kernelParams = [
-    #   "quiet"
-    #   "splash"
-    #   ############## i have now idea if the below works
-    #   ###"vga=current"
-    #   ###"rd.udev.log_level=3"
-    #   ###"udev.log_priority=3"
-    # ];
-    ##consoleLogLevel = 0;
-    ##initrd.verbose = false;
-    #tmp.cleanOnBoot = true;
-    tmp.useTmpfs = true;
-    initrd.luks.devices."luks-c747cca5-93f7-40d7-836c-ef71a364d53b" = {
-      device = "/dev/disk/by-uuid/c747cca5-93f7-40d7-836c-ef71a364d53b";
-      allowDiscards = true;
-    };
-  };
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
-  console = {
-    useXkbConfig = true;
-    font = "Lat2-Terminus16";
-  };
-  #TODO: https://wiki.nixos.org/wiki/Systemd/Hardening
-  # https://www.opensourcerers.org/2022/04/25/optimizing-a-systemd-service-for-security/
-  # https://github.com/alegrey91/systemd-service-hardening
-  # https://blog.sergeantbiggs.net/posts/hardening-applications-with-systemd/
-  # https://www.linuxjournal.com/content/systemd-service-strengthening
-  # systemd.services = {
-  #   macrand = {
-  #     wantedBy = [ "multi-user.target" ];
-  #     after = [ "network.target" ];
-  #     description = "Randomise MAC address";
-  #     serviceConfig = {
-  #       Type = "oneshot";
-  #       ExecStart = ''${pkgs.macchanger}/bin/macchanger -e wlp4s0'';
-  #     };
-  #   };
-  #   nix-daemon = {
-  #     environment.TMPDIR = "/tmp";
-  #   };
-  # };
-  hardware.graphics = {
-    enable = true;
+  boot.initrd.postDeviceCommands = lib.mkAfter ''
+    mkdir /btrfs_tmp
+    mount -o subvol=/ /dev/mapper/crypted /btrfs_tmp
+    if [[ -e /btrfs_tmp/root ]]; then
+        mkdir -p /btrfs_tmp/old_roots
+        timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/root)" "+%Y-%m-%-d_%H:%M:%S")
+        mv /btrfs_tmp/root "/btrfs_tmp/old_roots/$timestamp"
+    fi
+
+    delete_subvolume_recursively() {
+        IFS=$'\n'
+        for i in $(btrfs subvolume list -o "$1" | cut -f 9- -d ' '); do
+            delete_subvolume_recursively "/btrfs_tmp/$i"
+        done
+        btrfs subvolume delete "$1"
+    }
+
+    for i in $(find /btrfs_tmp/old_roots/ -maxdepth 1 -mtime +30); do
+        delete_subvolume_recursively "$i"
+    done
+
+    btrfs subvolume create /btrfs_tmp/root
+    umount /btrfs_tmp
+  '';
+
+  systemd.tmpfiles.rules = [
+    "d /persistence/home/ 1777 root root-"
+    "d /persistence/home/zenex/ 0770 zenex users-"
+    "d /persistent/var/keys/ 0700 root root-"
+  ];
+
+  programs.fuse.userAllowOther = true;
+  home-manager = {
+    extraSpecialArgs = {inherit inputs;};
+    users.zenex = import ./home/zenex.nix;
   };
 
   networking = {
     hostName = "eukaryotic";
-    networkmanager = {
-      wifi.macAddress = "stable-ssid";
-      wifi.scanRandMacAddress = true;
-      enable = true;
+    networkmanager.enable = true;
+    networkmanager.wifi = {
+      macAddress = "stable-ssid"; # #random mac adress per wifi
     };
+    enableIPv6 = false;
   };
+
+  hardware.graphics = {enable = true;};
 
   hardware.cpu.intel.updateMicrocode = true;
   time.timeZone = "Europe/London";
@@ -102,20 +87,14 @@
       rootless.setSocketVariable = true;
     };
   };
+
   programs = {
-    nh = {
-      enable = true;
-      clean = {
-        enable = true;
-        extraArgs = "--keep-since 2d";
-      };
-      flake = "/home/zenex/dots/.config/Nixos/";
-    };
     gnupg.agent.enable = true;
     wireshark = {
       enable = true;
       package = pkgs.wireshark;
     };
+    xwayland.enable = true;
     hyprland = {
       enable = true;
       withUWSM = true;
@@ -134,60 +113,46 @@
         };
       };
     };
-    xwayland.enable = true;
     light.enable = true;
     dconf.enable = true;
-    bash.undistractMe.timeout = 30;
-    bash.undistractMe.playSound = true;
     bash.promptInit = ''
       if [ "$LOGNAME" = root ] || [ "$(id -u)" -eq 0 ]; then
-      	PS1="\[\e[01;31m\]\[\u@\h:\w# \]\\[\e[00m\]"
+      	PS1="\[\e[01;31m\]\[\u@\h:\w\n# \]\\[\e[00m\]"
       else
       	PS1="[\w]\n$ "
       fi
     '';
   };
 
-  home-manager = {
-    extraSpecialArgs = {
-      inherit inputs outputs;
-    };
-    users = {
-      zenex = import ../home-manager/home.nix;
-    };
-  };
+  users.mutableUsers = false;
+  users.users.root.hashedPasswordFile = "/persistent/var/keys/rootP";
 
   users.users.zenex = {
+    hashedPasswordFile = "/persistent/var/keys/zenexP";
     isNormalUser = true;
     description = "zenex";
     extraGroups = [
+      "networkmanager"
       "wheel"
       "video"
       "audio"
       "input"
       "libvirtd"
       "wireshark"
-      "docker"
-      "networkmanager"
-    ];
-    packages = with pkgs; [
     ];
   };
 
-  #https://en.wikipedia.org/wiki/Network_Time_Protocol#Secure_extensions servers
-  networking.timeServers = [
-    "time.cloudflare.com"
-    "ntppool1.time.nl"
-    "nts.netnod.se"
-    "ptbtime1.ptb.de"
-  ];
+  console = {
+    useXkbConfig = true;
+    font = "Lat2-Terminus16";
+  };
 
   services = {
     gnome.gnome-keyring.enable = true;
-    journald.extraConfig = "SystemMaxUse=250M\n";
-    logind = {
-      lidSwitch = "suspend";
-    };
+    journald.extraConfig = ''
+      SystemMaxUse=250M
+    '';
+    logind = {lidSwitch = "suspend";};
     #irqbalance.enable = true;
     #with hardened profile this is needed otherwise nix will not build
     #    logrotate.checkConfig = false;
@@ -216,7 +181,7 @@
       pkgs.epson-escpr
       pkgs.epson-escpr2
       # pkgs.foomatic-db-ppds-withNonfreeDb
-      pkgs.foomatic-db-nonfree
+      #      pkgs.foomatic-db-nonfree
     ];
     avahi = {
       enable = true;
@@ -262,6 +227,7 @@
       allow id 090c:1000 serial "0378623070002866" name "Flash Drive" hash "1/RruVSzVscnzrC1F2G9vbXXh5TSrNFf7UZ3aEBxar8=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" with-interface 08:06:50 with-connect-type "hotplug"
       allow id 0781:5583 serial "4C531001400313104105" name "Ultra Fit" hash "FIp1dacmLw5lMGjbAgLw//HPgWhrQDdDm9jRfpSr69Y=" parent-hash "3Wo3XWDgen1hD5xM3PSNl3P98kLp1RUTgGQ5HSxtf8k=" with-interface 08:06:50 with-connect-type "hotplug"
       allow id 1038:184c serial "" name "SteelSeries Rival 3" hash "sYta/t0uxVWU/6EekbEp2yRDxjGzoHfZ9UK4M3wxVn4=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" via-port "1-6" with-interface { 03:01:02 03:00:00 03:00:00 03:00:00 } with-connect-type "hotplug"
+      allow id 0951:1666 serial "E0D55EA5741DE56049190FED" name "DataTraveler 3.0" hash "7jEH3bcZPd4Ee2CA2Ggd7BHeXMjSWmQ1UX1P45KA/TQ=" parent-hash "3Wo3XWDgen1hD5xM3PSNl3P98kLp1RUTgGQ5HSxtf8k=" with-interface 08:06:50 with-connect-type "hotplug"
     '';
     # opensnitch.enable = true;
     ntp.enable = false; # #disable the systemd-timesyncd
@@ -320,25 +286,14 @@
     gvfs.enable = true;
   };
 
-  powerManagement.enable = true;
-  nixpkgs.config = {
-    allowUnfree = true;
-  };
+  nixpkgs.config = {allowUnfree = true;};
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
+  fileSystems."/persistent".neededForBoot = true;
   environment = {
     sessionVariables.NIXOS_OZONE_WL = "1";
     sessionVariables.FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
-    defaultPackages = lib.mkForce [];
-    systemPackages = with pkgs; [
-      git
-      vim
-    ];
-    pathsToLink = [
-      "/share/zsh"
-      "/share/bash-completion"
-    ];
     etc = {
       "firejail/firefox.local".text = ''
         # Enable native notifications.
@@ -361,12 +316,44 @@
       #   mode = "0644";
       # };
     };
+    # defaultPackages = lib.mkForce [ ];
+    systemPackages = with pkgs; [git neovim emacs-nox];
+    pathsToLink = ["/share/bash-completion"];
+    persistence."/persistent" = {
+      enable = true; # NB: Defaults to true, not needed
+      hideMounts = true;
+      directories = [
+        "/etc/nixos"
+        "/var/log"
+        "/var/lib/nixos"
+        "/var/lib/systemd/coredump"
+        "/etc/NetworkManager/system-connections"
+        {
+          directory = "/var/keys";
+          user = "root";
+          group = "root";
+          mode = "u=rwx,g=,o=";
+        }
+      ];
+      files = [
+        "/etc/machine-id"
+      ];
+      users.zenex = {
+        directories = [
+          {
+            directory = ".gnupg";
+            mode = "0700";
+          }
+          {
+            directory = ".ssh";
+            mode = "0700";
+          }
+        ];
+      };
+    };
   };
-  fonts.packages = with pkgs; [
-    iosevka-bin
-    uw-ttyp0
-    vistafonts
-  ];
+
+  fonts.packages = with pkgs; [iosevka-bin uw-ttyp0 vistafonts];
 
   fonts.fontconfig = {
     antialias = true;
@@ -376,29 +363,24 @@
 
   security = {
     pam.services.hyprlock = {};
-    apparmor = {
-      enable = true;
-    };
-    auditd.enable = true;
-    audit.enable = true;
-    audit.rules = ["-a exit,always -F arch=b64 -S execve"];
+    #    apparmor = {
+    #      enable = true;
+    #    };
+    #    auditd.enable = true;
+    #    audit.enable = true;
+    #    audit.rules = ["-a exit,always -F arch=b64 -S execve"];
     chromiumSuidSandbox.enable = true;
     rtkit.enable = true;
     polkit.enable = true;
     sudo.execWheelOnly = true;
   };
+
   networking.firewall = {
     #    nftables.enable = true;
     enable = true;
     #    pingLimit = "--limit 1/minute --limit-burst 5";
-    allowedTCPPorts = [
-      631
-      5353
-    ]; # printing
-    allowedUDPPorts = [
-      631
-      5353
-    ]; # printing
+    allowedTCPPorts = [631 5353]; # printing
+    allowedUDPPorts = [631 5353]; # printing
 
     allowedTCPPortRanges = [
       {
@@ -419,10 +401,7 @@
   nix = {
     nixPath = ["nixpkgs=${inputs.nixpkgs}"];
     settings = {
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
+      experimental-features = ["nix-command" "flakes"];
       auto-optimise-store = true;
       allowed-users = ["@wheel"];
     };
@@ -433,11 +412,5 @@
     # };
   };
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
 }
