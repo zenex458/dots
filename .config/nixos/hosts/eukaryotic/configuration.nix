@@ -324,7 +324,7 @@
       #   mode = "0644";
       # };
     };
-    # defaultPackages = lib.mkForce [ ];
+    defaultPackages = lib.mkForce [];
     systemPackages = with pkgs; [git neovim emacs-nox];
     pathsToLink = ["/share/bash-completion"];
     persistence."/persistent" = {

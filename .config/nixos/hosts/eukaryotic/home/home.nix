@@ -497,6 +497,7 @@
     # https://viric.name/soft/ts/
     # https://www.gnu.org/software/parallel
     alacritty
+    cryptsetup
     alsa-utils
     anki-bin
     astyle
