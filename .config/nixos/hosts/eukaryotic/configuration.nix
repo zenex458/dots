@@ -53,6 +53,12 @@
   };
 
   networking = {
+    timeServers = [
+      "time.cloudflare.com"
+      "ntppool1.time.nl"
+      "nts.netnod.se"
+      "ptbtime1.ptb.de"
+    ];
     hostName = "eukaryotic";
     networkmanager.enable = true;
     networkmanager.wifi = {
@@ -89,6 +95,7 @@
   };
 
   programs = {
+    ssh.startAgent = true;
     gnupg.agent.enable = true;
     wireshark = {
       enable = true;
@@ -158,6 +165,7 @@
     #    logrotate.checkConfig = false;
     #    fwupd.enable = true;
     fstrim.enable = true;
+
     openssh = {
       enable = true;
       # require public key authentication for better security
