@@ -45,7 +45,7 @@ git clone https://github.com/zenex458/dots
 #+end_src
 2)
 #+begin_src bash 
-sudo nixos-rebuild switch --flake ~/dots/.config/Nixos/#eukaryotic
+sudo nixos-rebuild switch --flake ~/dots/.config/nixos/#eukaryotic
 #+end_src
 You might have to edit the =hardware-configuration.nix= file.
 ** For Fedora and Debian based distros
