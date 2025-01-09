@@ -13,6 +13,8 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
+    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.1";
+    lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
     impermanence.url = "github:nix-community/impermanence";
   };
 
@@ -25,6 +27,7 @@
     home-manager,
     disko,
     impermanence,
+    lanzaboote,
     ...
   } @ inputs: {
     # Used with `nixos-rebuild --flake .#<hostname>`

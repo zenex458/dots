@@ -8,11 +8,17 @@
     inputs.home-manager.nixosModules.home-manager
     inputs.impermanence.nixosModules.impermanence
     inputs.disko.nixosModules.disko
+    inputs.lanzaboote.nixosModules.lanzaboote
     ./disko-config.nix
     ./hardware-configuration.nix
   ];
-
-  boot.loader.systemd-boot.enable = true;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.loader.systemd-boot.enable = lib.mkForce false;
+  # boot.loader.systemd-boot.enable = true;
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/etc/secureboot";
+  };
   boot.loader.efi.canTouchEfiVariables = true;
 
   boot.initrd.postDeviceCommands = lib.mkAfter ''
@@ -333,7 +339,9 @@
       directories = [
         "/etc/nixos"
         "/var/log"
+        "/etc/secureboot"
         "/var/lib/nixos"
+        "/var/lib/sbctl"
         "/var/lib/systemd/coredump"
         "/etc/NetworkManager/system-connections"
         {
@@ -404,6 +412,12 @@
       }
       # kdeconnect
     ];
+  };
+
+  systemd.services = {
+    nix-daemon = {
+      environment.TMPDIR = "/var/tmp";
+    };
   };
 
   nix = {

@@ -528,6 +528,8 @@
     hunspellDicts.en-gb-large
     # hyprshade
     # hyprsunset
+    sbctl
+
     wlsunset
     imagemagick
     imv
