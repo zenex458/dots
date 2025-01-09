@@ -484,6 +484,7 @@
         "browser.download.useDownloadDir" = false;
         "browser.download.viewableInternally.enabledTypes" = "";
         "browser.formfill.enable" = false;
+        "browser.startup.blankWindow" = true;
         "browser.link.open_newwindow" = 3;
         "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons" = false;
         "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features" = false;

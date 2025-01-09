@@ -416,7 +416,7 @@
 
   systemd.services = {
     nix-daemon = {
-      environment.TMPDIR = "/var/tmp";
+      environment.TMPDIR = "/run/nixos";
     };
   };
 

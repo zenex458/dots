@@ -90,15 +90,15 @@
 
   gtk = {
     enable = true;
-    theme.package = pkgs.shades-of-gray-theme;
-    theme.name = "Shades-of-gray";
-    cursorTheme.name = "plan9";
-    cursorTheme.size = 20;
+    # theme.package = pkgs.shades-of-gray-theme;
+    # theme.name = "Shades-of-gray";
+    # cursorTheme.name = "plan9";
+    # cursorTheme.size = 20;
     # font.package = pkgs.iosevka;
     # font.name = "Iosevka";
-    font.package = pkgs.uw-ttyp0;
-    font.name = "Ttyp0";
-    font.size = 10;
+    # font.package = pkgs.uw-ttyp0;
+    # font.name = "Ttyp0";
+    # font.size = 10;
   };
   programs.chromium = {
     enable = true;
@@ -107,12 +107,10 @@
 
   home.sessionPath = [
     "$HOME/.local/bin"
-    "$HOME/.dotnet/tools"
   ];
   programs.zoxide = {
     enable = true;
     enableBashIntegration = true;
-    enableZshIntegration = true;
   };
 
   programs.fzf = {
@@ -122,18 +120,24 @@
 
   programs.zsh = {
     enable = false;
+    shellAliases = config.programs.bash.shellAliases;
+    completionInit = "autoload -Uz compinit && compinit -d $HOME/.cache/.zcompdump";
     enableCompletion = true;
-    historySubstringSearch.enable = true;
+    autocd = true;
     defaultKeymap = "emacs";
+    history = {
+      extended = true;
+      ignoreAllDups = true;
+    };
     autosuggestion = {
-      enable = true;
+      enable = false;
       highlight = "fg=#bdae93,bg=black,bold,underline";
     };
     syntaxHighlighting = {
       enable = true;
       styles = {
         suffix-alias = "fg=#bdae93";
-        precommand = "fg=#c6c6c6";
+        precommand = "fg=#bdae93";
         arg0 = "fg=#bdae93";
         alias = "fg=#bdae93";
         path = "fg=#bdae93";
@@ -144,12 +148,24 @@
     initExtra = ''
       PROMPT="[%~]''\nλ "
       zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate _aliases _functions
+      zstyle ':completion:*:*:*:*:descriptions' format '%F{#bdae93}[%d]%f'
       zstyle ':completion:*' use-cache on
       zstyle ':completion:*' cache-path "$HOME/.cache/.zcompcache"
       zstyle ':completion:*' group-name ' '
       zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
       zstyle ':completion:*' verbose true
       zstyle ':completion:*' menu select search
+      setopt AUTO_PUSHD PUSHD_IGNORE_DUPS PUSHD_MINUS COMPLETE_IN_WORD REC_EXACT LIST_PACKED LIST_ROWS_FIRST
+      cd() {
+      	if [ -z "$#" ]; then
+      		builtin cd
+      	else
+      		builtin cd "$@"
+      	fi
+      	if [ $? -eq 0 ]; then
+      		ls -h --classify=auto --color=auto
+      	fi
+      }
     '';
   };
 
@@ -165,6 +181,7 @@
       "dirspell"
       "autocd"
       "histappend"
+      "checkwinsize"
     ];
     bashrcExtra = ''
       bind 'set show-all-if-ambiguous on'
@@ -177,24 +194,24 @@
       		builtin cd "$@"
       	fi
       	if [ $? -eq 0 ]; then
-      		ls -F -h --color=always
+      		ls -h --classify=auto
       	fi
       }
     '';
     shellAliases = {
-      upd = "sudo nixos-rebuild switch --flake ~/Downloads/dots/.config/nixos#eukaryotic";
+      upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#eukaryotic";
       updflake = "nix flake update --commit-lock-file";
       listnixgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
       remoldgen = "nix-collect-garbage --delete-older-than 2d && sudo nix-collect-garbage --delete-older-than 2d && upd";
       re = "systemctl reboot";
       off = "systemctl poweroff";
       nv = "nvim";
-      ls = "ls -F -h --color=always --group-directories-first";
+      ls = "ls -h --classify=auto --color=auto --group-directories-first";
       ga = "git add";
       gc = "git commit -m";
       updoff = "upd && sleep 2 && off";
       updr = "upd && sleep 2 && re";
-      grep = "grep -i --colour=always";
+      grep = "grep -i --colour=auto";
       mkdir = "mkdir -pv";
       mv = "mv -iv";
       cp = "cp -iva";
@@ -215,7 +232,7 @@
       tls = "tmux list-session";
       tat = "tmux attach -t";
       mm = "sudo mount -m -v -o rw,uid=1000,gid=1000";
-      msd = "sudo mount -m -v -o rw,noexec,uid=1000,gid=1000 UUID=04C3-E2B3 /run/media/zenex/musicsd";
+      msd = "sudo mount -m -v -o rw,noexec,uid=1000,gid=1000 UUID=3961-3035 /run/media/zenex/musicsd";
       umsd = "sudo umount -v /run/media/zenex/musicsd";
       mhd = "sudo mount -v -t ntfs -m -o rw,noexec,uid=1000,gid=1000 UUID=742455142454DAA6 /run/media/zenex/seagate";
       umhd = "sudo umount -v /run/media/zenex/seagate && lsblk";
@@ -228,8 +245,6 @@
       dnx = "find . -type d -exec chmod 755 {} +";
       shx = "find . -name '*.sh' -execdir chmod +x {} +";
       dow = "aria2c -c -s 16 -x 16 -k 1M -j 1";
-      kremap = "setxkbmap -option altwin:ctrl_alt_win";
-      krremap = "setxkbmap -option -layout gb";
       chkfstab = "sudo findmnt --verify";
       logs = "journalctl -S today -o verbose -r -x";
       log = "journalctl -S today -r -x";
@@ -271,7 +286,10 @@
 
   services.mpd = {
     enable = true;
-    musicDirectory = "/home/zenex/music";
+    musicDirectory = "/run/media/zenex/musicsd/Alt";
+    dataDir = "/run/media/zenex/musicsd/.cache";
+    dbFile = "/run/media/zenex/musicsd/.cache/tag_cache";
+    network.startWhenNeeded = true;
     #change so instead of zenex it is the current user, do this also for the mounting, #change to a home.file
     extraConfig = ''
         audio_output {
@@ -285,7 +303,7 @@
 
   programs.ncmpcpp = {
     enable = true;
-    mpdMusicDir = "/home/zenex/music";
+    mpdMusicDir = "/run/media/zenex/musicsd/Alt";
     settings = {
       ncmpcpp_directory = "~/.config/ncmpcpp";
       mpd_crossfade_time = 1;
@@ -449,25 +467,47 @@
         # background = "212121";
         background = "000000";
         foreground = "bdae93";
-        regular0 = "242424"; # black
-        regular1 = "f62b5a"; # red
-        regular2 = "47b413"; # green
-        regular3 = "e3c401"; # yellow
-        regular4 = "24acd4"; # blue
-        regular5 = "f2affd"; # magenta
-        regular6 = "13c299"; # cyan
-        regular7 = "e6e6e6"; # white
+        regular0 = "000000"; # black
+        regular1 = "B33929"; # red
+        regular2 = "75B329"; # green
+        regular3 = "c0c000"; # yellow
+        regular4 = "2874B2"; # blue
+        regular5 = "802caa"; # magenta
+        regular6 = "6cb2eb"; # cyan
+        regular7 = "bdae93"; # white
 
-        # Bright colors ;(color palette 8-15)
-        bright0 = "616161"; # bright black
-        bright1 = "ff4d51"; # bright red
-        bright2 = "35d450"; # bright green
-        bright3 = "e9e836"; # bright yellow
-        bright4 = "5dc5f8"; # bright blue
-        bright5 = "feabf2"; # bright magenta
-        bright6 = "24dfc4"; # bright cyan
-        bright7 = "ffffff"; # bright white
+        bright0 = "242424"; # black
+        bright1 = "f62b5a"; # red
+        bright2 = "47b413"; # green
+        bright3 = "e3c401"; # yellow
+        bright4 = "24acd4"; # blue
+        bright5 = "f2affd"; # magenta
+        bright6 = "13c299"; # cyan
+        bright7 = "e6e6e6"; # white
       };
+      # colors = {
+      #   # background = "212121";
+      #   background = "000000";
+      #   foreground = "bdae93";
+      #   regular0 = "242424"; # black
+      #   regular1 = "f62b5a"; # red
+      #   regular2 = "47b413"; # green
+      #   regular3 = "e3c401"; # yellow
+      #   regular4 = "24acd4"; # blue
+      #   regular5 = "f2affd"; # magenta
+      #   regular6 = "13c299"; # cyan
+      #   regular7 = "e6e6e6"; # white
+
+      #   # Bright colors ;(color palette 8-15)
+      #   bright0 = "616161"; # bright black
+      #   bright1 = "ff4d51"; # bright red
+      #   bright2 = "35d450"; # bright green
+      #   bright3 = "e9e836"; # bright yellow
+      #   bright4 = "5dc5f8"; # bright blue
+      #   bright5 = "feabf2"; # bright magenta
+      #   bright6 = "24dfc4"; # bright cyan
+      #   bright7 = "ffffff"; # bright white
+      # };
     };
   };
 

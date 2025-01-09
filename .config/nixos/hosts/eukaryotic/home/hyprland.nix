@@ -50,7 +50,6 @@
         "$mainMod SHIFT CTRL, Z, exit,"
         "$mainMod, V, togglefloating"
         "$mainMod, C, exec, firejail firefox"
-        "$mainMod SHIFT, C, exec, firejail firefox -P work"
         "$mainMod, U, exec, emacsclient -c -a emacs"
         "$mainMod, P, exec, bemenu-run"
         "$mainMod SHIFT, O, exec, mpc next"
@@ -110,15 +109,15 @@
       exec-once = wlsunset -S 07:00 -s 20:00 -T 4800 -t 2600
       exec-once = wl-paste --watch cliphist store
       exec-once = cliphist wipe
-      exec-once = hyprctl setcursor plan9 20
-      exec-once = dconf write /org/gnome/desktop/interface/cursor-theme "plan9"
-      exec-once = gsettings set org.gnome.desktop.interface cursor-theme 'plan9'
+      # exec-once = hyprctl setcursor plan9 20
+      # exec-once = dconf write /org/gnome/desktop/interface/cursor-theme "plan9"
+      # exec-once = gsettings set org.gnome.desktop.interface cursor-theme 'plan9'
       exec-once = gsettings set org.gnome.desktop.interface enable-animations false
 
-      env = HYPRCURSOR_THEME,plan9
-      env = HYPRCURSOR_SIZE,20
-      env = XCURSOR_THEME,plan9
-      env = XCURSOR_SIZE,20
+      # env = HYPRCURSOR_THEME,plan9
+      # env = HYPRCURSOR_SIZE,20
+      # env = XCURSOR_THEME,plan9
+      # env = XCURSOR_SIZE,20
 
       windowrulev2 = workspace 1,class:^(firefox)$,
       windowrulev2 = workspace 2,class:^(emacs)$,
@@ -130,8 +129,8 @@
     settings = {
       ipc = false;
       splash = false;
-      preload = ["~/Downloads/Images/realsat.jpg"];
-      wallpaper = [",~/Downloads/Images/realsat.jpg"];
+      preload = ["~/Downloads/NBLACK.jpg"];
+      wallpaper = [",~/Downloads/NBLACK.jpg"];
     };
   };
 
