@@ -129,8 +129,8 @@
     settings = {
       ipc = false;
       splash = false;
-      preload = ["~/Downloads/NBLACK.jpg"];
-      wallpaper = [",~/Downloads/NBLACK.jpg"];
+      preload = ["~/Downloads/Images/Brealsat.jpg"];
+      wallpaper = [",~/Downloads/Images/Brealsat.jpg"];
     };
   };
 

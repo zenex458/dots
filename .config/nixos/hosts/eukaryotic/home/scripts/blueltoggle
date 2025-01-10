@@ -1,3 +1,16 @@
 #!/usr/bin/env bash
 
-hyprshade toggle blue-light-filter
+#hyprshade toggle blue-light-filter
+
+shadecommand=$(nohup hyprsunset -t 2800 >>/dev/null &)
+
+
+while true; do
+    hour="$(date +%H)"
+    if [ "$hour" -ge 20 ] || [ "$hour" -le 7 ]
+    then
+	    pkill hyprsunset && shadecommand
+    fi
+    sleep 1h
+done &
+

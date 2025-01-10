@@ -427,11 +427,11 @@
       auto-optimise-store = true;
       allowed-users = ["@wheel"];
     };
-    # gc = {
-    #   automatic = true;
-    #   dates = "19:00";
-    #   options = "--delete-older-than 7d";
-    # };
+    gc = {
+      automatic = true;
+      dates = "daily";
+      options = "--delete-older-than 2d";
+    };
   };
 
   system.stateVersion = "23.05"; # Did you read the comment?

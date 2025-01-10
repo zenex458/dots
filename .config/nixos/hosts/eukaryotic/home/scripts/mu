@@ -4,7 +4,7 @@ mu() {
 	dirs=$(ls -A $moudir 2>/dev/null | wc -l) #change to find
 	if [ "$dirs" -eq 0 ]; then
 		printf '%s\n%s\n' "SD Card not mounted." "Mounting...."
-		sudo mount -m -v -o rw,noexec,uid=1000,gid=1000 UUID=04C3-E2B3 /run/media/zenex/musicsd
+		sudo mount -m -v -o rw,noexec,uid=1000,gid=1000 UUID=3961-3035 /run/media/zenex/musicsd
 		echo "Starting mpd and ncmpcpp"
 	fi
 	if [ -f ~/.local/share/mpd/mpd.pid ]; then
