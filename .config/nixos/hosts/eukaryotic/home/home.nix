@@ -196,7 +196,7 @@
       		builtin cd "$@"
       	fi
       	if [ $? -eq 0 ]; then
-      		ls -h --classify=auto
+      		ls -h --classify=auto --color=never
       	fi
       }
     '';
@@ -208,7 +208,8 @@
       re = "systemctl reboot";
       off = "systemctl poweroff";
       nv = "nvim";
-      ls = "ls -h --classify=auto --color=auto --group-directories-first";
+      # ls = "ls -h --classify=auto --color=auto --group-directories-first";
+      ls = "ls -h --classify=auto --group-directories-first";
       ga = "git add";
       gc = "git commit -m";
       updoff = "upd && sleep 2 && off";
@@ -469,7 +470,7 @@
         # background = "212121";
         background = "000000";
         foreground = "bdae93";
-        regular0 = "000000"; # black
+        regular0 = "444444"; # black
         regular1 = "B33929"; # red
         regular2 = "75B329"; # green
         regular3 = "c0c000"; # yellow
@@ -478,7 +479,7 @@
         regular6 = "6cb2eb"; # cyan
         regular7 = "bdae93"; # white
 
-        bright0 = "242424"; # black
+        bright0 = "666666"; # black
         bright1 = "f62b5a"; # red
         bright2 = "47b413"; # green
         bright3 = "e3c401"; # yellow
@@ -633,6 +634,7 @@
     wlr-randr
     xdg-utils
     yapf
+    vis
     yt-dlp
     zip
     (aspellWithDicts (

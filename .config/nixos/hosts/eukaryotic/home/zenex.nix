@@ -27,6 +27,11 @@
       "Dev"
       ".emacs.d"
       ".mozilla"
+      "Sync"
+      ".config/vesktop"
+      ".config/simplex"
+      ".config/Signal"
+      ".local/share/simplex"
     ];
     files = [".local/share/.bash_history"];
     allowOther = true;

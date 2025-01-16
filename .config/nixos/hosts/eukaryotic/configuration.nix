@@ -364,6 +364,10 @@
             directory = ".ssh";
             mode = "0700";
           }
+          {
+            directory = ".local/state/syncthing";
+            mode = "0700";
+          }
         ];
       };
     };

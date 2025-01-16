@@ -45,8 +45,8 @@
                       mountpoint = "/nix";
                     };
                     "/tmp" = {
-                      mountOptions = ["compress=zstd" "noatime" "noexec"];
-                      # mountOptions = ["compress=zstd" "noatime"];
+                      # mountOptions = ["compress=zstd" "noatime" "noexec"];
+                      mountOptions = ["compress=zstd" "noatime"];
                       mountpoint = "/tmp";
                     };
                     "/swap" = {

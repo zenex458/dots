@@ -149,6 +149,7 @@
 
       '';
       settings = {
+        "browser.tabs.closeWindowWithLastTab" = false;
         "dom.security.https_only_mode" = true;
         "accessibility.force_disabled" = 1;
         "app.normandy.api_url" = "";
@@ -279,10 +280,10 @@
         "geo.provider.use_geoclue" = false;
         "gfx.font_rendering.opentype_svg.enabled" = false;
         "identity.fxaccounts.enabled" = false;
-        "javascript.options.asmjs" = false;
-        "javascript.options.baselinejit" = false;
-        "javascript.options.ion" = false;
-        "javascript.options.wasm" = false;
+        "javascript.options.asmjs" = false; # enable if too slow
+        "javascript.options.baselinejit" = false; # enable if too slow
+        "javascript.options.ion" = false; # enable if too slow
+        "javascript.options.wasm" = false; # enable if too slow
         "keyword.enabled" = true; # false = no automatic search engine
         "layout.spellcheckDefault" = 0;
         "mathml.disabled" = true;
