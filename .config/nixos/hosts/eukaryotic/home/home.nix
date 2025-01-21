@@ -196,7 +196,7 @@
       		builtin cd "$@"
       	fi
       	if [ $? -eq 0 ]; then
-      		ls -h --classify=auto --color=never
+      		ls -h --classify=auto --color=never --group-directories-first
       	fi
       }
     '';
@@ -531,7 +531,6 @@
     # ripgrep
     # rlwrap # for the readline
     # rustup
-    # age
     # sigrok-cli
     # gron # json grepper
     # fq # jq for binary formats
@@ -539,10 +538,12 @@
     # https://github.com/ducaale/xh # httpie replacement
     # https://viric.name/soft/ts/
     # https://www.gnu.org/software/parallel
+    age
     alacritty
     cryptsetup
     alsa-utils
     anki-bin
+    exif
     astyle
     bc
     bemenu
@@ -572,7 +573,6 @@
     # hyprshade
     # hyprsunset
     sbctl
-
     wlsunset
     imagemagick
     imv
@@ -590,6 +590,7 @@
     mpvScripts.mpris
     mupdf
     nemo
+    clifm
     neovim
     nixd
     # nixfmt-rfc-style
@@ -621,6 +622,7 @@
     texliveFull
     traceroute
     trash-cli
+    groff
     unzip
     usbutils
     ventoy-full

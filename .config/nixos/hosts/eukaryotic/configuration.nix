@@ -152,6 +152,7 @@
       "input"
       "libvirtd"
       "wireshark"
+      "docker"
     ];
   };
 
