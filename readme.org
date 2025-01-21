@@ -1,5 +1,6 @@
 * dots
 This contains all my config files for Linux. It can be installed my =setup.sh= or by using [[https://nixos.org/][Nixos]].
+
 | Font     | [[https://people.mpi-inf.mpg.de/~uwe/misc/uw-ttyp0/][ttyp0]]    |
 | OS       | Nixos    |
 | WM       | Hyprland |
