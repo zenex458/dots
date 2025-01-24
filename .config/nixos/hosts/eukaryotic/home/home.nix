@@ -113,27 +113,30 @@
   programs.zoxide = {
     enable = true;
     enableBashIntegration = true;
+    enableZshIntegration = true;
   };
 
   programs.fzf = {
     enable = true;
     enableBashIntegration = true;
+    enableZshIntegration = true;
   };
 
   programs.zsh = {
-    enable = false;
+    enable = true;
     shellAliases = config.programs.bash.shellAliases;
     completionInit = "autoload -Uz compinit && compinit -d $HOME/.cache/.zcompdump";
     enableCompletion = true;
     autocd = true;
     defaultKeymap = "emacs";
+    sessionVariables = config.programs.bash.sessionVariables;
     history = {
       extended = true;
       ignoreAllDups = true;
     };
     autosuggestion = {
-      enable = false;
-      highlight = "fg=#bdae93,bg=black,bold,underline";
+      enable = true;
+      highlight = "fg=#bdae93,bg=#000000,bold,underline";
     };
     syntaxHighlighting = {
       enable = true;
@@ -155,8 +158,10 @@
       zstyle ':completion:*' cache-path "$HOME/.cache/.zcompcache"
       zstyle ':completion:*' group-name ' '
       zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+      zstyle ':completion:*' list-colors "''${(s.:.)LS_COLORS}"
       zstyle ':completion:*' verbose true
       zstyle ':completion:*' menu select search
+      ZSH_AUTOSUGGEST_STRATEGY=(completion)
       setopt AUTO_PUSHD PUSHD_IGNORE_DUPS PUSHD_MINUS COMPLETE_IN_WORD REC_EXACT LIST_PACKED LIST_ROWS_FIRST
       cd() {
       	if [ -z "$#" ]; then
@@ -634,6 +639,9 @@
     wl-clipboard
     wl-color-picker
     wlr-randr
+    ghidra-bin
+    ida-free
+    cutter
     xdg-utils
     yapf
     vis

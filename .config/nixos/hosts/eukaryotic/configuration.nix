@@ -128,6 +128,7 @@
     };
     light.enable = true;
     dconf.enable = true;
+    zsh = {enable = true;}; ##add some more stuff for root
     bash.promptInit = ''
       if [ "$LOGNAME" = root ] || [ "$(id -u)" -eq 0 ]; then
       	PS1="\[\e[01;31m\]\[\u@\h:\w\n# \]\\[\e[00m\]"
@@ -142,6 +143,7 @@
 
   users.users.zenex = {
     hashedPasswordFile = "/persistent/var/keys/zenexP";
+    shell = pkgs.zsh;
     isNormalUser = true;
     description = "zenex";
     extraGroups = [
@@ -318,7 +320,6 @@
         # Allow screensharing under Wayland.
         dbus-user.talk org.freedesktop.portal.Desktop
         disable-mnt
-        #restrict-namespaces ##understand this more
         #private-bin dbus-launch,dbus-send,firefox,which
         private-bin dbus-launch,dbus-send,firefox,which
       '';
@@ -333,7 +334,7 @@
     };
     defaultPackages = lib.mkForce [];
     systemPackages = with pkgs; [git neovim emacs-nox];
-    pathsToLink = ["/share/bash-completion"];
+    pathsToLink = ["/share/bash-completion" "/share/zsh"];
     persistence."/persistent" = {
       enable = true; # NB: Defaults to true, not needed
       hideMounts = true;
