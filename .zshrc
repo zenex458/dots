@@ -5,7 +5,7 @@ PROMPT='[%~]
 
 zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate _aliases _functions
 #zstyle ':completion:*' format '%d'
-zstyle ':completion:*:*:*:*:descriptions' format '%F{red}[%d]%f'
+zstyle ':completion:*:*:*:*:descriptions' format '%F{#c6c6c6}[%d]%f'
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "$HOME/.cache/.zcompcache"
 zstyle ':completion:*' group-name ''
