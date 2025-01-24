@@ -19,7 +19,7 @@ compinit -d .cache/.zcompdump
 HISTFILE=~/.local/share/.zshhist
 HISTSIZE=100000
 SAVEHIST=100000
-setopt autocd extendedglob nomatch notify correct list_packed hist_find_no_dups share_history globdots interactivecomments inc_append_history extended_history noclobber hist_ignore_dups hist_expire_dups_first COMPLETE_IN_WORD
+setopt autocd nomatch notify correct list_packed hist_find_no_dups share_history globdots interactivecomments inc_append_history extended_history noclobber hist_ignore_dups hist_expire_dups_first COMPLETE_IN_WORD
 unsetopt beep
 bindkey -e
 bindkey "^[[1;5C" forward-word
