@@ -9,6 +9,7 @@
     inputs.impermanence.nixosModules.impermanence
     inputs.disko.nixosModules.disko
     inputs.lanzaboote.nixosModules.lanzaboote
+    ./hardened.nix
     ./disko-config.nix
     ./hardware-configuration.nix
   ];
@@ -49,7 +50,7 @@
   systemd.tmpfiles.rules = [
     "d /persistence/home/ 1777 root root-"
     "d /persistence/home/zenex/ 0770 zenex users-"
-    "d /persistent/var/keys/ 0700 root root-"
+    "d /persistent/var/keys/ 0600 root root-"
   ];
 
   programs.fuse.userAllowOther = true;
@@ -73,7 +74,7 @@
     enableIPv6 = false;
   };
 
-  hardware.graphics = {enable = true;};
+  hardware.graphics.enable = true;
 
   hardware.cpu.intel.updateMicrocode = true;
   time.timeZone = "Europe/London";
@@ -140,7 +141,7 @@
 
   users.mutableUsers = false;
   users.users.root.hashedPasswordFile = "/persistent/var/keys/rootP";
-
+  programs.adb.enable = true;
   users.users.zenex = {
     hashedPasswordFile = "/persistent/var/keys/zenexP";
     shell = pkgs.zsh;
@@ -155,6 +156,7 @@
       "libvirtd"
       "wireshark"
       "docker"
+      "adbusers"
     ];
   };
 
@@ -165,9 +167,9 @@
 
   services = {
     gnome.gnome-keyring.enable = true;
-    journald.extraConfig = ''
-      SystemMaxUse=250M
-    '';
+    # journald.extraConfig = ''
+    #   SystemMaxUse=250M
+    # '';
     logind = {lidSwitch = "suspend";};
     #irqbalance.enable = true;
     #with hardened profile this is needed otherwise nix will not build
@@ -191,7 +193,7 @@
       '';
     };
 
-    printing.enable = true;
+    printing.enable = false; #enable for printing
     printing.drivers = [
       # pkgs.gutenprint
       pkgs.gutenprintBin
@@ -200,11 +202,11 @@
       # pkgs.foomatic-db-ppds-withNonfreeDb
       #      pkgs.foomatic-db-nonfree
     ];
-    avahi = {
-      enable = true;
-      nssmdns4 = true;
-      openFirewall = true;
-    };
+    # avahi = { #enable for printing
+    #   enable = true;
+    #   nssmdns4 = true;
+    #   openFirewall = true;
+    # };
     dbus.enable = true;
     smartd.enable = true;
     # mysql = {
@@ -215,7 +217,7 @@
     xserver = {
       enable = true;
       windowManager.xmonad = {
-        enable = true;
+        enable = false;
         enableContribAndExtras = true;
       };
       displayManager.startx.enable = true;
@@ -309,6 +311,7 @@
   # $ nix search wget
   fileSystems."/persistent".neededForBoot = true;
   environment = {
+    extraInit = "umask 0077"; # disable if compat issues
     sessionVariables.NIXOS_OZONE_WL = "1";
     sessionVariables.FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
     etc = {
@@ -343,14 +346,13 @@
         "/var/log"
         "/etc/secureboot"
         "/var/lib/nixos"
-        "/var/lib/sbctl"
         "/var/lib/systemd/coredump"
         "/etc/NetworkManager/system-connections"
         {
           directory = "/var/keys";
           user = "root";
           group = "root";
-          mode = "u=rwx,g=,o=";
+          mode = "0700";
         }
       ];
       files = [
@@ -401,23 +403,23 @@
     #    nftables.enable = true;
     enable = true;
     #    pingLimit = "--limit 1/minute --limit-burst 5";
-    allowedTCPPorts = [631 5353]; # printing
-    allowedUDPPorts = [631 5353]; # printing
+    # allowedTCPPorts = [631 5353]; # printing
+    # allowedUDPPorts = [631 5353]; # printing
 
-    allowedTCPPortRanges = [
-      {
-        from = 1714;
-        to = 1764;
-      }
-      # kdeconnect
-    ];
-    allowedUDPPortRanges = [
-      {
-        from = 1714;
-        to = 1764;
-      }
-      # kdeconnect
-    ];
+    # allowedTCPPortRanges = [
+    #   {
+    #     from = 1714;
+    #     to = 1764;
+    #   }
+    #   # kdeconnect
+    # ];
+    # allowedUDPPortRanges = [
+    #   {
+    #     from = 1714;
+    #     to = 1764;
+    #   }
+    #   # kdeconnect
+    # ];
   };
 
   systemd.services = {

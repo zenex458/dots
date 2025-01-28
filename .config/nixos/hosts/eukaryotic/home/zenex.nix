@@ -32,6 +32,7 @@
       ".config/simplex"
       ".config/Signal"
       ".local/share/simplex"
+      ".config/zsh"
     ];
     files = [".local/share/.bash_history"];
     allowOther = true;

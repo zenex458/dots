@@ -124,6 +124,7 @@
 
   programs.zsh = {
     enable = true;
+    dotDir = ".config/zsh";
     shellAliases = config.programs.bash.shellAliases;
     completionInit = "autoload -Uz compinit && compinit -d $HOME/.cache/.zcompdump";
     enableCompletion = true;
@@ -133,6 +134,7 @@
     history = {
       extended = true;
       ignoreAllDups = true;
+      path = "$ZDOTDIR/.zsh_history";
     };
     autosuggestion = {
       enable = true;
@@ -170,7 +172,7 @@
       		builtin cd "$@"
       	fi
       	if [ $? -eq 0 ]; then
-      		ls -h --classify=auto --color=auto
+      		ls -h -A --classify=auto --color=auto --group-directories-first
       	fi
       }
     '';
@@ -201,7 +203,8 @@
       		builtin cd "$@"
       	fi
       	if [ $? -eq 0 ]; then
-      		ls -h --classify=auto --color=never --group-directories-first
+      		# ls -h --classify=auto --color=never --group-directories-first
+          ls -h --classify=auto --color=auto --group-directories-first
       	fi
       }
     '';
@@ -224,7 +227,7 @@
       mv = "mv -iv";
       cp = "cp -iva";
       rm = "rm -iv";
-      ll = "ls -lA";
+      ll = "ls -lAF";
       tm = "ps auxww | grep";
       tk = "tmux kill-session";
       cco = "gcc -O -Wall -W -pedantic";
@@ -520,9 +523,9 @@
   };
 
   home.packages = with pkgs; [
-    # aria2
-    #  bsdgames
-    #  cljfmt
+    aria2
+    # bsdgames
+    # cljfmt
     # clojure
     # clojure-lsp
     # glib
@@ -535,7 +538,7 @@
     # pyright
     # ripgrep
     # rlwrap # for the readline
-    # rustup
+
     # sigrok-cli
     # gron # json grepper
     # fq # jq for binary formats
@@ -543,20 +546,28 @@
     # https://github.com/ducaale/xh # httpie replacement
     # https://viric.name/soft/ts/
     # https://www.gnu.org/software/parallel
+    # hyprshade
+    # hyprsunset
+    # nixfmt-rfc-style
+    # kdePackages.kdeconnect-kde
+    # mpvScripts.mpris
     age
     alacritty
-    cryptsetup
+    alejandra
     alsa-utils
     anki-bin
-    exif
     astyle
     bc
     bemenu
     cargo
     ccls
+    clifm
     cliphist
+    cryptsetup
+    cutter
     dmenu
     exfatprogs
+    exif
     fd
     ffmpeg
     file
@@ -565,26 +576,26 @@
     gdb
     gh
     ghc
+    ghidra-bin
     gimp
     git
     glib
+    gns3-gui
     gnumake
     gojq
     grim
+    groff
     haskell-language-server
     htop
     hunspell
     hunspellDicts.en-gb-large
-    # hyprshade
-    # hyprsunset
-    sbctl
-    wlsunset
+    ida-free
     imagemagick
     imv
-    kdePackages.kdeconnect-kde
     keepassxc
     libnotify
     libreoffice
+    logisim
     lsof
     lxqt.lxqt-policykit
     magic-wormhole
@@ -592,14 +603,10 @@
     man-pages-posix
     mpc-cli
     mpv
-    mpvScripts.mpris
     mupdf
     nemo
-    clifm
     neovim
     nixd
-    # nixfmt-rfc-style
-    alejandra
     nodePackages.bash-language-server
     obs-studio
     openssl
@@ -616,6 +623,7 @@
     ruff
     ruff-lsp
     sbcl
+    sbctl
     sdcv
     shellcheck
     shfmt
@@ -627,24 +635,20 @@
     texliveFull
     traceroute
     trash-cli
-    groff
     unzip
     usbutils
     ventoy-full
     vesktop
-    xmlformat
     virt-manager
     wdisplays
     wl-clip-persist
     wl-clipboard
     wl-color-picker
     wlr-randr
-    ghidra-bin
-    ida-free
-    cutter
+    wlsunset
     xdg-utils
+    xmlformat
     yapf
-    vis
     yt-dlp
     zip
     (aspellWithDicts (
