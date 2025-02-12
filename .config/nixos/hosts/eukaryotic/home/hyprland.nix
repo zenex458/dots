@@ -105,7 +105,7 @@
       exec-once = hyprpaper
       exec-once = hypridle
       exec-once = ~/.local/bin/batt.sh
-      exec-once = ~/.local/bin/dark.sh
+      # exec-once = ~/.local/bin/dark.sh
       exec-once = wlsunset -S 07:00 -s 20:00 -T 4800 -t 2600
       exec-once = wl-paste --watch cliphist store
       exec-once = cliphist wipe

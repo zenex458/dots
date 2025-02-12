@@ -21,6 +21,7 @@
     pkiBundle = "/etc/secureboot";
   };
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.tmp.cleanOnBoot = true;
 
   boot.initrd.postDeviceCommands = lib.mkAfter ''
     mkdir /btrfs_tmp
@@ -67,10 +68,23 @@
       "ptbtime1.ptb.de"
     ];
     hostName = "eukaryotic";
-    networkmanager.enable = true;
-    networkmanager.wifi = {
-      macAddress = "stable-ssid"; # #random mac adress per wifi
+    wireless.iwd = {
+      enable = true;
+      settings = {
+        General = {
+          "EnableNetworkConfiguration" = true;
+          # "AddressRandomization" = "network";
+          # "AddressRandomizationRange" = "nic";
+        };
+        Settings = {
+          AutoConnect = true;
+        };
+        Network = {
+          NameResolvingService = "resolvconf";
+        };
+      };
     };
+
     enableIPv6 = false;
   };
 
@@ -167,9 +181,10 @@
 
   services = {
     gnome.gnome-keyring.enable = true;
-    # journald.extraConfig = ''
-    #   SystemMaxUse=250M
-    # '';
+    journald.extraConfig = ''
+      # SystemMaxUse=250M
+      MaxRetentionSec=1month
+    '';
     logind = {lidSwitch = "suspend";};
     #irqbalance.enable = true;
     #with hardened profile this is needed otherwise nix will not build
@@ -247,6 +262,7 @@
       allow id 0781:5583 serial "4C531001400313104105" name "Ultra Fit" hash "FIp1dacmLw5lMGjbAgLw//HPgWhrQDdDm9jRfpSr69Y=" parent-hash "3Wo3XWDgen1hD5xM3PSNl3P98kLp1RUTgGQ5HSxtf8k=" with-interface 08:06:50 with-connect-type "hotplug"
       allow id 1038:184c serial "" name "SteelSeries Rival 3" hash "sYta/t0uxVWU/6EekbEp2yRDxjGzoHfZ9UK4M3wxVn4=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" via-port "1-6" with-interface { 03:01:02 03:00:00 03:00:00 03:00:00 } with-connect-type "hotplug"
       allow id 0951:1666 serial "E0D55EA5741DE56049190FED" name "DataTraveler 3.0" hash "7jEH3bcZPd4Ee2CA2Ggd7BHeXMjSWmQ1UX1P45KA/TQ=" parent-hash "3Wo3XWDgen1hD5xM3PSNl3P98kLp1RUTgGQ5HSxtf8k=" with-interface 08:06:50 with-connect-type "hotplug"
+      allow id 058f:6387 serial "041EBAED8B84A741" name "Disk 2.0" hash "yszYXNmkr8aH7Pb+Bam3eHnkPJanUuV3VpMypoaYhhU=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" with-interface 08:06:50 with-connect-type "hotplug"
     '';
     # opensnitch.enable = true;
     ntp.enable = false; # #disable the systemd-timesyncd
@@ -311,7 +327,7 @@
   # $ nix search wget
   fileSystems."/persistent".neededForBoot = true;
   environment = {
-    extraInit = "umask 0077"; # disable if compat issues
+    # extraInit = "umask 0077"; # disable if compat issues
     sessionVariables.NIXOS_OZONE_WL = "1";
     sessionVariables.FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
     etc = {
@@ -347,7 +363,7 @@
         "/etc/secureboot"
         "/var/lib/nixos"
         "/var/lib/systemd/coredump"
-        "/etc/NetworkManager/system-connections"
+        "/var/lib/iwd/"
         {
           directory = "/var/keys";
           user = "root";
@@ -396,7 +412,12 @@
     chromiumSuidSandbox.enable = true;
     rtkit.enable = true;
     polkit.enable = true;
-    sudo.execWheelOnly = true;
+    sudo = {
+      execWheelOnly = true;
+      extraConfig = ''
+        Defaults lecture = never
+      '';
+    };
   };
 
   networking.firewall = {
@@ -425,6 +446,45 @@
   systemd.services = {
     nix-daemon = {
       environment.TMPDIR = "/run/nixos";
+    };
+    docker.serviceConfig = {
+      NoNewPrivileges = true;
+      ProtectSystem = "full";
+      ProtectHome = true;
+      ProtectKernelModules = true;
+      ProtectKernelLogs = true;
+      ProtectControlGroups = true;
+      ProtectClock = true;
+      ProtectProc = "invisible";
+      PrivateTmp = true;
+      PrivateMounts = true;
+      RestrictRealtime = true;
+      RestrictAddressFamilies = [
+        "AF_UNIX"
+        "AF_NETLINK"
+        "AF_INET"
+        "AF_INET6"
+      ];
+      RestrictNamespaces = [
+        "~user"
+      ];
+      MemoryDenyWriteExecute = true;
+      SystemCallFilter = [
+        "~@debug"
+        "~@raw-io"
+        "~@reboot"
+        "~@clock"
+        "~@module"
+        "~@swap"
+        "~@obsolete"
+        "~@cpu-emulation"
+      ];
+      SystemCallArchitectures = "native";
+      CapabilityBoundingSet = [
+        "~CAP_SYS_RAWIO"
+        "~CAP_SYS_PTRACE"
+        "~CAP_SYS_BOOT"
+      ];
     };
   };
 

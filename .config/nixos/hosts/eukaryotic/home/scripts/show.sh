@@ -6,7 +6,7 @@ active_window="$(hyprctl -j activewindow)"
 current_addr="$(echo "$active_window" | gojq -r '.address')"
 
 window="$(echo "$state" |
-    gojq -r '.[] | select(.monitor != -1 ) | "\(.address)    \(.workspace.name)    \(.title)"' |
+    gojq -r '.[] | select(.monitor != -1 ) | "\(.address)    \(.workspace.name)    \(.title)"    ' |
     sed "s|$current_addr|focused ->|" |
     sort -r |
     bemenu -l 20 -i -p Open\ Windows: -P\> )"

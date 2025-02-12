@@ -39,8 +39,6 @@ with lib; {
   security.virtualisation.flushL1DataCache = mkDefault "always";
 
   boot.kernelParams = [
-    "slab_nomerge"
-
     # Overwrite free'd pages
     "page_poison=1"
 
@@ -48,7 +46,6 @@ with lib; {
     "page_alloc.shuffle=1"
     "lsm=landlock,lockdown,yama,integrity,apparmor,bpf"
     "slab_nomerge"
-    "slub_debug=FZ"
     "debugfs=off"
     "init_on_alloc=1"
     "init_on_free=1"
