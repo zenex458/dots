@@ -52,6 +52,14 @@
     "d /persistence/home/ 1777 root root-"
     "d /persistence/home/zenex/ 0770 zenex users-"
     "d /persistent/var/keys/ 0600 root root-"
+    "f /etc/mullvad-vpn/device.json 0600 root root-"
+    "f /etc/mullvad-vpn/settings.json 0644 root root-"
+    "f /etc/mullvad-vpn/account-history.json 0644 root root-"
+    "L /var/lib/NetworkManager/secret_key - - - - /persist/var/lib/NetworkManager/secret_key"
+    "L /var/lib/NetworkManager/seen-bssids - - - - /persist/var/lib/NetworkManager/seen-bssids"
+    "L /var/lib/NetworkManager/timestamps - - - - /persist/var/lib/NetworkManager/timestamps"
+    "L /var/lib/lxd - - - - /persist/var/lib/lxd"
+    "L /var/lib/docker - - - - /persist/var/lib/docker"
   ];
 
   programs.fuse.userAllowOther = true;
@@ -79,9 +87,9 @@
         Settings = {
           AutoConnect = true;
         };
-        Network = {
-          NameResolvingService = "resolvconf";
-        };
+        # Network = {
+        #   NameResolvingService = "resolvconf";
+        # };
       };
     };
 
@@ -180,6 +188,9 @@
   };
 
   services = {
+    mullvad-vpn.enable = true;
+    mullvad-vpn.package = pkgs.mullvad-vpn;
+    nscd.enableNsncd = true;
     gnome.gnome-keyring.enable = true;
     journald.extraConfig = ''
       # SystemMaxUse=250M
@@ -364,6 +375,15 @@
         "/var/lib/nixos"
         "/var/lib/systemd/coredump"
         "/var/lib/iwd/"
+        "/etc/docker/key.json"
+        "/var/lib/docker/"
+        "/var/lib/lxd/"
+        {
+          directory = "/etc/mullvad-vpn";
+          user = "root";
+          group = "root";
+          mode = "0755";
+        }
         {
           directory = "/var/keys";
           user = "root";
@@ -373,6 +393,9 @@
       ];
       files = [
         "/etc/machine-id"
+        "/etc/mullvad-vpn/account-history.json"
+        "/etc/mullvad-vpn/device.json"
+        "/etc/mullvad-vpn/settings.json"
       ];
       users.zenex = {
         directories = [

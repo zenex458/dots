@@ -656,6 +656,7 @@
     ghc
     haskellPackages.stack
     ghidra-bin
+    radare2
     gimp
     gitFull
     tree
@@ -675,7 +676,7 @@
     keepassxc
     libnotify
     libreoffice
-    logisim
+    logisim-evolution
     lsof
     lxqt.lxqt-policykit
     magic-wormhole
@@ -693,7 +694,6 @@
     p7zip
     pandoc
     poppler_utils
-    calibre
     progress
     pulsemixer
     pv
@@ -729,6 +729,9 @@
     wlr-randr
     wlsunset
     xdg-utils
+    openvpn
+    dig
+    feather
     xmlformat
     yapf
     yt-dlp
