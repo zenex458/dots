@@ -51,16 +51,14 @@
 
   systemd.tmpfiles.rules = [
     "d /persistence/home/ 1777 root root-"
-    "d /persistence/home/zenex/ 0770 zenex users-"
+#    "d /persistence/home/zenex/ 0770 zenex users-"
+    "d /persistence/home/zenex/ 1777 zenex users-"
     "d /persistent/var/keys/ 0600 root root-"
-    "f /etc/mullvad-vpn/device.json 0600 root root-"
-    "f /etc/mullvad-vpn/settings.json 0644 root root-"
-    "f /etc/mullvad-vpn/account-history.json 0644 root root-"
-    "L /var/lib/NetworkManager/secret_key - - - - /persist/var/lib/NetworkManager/secret_key"
-    "L /var/lib/NetworkManager/seen-bssids - - - - /persist/var/lib/NetworkManager/seen-bssids"
-    "L /var/lib/NetworkManager/timestamps - - - - /persist/var/lib/NetworkManager/timestamps"
-    "L /var/lib/lxd - - - - /persist/var/lib/lxd"
-    "L /var/lib/docker - - - - /persist/var/lib/docker"
+#    "f /etc/mullvad-vpn/device.json 0600 root root-"
+#    "f /etc/mullvad-vpn/settings.json 0644 root root-"
+#    "f /etc/mullvad-vpn/account-history.json 0644 root root-"
+#    "L /var/lib/lxd - - - - /persist/var/lib/lxd"
+#    "L /var/lib/docker - - - - /persist/var/lib/docker"
   ];
 
   programs.fuse.userAllowOther = true;
@@ -176,7 +174,7 @@
     isNormalUser = true;
     description = "zenex";
     extraGroups = [
-      "networkmanager"
+      "seatd"
       "wheel"
       "video"
       "audio"
@@ -197,8 +195,8 @@
     seatd = {
       enable = true;
     };
-    mullvad-vpn.enable = true;
-    mullvad-vpn.package = pkgs.mullvad-vpn;
+   # mullvad-vpn.enable = true;
+   # mullvad-vpn.package = pkgs.mullvad-vpn;
     nscd.enableNsncd = true;
     gnome.gnome-keyring.enable = true;
     journald.extraConfig = ''
@@ -253,7 +251,7 @@
       enable = true;
       windowManager.xmonad = {
         enable = false;
-        enableContribAndExtras = true;
+        enableContribAndExtras = false;
       };
       displayManager.startx.enable = true;
       xkb = {
@@ -347,7 +345,6 @@
   # $ nix search wget
   fileSystems."/persistent".neededForBoot = true;
   environment = {
-    extraInit = "umask 022";
     sessionVariables.NIXOS_OZONE_WL = "1";
     sessionVariables.FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
     etc = {
@@ -388,12 +385,12 @@
         "/var/lib/docker/"
         "/var/lib/lxd/"
         "/var/lib/libvirt/images"
-        {
-          directory = "/etc/mullvad-vpn";
-          user = "root";
-          group = "root";
-          mode = "0755";
-        }
+#        {
+#          directory = "/etc/mullvad-vpn";
+#          user = "root";
+#          group = "root";
+#          mode = "0755";
+#        }
         {
           directory = "/var/keys";
           user = "root";
@@ -401,12 +398,12 @@
           mode = "0700";
         }
       ];
-      files = [
-        "/etc/machine-id"
-        "/etc/mullvad-vpn/account-history.json"
-        "/etc/mullvad-vpn/device.json"
-        "/etc/mullvad-vpn/settings.json"
-      ];
+#      files = [
+#        "/etc/machine-id"
+#        "/etc/mullvad-vpn/account-history.json"
+#        "/etc/mullvad-vpn/device.json"
+#        "/etc/mullvad-vpn/settings.json"
+#      ];
       users.zenex = {
         directories = [
           {
@@ -484,9 +481,9 @@
   };
 
   systemd.services = {
-    nix-daemon = {
-      environment.TMPDIR = "/run/nixos";
-    };
+#    nix-daemon = {
+#      environment.TMPDIR = "/run/nixos";
+#    };
     docker.serviceConfig = {
       NoNewPrivileges = true;
       ProtectSystem = "full";
