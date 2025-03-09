@@ -1,6 +1,6 @@
 {
   wayland.windowManager.hyprland = {
-    enable = true;
+    enable = false;
     settings = {
       input = {
         kb_layout = "gb";
@@ -50,6 +50,7 @@
         "$mainMod SHIFT CTRL, Z, exit,"
         "$mainMod, V, togglefloating"
         "$mainMod, C, exec, firejail firefox"
+        "$mainMod SHIFT, C, exec, firejail firefox -P work"
         "$mainMod, U, exec, emacsclient -c -a emacs"
         "$mainMod, P, exec, bemenu-run"
         "$mainMod SHIFT, O, exec, mpc next"
@@ -129,8 +130,10 @@
     settings = {
       ipc = false;
       splash = false;
-      preload = ["~/Downloads/Images/Brealsat.jpg"];
-      wallpaper = [",~/Downloads/Images/Brealsat.jpg"];
+      # preload = ["~/Downloads/Images/Brealsat.jpg"];
+      # wallpaper = [",~/Downloads/Images/Brealsat.jpg"];
+      preload = ["~/Downloads/Images/lowsat.jpg"];
+      wallpaper = [",~/Downloads/Images/lowsat.jpg"];
     };
   };
 

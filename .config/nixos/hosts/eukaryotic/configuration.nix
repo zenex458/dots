@@ -9,7 +9,8 @@
     inputs.impermanence.nixosModules.impermanence
     inputs.disko.nixosModules.disko
     inputs.lanzaboote.nixosModules.lanzaboote
-    ./hardened.nix
+    inputs.hosts.nixosModule
+    #    ./hardened.nix
     ./disko-config.nix
     ./hardware-configuration.nix
   ];
@@ -87,9 +88,9 @@
         Settings = {
           AutoConnect = true;
         };
-        # Network = {
-        #   NameResolvingService = "resolvconf";
-        # };
+        Network = {
+          NameResolvingService = "resolvconf";
+        };
       };
     };
 
@@ -119,11 +120,16 @@
     libvirtd.enable = true;
     docker = {
       enable = true;
+      storageDriver = "btrfs";
       rootless.setSocketVariable = true;
     };
   };
 
   programs = {
+    river = {
+      enable = true;
+      xwayland.enable = true;
+    };
     ssh.startAgent = true;
     gnupg.agent.enable = true;
     wireshark = {
@@ -132,7 +138,7 @@
     };
     xwayland.enable = true;
     hyprland = {
-      enable = true;
+      enable = false;
       withUWSM = true;
       xwayland.enable = true;
     };
@@ -188,6 +194,9 @@
   };
 
   services = {
+    seatd = {
+      enable = true;
+    };
     mullvad-vpn.enable = true;
     mullvad-vpn.package = pkgs.mullvad-vpn;
     nscd.enableNsncd = true;
@@ -215,7 +224,7 @@
         X11Forwarding no
         AllowAgentForwarding no
         AllowStreamLocalForwarding no
-        AuthenticationMethods publickey
+        #AuthenticationMethods publickey
       '';
     };
 
@@ -338,7 +347,7 @@
   # $ nix search wget
   fileSystems."/persistent".neededForBoot = true;
   environment = {
-    # extraInit = "umask 0077"; # disable if compat issues
+    extraInit = "umask 022";
     sessionVariables.NIXOS_OZONE_WL = "1";
     sessionVariables.FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
     etc = {
@@ -378,6 +387,7 @@
         "/etc/docker/key.json"
         "/var/lib/docker/"
         "/var/lib/lxd/"
+        "/var/lib/libvirt/images"
         {
           directory = "/etc/mullvad-vpn";
           user = "root";
@@ -441,6 +451,13 @@
         Defaults lecture = never
       '';
     };
+  };
+
+  networking.stevenBlackHosts = {
+    enable = true;
+    enableIPv6 = true;
+    blockGambling = true;
+    blockPorn = true;
   };
 
   networking.firewall = {

@@ -2,17 +2,21 @@
   programs.firefox = {
     enable = true;
     policies = {
-      DisableFirefoxScreenshots = true;
-      DisablePocket = true;
-      PasswordManagerEnabled = false;
-      DisableFirefoxAccounts = true;
-      DisableSetDesktopBackground = true;
-      DisableTelemetry = true;
       AutofillCreditCardEnabled = false;
+      AppAutoUpdate = false;
+      BackgroundAppUpdate = false;
+      DisableFirefoxAccounts = true;
+      DisableFirefoxScreenshots = true;
+      DisableFirefoxStudies = true;
       DisableMasterPasswordCreation = true;
       DisablePasswordReveal = true;
+      DontCheckDefaultBrowser = true;
+      DisablePocket = true;
+      DisableSetDesktopBackground = true;
+      DisableTelemetry = true;
       OfferToSaveLogins = false;
       OfferToSaveLoginsDefault = false;
+      PasswordManagerEnabled = false;
     };
     profiles."test" = {
       id = 2;
@@ -118,37 +122,50 @@
         "NixosWiki"
       ];
       userChrome = ''
-        /* hides the native tabs */
-        #TabsToolbar {
-          visibility: collapse;
-        }
+        #   /* hides the native tabs */
+        #   #TabsToolbar {
+        #     visibility: collapse;
+        #   }
 
-        /* https://gist.github.com/chris-vecchio/d6a47fc733559752cc3a09937381d7ae */
-        /* Firefox userChrome.css */
+           /* hides that annoying extension button */
+           #unified-extensions-button {
+              display: none !important;
+           }
 
-        /* Borders on tab scroll right and left buttons */
-        #scrollbutton-up, #scrollbutton-down { /* 6/10/2021 */
-          border-top-width: 1px !important;
-          border-bottom-width: 0 !important;
-        }
+          /* https://gist.github.com/chris-vecchio/d6a47fc733559752cc3a09937381d7ae */
+          /* Firefox userChrome.css */
 
-        /*** TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
-        /* SOURCE: https://www.userchrome.org/firefox-89-styling-proton-ui.html#menuspacing */
-        menupopup > menuitem, menupopup > menu {
-          padding-block: 4px !important;
-        }
+          /* Borders on tab scroll right and left buttons */
+          #scrollbutton-up, #scrollbutton-down { /* 6/10/2021 */
+            border-top-width: 1px !important;
+            border-bottom-width: 0 !important;
+          }
 
-        /* Tighten up hamburger menu spacing and square the edges */
-        :root {
-          --arrowpanel-menuitem-padding: 2px !important;
+          /*** TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
+          /* SOURCE: https://www.userchrome.org/firefox-89-styling-proton-ui.html#menuspacing */
+          menupopup > menuitem, menupopup > menu {
+            padding-block: 4px !important;
+          }
 
-          --arrowpanel-border-radius: 0px !important;
-          --arrowpanel-menuitem-border-radius: 0px !important;
-        }
-        /*** END TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
+          /* Tighten up hamburger menu spacing and square the edges */
+          :root {
+            --arrowpanel-menuitem-padding: 2px !important;
+
+            --arrowpanel-border-radius: 0px !important;
+            --arrowpanel-menuitem-border-radius: 0px !important;
+          }
+          /*** END TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
 
       '';
       settings = {
+        "browser.tabs.inTitlebar" = 0;
+        "sidebar.verticalTabs" = true;
+        "browser.tabs.hoverPreview.enabled" = false;
+        "privacy.resistFingerprinting.autoDeclineNoUserInputCanvasPrompts" = true;
+        "browser.ml.chat.enabled" = false;
+        "browser.ml.chat.provider" = "";
+        "browser.ml.chat.shortcuts" = false;
+        "browser.ml.chat.sidebar" = false;
         "browser.tabs.closeWindowWithLastTab" = false;
         "dom.security.https_only_mode" = true;
         "accessibility.force_disabled" = 1;
@@ -278,14 +295,16 @@
         "general.autoScroll" = false;
         "general.smoothScroll" = false;
         "geo.provider.use_geoclue" = false;
+        "geo.enabled" = false; #https://wiki.mozilla.org/Privacy/Privacy_Task_Force/firefox_about_config_privacy_tweeks
         "gfx.font_rendering.opentype_svg.enabled" = false;
         "identity.fxaccounts.enabled" = false;
-        "javascript.options.asmjs" = false; # enable if too slow
-        "javascript.options.baselinejit" = false; # enable if too slow
-        "javascript.options.ion" = false; # enable if too slow
-        "javascript.options.wasm" = false; # enable if too slow
+        "javascript.options.asmjs" = true; # enable if too slow
+        "javascript.options.baselinejit" = true; # enable if too slow
+        "javascript.options.ion" = true; # enable if too slow
+        "javascript.options.wasm" = true; # enable if too slow
         "keyword.enabled" = true; # false = no automatic search engine
         "layout.spellcheckDefault" = 0;
+        "dom.private-attribution.submission.enabled" = false; # https://wiki.mozilla.org/Privacy/Privacy_Task_Force/firefox_about_config_privacy_tweeks
         "mathml.disabled" = true;
         "media.autoplay.default" = 5;
         "media.gmp-widevinecdm.enabled" = false;
@@ -305,12 +324,14 @@
         "network.dnsCacheEntries" = 0;
         "network.gio.supported-protocols" = "";
         "network.http.referer.XOriginTrimmingPolicy" = 2; #control the amount of cross-origin information to send. 0=send full URI (default), 1=scheme+host+port+path, 2=scheme+host+port
+        "network.http.referer.XOriginPolicy" = 2; #https://wiki.mozilla.org/Privacy/Privacy_Task_Force/firefox_about_config_privacy_tweeks
         "network.IDN_show_punycode" = true;
         "network.manage-offline-status" = false;
         "network.predictor.enabled" = false;
         "network.prefetch-next" = false;
         "network.trr.mode" = 3;
-        "network.trr.uri" = "https://all.dns.mullvad.net/dns-query";
+        # "network.trr.uri" = "https://all.dns.mullvad.net/dns-query";
+        "network.trr.uri" = "https://cloudflare-dns.com/dns-query"; #temp for current wifi situations
         "nglayout.enable_drag_images" = false;
         "pdfjs.enableScripting" = false;
         "permissions.default.camera" = 2;
@@ -399,77 +420,83 @@
       search.force = true;
       search.default = "Startpage";
       userChrome = ''
-        /* hides the native tabs */
-        #TabsToolbar {
-          visibility: collapse;
-        }
+        #   /* hides the native tabs */
+        #   #TabsToolbar {
+        #     visibility: collapse;
+        #   }
 
-        /* https://gist.github.com/chris-vecchio/d6a47fc733559752cc3a09937381d7ae */
-        /* Firefox userChrome.css */
+           /* hides that annoying extension button */
+           #unified-extensions-button {
+              display: none !important;
+           }
 
-        /*** PROTON TABS TWEAKS ***/
-        /* SOURCE: modified version of https://www.userchrome.org/firefox-89-styling-proton-ui.html#tabstyler */
-        /* Make tab shape square */
-        #tabbrowser-tabs {
-          --user-tab-rounding: 0px;
-        }
+          /* https://gist.github.com/chris-vecchio/d6a47fc733559752cc3a09937381d7ae */
+          /* Firefox userChrome.css */
 
-        .tab-background {
-          border-radius: var(--user-tab-rounding) var(--user-tab-rounding) 0px 0px !important;
-          margin-block: 1px 0 !important;
-        }
+          /*** PROTON TABS TWEAKS ***/
+          /* SOURCE: modified version of https://www.userchrome.org/firefox-89-styling-proton-ui.html#tabstyler */
+          /* Make tab shape square */
+          #tabbrowser-tabs {
+            --user-tab-rounding: 0px;
+          }
 
-        /* Borders on tab scroll right and left buttons */
-        #scrollbutton-up, #scrollbutton-down { /* 6/10/2021 */
-          border-top-width: 1px !important;
-          border-bottom-width: 0 !important;
-        }
+          .tab-background {
+            border-radius: var(--user-tab-rounding) var(--user-tab-rounding) 0px 0px !important;
+            margin-block: 1px 0 !important;
+          }
 
-        /* Inactive tabs: Separator line style */
-        /* For light backgrounds */
-        .tabbrowser-tab:not([selected=true]):not([multiselected=true]):not([beforeselected-visible="true"]) .tab-background {
-          border-right: 1px solid var(--lwt-background-tab-separator-color, rgba(0, 0, 0, .20)) !important;
-        }
+          /* Borders on tab scroll right and left buttons */
+          #scrollbutton-up, #scrollbutton-down { /* 6/10/2021 */
+            border-top-width: 1px !important;
+            border-bottom-width: 0 !important;
+          }
 
-        /* For dark backgrounds */
-        [brighttext="true"] .tabbrowser-tab:not([selected=true]):not([multiselected=true]):not([beforeselected-visible="true"]) .tab-background {
-          border-right: 1px solid var(--lwt-background-tab-separator-color, var(--lwt-selected-tab-background-color, rgba(255, 255, 255, .20))) !important;
-        }
+          /* Inactive tabs: Separator line style */
+          /* For light backgrounds */
+          .tabbrowser-tab:not([selected=true]):not([multiselected=true]):not([beforeselected-visible="true"]) .tab-background {
+            border-right: 1px solid var(--lwt-background-tab-separator-color, rgba(0, 0, 0, .20)) !important;
+          }
 
-        .tabbrowser-tab:not([selected=true]):not([multiselected=true]) .tab-background {
-          border-radius: 0 !important;
-        }
+          /* For dark backgrounds */
+          [brighttext="true"] .tabbrowser-tab:not([selected=true]):not([multiselected=true]):not([beforeselected-visible="true"]) .tab-background {
+            border-right: 1px solid var(--lwt-background-tab-separator-color, var(--lwt-selected-tab-background-color, rgba(255, 255, 255, .20))) !important;
+          }
 
-        /* Remove padding between tabs */
-        .tabbrowser-tab {
-          padding-left: 0 !important;
-          padding-right: 0 !important;
-        }
+          .tabbrowser-tab:not([selected=true]):not([multiselected=true]) .tab-background {
+            border-radius: 0 !important;
+          }
 
-        /* Set tab fill color and text color */
-        #TabsToolbar {
-          background-color: #202340;
-          color: #F9F9FA;
-        }
-        /*** END PROTON TABS TWEAKS ***/
+          /* Remove padding between tabs */
+          .tabbrowser-tab {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+          }
 
+          /* Set tab fill color and text color */
+          #TabsToolbar {
+            background-color: #202340;
+            color: #F9F9FA;
+          }
+          /*** END PROTON TABS TWEAKS ***/
 
-        /*** TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
-        /* SOURCE: https://www.userchrome.org/firefox-89-styling-proton-ui.html#menuspacing */
-        menupopup > menuitem, menupopup > menu {
-          padding-block: 4px !important;
-        }
+          /*** TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
+          /* SOURCE: https://www.userchrome.org/firefox-89-styling-proton-ui.html#menuspacing */
+          menupopup > menuitem, menupopup > menu {
+            padding-block: 4px !important;
+          }
 
-        /* Tighten up hamburger menu spacing and square the edges */
-        :root {
-          --arrowpanel-menuitem-padding: 2px !important;
-          --arrowpanel-border-radius: 0px !important;
-          --arrowpanel-menuitem-border-radius: 0px !important;
-        }
-        /*** END TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
+          /* Tighten up hamburger menu spacing and square the edges */
+          :root {
+            --arrowpanel-menuitem-padding: 2px !important;
+            --arrowpanel-border-radius: 0px !important;
+            --arrowpanel-menuitem-border-radius: 0px !important;
+          }
+          /*** END TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
 
       '';
       settings = {
+        "network.trr.mode" = 3;
+        "network.trr.uri" = "https://cloudflare-dns.com/dns-query";
         "accessibility.force_disabled" = 1;
         "app.normandy.api_url" = "";
         "app.normandy.enabled" = false;
@@ -582,6 +609,12 @@
         "toolkit.telemetry.updatePing.enabled" = false;
         "toolkit.cosmeticAnimations.enabled" = false;
         "webgl.disabled" = false;
+        "browser.ml.chat.provider" = "";
+        "browser.ml.chat.shortcuts" = false;
+        "browser.ml.chat.sidebar" = false;
+        "sidebar.verticalTabs" = true;
+        "browser.tabs.hoverPreview.enabled" = false;
+        "browser.tabs.inTitlebar" = 0;
       };
     };
   };

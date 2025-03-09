@@ -17,6 +17,7 @@
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
     impermanence.url = "github:nix-community/impermanence";
     stylix.url = "github:danth/stylix/release-24.11";
+    hosts.url = "github:StevenBlack/hosts";
   };
 
   # For more information about well-known outputs checked by `nix flake check`:
@@ -30,6 +31,7 @@
     impermanence,
     lanzaboote,
     stylix,
+    hosts,
     ...
   } @ inputs: {
     # Used with `nixos-rebuild --flake .#<hostname>`
