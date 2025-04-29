@@ -34,6 +34,9 @@
       ".local/share/simplex"
       ".config/feather"
       ".config/zsh"
+      ".config/opensnitch"
+      ".config/zotero"
+      ".config/gh"
     ];
     files = [".local/share/.bash_history"];
     allowOther = true;

@@ -17,6 +17,7 @@
       OfferToSaveLogins = false;
       OfferToSaveLoginsDefault = false;
       PasswordManagerEnabled = false;
+      NoDefaultBookmarks = true;
     };
     profiles."test" = {
       id = 2;
@@ -47,6 +48,7 @@
             }
           ];
           iconUpdateURL = "https://www.startpage.com/sp/cdn/favicons/favicon-32x32-gradient.png";
+          updateInterval = 24 * 60 * 60 * 1000 * 30; #every month
           definedAliases = ["@st"];
         };
         "Searx" = {
@@ -62,6 +64,7 @@
             }
           ];
           iconUpdateURL = "https://searx.tiekoetter.com/static/themes/simple/img/favicon.png";
+          updateInterval = 24 * 60 * 60 * 1000 * 30; #every month
           definedAliases = ["@pv"];
         };
         "NixosPackage" = {
@@ -77,6 +80,7 @@
             }
           ];
           iconUpdateURL = "https://search.nixos.org/favicon.png";
+          updateInterval = 24 * 60 * 60 * 1000 * 30; #every month
           definedAliases = ["@np"];
         };
         "NixosOption" = {
@@ -92,12 +96,14 @@
             }
           ];
           iconUpdateURL = "https://search.nixos.org/favicon.png";
+          updateInterval = 24 * 60 * 60 * 1000 * 30; #every month
           definedAliases = ["@no"];
         };
 
         "NixosWiki" = {
           urls = [{template = "https://wiki.nixos.org/w/index.php?search={searchTerms}";}];
           iconUpdateURL = "https://wiki.nixos.org/favicon.ico";
+          updateInterval = 24 * 60 * 60 * 1000 * 30; #every month
           definedAliases = ["@nw"];
         };
 
@@ -108,6 +114,7 @@
             }
           ];
           iconUpdateURL = "https://home-manager-options.extranix.com/images/favicon.png";
+          updateInterval = 24 * 60 * 60 * 1000 * 30; #every month
           definedAliases = ["@hs"];
         };
       };
@@ -127,10 +134,10 @@
         #     visibility: collapse;
         #   }
 
-           /* hides that annoying extension button */
-           #unified-extensions-button {
-              display: none !important;
-           }
+           # /* hides that annoying extension button */
+           # #unified-extensions-button {
+           #    display: none !important;
+           # }
 
           /* https://gist.github.com/chris-vecchio/d6a47fc733559752cc3a09937381d7ae */
           /* Firefox userChrome.css */
@@ -158,6 +165,7 @@
 
       '';
       settings = {
+        "pdfjs.disabled" = true;
         "browser.tabs.inTitlebar" = 0;
         "sidebar.verticalTabs" = true;
         "browser.tabs.hoverPreview.enabled" = false;
@@ -166,6 +174,7 @@
         "browser.ml.chat.provider" = "";
         "browser.ml.chat.shortcuts" = false;
         "browser.ml.chat.sidebar" = false;
+        "browser.ml.enable" = false;
         "browser.tabs.closeWindowWithLastTab" = false;
         "dom.security.https_only_mode" = true;
         "accessibility.force_disabled" = 1;
@@ -298,10 +307,10 @@
         "geo.enabled" = false; #https://wiki.mozilla.org/Privacy/Privacy_Task_Force/firefox_about_config_privacy_tweeks
         "gfx.font_rendering.opentype_svg.enabled" = false;
         "identity.fxaccounts.enabled" = false;
-        "javascript.options.asmjs" = true; # enable if too slow
-        "javascript.options.baselinejit" = true; # enable if too slow
-        "javascript.options.ion" = true; # enable if too slow
-        "javascript.options.wasm" = true; # enable if too slow
+        "javascript.options.asmjs" = false; # enable if too slow
+        "javascript.options.baselinejit" = false; # enable if too slow
+        "javascript.options.ion" = false; # enable if too slow
+        "javascript.options.wasm" = false; # enable if too slow
         "keyword.enabled" = true; # false = no automatic search engine
         "layout.spellcheckDefault" = 0;
         "dom.private-attribution.submission.enabled" = false; # https://wiki.mozilla.org/Privacy/Privacy_Task_Force/firefox_about_config_privacy_tweeks
@@ -330,8 +339,7 @@
         "network.predictor.enabled" = false;
         "network.prefetch-next" = false;
         "network.trr.mode" = 3;
-        # "network.trr.uri" = "https://all.dns.mullvad.net/dns-query";
-        "network.trr.uri" = "https://cloudflare-dns.com/dns-query"; #temp for current wifi situations
+        "network.trr.uri" = "https://all.dns.mullvad.net/dns-query";
         "nglayout.enable_drag_images" = false;
         "pdfjs.enableScripting" = false;
         "permissions.default.camera" = 2;
@@ -414,6 +422,7 @@
             }
           ];
           iconUpdateURL = "https://www.startpage.com/sp/cdn/favicons/favicon-32x32-gradient.png";
+          updateInterval = 24 * 60 * 60 * 1000 * 30; #every month
           definedAliases = ["@st"];
         };
       };
@@ -425,10 +434,10 @@
         #     visibility: collapse;
         #   }
 
-           /* hides that annoying extension button */
-           #unified-extensions-button {
-              display: none !important;
-           }
+           # /* hides that annoying extension button */
+           # #unified-extensions-button {
+           #    display: none !important;
+           # }
 
           /* https://gist.github.com/chris-vecchio/d6a47fc733559752cc3a09937381d7ae */
           /* Firefox userChrome.css */
@@ -495,8 +504,8 @@
 
       '';
       settings = {
-        "network.trr.mode" = 3;
-        "network.trr.uri" = "https://cloudflare-dns.com/dns-query";
+        # "network.trr.mode" = 3;
+        # "network.trr.uri" = "https://all.dns.mullvad.net/dns-query";
         "accessibility.force_disabled" = 1;
         "app.normandy.api_url" = "";
         "app.normandy.enabled" = false;
@@ -612,6 +621,7 @@
         "browser.ml.chat.provider" = "";
         "browser.ml.chat.shortcuts" = false;
         "browser.ml.chat.sidebar" = false;
+        "browser.ml.enable" = false;
         "sidebar.verticalTabs" = true;
         "browser.tabs.hoverPreview.enabled" = false;
         "browser.tabs.inTitlebar" = 0;

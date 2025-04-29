@@ -1,12 +1,12 @@
 {
   wayland.windowManager.hyprland = {
-    enable = false;
+    enable = true;
     settings = {
       input = {
         kb_layout = "gb";
         kb_options = "altwin:ctrl_alt_win,caps:shift_nocancel,caps:backspace";
-        repeat_rate = 25;
-        repeat_delay = 600;
+        repeat_rate = 50;
+        repeat_delay = 300;
         follow_mouse = 1;
         sensitivity = 0;
         touchpad.natural_scroll = "no";
@@ -97,9 +97,9 @@
       "$mainMod" = "SUPER";
     };
     extraConfig = ''
-      # monitor=HDMI-A-1,1280x1024,0x0, 1
+      monitor=HDMI-A-1,1280x1024,0x0, 1
       monitor=eDP-1,1920x1080,1280x0, 1
-      # monitor=HDMI-A-2,1280x1024,3200x0, 1
+      monitor=HDMI-A-2,1280x1024,3200x0, 1
 
       exec-once = dunst
       exec-once = lxqt-policykit-agent
@@ -149,11 +149,13 @@
       };
       listener = [
         {
-          timeout = 900;
+          # timeout = 900;
+          timeout = 900000;
           on-timeout = "hypridle";
         }
         {
-          timeout = 1200;
+          # timeout = 1200;
+          timeout = 1200000;
           on-timeout = "hyprctl dispatch dpms off";
           on-resume = "hyprctl dispatch dpms on";
         }

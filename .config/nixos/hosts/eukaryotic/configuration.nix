@@ -14,6 +14,7 @@
     ./disko-config.nix
     ./hardware-configuration.nix
   ];
+  boot.supportedFilesystems = ["ntfs"];
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.loader.systemd-boot.enable = lib.mkForce false;
   # boot.loader.systemd-boot.enable = true;
@@ -51,19 +52,21 @@
 
   systemd.tmpfiles.rules = [
     "d /persistence/home/ 1777 root root-"
-#    "d /persistence/home/zenex/ 0770 zenex users-"
+    #    "d /persistence/home/zenex/ 0770 zenex users-"
     "d /persistence/home/zenex/ 1777 zenex users-"
     "d /persistent/var/keys/ 0600 root root-"
-#    "f /etc/mullvad-vpn/device.json 0600 root root-"
-#    "f /etc/mullvad-vpn/settings.json 0644 root root-"
-#    "f /etc/mullvad-vpn/account-history.json 0644 root root-"
-#    "L /var/lib/lxd - - - - /persist/var/lib/lxd"
-#    "L /var/lib/docker - - - - /persist/var/lib/docker"
+    #    "f /etc/mullvad-vpn/device.json 0600 root root-"
+    #    "f /etc/mullvad-vpn/settings.json 0644 root root-"
+    #    "f /etc/mullvad-vpn/account-history.json 0644 root root-"
+    #    "L /var/lib/lxd - - - - /persist/var/lib/lxd"
+    #    "L /var/lib/docker - - - - /persist/var/lib/docker"
   ];
 
   programs.fuse.userAllowOther = true;
   home-manager = {
-    extraSpecialArgs = {inherit inputs;};
+    extraSpecialArgs = {
+      inherit inputs;
+    };
     users.zenex = import ./home/zenex.nix;
   };
 
@@ -124,10 +127,11 @@
   };
 
   programs = {
-    river = {
+    appimage = {
       enable = true;
-      xwayland.enable = true;
+      binfmt = true;
     };
+    localsend.enable = true;
     ssh.startAgent = true;
     gnupg.agent.enable = true;
     wireshark = {
@@ -136,7 +140,7 @@
     };
     xwayland.enable = true;
     hyprland = {
-      enable = false;
+      enable = true;
       withUWSM = true;
       xwayland.enable = true;
     };
@@ -168,6 +172,9 @@
   users.mutableUsers = false;
   users.users.root.hashedPasswordFile = "/persistent/var/keys/rootP";
   programs.adb.enable = true;
+  services.udev.packages = [
+    pkgs.android-udev-rules
+  ];
   users.users.zenex = {
     hashedPasswordFile = "/persistent/var/keys/zenexP";
     shell = pkgs.zsh;
@@ -195,8 +202,8 @@
     seatd = {
       enable = true;
     };
-   # mullvad-vpn.enable = true;
-   # mullvad-vpn.package = pkgs.mullvad-vpn;
+    mullvad-vpn.enable = true;
+    mullvad-vpn.package = pkgs.mullvad-vpn;
     nscd.enableNsncd = true;
     gnome.gnome-keyring.enable = true;
     journald.extraConfig = ''
@@ -207,13 +214,13 @@
     #irqbalance.enable = true;
     #with hardened profile this is needed otherwise nix will not build
     #    logrotate.checkConfig = false;
-    #    fwupd.enable = true;
+    fwupd.enable = true;
     fstrim.enable = true;
 
     openssh = {
       enable = true;
       # require public key authentication for better security
-      # settings.PasswordAuthentication = false;
+      settings.PasswordAuthentication = false;
       settings.KbdInteractiveAuthentication = false;
       settings.PermitRootLogin = "no";
       allowSFTP = false;
@@ -281,8 +288,9 @@
       allow id 1038:184c serial "" name "SteelSeries Rival 3" hash "sYta/t0uxVWU/6EekbEp2yRDxjGzoHfZ9UK4M3wxVn4=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" via-port "1-6" with-interface { 03:01:02 03:00:00 03:00:00 03:00:00 } with-connect-type "hotplug"
       allow id 0951:1666 serial "E0D55EA5741DE56049190FED" name "DataTraveler 3.0" hash "7jEH3bcZPd4Ee2CA2Ggd7BHeXMjSWmQ1UX1P45KA/TQ=" parent-hash "3Wo3XWDgen1hD5xM3PSNl3P98kLp1RUTgGQ5HSxtf8k=" with-interface 08:06:50 with-connect-type "hotplug"
       allow id 058f:6387 serial "041EBAED8B84A741" name "Disk 2.0" hash "yszYXNmkr8aH7Pb+Bam3eHnkPJanUuV3VpMypoaYhhU=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" with-interface 08:06:50 with-connect-type "hotplug"
+      allow id 2972:0047 serial "" name "FiiO K3" hash "YNur060AyFfKrnIT2qfA+GDscg0vNchYtt0Lh3j2Zt4=" parent-hash "jEP/6WzviqdJ5VSeTUY8PatCNBKeaREvo2OqdplND/o=" with-interface { 01:01:20 01:02:20 01:02:20 01:02:20 01:02:20 fe:01:01 01:01:20 01:02:20 01:02:20 01:02:20 01:02:20 fe:01:01 } with-connect-type "hotplug"
     '';
-    # opensnitch.enable = true;
+    opensnitch.enable = false;
     ntp.enable = false; # #disable the systemd-timesyncd
     chrony = {
       enable = true;
@@ -308,10 +316,10 @@
     thermald.enable = false;
     tlp.enable = true;
     tlp.settings = {
-      CPU_SCALING_MIN_FREQ_ON_AC = 2800000;
-      CPU_SCALING_MAX_FREQ_ON_AC = 2800000;
-      CPU_SCALING_MIN_FREQ_ON_BAT = 400000;
-      CPU_SCALING_MAX_FREQ_ON_BAT = 2000000;
+      # CPU_SCALING_MIN_FREQ_ON_AC = 2800000;
+      # CPU_SCALING_MAX_FREQ_ON_AC = 2800000;
+      # CPU_SCALING_MIN_FREQ_ON_BAT = 400000;
+      # CPU_SCALING_MAX_FREQ_ON_BAT = 2000000;
       CPU_SCALING_GOVERNOR_ON_AC = "performance";
       CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
       CPU_MIN_PERF_ON_AC = 0;
@@ -320,6 +328,8 @@
       CPU_MAX_PERF_ON_BAT = 50;
       CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
       CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
+      START_CHARGE_THRESH_BAT0 = 75;
+      STOP_CHARGE_THRESH_BAT0 = 80;
     };
     pipewire = {
       enable = true;
@@ -360,7 +370,8 @@
         private-bin dbus-launch,dbus-send,firefox,which
       '';
       "firejail/firefox-common.local".text = ''
-        private-etc fonts,group,hosts,localtime,nsswitch.conf,pki,pulse,resolv.conf,ssl
+        # private-etc fonts,group,hosts,localtime,nsswitch.conf,pki,pulse,resolv.conf,ssl
+        private-etc fonts,group,hosts,localtime,nsswitch.conf,pki,pulse,ssl
         private-tmp
       '';
       # "firejail/nolocal.net" = {
@@ -385,12 +396,12 @@
         "/var/lib/docker/"
         "/var/lib/lxd/"
         "/var/lib/libvirt/images"
-#        {
-#          directory = "/etc/mullvad-vpn";
-#          user = "root";
-#          group = "root";
-#          mode = "0755";
-#        }
+        {
+          directory = "/etc/mullvad-vpn";
+          user = "root";
+          group = "root";
+          mode = "0755";
+        }
         {
           directory = "/var/keys";
           user = "root";
@@ -398,12 +409,12 @@
           mode = "0700";
         }
       ];
-#      files = [
-#        "/etc/machine-id"
-#        "/etc/mullvad-vpn/account-history.json"
-#        "/etc/mullvad-vpn/device.json"
-#        "/etc/mullvad-vpn/settings.json"
-#      ];
+      #      files = [
+      #        "/etc/machine-id"
+      #        "/etc/mullvad-vpn/account-history.json"
+      #        "/etc/mullvad-vpn/device.json"
+      #        "/etc/mullvad-vpn/settings.json"
+      #      ];
       users.zenex = {
         directories = [
           {
@@ -464,6 +475,9 @@
     # allowedTCPPorts = [631 5353]; # printing
     # allowedUDPPorts = [631 5353]; # printing
 
+    allowedTCPPorts = [33573];
+    allowedUDPPorts = [33573];
+
     # allowedTCPPortRanges = [
     #   {
     #     from = 1714;
@@ -481,9 +495,9 @@
   };
 
   systemd.services = {
-#    nix-daemon = {
-#      environment.TMPDIR = "/run/nixos";
-#    };
+    #    nix-daemon = {
+    #      environment.TMPDIR = "/run/nixos";
+    #    };
     docker.serviceConfig = {
       NoNewPrivileges = true;
       ProtectSystem = "full";

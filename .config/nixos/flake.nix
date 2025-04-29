@@ -9,6 +9,7 @@
   # to be equal to the nixpkgs input of the nixops input of the top-level flake:
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager/release-24.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     disko.url = "github:nix-community/disko";
@@ -32,6 +33,7 @@
     lanzaboote,
     stylix,
     hosts,
+    nixpkgs-unstable,
     ...
   } @ inputs: {
     # Used with `nixos-rebuild --flake .#<hostname>`
@@ -42,7 +44,22 @@
           inherit inputs;
         };
         system = "x86_64-linux";
-        modules = [./hosts/eukaryotic/configuration.nix];
+        modules = [
+          {
+            nixpkgs.overlays = [
+              # append `unstable' infront of system packages to get the unstable version of a package
+              (final: prev: {
+                unstable = import nixpkgs-unstable {
+                  inherit prev;
+                  system = prev.system;
+                  config.allowUnfree = true;
+                };
+              })
+            ];
+          }
+
+          ./hosts/eukaryotic/configuration.nix
+        ];
       };
     };
   };

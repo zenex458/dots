@@ -1,15 +1,18 @@
 #!/usr/bin/env bash
+#AUTHOR: zenex458
+#URL:https://github.com/zenex458/dots/blob/main/.config/nixos/hosts/eukaryotic/home/scripts/updnix
 
 set -e
 echo "Updating nix"
-updnix=$(sudo nixos-rebuild switch --flake ~/dots/.config/Nixos/#eukaryotic)
-
+updnix=$(sudo nixos-rebuild switch --flake ~/Dev/dots/.config/Nixos/#eukaryotic)
 if [ -n "$updnix" ]; then
 	pushd "$HOME/dots/.config/Nixos" || exit
 	git add .
 	if [ "$EDITOR" = "nvim" ]; then
 		git diff -U0 '*.nix'
 	fi
+  else
+      echo "updnix variable not set"
 	git commit
 	git push -u origin main
 fi
