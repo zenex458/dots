@@ -14,8 +14,8 @@
 
 ;; (setq custom-file (make-temp-file "emacs-custom-"))
 ;; (setq custom-file (expand-file-name "~/.emacs.d/emacs-custom.el"))
-(setq auth-sources '("~/.authinfo.gpg"))
-(setq debug-on-error t)
+(setq auth-sources '("~/.emacs.d/.authinfo.gpg"))
+;; (setq debug-on-error t)
 ;; (setq ffap-machine-p-known 'reject)
 (setq ring-bell-function 'ignore)
 (setq visible-bell nil)
@@ -31,8 +31,8 @@
 (setq confirm-kill-emacs 'y-or-n-p)
 (setq dired-listing-switches "-AlF --si -Gg --group-directories-first")
 (setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program '"firefox"
-      browse-url-generic-args '("-P" "priv"))
+      browse-url-generic-program '"firefox")
+;; browse-url-generic-args '("-P" "priv"))
 (setq minibuffer-prompt-properties
       '(read-only t point-entered minibuffer-avoid-prompt face minibuffer-prompt))
 (setq enable-recursive-minibuffers t)
@@ -47,9 +47,9 @@
  kept-old-versions 2
  version-control t)
 (setq backup-directory-alist
-	  `((".*" . ,"~/.emacs.d/saves/")))
+	    `((".*" . ,"~/.emacs.d/saves/")))
 (setq auto-save-file-name-transforms
-	  `((".*" ,"~/.emacs.d/saves/" t)))
+	    `((".*" ,"~/.emacs.d/saves/" t)))
 (setq isearch-lazy-count t)
 ;; (setq line-number-display-limit-width 2000000) ;;stop the question marks from showing in a large file
 (setq
@@ -62,7 +62,7 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 ;; (setq save-interprogram-paste-before-kill nil)
 (setq delete-by-moving-to-trash t)
-(setq-default tab-width 4)
+(setq-default tab-width 2)
 ;;;(setopt ediff-window-setup-function #'ediff-setup-windows-plain)
 (setq dired-dwim-target t)
 (setq-default indent-tabs-mode nil)
@@ -76,11 +76,11 @@
 (setq native-comp-async-report-warnings-errors nil)
 (setq warning-minimum-level :error)
 (setq read-file-name-completion-ignore-case t
-	  read-buffer-completion-ignore-case t
-	  completion-ignore-case t)
+	    read-buffer-completion-ignore-case t
+	    completion-ignore-case t)
 
 (add-hook 'prog-mode-hook #'(lambda ()
-							  (local-set-key (kbd "RET") 'newline-and-indent)))
+							                (local-set-key (kbd "RET") 'newline-and-indent)))
 (add-hook 'prog-mode-hook  #'(lambda ()(setq show-trailing-whitespace t)))
 
 (setq display-time-default-load-average nil)
@@ -96,28 +96,28 @@
   (interactive)
   (require 'cl-lib)
   (let ((visible-frames (cl-remove-if-not 'frame-visible-p (frame-list))))
-	(if (> (length visible-frames) 1)
-		(if (y-or-n-p (format "Are you sure you want to close this frame? "))
-			(delete-frame)
-		  (save-buffers-kill-emacs))
-	  (save-buffers-kill-emacs))))
+	  (if (> (length visible-frames) 1)
+		    (if (y-or-n-p (format "Are you sure you want to close this frame? "))
+			      (delete-frame)
+		      (save-buffers-kill-emacs))
+	    (save-buffers-kill-emacs))))
 (global-set-key (kbd "C-x C-c") 'close-or-kill-emacs)
 
 (setq org-startup-indented t
-	  org-pretty-entities t
-	  ;;	  org-hide-emphasis-markers t
-	  ;;org-agenda-start-on-weekday t
-	  org-ellipsis "~"
-	  org-log-done 'time
-	  org-html-validation-link nil
-	  org-enforce-todo-dependencies t
-	  calendar-week-start-day 1)
+	    org-pretty-entities t
+	    ;;	  org-hide-emphasis-markers t
+	    ;;org-agenda-start-on-weekday t
+	    org-ellipsis "~"
+	    org-log-done 'time
+	    org-html-validation-link nil
+	    org-enforce-todo-dependencies t
+	    calendar-week-start-day 1)
 (setq org-agenda-files '("~/Documents/Notes/Org/todo.org"))
 (setq org-todo-keywords '((type "TODO" "IN PROGRESS(I!)" "CANCELED(C@/!)" "|" "DONE")))
 (setq org-todo-keyword-faces
-	  '(("TODO" .  "#bdae93" )("IN PROGRESS" . "#BD8700") ("CANCELED" . "red")))
+	    '(("TODO" .  "#bdae93" )("IN PROGRESS" . "#BD8700") ("CANCELED" . "red")))
 (setq-default org-display-custom-times t)
-(setq org-time-stamp-custom-formats '("%a/%b/%e/%Y" . "%a/%b/%e/%Y %H:%M"))
+(setq org-time-stamp-custom-formats '("<%A %d/%m/%Y>" . "<%A %d %B %Y %H:%M>"))
 
 
 (use-package diminish)
@@ -129,6 +129,7 @@
   :config
   (vertico-mode 1)
   (vertico-flat-mode 1)
+  (vertico-indexed-mode 1)
   (setq vertico-count 40))
 
 (use-package vertico-directory
@@ -223,99 +224,99 @@
    :preview-key '(:debounce 0.4 any))
   (setq consult-narrow-key "<"))
 
-(use-package embark
-  :bind
-  (("C-." . embark-act)         ;; pick some comfortable binding
-   ("C-;" . embark-dwim)        ;; good alternative: M-.
-   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
-  :init
-  ;; Optionally replace the key help with a completing-read interface
-  (setq prefix-help-command #'embark-prefix-help-command)
+;; (use-package embark
+;;   :bind
+;;   (("C-." . embark-act)         ;; pick some comfortable binding
+;;    ("C-;" . embark-dwim)        ;; good alternative: M-.
+;;    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+;;   :init
+;;   ;; Optionally replace the key help with a completing-read interface
+;;   (setq prefix-help-command #'embark-prefix-help-command)
 
-  ;; Show the Embark target at point via Eldoc. You may adjust the
-  ;; Eldoc strategy, if you want to see the documentation from
-  ;; multiple providers. Beware that using this can be a little
-  ;; jarring since the message shown in the minibuffer can be more
-  ;; than one line, causing the modeline to move up and down:
+;;   ;; Show the Embark target at point via Eldoc. You may adjust the
+;;   ;; Eldoc strategy, if you want to see the documentation from
+;;   ;; multiple providers. Beware that using this can be a little
+;;   ;; jarring since the message shown in the minibuffer can be more
+;;   ;; than one line, causing the modeline to move up and down:
 
-  ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
-  ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
-  :config
-  ;; Hide the mode line of the Embark live/completions buffers
-  (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none)))))
+;;   ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
+;;   ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
+;;   :config
+;;   ;; Hide the mode line of the Embark live/completions buffers
+;;   (add-to-list 'display-buffer-alist
+;;                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+;;                  nil
+;;                  (window-parameters (mode-line-format . none)))))
 
 
-(use-package embark-consult
-  :hook
-  (embark-collect-mode . consult-preview-at-point-mode))
+;; (use-package embark-consult
+;;   :hook
+;;   (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package apheleia
   :init
   :hook ((prog-mode . apheleia-mode)
-		 (LaTeX-mode . apheleia-mode))
+		     (LaTeX-mode . apheleia-mode))
   :config
   (setq apheleia-remote-algorithm 'local)
   (setf (alist-get 'astyle apheleia-formatters)
-		'("astyle" "--mode=c" "--style=google"))
+		    '("astyle" "--mode=c" "--style=google" "-s2"))
   (add-to-list 'apheleia-mode-alist '(c-ts-mode . astyle))
   (setf (alist-get 'csharpier apheleia-formatters)
-		'("~/.dotnet/tools/dotnet-csharpier" "--write-stdout")) ;;dotnet tool install --global csharpier to install
+		    '("~/.dotnet/tools/dotnet-csharpier" "--write-stdout")) ;;dotnet tool install --global csharpier to install
   (add-to-list 'apheleia-mode-alist '(csharp-ts-mode . csharpier))
   (setf (alist-get 'shfmt apheleia-formatters)
-		'("shfmt"))
+		    '("shfmt"))
   (add-to-list 'apheleia-mode-alist '(bash-ts-mode . shfmt))
   (setf (alist-get 'ruff apheleia-formatters)
-		;; '("yapf"))
-		'("ruff format"))
+		    ;; '("yapf"))
+		    '("ruff format"))
   (add-to-list 'apheleia-mode-alist '(python-ts-mode . ruff))
   (setf (alist-get 'tidy apheleia-formatters)
-		'("tidy" "-i" "-q" "-f" "err"))
+		    '("tidy" "-i" "-q" "-f" "err"))
   (add-to-list 'apheleia-mode-alist '(html-mode . tidy))
   (setf (alist-get 'nixfmt apheleia-formatters)
-		'("alejandra"))
+		    '("alejandra"))
   (add-to-list 'apheleia-mode-alist '(nix-ts-mode . nixfmt))
   (setf (alist-get 'xmlformat apheleia-formatters)
-		'("xmlformat"))
+		    '("xmlformat"))
   (add-to-list 'apheleia-mode-alist '(nxml-mode . xmlformat))
   (setf (alist-get 'ormolu apheleia-formatters)
-		'("ormolu" "--stdin-input-file" "--"))
+		    '("ormolu" "--stdin-input-file" "--"))
   (add-to-list 'apheleia-mode-alist '(haskell-mode . ormolu)))
 
-(setq treesit-language-source-alist
-	  '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-		(c "https://github.com/tree-sitter/tree-sitter-c")
-		(cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-		(c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
-		(css "https://github.com/tree-sitter/tree-sitter-css")
-		(haskell "https://github.com/tree-sitter/tree-sitter-haskell")
-		(html "https://github.com/tree-sitter/tree-sitter-html")
-		(javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-		(json "https://github.com/tree-sitter/tree-sitter-json")
-		(make "https://github.com/alemuller/tree-sitter-make")
-		(markdown "https://github.com/ikatyang/tree-sitter-markdown")
-		(nix "https://github.com/nix-community/tree-sitter-nix")
-		(python "https://github.com/tree-sitter/tree-sitter-python")
-		(yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+;; (setq treesit-language-source-alist
+;; 	    '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+;; 		    (c "https://github.com/tree-sitter/tree-sitter-c")
+;; 		    (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+;; 		    (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
+;; 		    (css "https://github.com/tree-sitter/tree-sitter-css")
+;; 		    (haskell "https://github.com/tree-sitter/tree-sitter-haskell")
+;; 		    (html "https://github.com/tree-sitter/tree-sitter-html")
+;; 		    (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+;; 		    (json "https://github.com/tree-sitter/tree-sitter-json")
+;; 		    (make "https://github.com/alemuller/tree-sitter-make")
+;; 		    (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+;; 		    (nix "https://github.com/nix-community/tree-sitter-nix")
+;; 		    (python "https://github.com/tree-sitter/tree-sitter-python")
+;; 		    (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
 
-(if (file-directory-p "~/.emacs.d/tree-sitter")
-	(message "")
-  (message "Downloading treesiter grammers")
-  (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist)))
+;; (if (file-directory-p "~/.emacs.d/tree-sitter")
+;; 	  (message "")
+;;   (message "Downloading treesiter grammers")
+;;   (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist)))
 
-(setq major-mode-remap-alist
-	  '((yaml-mode . yaml-ts-mode)
-		(bash-mode . bash-ts-mode)
-		(js2-mode . js-ts-mode)
-		(typescript-mode . typescript-ts-mode)
-		(json-mode . json-ts-mode)
-		(c-mode . c-ts-mode)
-		("c++-mode" . "c++-ts-mode")
-		(csharp-mode . csharp-ts-mode)
-		(css-mode . css-ts-mode)
-		(python-mode . python-ts-mode)))
+;; (setq major-mode-remap-alist
+;; 	    '((yaml-mode . yaml-ts-mode)
+;; 		    (bash-mode . bash-ts-mode)
+;; 		    (js2-mode . js-ts-mode)
+;; 		    (typescript-mode . typescript-ts-mode)
+;; 		    (json-mode . json-ts-mode)
+;; 		    (c-mode . c-ts-mode)
+;; 		    ("c++-mode" . "c++-ts-mode")
+;; 		    (csharp-mode . csharp-ts-mode)
+;; 		    (css-mode . css-ts-mode)
+;; 		    (python-mode . python-ts-mode)))
 
 (use-package rainbow-mode
   :hook (prog-mode . rainbow-mode)
@@ -328,12 +329,11 @@
 (use-package haskell-mode
   :magic ("%hs" . haskell-mode))
 
-(use-package slime)
-
 (use-package elfeed
   :config
   (setq elfeed-search-title-max-width '130)
-  (setq elfeed-search-filter "@1-months-ago +unread"))
+  (setq elfeed-search-filter "@1-months-ago +unread")
+  (setq elfeed-db-directory "~/.emacs.d/elfeed"))
 
 (use-package elfeed-org
   :init
@@ -356,7 +356,7 @@
         ("S-TAB" . corfu-previous)
         ([backtab] . corfu-previous))
   :hook ((prog-mode . corfu-mode)
-		 (prog-mode . corfu-popupinfo-mode)))
+		     (prog-mode . corfu-popupinfo-mode)))
 
 (use-package cape
   :init
@@ -367,35 +367,36 @@
   (add-to-list 'completion-at-point-functions #'cape-dict)
   (add-to-list 'completion-at-point-functions #'cape-file)
   (setq-local completion-at-point-functions
-			  (mapcar #'cape-company-to-capf
-					  (list #'company-files #'company-keywords #'company-dabbrev))))
+			        (mapcar #'cape-company-to-capf
+					            (list #'company-files #'company-keywords #'company-dabbrev))))
 
 (use-package eglot
   :hook ((haskell-mode . eglot-ensure)
-		 (dart-mode . eglot-ensure)
-		 (clojure-mode . eglot-ensure)
-		 (bash-ts-mode . eglot-ensure)
-		 (sh-mode . eglot-ensure)
-		 (c-ts-mode . eglot-ensure)
- 		 (csharp-ts-mode . eglot-ensure)
-		 (python-ts-mode . eglot-ensure)
-		 (nix-ts-mode . eglot-ensure))
+		     (dart-mode . eglot-ensure)
+		     (clojure-mode . eglot-ensure)
+		     (bash-ts-mode . eglot-ensure)
+		     (sh-mode . eglot-ensure)
+		     (c-ts-mode . eglot-ensure)
+ 		     (csharp-ts-mode . eglot-ensure)
+		     (python-ts-mode . eglot-ensure)
+		     (nix-ts-mode . eglot-ensure))
   :config
   (setq eglot-autoshutdown t)
   (add-to-list 'eglot-server-programs
-    		   `(nix-ts-mode  . ("nixd"))))
+    		       `(nix-ts-mode  . ("nixd"))))
 
 (use-package flymake
   :hook ((emacs-lisp-mode . flymake-mode)
-		 (LaTeX-mode . flymake-mode))
+		     (LaTeX-mode . flymake-mode))
   :config
-  (setq elisp-flymake-byte-compile-load-path load-path))
+  (setq elisp-flymake-byte-compile-load-path load-path)
+  (setq flymake-indicator-type nil))
 
 
 (use-package yasnippet
   :hook ((prog-mode . yas-minor-mode)
-		 (org-mode . yas-minor-mode)
-		 (LaTeX-mode . yas-minor-mode))
+		     (org-mode . yas-minor-mode)
+		     (LaTeX-mode . yas-minor-mode))
   :config
   (yas-reload-all)
   (diminish 'yas-minor-mode))
@@ -409,6 +410,8 @@
   :init
   (setq org-bullets-bullet-list '("*" "+")))
 
+(use-package org-make-toc)
+
 (use-package markdown-mode
   :magic ("%md" . markdown-mode)
   :init (setq markdown-command "pandoc"))
@@ -418,7 +421,7 @@
 
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
-(setq-default TeX-master nil)
+;; (setq-default TeX-master nil)
 
 (use-package goggles
   :hook ((prog-mode text-mode) . goggles-mode)
@@ -429,24 +432,27 @@
 (use-package gcmh
   :init
   (setq gcmh-idle-delay 5
-		gcmh-high-cons-threshold (* 20 1024 1024)) ;;20mb
+		    gcmh-high-cons-threshold (* 20 1024 1024)) ;;20mb
   (gcmh-mode 1)
   (diminish 'gcmh-mode))
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
 (use-package hungry-delete
   :bind (([C-backspace] . hungry-delete-backward)
-		 ([C-delete] . hungry-delete-forward)))
+		     ([C-delete] . hungry-delete-forward)))
 
 (use-package ace-window
-  :bind ("C-x o" . ace-window))
+  :bind ("C-x o" . ace-window)
+  :config
+  (setq aw-scope 'frame)
+  (setq aw-minibuffer-flag t))
 
 (use-package multiple-cursors
   :bind (("C-S-c C-S-c" . mc/edit-lines)
-		 ("C->" . mc/mark-next-like-this)
-		 ("C-<" . mc/mark-previous-like-this)
-		 ("C-C C-@" . mc/mark-all-like-this)
-		 ("C-C M-v" . mc/edit-beggineing-of-lines)))
+		     ("C->" . mc/mark-next-like-this)
+		     ("C-<" . mc/mark-previous-like-this)
+		     ("C-C C-@" . mc/mark-all-like-this)
+		     ("C-C M-v" . mc/edit-beggineing-of-lines)))
 
 (use-package undo-fu-session
   :config
@@ -522,34 +528,34 @@
 (global-set-key (kbd "C-c r")(lambda ()"reloads emacs config"(interactive)(load-file "~/.emacs.d/init.el")))
 (global-set-key (kbd "C-c t")(lambda ()"opens todo"(interactive)(find-file "~/Documents/Notes/Org/todo.org")))
 (global-set-key (kbd "C-c C-l")
-				(lambda ()
-				  "Copies the whole line without moving the cursor"
-				  (interactive)
-				  (save-excursion
-					(kill-new
-					 (buffer-substring
-					  (line-beginning-position)
-					  (line-end-position))))
+				        (lambda ()
+				          "Copies the whole line without moving the cursor"
+				          (interactive)
+				          (save-excursion
+					          (kill-new
+					           (buffer-substring
+					            (line-beginning-position)
+					            (line-end-position))))
                   (message "Line copied.")))
 (define-key isearch-mode-map (kbd "<backspace>") 'isearch-del-char)
 
 (setq mode-line-position (list " (%l:%C %P %I) "))
 ;;https://www.emacs.dyerdwelling.family/emacs/20230902114449-emacs--my-evolving-modeline/
 (setq-default mode-line-format '((:eval
-								  (if (and (buffer-file-name) (buffer-modified-p))
-									  (propertize "**" 'face
-												  '(:background "#e20023" :foreground "#000000" :inherit bold)) " "))
-								 (:eval
-								  (if (and buffer-read-only (mode-line-window-selected-p))
-									  (propertize "%%%%" 'face
-												  '(:background "#bdae93" :foreground "#000000" :inherit bold)) " "))
-								 " "
-								 (:eval
-								  (if (mode-line-window-selected-p)
-									  (propertize (buffer-name) 'face '(:foreground "#bdae93" :inherit bold))
-									(propertize (buffer-name) 'face '(:foreground "#222222" :inherit bold))))
-								 mode-line-position
-								 (vc-mode vc-mode) mode-line-modes mode-line-misc-info mode-line-end-spaces))
+								                  (if (and (buffer-file-name) (buffer-modified-p))
+									                    (propertize "**" 'face
+												                          '(:background "#e20023" :foreground "#000000" :inherit bold)) " "))
+								                 (:eval
+								                  (if (and buffer-read-only (mode-line-window-selected-p))
+									                    (propertize "%%%%" 'face
+												                          '(:background "#bdae93" :foreground "#000000" :inherit bold)) " "))
+								                 " "
+								                 (:eval
+								                  (if (mode-line-window-selected-p)
+									                    (propertize (buffer-name) 'face '(:foreground "#bdae93" :inherit bold))
+									                  (propertize (buffer-name) 'face '(:foreground "#222222" :inherit bold))))
+								                 mode-line-position
+								                 (vc-mode vc-mode) mode-line-modes mode-line-misc-info mode-line-end-spaces))
 
 ;;(server-start)
 
@@ -561,7 +567,14 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(trashed pdf-tools yasnippet writeroom-mode vlf vertico undo-fu-session sudo-edit slime sdcv rainbow-mode rainbow-delimiters org-bullets orderless nix-ts-mode multiple-cursors multi-vterm markdown-mode magit indent-guide hungry-delete haskell-mode golden-ratio goggles gcmh expreg expand-region embark-consult elfeed-org edwina dired-subtree diminish corfu cape auctex async apheleia ace-window)))
+   '(ace-window apheleia async auctex cape corfu diminish dired-subtree
+                edwina elfeed-org embark-consult expand-region expreg
+                gcmh goggles golden-ratio haskell-mode hungry-delete
+                indent-guide magit markdown-mode multi-vterm
+                multiple-cursors nix-ts-mode orderless org-bullets
+                org-make-toc pdf-tools rainbow-delimiters rainbow-mode
+                sdcv sudo-edit trashed undo-fu-session vertico vlf
+                writeroom-mode yasnippet)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
