@@ -72,3 +72,6 @@ cd dots && ./setup.sh
 The script will only setup the appearance.
 * Notes
 For my Nixos setup I used the "standard config" in this [[https://github.com/Misterio77/nix-starter-configs][starter config]]. You can see a more indepth explanation of how Nixos works at: https://nixos.org/guides/how-nix-works/.
+* Acknowledgements
+- Wallpaper by [[https://unsplash.com/photos/saturn-and-its-rings-2W-QWAC0mzI][NASA]] on [[https://unsplash.com][Unsplash]]
+- [[https://nixos.asia][NisOS Asia]] for commands for disko and install
