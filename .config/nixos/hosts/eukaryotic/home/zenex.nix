@@ -44,7 +44,7 @@
 
   config.stylix = {
     enable = true;
-    image = ../../../../../screenshot.png;
+    image = ./lowsat.jpg;
     polarity = "dark";
     # cursor.name = "plan9";
     iconTheme = {

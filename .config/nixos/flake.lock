@@ -5,11 +5,11 @@
         "fromYaml": "fromYaml"
       },
       "locked": {
-        "lastModified": 1732200724,
-        "narHash": "sha256-+R1BH5wHhfnycySb7Sy5KbYEaTJZWm1h+LW1OtyhiTs=",
+        "lastModified": 1745523430,
+        "narHash": "sha256-EAYWV+kXbwsH+8G/8UtmcunDeKwLwSOyfcmzZUkWE/c=",
         "owner": "SenchoPens",
         "repo": "base16.nix",
-        "rev": "153d52373b0fb2d343592871009a286ec8837aec",
+        "rev": "58bfe2553d937d8af0564f79d5b950afbef69717",
         "type": "github"
       },
       "original": {
@@ -367,11 +367,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1745251430,
-        "narHash": "sha256-NKrpOy0E8WntSp+M2W6/HHwsVA+nxpXwDtY1YggZINQ=",
+        "lastModified": 1746412344,
+        "narHash": "sha256-u7kyCNZ3bm8vfL+IKSkoaN/stnfmbniRFSDTjNqE4Hc=",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "cb2893d9585bf71ddc17d8bbdddff94c34447582",
+        "rev": "454f26b5496204fe0b931bb3445a88d4dcf4ca8f",
         "type": "github"
       },
       "original": {
@@ -425,8 +425,8 @@
     "nixpkgs": {
       "locked": {
         "lastModified": 0,
-        "narHash": "sha256-s1KLDALEeqy+ttrvqV3jx9mBZEvmthQErTVOAzbjHZs=",
-        "path": "/nix/store/hvs4if4zly4mp0fhbh86vh208x6fs8fg-source",
+        "narHash": "sha256-FHlSkNqFmPxPJvy+6fNLaNeWnF1lZSgqVCl/eWaJRc4=",
+        "path": "/nix/store/hzaj4d6ari2wq2cbg1j60n9zw42gnshy-source",
         "type": "path"
       },
       "original": {
@@ -581,11 +581,11 @@
         "tinted-tmux": "tinted-tmux"
       },
       "locked": {
-        "lastModified": 1744152965,
-        "narHash": "sha256-LWUeN1+bH3k46fwtIv0bNgtmkqB0UduyX7T2i+230n0=",
+        "lastModified": 1746143246,
+        "narHash": "sha256-O8rZjqJUIkUva66XTOZy0wcgfBP2eaxU9+Xt7ZHtfhI=",
         "owner": "danth",
         "repo": "stylix",
-        "rev": "8748db082ca15d32243c86e5d785d5dfc8a65719",
+        "rev": "20ace60f9cb5e179cb2256abaee505780df8e804",
         "type": "github"
       },
       "original": {
