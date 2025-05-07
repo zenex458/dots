@@ -25,6 +25,7 @@
       "Downloads"
       "Documents"
       "Dev"
+      "Music"
       ".emacs.d"
       ".mozilla"
       "Sync"
