@@ -377,9 +377,9 @@
 
   services.mpd = {
     enable = true;
-    musicDirectory = "/run/media/zenex/musicsd/Alt";
-    dataDir = "/run/media/zenex/musicsd/.cache";
-    dbFile = "/run/media/zenex/musicsd/.cache/tag_cache";
+    musicDirectory = "/home/zenex/Music/Alt";
+    dataDir = "/home/zenex/Music/";
+    dbFile = "/home/zenex/Music/mpd.db";
     network.startWhenNeeded = true;
     #change so instead of zenex it is the current user, do this also for the mounting, #change to a home.file
     extraConfig = ''
@@ -394,7 +394,7 @@
 
   programs.ncmpcpp = {
     enable = true;
-    mpdMusicDir = "/run/media/zenex/musicsd/Alt";
+    mpdMusicDir = "/home/zenex/Music/Alt";
     settings = {
       ncmpcpp_directory = "~/.config/ncmpcpp";
       mpd_crossfade_time = 1;

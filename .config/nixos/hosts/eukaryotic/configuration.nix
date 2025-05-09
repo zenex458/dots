@@ -17,7 +17,7 @@
   boot.supportedFilesystems = ["ntfs"];
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.loader.systemd-boot.enable = lib.mkForce false;
-#  boot.loader.systemd-boot.enable = true;
+  #  boot.loader.systemd-boot.enable = true;
   boot.lanzaboote = {
     enable = true;
     pkiBundle = "/etc/secureboot";
@@ -363,7 +363,7 @@
       # };
     };
     defaultPackages = lib.mkForce [];
-    systemPackages = with pkgs; [git neovim emacs-nox];
+    systemPackages = with pkgs; [git neovim emacs-nox tmux sbctl];
     pathsToLink = ["/share/bash-completion" "/share/zsh"];
     persistence."/persistent" = {
       enable = true; # NB: Defaults to true, not needed
