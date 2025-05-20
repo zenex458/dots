@@ -53,7 +53,7 @@
                 name = "crypted1";
                 extraFormatArgs = [
                   "--header /dev/disk/by-id/usb-Kingston_DataTraveler_3.0_408D5C15CB92E911290E05C5-0:0-part1"
-#                  "--iter-time 1" # insecure but fast for tests
+                  #                  "--iter-time 1" # insecure but fast for tests
                   "--pbkdf argon2id -c serpent-xts-plain64 -h sha-512"
                 ];
                 extraOpenArgs = [
@@ -85,7 +85,7 @@
                 name = "crypted2";
                 extraFormatArgs = [
                   "--header /dev/disk/by-id/usb-Kingston_DataTraveler_3.0_408D5C15CB92E911290E05C5-0:0-part2"
-#                  "--iter-time 1" # insecure but fast for tests
+                  #                  "--iter-time 1" # insecure but fast for tests
                   "--pbkdf argon2id -c serpent-xts-plain64 -h sha-512"
                 ];
                 extraOpenArgs = [
@@ -109,6 +109,7 @@
       pool = {
         type = "lvm_vg";
         lvs = {
+          # add a swap logical volume https://jefftp.com/nixos-disko/
           root = {
             size = "100%";
             content = {

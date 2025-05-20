@@ -9,15 +9,14 @@
     inputs.impermanence.nixosModules.impermanence
     inputs.disko.nixosModules.disko
     inputs.lanzaboote.nixosModules.lanzaboote
-    inputs.hosts.nixosModule
     #    ./hardened.nix
     ./disko-config.nix
     ./hardware-configuration.nix
   ];
   boot.supportedFilesystems = ["ntfs"];
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.loader.systemd-boot.enable = lib.mkForce false;
   #  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.enable = lib.mkForce false;
   boot.lanzaboote = {
     enable = true;
     pkiBundle = "/etc/secureboot";
@@ -52,14 +51,8 @@
 
   systemd.tmpfiles.rules = [
     "d /persistence/home/ 1777 root root-"
-    #    "d /persistence/home/zenex/ 0770 zenex users-"
     "d /persistence/home/zenex/ 1777 zenex users-"
     "d /persistent/var/keys/ 0600 root root-"
-    #    "f /etc/mullvad-vpn/device.json 0600 root root-"
-    #    "f /etc/mullvad-vpn/settings.json 0644 root root-"
-    #    "f /etc/mullvad-vpn/account-history.json 0644 root root-"
-    #    "L /var/lib/lxd - - - - /persist/var/lib/lxd"
-    #    "L /var/lib/docker - - - - /persist/var/lib/docker"
   ];
 
   programs.fuse.userAllowOther = true;
@@ -83,8 +76,8 @@
       settings = {
         General = {
           "EnableNetworkConfiguration" = true;
-          # "AddressRandomization" = "network";
-          # "AddressRandomizationRange" = "nic";
+          "AddressRandomization" = "network";
+          "AddressRandomizationRange" = "nic";
         };
         Settings = {
           AutoConnect = true;
@@ -211,7 +204,6 @@
       MaxRetentionSec=1month
     '';
     logind = {lidSwitch = "suspend";};
-    #irqbalance.enable = true;
     #with hardened profile this is needed otherwise nix will not build
     #    logrotate.checkConfig = false;
     fwupd.enable = true;
@@ -249,10 +241,6 @@
     # };
     dbus.enable = true;
     smartd.enable = true;
-    # mysql = {
-    #   enable = true;
-    #   package = pkgs.mariadb;
-    # };
     libinput.enable = true;
     xserver = {
       enable = true;
@@ -268,7 +256,6 @@
       };
     };
     usbguard.enable = false;
-    #    usbguard.package = pkgs.usbguard-nox;
     usbguard.presentControllerPolicy = "apply-policy";
     usbguard.implicitPolicyTarget = "block";
     usbguard.rules = ''
@@ -299,10 +286,6 @@
     thermald.enable = false;
     tlp.enable = true;
     tlp.settings = {
-      # CPU_SCALING_MIN_FREQ_ON_AC = 2800000;
-      # CPU_SCALING_MAX_FREQ_ON_AC = 2800000;
-      # CPU_SCALING_MIN_FREQ_ON_BAT = 400000;
-      # CPU_SCALING_MAX_FREQ_ON_BAT = 2000000;
       CPU_SCALING_GOVERNOR_ON_AC = "performance";
       CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
       CPU_MIN_PERF_ON_AC = 0;
@@ -320,14 +303,6 @@
       alsa.support32Bit = true;
       pulse.enable = true;
       wireplumber.enable = true;
-      ##      extraConfig.pipewire."92-low-latency" = {
-      ##        "context.properties" = {
-      ##          "default.clock.rate" = 48000;
-      ##          "default.clock.quantum" = 32;
-      ##          "default.clock.min-quantum" = 32;
-      ##          "default.clock.max-quantum" = 32;
-      ##        };
-      ##      };
     };
     gvfs.enable = true;
   };
@@ -354,7 +329,7 @@
       '';
       "firejail/firefox-common.local".text = ''
         # private-etc fonts,group,hosts,localtime,nsswitch.conf,pki,pulse,resolv.conf,ssl
-        private-etc fonts,group,hosts,localtime,nsswitch.conf,pki,pulse,ssl
+        private-etc fonts,group,hosts,localtime,pulse
         private-tmp
       '';
       # "firejail/nolocal.net" = {
@@ -392,12 +367,6 @@
           mode = "0700";
         }
       ];
-      #      files = [
-      #        "/etc/machine-id"
-      #        "/etc/mullvad-vpn/account-history.json"
-      #        "/etc/mullvad-vpn/device.json"
-      #        "/etc/mullvad-vpn/settings.json"
-      #      ];
       users.zenex = {
         directories = [
           {
@@ -444,13 +413,6 @@
     };
   };
 
-  networking.stevenBlackHosts = {
-    enable = true;
-    enableIPv6 = true;
-    blockGambling = true;
-    blockPorn = true;
-  };
-
   networking.firewall = {
     #    nftables.enable = true;
     enable = true;
@@ -475,51 +437,6 @@
     #   }
     #   # kdeconnect
     # ];
-  };
-
-  systemd.services = {
-    #    nix-daemon = {
-    #      environment.TMPDIR = "/run/nixos";
-    #    };
-    docker.serviceConfig = {
-      NoNewPrivileges = true;
-      ProtectSystem = "full";
-      ProtectHome = true;
-      ProtectKernelModules = true;
-      ProtectKernelLogs = true;
-      ProtectControlGroups = true;
-      ProtectClock = true;
-      ProtectProc = "invisible";
-      PrivateTmp = true;
-      PrivateMounts = true;
-      RestrictRealtime = true;
-      RestrictAddressFamilies = [
-        "AF_UNIX"
-        "AF_NETLINK"
-        "AF_INET"
-        "AF_INET6"
-      ];
-      RestrictNamespaces = [
-        "~user"
-      ];
-      MemoryDenyWriteExecute = true;
-      SystemCallFilter = [
-        "~@debug"
-        "~@raw-io"
-        "~@reboot"
-        "~@clock"
-        "~@module"
-        "~@swap"
-        "~@obsolete"
-        "~@cpu-emulation"
-      ];
-      SystemCallArchitectures = "native";
-      CapabilityBoundingSet = [
-        "~CAP_SYS_RAWIO"
-        "~CAP_SYS_PTRACE"
-        "~CAP_SYS_BOOT"
-      ];
-    };
   };
 
   nix = {

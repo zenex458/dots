@@ -111,7 +111,7 @@
       exec-once = hypridle
       exec-once = ~/.local/bin/batt.sh
       # exec-once = ~/.local/bin/dark.sh
-      exec-once = wlsunset -S 07:00 -s 20:00 -T 4800 -t 2600
+      exec-once = wlsunset -S 07:00 -s 20:00 -T 4800 -t 2000
       exec-once = wl-paste --watch cliphist store
       exec-once = cliphist wipe
       # exec-once = hyprctl setcursor plan9 20

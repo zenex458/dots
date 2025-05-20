@@ -14,11 +14,10 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
-    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.1";
+    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.2";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
     impermanence.url = "github:nix-community/impermanence";
     stylix.url = "github:danth/stylix/release-24.11";
-    hosts.url = "github:StevenBlack/hosts";
   };
 
   # For more information about well-known outputs checked by `nix flake check`:
@@ -32,7 +31,6 @@
     impermanence,
     lanzaboote,
     stylix,
-    hosts,
     nixpkgs-unstable,
     ...
   } @ inputs: {

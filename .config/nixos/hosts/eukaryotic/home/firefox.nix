@@ -48,7 +48,7 @@
             }
           ];
           iconUpdateURL = "https://www.startpage.com/sp/cdn/favicons/favicon-32x32-gradient.png";
-          updateInterval = 24 * 60 * 60 * 1000 * 30; #every month
+          updateInterval = 24 * 60 * 60 * 1000; # every day
           definedAliases = ["@st"];
         };
         "Searx" = {
@@ -64,7 +64,7 @@
             }
           ];
           iconUpdateURL = "https://searx.tiekoetter.com/static/themes/simple/img/favicon.png";
-          updateInterval = 24 * 60 * 60 * 1000 * 30; #every month
+          updateInterval = 24 * 60 * 60 * 1000; # every day
           definedAliases = ["@pv"];
         };
         "NixosPackage" = {
@@ -80,7 +80,7 @@
             }
           ];
           iconUpdateURL = "https://search.nixos.org/favicon.png";
-          updateInterval = 24 * 60 * 60 * 1000 * 30; #every month
+          updateInterval = 24 * 60 * 60 * 1000; # every day
           definedAliases = ["@np"];
         };
         "NixosOption" = {
@@ -96,14 +96,14 @@
             }
           ];
           iconUpdateURL = "https://search.nixos.org/favicon.png";
-          updateInterval = 24 * 60 * 60 * 1000 * 30; #every month
+          updateInterval = 24 * 60 * 60 * 1000; # every day
           definedAliases = ["@no"];
         };
 
         "NixosWiki" = {
           urls = [{template = "https://wiki.nixos.org/w/index.php?search={searchTerms}";}];
           iconUpdateURL = "https://wiki.nixos.org/favicon.ico";
-          updateInterval = 24 * 60 * 60 * 1000 * 30; #every month
+          updateInterval = 24 * 60 * 60 * 1000; # every day
           definedAliases = ["@nw"];
         };
 
@@ -114,7 +114,7 @@
             }
           ];
           iconUpdateURL = "https://home-manager-options.extranix.com/images/favicon.png";
-          updateInterval = 24 * 60 * 60 * 1000 * 30; #every month
+          updateInterval = 24 * 60 * 60 * 1000; # every day
           definedAliases = ["@hs"];
         };
       };
@@ -247,7 +247,10 @@
         "browser.sessionstore.resume_from_crash" = false;
         "browser.shell.shortcutFavicons" = false;
         "browser.startup.homepage_override.mstone" = "ignore";
-        "browser.startup.page" = "about:blank";
+        "browser.startup.homepage" = "about:blank";
+        "sidebar.main.tools" = "	history,bookmarks";
+        "browser.newtabpage.enabled" = false;
+        "browser.startup.page" = 0;
         "browser.tabs.allowTabDetach" = true;
         "browser.tabs.crashReporting.sendReport" = false;
         "browser.tabs.firefox-view" = false;
@@ -307,10 +310,10 @@
         "geo.enabled" = false; #https://wiki.mozilla.org/Privacy/Privacy_Task_Force/firefox_about_config_privacy_tweeks
         "gfx.font_rendering.opentype_svg.enabled" = false;
         "identity.fxaccounts.enabled" = false;
-        "javascript.options.asmjs" = false; # enable if too slow
-        "javascript.options.baselinejit" = false; # enable if too slow
-        "javascript.options.ion" = false; # enable if too slow
-        "javascript.options.wasm" = false; # enable if too slow
+        "javascript.options.asmjs" = true; # enable if too slow
+        "javascript.options.baselinejit" = true; # enable if too slow
+        "javascript.options.ion" = true; # enable if too slow
+        "javascript.options.wasm" = true; # enable if too slow
         "keyword.enabled" = true; # false = no automatic search engine
         "layout.spellcheckDefault" = 0;
         "dom.private-attribution.submission.enabled" = false; # https://wiki.mozilla.org/Privacy/Privacy_Task_Force/firefox_about_config_privacy_tweeks
@@ -338,8 +341,8 @@
         "network.manage-offline-status" = false;
         "network.predictor.enabled" = false;
         "network.prefetch-next" = false;
-        "network.trr.mode" = 3;
-        "network.trr.uri" = "https://all.dns.mullvad.net/dns-query";
+        "network.trr.mode" = 1; #3 for on
+        # "network.trr.uri" = "https://all.dns.mullvad.net/dns-query";
         "nglayout.enable_drag_images" = false;
         "pdfjs.enableScripting" = false;
         "permissions.default.camera" = 2;
@@ -422,7 +425,7 @@
             }
           ];
           iconUpdateURL = "https://www.startpage.com/sp/cdn/favicons/favicon-32x32-gradient.png";
-          updateInterval = 24 * 60 * 60 * 1000 * 30; #every month
+          updateInterval = 24 * 60 * 60 * 1000; # every day
           definedAliases = ["@st"];
         };
       };
@@ -601,6 +604,7 @@
         "reader.parse-on-load.enabled" = false;
         "signon.autofillForms" = false;
         "signon.management.page.breach-alerts.enabled" = false;
+        "sidebar.main.tools" = "	history,bookmarks";
         "signon.rememberSignons" = false;
         "toolkit.coverage.endpoint.base" = "";
         "toolkit.coverage.opt-out" = true;

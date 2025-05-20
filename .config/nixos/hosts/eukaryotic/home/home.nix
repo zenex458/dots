@@ -348,7 +348,7 @@
       XDG_STATE_HOME = "$HOME/.local/state";
       XDG_CACHE_HOME = "$HOME/.cache";
       MUPDFHISTFILE = "/tmp/.mupdf.history";
-      WGETRC = "$XDG_CONFIG_HOME/wgetrc";
+      # WGETRC = "$XDG_CONFIG_HOME/wgetrc";
       DOTNET_CLI_TELEMETRY_OPTOUT = 1;
       TERMINAL = "foot";
       EDITOR = "emacsclient -c -a emacs";
@@ -381,7 +381,7 @@
     dataDir = "/home/zenex/Music/";
     dbFile = "/home/zenex/Music/mpd.db";
     network.startWhenNeeded = true;
-    #change so instead of zenex it is the current user, do this also for the mounting, #change to a home.file
+    #change so instead of zenex it is the current user, do this also for the mounting, #change to a home.file by using: ${config.home.username}
     extraConfig = ''
         audio_output {
            	type "pipewire"
@@ -618,7 +618,6 @@
     # pyright
     # ripgrep
     # rlwrap # for the readline
-
     # sigrok-cli
     # gron # json grepper
     # fq # jq for binary formats
@@ -686,7 +685,6 @@
     mpv
     mupdf
     nemo
-    nixd
     nodePackages.bash-language-server
     obs-studio
     openssl
@@ -726,6 +724,7 @@
     wl-color-picker
     android-tools
     python312Packages.deemix
+    nil
     wlr-randr
     libarchive
     wlsunset
