@@ -43,19 +43,6 @@
         };
         system = "x86_64-linux";
         modules = [
-          {
-            nixpkgs.overlays = [
-              # append `unstable' infront of system packages to get the unstable version of a package
-              (final: prev: {
-                unstable = import nixpkgs-unstable {
-                  inherit prev;
-                  system = prev.system;
-                  config.allowUnfree = true;
-                };
-              })
-            ];
-          }
-
           ./hosts/eukaryotic/configuration.nix
         ];
       };

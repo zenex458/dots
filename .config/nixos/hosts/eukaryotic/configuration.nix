@@ -12,42 +12,45 @@
     #    ./hardened.nix
     ./disko-config.nix
     ./hardware-configuration.nix
+    ./pkgs.nix
   ];
-  boot.supportedFilesystems = ["ntfs"];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  #  boot.loader.systemd-boot.enable = true;
-  boot.loader.systemd-boot.enable = lib.mkForce false;
-  boot.lanzaboote = {
-    enable = true;
-    pkiBundle = "/etc/secureboot";
+  boot = {
+    supportedFilesystems = ["ntfs"];
+    kernelPackages = pkgs.linuxPackages_latest;
+    #  boot.loader.systemd-boot.enable = true;
+    loader.systemd-boot.enable = lib.mkForce false;
+    lanzaboote = {
+      enable = true;
+      pkiBundle = "/etc/secureboot";
+    };
+    loader.efi.canTouchEfiVariables = true;
+    tmp.cleanOnBoot = true;
+
+    initrd.postDeviceCommands = lib.mkAfter ''
+      mkdir /btrfs_tmp
+      mount /dev/pool/root /btrfs_tmp
+      if [[ -e /btrfs_tmp/root ]]; then
+          mkdir -p /btrfs_tmp/old_roots
+          timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/root)" "+%Y-%m-%-d_%H:%M:%S")
+          mv /btrfs_tmp/root "/btrfs_tmp/old_roots/$timestamp"
+      fi
+
+      delete_subvolume_recursively() {
+          IFS=$'\n'
+          for i in $(btrfs subvolume list -o "$1" | cut -f 9- -d ' '); do
+              delete_subvolume_recursively "/btrfs_tmp/$i"
+          done
+          btrfs subvolume delete "$1"
+      }
+
+      for i in $(find /btrfs_tmp/old_roots/ -maxdepth 1 -mtime +30); do
+          delete_subvolume_recursively "$i"
+      done
+
+      btrfs subvolume create /btrfs_tmp/root
+      umount /btrfs_tmp
+    '';
   };
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.tmp.cleanOnBoot = true;
-
-  boot.initrd.postDeviceCommands = lib.mkAfter ''
-    mkdir /btrfs_tmp
-    mount /dev/pool/root /btrfs_tmp
-    if [[ -e /btrfs_tmp/root ]]; then
-        mkdir -p /btrfs_tmp/old_roots
-        timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/root)" "+%Y-%m-%-d_%H:%M:%S")
-        mv /btrfs_tmp/root "/btrfs_tmp/old_roots/$timestamp"
-    fi
-
-    delete_subvolume_recursively() {
-        IFS=$'\n'
-        for i in $(btrfs subvolume list -o "$1" | cut -f 9- -d ' '); do
-            delete_subvolume_recursively "/btrfs_tmp/$i"
-        done
-        btrfs subvolume delete "$1"
-    }
-
-    for i in $(find /btrfs_tmp/old_roots/ -maxdepth 1 -mtime +30); do
-        delete_subvolume_recursively "$i"
-    done
-
-    btrfs subvolume create /btrfs_tmp/root
-    umount /btrfs_tmp
-  '';
 
   systemd.tmpfiles.rules = [
     "d /persistence/home/ 1777 root root-"
@@ -91,23 +94,25 @@
     enableIPv6 = false;
   };
 
-  hardware.graphics.enable = true;
-
-  hardware.cpu.amd.updateMicrocode = true;
+  hardware = {
+    graphics.enable = true;
+    cpu.amd.updateMicrocode = true;
+  };
   time.timeZone = "Europe/London";
 
-  i18n.defaultLocale = "en_GB.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_GB.UTF-8";
-    LC_IDENTIFICATION = "en_GB.UTF-8";
-    LC_MEASUREMENT = "en_GB.UTF-8";
-    LC_MONETARY = "en_GB.UTF-8";
-    LC_NAME = "en_GB.UTF-8";
-    LC_NUMERIC = "en_GB.UTF-8";
-    LC_PAPER = "en_GB.UTF-8";
-    LC_TELEPHONE = "en_GB.UTF-8";
-    LC_TIME = "en_GB.UTF-8";
+  i18n = {
+    defaultLocale = "en_GB.UTF-8";
+    extraLocaleSettings = {
+      LC_ADDRESS = "en_GB.UTF-8";
+      LC_IDENTIFICATION = "en_GB.UTF-8";
+      LC_MEASUREMENT = "en_GB.UTF-8";
+      LC_MONETARY = "en_GB.UTF-8";
+      LC_NAME = "en_GB.UTF-8";
+      LC_NUMERIC = "en_GB.UTF-8";
+      LC_PAPER = "en_GB.UTF-8";
+      LC_TELEPHONE = "en_GB.UTF-8";
+      LC_TIME = "en_GB.UTF-8";
+    };
   };
 
   virtualisation = {
@@ -120,6 +125,7 @@
   };
 
   programs = {
+    adb.enable = true;
     localsend.enable = true;
     ssh.startAgent = true;
     gnupg.agent.enable = true;
@@ -158,28 +164,28 @@
     '';
   };
 
-  users.mutableUsers = false;
-  users.users.root.hashedPasswordFile = "/persistent/var/keys/rootP";
-  programs.adb.enable = true;
-  services.udev.packages = [
-    pkgs.android-udev-rules
-  ];
-  users.users.zenex = {
-    hashedPasswordFile = "/persistent/var/keys/zenexP";
-    shell = pkgs.zsh;
-    isNormalUser = true;
-    description = "zenex";
-    extraGroups = [
-      "seatd"
-      "wheel"
-      "video"
-      "audio"
-      "input"
-      "libvirtd"
-      "wireshark"
-      "docker"
-      "adbusers"
-    ];
+  users = {
+    mutableUsers = false;
+    users = {
+      root.hashedPasswordFile = "/persistent/var/keys/rootP";
+      zenex = {
+        hashedPasswordFile = "/persistent/var/keys/zenexP";
+        shell = pkgs.zsh;
+        isNormalUser = true;
+        description = "zenex";
+        extraGroups = [
+          "seatd"
+          "wheel"
+          "video"
+          "audio"
+          "input"
+          "libvirtd"
+          "wireshark"
+          "docker"
+          "adbusers"
+        ];
+      };
+    };
   };
 
   console = {
@@ -188,6 +194,9 @@
   };
 
   services = {
+    udev.packages = [
+      pkgs.android-udev-rules
+    ];
     seatd = {
       enable = true;
     };
@@ -251,11 +260,13 @@
         options = "altwin:ctrl_alt_win";
       };
     };
-    usbguard.enable = false;
-    usbguard.presentControllerPolicy = "apply-policy";
-    usbguard.implicitPolicyTarget = "block";
-    usbguard.rules = ''
-    '';
+    usbguard = {
+      enable = false;
+      presentControllerPolicy = "apply-policy";
+      implicitPolicyTarget = "block";
+      rules = ''
+      '';
+    };
     opensnitch.enable = false;
     ntp.enable = false; # #disable the systemd-timesyncd
     chrony = {
@@ -280,18 +291,20 @@
     };
 
     thermald.enable = false;
-    tlp.enable = true;
-    tlp.settings = {
-      CPU_SCALING_GOVERNOR_ON_AC = "performance";
-      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-      CPU_MIN_PERF_ON_AC = 0;
-      CPU_MAX_PERF_ON_AC = 100;
-      CPU_MIN_PERF_ON_BAT = 0;
-      CPU_MAX_PERF_ON_BAT = 50;
-      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-      CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
-      START_CHARGE_THRESH_BAT0 = 75;
-      STOP_CHARGE_THRESH_BAT0 = 80;
+    tlp = {
+      enable = true;
+      tlp.settings = {
+        CPU_SCALING_GOVERNOR_ON_AC = "performance";
+        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+        CPU_MIN_PERF_ON_AC = 0;
+        CPU_MAX_PERF_ON_AC = 100;
+        CPU_MIN_PERF_ON_BAT = 0;
+        CPU_MAX_PERF_ON_BAT = 50;
+        CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+        CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
+        START_CHARGE_THRESH_BAT0 = 75;
+        STOP_CHARGE_THRESH_BAT0 = 80;
+      };
     };
     pipewire = {
       enable = true;
@@ -303,14 +316,14 @@
     gvfs.enable = true;
   };
 
-  nixpkgs.config = {allowUnfree = true;};
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   fileSystems."/persistent".neededForBoot = true;
   environment = {
-    sessionVariables.NIXOS_OZONE_WL = "1";
-    sessionVariables.FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
+    sessionVariables = {
+      NIXOS_OZONE_WL = "1";
+      FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
+    };
     etc = {
       "firejail/firefox.local".text = ''
         # Enable native notifications.
@@ -382,12 +395,13 @@
     };
   };
 
-  fonts.packages = with pkgs; [iosevka-bin uw-ttyp0 vistafonts];
-
-  fonts.fontconfig = {
-    antialias = true;
-    hinting.enable = true;
-    hinting.style = "slight";
+  fonts = {
+    packages = with pkgs; [iosevka-bin uw-ttyp0 vistafonts];
+    fontconfig = {
+      antialias = true;
+      hinting.enable = true;
+      hinting.style = "slight";
+    };
   };
 
   security = {
