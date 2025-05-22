@@ -248,7 +248,7 @@
         "browser.shell.shortcutFavicons" = false;
         "browser.startup.homepage_override.mstone" = "ignore";
         "browser.startup.homepage" = "about:blank";
-        "sidebar.main.tools" = "	history,bookmarks";
+        "sidebar.main.tools" = "history,bookmarks";
         "browser.newtabpage.enabled" = false;
         "browser.startup.page" = 0;
         "browser.tabs.allowTabDetach" = true;

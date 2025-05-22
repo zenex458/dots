@@ -6,5 +6,10 @@ while true; do
 	if [ "$batlvl" -le 20 ] && [ "$batstatus" = "Discharging" ]; then
 		notify-send -u critical "Battery low" "Battery level is ${batlvl}%!"
 	fi
+  if ! pgrep syncthing && [ ! "$batstatus" = "Discharging" ]; then
+		syncthing --no-browser --logfile=/tmp/syncthing-log
+  elif pgrep syncthing &&  [ "$batstatus" = "Discharging" ]; then
+        pkill syncthing
+	fi
 	sleep 2m
 done &

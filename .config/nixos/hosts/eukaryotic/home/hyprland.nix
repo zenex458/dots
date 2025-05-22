@@ -117,7 +117,6 @@
       # exec-once = hyprctl setcursor plan9 20
       # exec-once = dconf write /org/gnome/desktop/interface/cursor-theme "plan9"
       # exec-once = gsettings set org.gnome.desktop.interface cursor-theme 'plan9'
-      exec-once = gsettings set org.gnome.desktop.interface enable-animations false
 
       # env = HYPRCURSOR_THEME,plan9
       # env = HYPRCURSOR_SIZE,20
@@ -134,8 +133,6 @@
     settings = {
       ipc = false;
       splash = false;
-      # preload = ["~/Downloads/Images/Brealsat.jpg"];
-      # wallpaper = [",~/Downloads/Images/Brealsat.jpg"];
       preload = ["~/Downloads/Images/lowsat.jpg"];
       wallpaper = [",~/Downloads/Images/lowsat.jpg"];
     };
@@ -153,13 +150,11 @@
       };
       listener = [
         {
-          # timeout = 900;
-          timeout = 900000;
+          timeout = 900;
           on-timeout = "hypridle";
         }
         {
-          # timeout = 1200;
-          timeout = 1200000;
+          timeout = 1200;
           on-timeout = "hyprctl dispatch dpms off";
           on-resume = "hyprctl dispatch dpms on";
         }

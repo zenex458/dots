@@ -39,7 +39,7 @@
       ".config/zotero"
       ".config/gh"
     ];
-    files = [".local/share/.bash_history"];
+    files = [".local/share/.bash_history" ".local/share/zoxide/db.zo"];
     allowOther = true;
   };
 

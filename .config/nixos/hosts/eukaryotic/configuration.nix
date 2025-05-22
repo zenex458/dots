@@ -76,8 +76,8 @@
       settings = {
         General = {
           "EnableNetworkConfiguration" = true;
-          "AddressRandomization" = "network";
-          "AddressRandomizationRange" = "nic";
+          # "AddressRandomization" = "network";
+          # "AddressRandomizationRange" = "nic";
         };
         Settings = {
           AutoConnect = true;
@@ -120,10 +120,6 @@
   };
 
   programs = {
-    appimage = {
-      enable = true;
-      binfmt = true;
-    };
     localsend.enable = true;
     ssh.startAgent = true;
     gnupg.agent.enable = true;
@@ -325,11 +321,11 @@
         dbus-user.talk org.freedesktop.portal.Desktop
         disable-mnt
         #private-bin dbus-launch,dbus-send,firefox,which
-        private-bin dbus-launch,dbus-send,firefox,which
+        #private-bin dbus-launch,dbus-send,firefox,which
       '';
       "firejail/firefox-common.local".text = ''
         # private-etc fonts,group,hosts,localtime,nsswitch.conf,pki,pulse,resolv.conf,ssl
-        private-etc fonts,group,hosts,localtime,pulse
+        #private-etc fonts,group,hosts,localtime,pulse
         private-tmp
       '';
       # "firejail/nolocal.net" = {

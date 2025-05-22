@@ -21,6 +21,16 @@
           config.allowUnfree = true;
         };
       })
+      (final: prev: {
+        keepassxc = prev.keepassxc.override {
+          withKeePassBrowserPasskeys = false;
+          withKeePassBrowser = false;
+          withKeePassNetworking = false;
+          withKeePassKeeShare = false;
+          withKeePassSSHAgent = false;
+          # postInstall = '''';
+        };
+      })
     ];
   };
 
@@ -46,7 +56,7 @@
 
   programs.emacs = {
     enable = true;
-    package = pkgs.emacs;
+    package = pkgs.emacs-pgtk; #use just emacs if you want it the daemon to survive after the gui terminates
     extraPackages = epkgs: [
       epkgs.vterm
       epkgs.pdf-tools
@@ -724,7 +734,7 @@
     wl-color-picker
     android-tools
     python312Packages.deemix
-    nil
+    nixd
     wlr-randr
     libarchive
     wlsunset
