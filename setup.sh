@@ -1,20 +1,4 @@
 #!/usr/bin/env bash
-
-#ISC License
-#
-#Copyright (c) 2023 zenex
-#
-#Permission to use, copy, modify, and distribute this software for any
-#purpose with or without fee is hereby granted, provided that the above
-#copyright notice and this permission notice appear in all copies.
-#
-#THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
-#WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
-#MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
-#ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-#WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
-#ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
-#OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 set -e
 postsetup() {
 	sudo systemctl enable ufw
@@ -61,7 +45,7 @@ Debian() {
 }
 
 Fedora() {
-	sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+	sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-!"$(rpm -E %fedora)".noarch.rpm
 	sudo dnf upgrade
 	sudo dnf install --allowerasing mpv mpd mpc ncmpcpp ffmpegthumbnailer
 	$pkg --allowerasing emacs curl wget firefox dmenu make gcc htop feh redshift libreoffice dunst libnotify libnotify-devel scrot zathura zathura-devel zathura-plugins-all zathura-pdf-mupdf @base-x yt-dlp zip unzip fuse3 NetworkManager-tui NetworkManager-wifi light keepassxc tar nnn ufw iwl* pcmanfm alsa-firmware alsa-lib alsa-lib-devel alsa-utils xterm ntfs-3g libX11-devel libXft-devel libXinerama-devel xorg-x11-xinit-session rxvt-unicode tmux fzf tlp udisks udisks-devel trash-cli xsetroot dash xsecurelock lxappearance patch texlive-cantarell p7zip redhat-rpm-config rpmautospec-rpm-macros
@@ -72,6 +56,37 @@ Fedora() {
 	postsetup
 }
 
+NixOS() {
+    if  whoami -ne "root"; then
+        echo "Please run this script as root."
+        exit
+    fi
+    cat .config/nixos/hosts/eukaryotic/disko-config.nix
+	  read -rp "Is this disk configuration correct?(y/n)" disko
+    if [ "$disko" == n ]; then
+        nano .config/nixos/hosts/eukaryotic/disko-config.nix
+
+    fi
+    nixos-generate-config --no-filesystems --show-hardware-config > .config/nixos/hosts/eukaryotic/hardware-configuration.nix
+    nix  --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko .config/nixos/hosts/eukaryotic/disko-config.nix
+	  read -rp "Enter username: " usrname
+    sed -i '21,25 s/^/#/' configuration.nix
+    sed -i '20 s/#//' configuration.nix
+    find .config/nixos -type f -exec sed -i s/zenex/"$usrname"/g {} +
+    cp -r ./config/nixos /mnt/persistent
+	  mkdir -p /mnt/persistent/var/keys
+	  echo "Enter username password:"
+	  mkpasswd -m yescrypt > /mnt/var/keys/"$usrname"P
+	  read -rp "Do you want root to have the same password as your user?(y/n)" rpasswd
+    if [ "$rpasswd" == Y ]; then
+        cp /mnt/persistent/var/keys/"$usrname"P /mnt/persistent/var/keys/rootP
+    else
+	      mkpasswd -m yescrypt > /mnt/var/keys/rootP
+    fi
+    nixos-install --no-root-password --root /mnt --flake '/mnt/persistent/etc/nixos#eukaryotic'
+    exit
+}
+
 Os() {
 
 	#osR=$(awk -F '^NAME=' '{print $2}' /etc/os-release | grep " " | sed -e 's/^"//' -e 's/"$//')
@@ -80,6 +95,7 @@ Os() {
 	case $osR in
 	"Debian GNU/Linux") pkg="sudo apt install" && Debian ;;
 	"Fedora Linux") pkg="sudo dnf install" && Fedora ;;
+  "NixOS") Nixos ;;
 	*) echo "Invalid os name" && echo "your os is :" && uname -a && exit ;;
 	esac
 }

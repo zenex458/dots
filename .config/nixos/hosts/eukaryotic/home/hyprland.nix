@@ -66,8 +66,8 @@
         # "$mainMod, W, focusmonitor, HDMI-A-1"
         # "$mainMod, E, focusmonitor, eDP-1"
         # "$mainMod, R, focusmonitor, HDMI-A-2"
-        "$mainMod, W, focusmonitor, eDP-1"
-        "$mainMod, E, focusmonitor, HDMI-A-1"
+        "$mainMod, E, focusmonitor, eDP-1"
+        "$mainMod, W, focusmonitor, HDMI-A-1"
         "$mainMod, h, movefocus, l"
         "$mainMod, l, movefocus, r"
         "$mainMod, j, movefocus, u"
@@ -102,8 +102,8 @@
       # monitor=HDMI-A-1,1280x1024,0x0, 1
       # monitor=eDP-1,1920x1080,1280x0, 1
       # monitor=HDMI-A-2,1280x1024,3200x0, 1
-      monitor=eDP-1,1920x1080,0x0, 1
-      monitor=HDMI-A-1,1280x1024,1920x0, 1
+      monitor=eDP-1,1920x1080,1280x0, 1
+      monitor=HDMI-A-1,1280x1024,0x0, 1
 
       exec-once = dunst
       exec-once = lxqt-policykit-agent

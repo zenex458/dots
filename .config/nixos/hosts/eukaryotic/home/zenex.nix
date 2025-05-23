@@ -1,49 +1,17 @@
 {
   pkgs,
   inputs,
+  config,
   lib,
   ...
 }: {
   imports = [
     inputs.impermanence.nixosModules.home-manager.impermanence
     inputs.stylix.homeManagerModules.stylix
-    ./firefox.nix
-    ./hyprland.nix
     ./home.nix
   ];
-  config.home.stateVersion = "24.05";
-  config.home.username = "zenex";
-  config.home.file = {
-    ".local/bin" = {
-      source = ./scripts;
-      recursive = true;
-      executable = true;
-    };
-  };
-  config.home.persistence."/persistent/home/zenex" = {
-    directories = [
-      "Downloads"
-      "Documents"
-      "Dev"
-      "Music"
-      ".emacs.d"
-      ".mozilla"
-      "Sync"
-      ".config/vesktop"
-      ".config/simplex"
-      ".config/Signal"
-      ".local/share/simplex"
-      ".config/feather"
-      ".config/zsh"
-      ".config/opensnitch"
-      ".config/zotero"
-      ".config/gh"
-    ];
-    files = [".local/share/.bash_history" ".local/share/zoxide/db.zo"];
-    allowOther = true;
-  };
 
-  config.stylix = {
+  stylix = {
     enable = true;
     image = ./lowsat.jpg;
     polarity = "dark";
@@ -80,12 +48,14 @@
         name = "Noto Color Emoji";
       };
     };
-    targets.dunst.enable = false;
-    targets.foot.enable = false;
-    targets.emacs.enable = false;
-    targets.hyprland.enable = false;
-    targets.hyprpaper.enable = false;
-    targets.hyprlock.enable = false;
+    targets = {
+      dunst.enable = false;
+      foot.enable = false;
+      emacs.enable = false;
+      hyprland.enable = false;
+      hyprpaper.enable = false;
+      hyprlock.enable = false;
+    };
 
     base16Scheme = {
       base00 = "000000";

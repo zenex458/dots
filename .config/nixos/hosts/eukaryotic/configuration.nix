@@ -17,7 +17,7 @@
   boot = {
     supportedFilesystems = ["ntfs"];
     kernelPackages = pkgs.linuxPackages_latest;
-    #  boot.loader.systemd-boot.enable = true;
+    #loader.systemd-boot.enable = true;
     loader.systemd-boot.enable = lib.mkForce false;
     lanzaboote = {
       enable = true;
@@ -293,7 +293,7 @@
     thermald.enable = false;
     tlp = {
       enable = true;
-      tlp.settings = {
+      settings = {
         CPU_SCALING_GOVERNOR_ON_AC = "performance";
         CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
         CPU_MIN_PERF_ON_AC = 0;
@@ -388,6 +388,10 @@
           }
           {
             directory = ".local/state/syncthing";
+            mode = "0700";
+          }
+          {
+            directory = ".local/share/zoxide/";
             mode = "0700";
           }
         ];

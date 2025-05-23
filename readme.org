@@ -2,11 +2,11 @@
 This contains all my config files for Linux. It can be installed my =setup.sh= or by using [[https://nixos.org/][Nixos]].
 
 | Font     | [[https://people.mpi-inf.mpg.de/~uwe/misc/uw-ttyp0/][ttyp0]]    |
-| OS       | Nixos    |
-| WM       | Hyprland |
-| Terminal | Foot     |
-| Editor   | Emacs    |
-| Shell    | Bash     |
+| OS       | [[https://nixos.org][NixOS]]    |
+| WM       | [[https://hyprland.org/][Hyprland]] |
+| Terminal | [[https://codeberg.org/dnkl/foot][foot]]     |
+| Editor   | [[https://www.gnu.org/software/emacs/][Emacs]]    |
+| Shell    | [[https://www.zsh.org][Zsh]]      |
 
 * Screenshot
 [[file:screenshot.png]]
@@ -40,38 +40,20 @@ One other caveat is that it only understands nix expressions. This can lead to s
 * Getting Started
 ** Prerequisites
 - [[https://git-scm.com/downloads][Git]]
-** For Nixos based systems
+** Installation
 1)
 #+begin_src bash 
-git clone https://github.com/zenex458/dots
-#+end_src
-2)
-#+begin_src bash 
-sudo nixos-rebuild switch --flake ~/dots/.config/nixos/#eukaryotic
-#+end_src
-You might have to edit the =hardware-configuration.nix= file.
-** For Fedora and Debian based distros
-1)
-#+begin_src bash 
-git clone https://github.com/zenex458/dots
+git clone --depth 1 https://github.com/zenex458/dots
 #+end_src
 2)
 #+begin_src bash 
 cd dots && ./setup.sh
 #+end_src
-The script will install packages, prompt for some program options and setup the appearance.
-** For other distros
-1)
-#+begin_src bash 
-git clone https://github.com/zenex458/dots
-#+end_src
-2)
-#+begin_src bash 
-cd dots && ./setup.sh
-#+end_src
-The script will only setup the appearance.
+For Debian and Fedora the script will install packages, prompt for some program options and setup the appearance. For other distros, it will only setup the appearance. For NixOS, boot into a [[https://nixos.org/download/#nixos-iso][liveISO]] and run the script as root. It will format the disks and install NixOS, with impermanence. Secureboot support will be disabled to allow installation. The setup instructions for secureboot can be found [[https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md][here]].
 * Notes
-For my Nixos setup I used the "standard config" in this [[https://github.com/Misterio77/nix-starter-configs][starter config]]. You can see a more indepth explanation of how Nixos works at: https://nixos.org/guides/how-nix-works/.
+You can see a more indepth explanation of how Nixos works at: https://nixos.org/guides/how-nix-works/ and https://nixos.org/guides/nix-pills/.
 * Acknowledgements
 - Wallpaper by [[https://unsplash.com/photos/saturn-and-its-rings-2W-QWAC0mzI][NASA]] on [[https://unsplash.com][Unsplash]]
-- [[https://nixos.asia][NisOS Asia]] for commands for disko and install
+- [[https://nixos.asia][NixOS Asia]] for commands for disko and install
+- [[https://github.com/Misterio77/nix-starter-configs][Misterio77]] for the template
+- [[https://github.com/TLATER/dotfiles][TLATER]] for the structure setup

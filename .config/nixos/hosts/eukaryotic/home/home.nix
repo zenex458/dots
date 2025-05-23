@@ -6,7 +6,11 @@
   pkgs,
   ...
 }: {
-  imports = [../pkgs.nix];
+  imports = [
+    ../pkgs.nix
+    ./firefox.nix
+    ./hyprland.nix
+  ];
 
   dconf.settings = {
     "org/virt-manager/virt-manager/connections" = {
@@ -526,7 +530,6 @@
           blink = "yes";
         };
         colors = {
-          # background = "212121";
           background = "000000";
           foreground = "bdae93";
           regular0 = "444444"; # black
@@ -547,35 +550,44 @@
           bright6 = "13c299"; # cyan
           bright7 = "e6e6e6"; # white
         };
-        # colors = {
-        #   # background = "212121";
-        #   background = "000000";
-        #   foreground = "bdae93";
-        #   regular0 = "242424"; # black
-        #   regular1 = "f62b5a"; # red
-        #   regular2 = "47b413"; # green
-        #   regular3 = "e3c401"; # yellow
-        #   regular4 = "24acd4"; # blue
-        #   regular5 = "f2affd"; # magenta
-        #   regular6 = "13c299"; # cyan
-        #   regular7 = "e6e6e6"; # white
-
-        #   # Bright colors ;(color palette 8-15)
-        #   bright0 = "616161"; # bright black
-        #   bright1 = "ff4d51"; # bright red
-        #   bright2 = "35d450"; # bright green
-        #   bright3 = "e9e836"; # bright yellow
-        #   bright4 = "5dc5f8"; # bright blue
-        #   bright5 = "feabf2"; # bright magenta
-        #   bright6 = "24dfc4"; # bright cyan
-        #   bright7 = "ffffff"; # bright white
-        # };
       };
     };
     home-manager.enable = true;
   };
 
   home = {
+    stateVersion = "24.05";
+    username = "zenex";
+    file = {
+      ".local/bin" = {
+        source = ./scripts;
+        recursive = true;
+        executable = true;
+      };
+    };
+    persistence."/persistent/home/zenex" = {
+      directories = [
+        "Downloads"
+        "Documents"
+        "Dev"
+        "Music"
+        ".emacs.d"
+        ".mozilla"
+        "Sync"
+        ".config/vesktop"
+        ".config/simplex"
+        ".config/Signal"
+        ".local/share/simplex"
+        ".config/feather"
+        ".config/zsh"
+        ".config/opensnitch"
+        ".config/zotero"
+        ".config/gh"
+      ];
+      files = [".local/share/.bash_history"];
+      allowOther = true;
+    };
+
     sessionPath = [
       "$HOME/.local/bin"
     ];
@@ -583,67 +595,44 @@
     packages = with pkgs; [
       aria2
       # bsdgames
-      # cljfmt
-      # clojure
-      # clojure-lsp
-      # glib
-      # codeberg-cli
       # ffmpegthumbnailer
       # imhex
       # kismet
       # macchanger
       # nodePackages.prettier
-      # pyright
-      # ripgrep
       # rlwrap # for the readline
       # sigrok-cli
       # gron # json grepper
       # fq # jq for binary formats
       # entr # run a command when files change
-      # https://github.com/ducaale/xh # httpie replacement
       # https://viric.name/soft/ts/
       # https://www.gnu.org/software/parallel
-      # hyprshade
-      # hyprsunset
-      # nixfmt-rfc-style
-      # kdePackages.kdeconnect-kde
       # mpvScripts.mpris
       age
       alacritty
       alejandra
       alsa-utils
+      android-tools
       anki-bin
       astyle
       bc
       bemenu
-      cargo
       ccls
-      clifm
       cliphist
       cryptsetup
-      cutter
-      cabal-install
-      dmenu
+      dig
       exfatprogs
       exif
       fd
-      ffmpeg
+      feather
+      ffmpeg-full
       file
       fuse3
-      gcc
-      gdb
       gh
-      ghc
-      haskellPackages.stack
-      zotero
       gimp
       gitFull
-      tree
-      glib
-      gnumake
       gojq
       grim
-      groff
       haskell-language-server
       htop
       hunspell
@@ -653,7 +642,6 @@
       keepassxc
       libnotify
       libreoffice
-      logisim-evolution
       lsof
       lxqt.lxqt-policykit
       magic-wormhole
@@ -661,59 +649,51 @@
       man-pages-posix
       mpc-cli
       mpv
+      mullvad-browser
       mupdf
       nemo
+      nixd
       nodePackages.bash-language-server
-      obs-studio
-      openssl
       ormolu
       p7zip
       pandoc
-      poppler_utils
-      virt-manager
-      progress
       pulsemixer
-      pv
+      python312Packages.deemix
       python3Full
+      ripgrep
+      ripgrep-all
       rsync
       ruff
       ruff-lsp
       sbctl
-      sdcv
       shellcheck
       shfmt
-      sioyek
       signal-desktop
-      unstable.simplex-chat-desktop
+      sioyek
       slurp
       syncthing
       texliveFull
       traceroute
+      transmission_4-gtk
       trash-cli
+      tree
+      unstable.simplex-chat-desktop
       unzip
       usbutils
       ventoy-full
       vesktop
+      virt-manager
       wdisplays
-      mullvad-browser
-      transmission_4-gtk
       wl-clip-persist
       wl-clipboard
       wl-color-picker
-      android-tools
-      python312Packages.deemix
-      nixd
       wlr-randr
-      libarchive
       wlsunset
       xdg-utils
-      openvpn
-      dig
-      feather
       xmlformat
-      yapf
       yt-dlp
       zip
+      zotero
       (aspellWithDicts (
         dicts:
           with dicts; [
