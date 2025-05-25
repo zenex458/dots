@@ -72,6 +72,14 @@
         "$mainMod, l, movefocus, r"
         "$mainMod, j, movefocus, u"
         "$mainMod, k, movefocus, d"
+        "$mainMod SHIFT, h, movewindow, l"
+        "$mainMod SHIFT, l, movewindow, r"
+        "$mainMod SHIFT, j, movewindow, u"
+        "$mainMod SHIFT, k, movewindow, d"
+        "$mainMod CTRL, l, resizeactive, 10 0"
+        "$mainMod CTRL, h, resizeactive, -10 0"
+        "$mainMod CTRL, j, resizeactive, 0 -10"
+        "$mainMod CTRL, k, resizeactive, 0 10"
         "SUPER, 1, focusworkspaceoncurrentmonitor, 1"
         "SUPER, 2, focusworkspaceoncurrentmonitor, 2"
         "SUPER, 3, focusworkspaceoncurrentmonitor, 3"
@@ -106,7 +114,6 @@
       monitor=HDMI-A-1,1280x1024,0x0, 1
 
       exec-once = dunst
-      exec-once = lxqt-policykit-agent
       exec-once = hyprpaper
       exec-once = hypridle
       exec-once = ~/.local/bin/batt.sh
@@ -172,6 +179,7 @@
           hide_cursor = true;
           no_fade_in = true;
           no_fade_out = true;
+          animations = false;
         }
       ];
       background = [{color = "rgb(0, 0, 0)";}];

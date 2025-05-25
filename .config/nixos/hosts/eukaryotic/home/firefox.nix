@@ -22,20 +22,20 @@
     profiles."test" = {
       id = 2;
       search.engines = {
-        "Bing".metaData.hidden = true;
-        "Google".metaData.hidden = true;
-        "Amazon.co.uk".metaData.hidden = true;
-        "eBay".metaData.hidden = true;
+        "bing".metaData.hidden = true;
+        "google".metaData.hidden = true;
+        "amazon.co.uk".metaData.hidden = true;
+        "eay".metaData.hidden = true;
       };
       search.force = true;
     };
     profiles.priv = {
       search.engines = {
-        "Bing".metaData.hidden = true;
-        "Google".metaData.hidden = true;
-        "Amazon.co.uk".metaData.hidden = true;
-        "eBay".metaData.hidden = true;
-        "Startpage" = {
+        "bing".metaData.hidden = true;
+        "google".metaData.hidden = true;
+        "amazon.co.uk".metaData.hidden = true;
+        "ebay".metaData.hidden = true;
+        "startpage" = {
           urls = [
             {
               template = "https://www.startpage.com/do/search";
@@ -47,11 +47,11 @@
               ];
             }
           ];
-          iconUpdateURL = "https://www.startpage.com/sp/cdn/favicons/favicon-32x32-gradient.png";
+          iconMapObj."16" = "https://www.startpage.com/sp/cdn/favicons/favicon-32x32-gradient.png";
           updateInterval = 24 * 60 * 60 * 1000; # every day
           definedAliases = ["@st"];
         };
-        "Searx" = {
+        "searx" = {
           urls = [
             {
               template = "https://searx.tiekoetter.com/search";
@@ -63,7 +63,7 @@
               ];
             }
           ];
-          iconUpdateURL = "https://searx.tiekoetter.com/static/themes/simple/img/favicon.png";
+          iconMapObj."16" = "https://searx.tiekoetter.com/static/themes/simple/img/favicon.png";
           updateInterval = 24 * 60 * 60 * 1000; # every day
           definedAliases = ["@pv"];
         };
@@ -79,8 +79,10 @@
               ];
             }
           ];
-          iconUpdateURL = "https://search.nixos.org/favicon.png";
-          updateInterval = 24 * 60 * 60 * 1000; # every day
+          # iconUpdateURL = "https://search.nixos.org/favicon.png";
+          # icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+          iconMapObj."16" = "https://wiki.nixos.org/favicon.ico";
+          # updateInterval = 24 * 60 * 60 * 1000; # every day
           definedAliases = ["@np"];
         };
         "NixosOption" = {
@@ -95,15 +97,17 @@
               ];
             }
           ];
-          iconUpdateURL = "https://search.nixos.org/favicon.png";
-          updateInterval = 24 * 60 * 60 * 1000; # every day
+          # iconUpdateURL = "https://search.nixos.org/favicon.png";
+          iconMapObj."16" = "https://wiki.nixos.org/favicon.ico";
+          # updateInterval = 24 * 60 * 60 * 1000; # every day
           definedAliases = ["@no"];
         };
 
         "NixosWiki" = {
           urls = [{template = "https://wiki.nixos.org/w/index.php?search={searchTerms}";}];
-          iconUpdateURL = "https://wiki.nixos.org/favicon.ico";
-          updateInterval = 24 * 60 * 60 * 1000; # every day
+          # iconUpdateURL = "https://wiki.nixos.org/favicon.ico";
+          iconMapObj."16" = "https://wiki.nixos.org/favicon.ico";
+          # updateInterval = 24 * 60 * 60 * 1000; # every day
           definedAliases = ["@nw"];
         };
 
@@ -113,8 +117,9 @@
               template = "https://home-manager-options.extranix.com/?query={searchTerms}&release=release-24.11";
             }
           ];
-          iconUpdateURL = "https://home-manager-options.extranix.com/images/favicon.png";
-          updateInterval = 24 * 60 * 60 * 1000; # every day
+          # iconUpdateURL = "https://home-manager-options.extranix.com/images/favicon.png";
+          iconMapObj."16" = "https://wiki.nixos.org/favicon.ico";
+          # updateInterval = 24 * 60 * 60 * 1000; # every day
           definedAliases = ["@hs"];
         };
       };
@@ -408,10 +413,10 @@
     profiles."work" = {
       id = 1;
       search.engines = {
-        "Bing".metaData.hidden = true;
-        "Google".metaData.hidden = true;
-        "Amazon.co.uk".metaData.hidden = true;
-        "eBay".metaData.hidden = true;
+        "bing".metaData.hidden = true;
+        "google".metaData.hidden = true;
+        "amazon.co.uk".metaData.hidden = true;
+        "ebay".metaData.hidden = true;
         "Startpage" = {
           urls = [
             {
@@ -424,8 +429,8 @@
               ];
             }
           ];
-          iconUpdateURL = "https://www.startpage.com/sp/cdn/favicons/favicon-32x32-gradient.png";
-          updateInterval = 24 * 60 * 60 * 1000; # every day
+          icon = "https://www.startpage.com/sp/cdn/favicons/favicon-32x32-gradient.png";
+          # updateInterval = 24 * 60 * 60 * 1000; # every day
           definedAliases = ["@st"];
         };
       };

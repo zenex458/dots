@@ -8,16 +8,16 @@
   # flake dependencies. For example, the following sets the nixpkgs input of the top-level flake
   # to be equal to the nixpkgs input of the nixops input of the top-level flake:
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    home-manager.url = "github:nix-community/home-manager/release-24.11";
+    home-manager.url = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
     lanzaboote.url = "github:nix-community/lanzaboote/v0.4.2";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
     impermanence.url = "github:nix-community/impermanence";
-    stylix.url = "github:danth/stylix/release-24.11";
+    stylix.url = "github:nix-community/stylix/release-25.05";
   };
 
   # For more information about well-known outputs checked by `nix flake check`:

@@ -7,12 +7,13 @@
 }: {
   imports = [
     inputs.impermanence.nixosModules.home-manager.impermanence
-    inputs.stylix.homeManagerModules.stylix
+    inputs.stylix.homeModules.stylix
     ./home.nix
   ];
 
   stylix = {
     enable = true;
+    # autoEnable = false;
     image = ./lowsat.jpg;
     polarity = "dark";
     # cursor.name = "plan9";
@@ -26,6 +27,7 @@
     cursor = {
       package = pkgs.phinger-cursors;
       name = "phinger-cursors-dark";
+      size = 32;
     };
     fonts = {
       serif = {
@@ -49,12 +51,14 @@
       };
     };
     targets = {
+      firefox.profileNames = ["priv" "work"];
       dunst.enable = false;
       foot.enable = false;
       emacs.enable = false;
       hyprland.enable = false;
       hyprpaper.enable = false;
       hyprlock.enable = false;
+      tmux.enable = false;
     };
 
     base16Scheme = {

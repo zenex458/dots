@@ -132,7 +132,7 @@
   programs = {
     man = {
       enable = true;
-      generateCaches = false;
+      generateCaches = true;
     };
 
     emacs = {
@@ -270,7 +270,7 @@
           command_error = "fg=#bdae93,underline";
         };
       };
-      initExtra = ''
+      initContent = ''
         PROMPT="[%~]''\nλ "
         zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate _aliases _functions
         zstyle ':completion:*:*:*:*:descriptions' format '%F{#bdae93}[%d]%f'
@@ -327,7 +327,8 @@
         }
       '';
       shellAliases = {
-        upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#eukaryotic";
+        upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#eukaryotic --use-remote-sudo";
+        updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#eukaryotic --use-remote-sudo -v --show-trace";
         updflake = "nix flake update --commit-lock-file";
         listnixgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
         remoldgen = "nix-collect-garbage --delete-older-than 2d && sudo nix-collect-garbage --delete-older-than 2d && upd";
@@ -630,7 +631,7 @@
       fuse3
       gh
       gimp
-      gitFull
+      git
       gojq
       grim
       haskell-language-server
@@ -643,13 +644,11 @@
       libnotify
       libreoffice
       lsof
-      lxqt.lxqt-policykit
       magic-wormhole
       man-pages
       man-pages-posix
       mpc-cli
       mpv
-      mullvad-browser
       mupdf
       nemo
       nixd
@@ -664,7 +663,7 @@
       ripgrep-all
       rsync
       ruff
-      ruff-lsp
+      basedpyright
       sbctl
       shellcheck
       shfmt
@@ -674,16 +673,15 @@
       syncthing
       texliveFull
       traceroute
-      transmission_4-gtk
-      trash-cli
+      trashy
       tree
       unstable.simplex-chat-desktop
       unzip
       usbutils
-      ventoy-full
       vesktop
       virt-manager
       wdisplays
+      html-tidy
       wl-clip-persist
       wl-clipboard
       wl-color-picker
