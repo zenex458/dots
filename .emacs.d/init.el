@@ -13,7 +13,7 @@
   (require 'use-package))
 
 ;; (setq custom-file (make-temp-file "emacs-custom-"))
-;; (setq custom-file (expand-file-name "~/.emacs.d/emacs-custom.el"))
+(setq custom-file (expand-file-name "~/.emacs.d/emacs-custom.el"))
 (setq auth-sources '("~/.emacs.d/.authinfo.gpg"))
 ;; (setq debug-on-error t)
 ;; (setq ffap-machine-p-known 'reject)
@@ -55,7 +55,7 @@
 (setq
  shr-use-fonts  nil                          ; No special fonts
  shr-use-colors nil                          ; No colours
- eww-search-prefix "https://duckduckgo.com/?q=")    ; Use another engine for searching
+ eww-search-prefix "https://html.duckduckgo.com/?q=")    ; Use another engine for searching
 
 ;; (org-babel-do-load-languages 'org-babel-load-languages '((C . t)))
 
@@ -91,6 +91,7 @@
 (pending-delete-mode t)
 (savehist-mode 1)
 (add-hook 'prog-mode-hook 'electric-pair-mode)
+
 (defun close-or-kill-emacs ()
   "Close the current frame if there are multiple visible frames otherwise kill Emacs."
   (interactive)
@@ -119,7 +120,6 @@
 (setq-default org-display-custom-times t)
 (setq org-time-stamp-custom-formats '("<%A %d/%m/%Y>" . "<%A %d %B %Y %H:%M>"))
 
-
 (use-package diminish)
 (diminish 'subword-mode)
 (diminish 'visual-line-mode)
@@ -144,11 +144,11 @@
 
 (use-package orderless
   :custom
-  ;; (completion-styles '(orderless basic substring initials partial-completion))
-  (completion-styles '(substring orderless))
+  (completion-styles '(orderless basic substring initials partial-completion))
+  ;; (completion-styles '(substring orderless))
   ;; (completion-category-defaults nil)
-  ;; (completion-category-overrides '((file (styles partial-completion))))
-  (completion-category-overrides '((file (initials))))
+  (completion-category-overrides '((file (styles partial-completion))))
+  ;; (completion-category-overrides '((file (initials))))
   )
 
 (use-package consult
@@ -184,11 +184,10 @@
          ("M-g i" . consult-imenu)
          ("M-g I" . consult-imenu-multi)
          ;; M-s bindings in `search-map'
-         ("M-s d" . consult-find)                  ;; Alternative: consult-fd
+         ("M-s d" . consult-fd)                  ;; Alternative: consult-fd
          ("M-s c" . consult-locate)
-         ("M-s g" . consult-grep)
+         ("M-s g" . consult-ripgrep)
          ("M-s G" . consult-git-grep)
-         ("M-s r" . consult-ripgrep)
          ("M-s l" . consult-line)
          ("M-s L" . consult-line-multi)
          ("M-s k" . consult-keep-lines)
@@ -224,35 +223,6 @@
    :preview-key '(:debounce 0.4 any))
   (setq consult-narrow-key "<"))
 
-;; (use-package embark
-;;   :bind
-;;   (("C-." . embark-act)         ;; pick some comfortable binding
-;;    ("C-;" . embark-dwim)        ;; good alternative: M-.
-;;    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
-;;   :init
-;;   ;; Optionally replace the key help with a completing-read interface
-;;   (setq prefix-help-command #'embark-prefix-help-command)
-
-;;   ;; Show the Embark target at point via Eldoc. You may adjust the
-;;   ;; Eldoc strategy, if you want to see the documentation from
-;;   ;; multiple providers. Beware that using this can be a little
-;;   ;; jarring since the message shown in the minibuffer can be more
-;;   ;; than one line, causing the modeline to move up and down:
-
-;;   ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
-;;   ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
-;;   :config
-;;   ;; Hide the mode line of the Embark live/completions buffers
-;;   (add-to-list 'display-buffer-alist
-;;                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-;;                  nil
-;;                  (window-parameters (mode-line-format . none)))))
-
-
-;; (use-package embark-consult
-;;   :hook
-;;   (embark-collect-mode . consult-preview-at-point-mode))
-
 (use-package apheleia
   :init
   :hook ((prog-mode . apheleia-mode)
@@ -262,18 +232,14 @@
   (setf (alist-get 'astyle apheleia-formatters)
 		    '("astyle" "--mode=c" "--style=google" "-s2"))
   (add-to-list 'apheleia-mode-alist '(c-ts-mode . astyle))
-  (setf (alist-get 'csharpier apheleia-formatters)
-		    '("~/.dotnet/tools/dotnet-csharpier" "--write-stdout")) ;;dotnet tool install --global csharpier to install
-  (add-to-list 'apheleia-mode-alist '(csharp-ts-mode . csharpier))
   (setf (alist-get 'shfmt apheleia-formatters)
 		    '("shfmt"))
   (add-to-list 'apheleia-mode-alist '(bash-ts-mode . shfmt))
   (setf (alist-get 'ruff apheleia-formatters)
-		    ;; '("yapf"))
 		    '("ruff format"))
   (add-to-list 'apheleia-mode-alist '(python-ts-mode . ruff))
   (setf (alist-get 'tidy apheleia-formatters)
-		    '("tidy" "-i" "-q" "-f" "err"))
+		    '("tidy" "-i" "-q" "--tidy-mark" "no"))
   (add-to-list 'apheleia-mode-alist '(html-mode . tidy))
   (setf (alist-get 'nixfmt apheleia-formatters)
 		    '("alejandra"))
@@ -285,38 +251,38 @@
 		    '("ormolu" "--stdin-input-file" "--"))
   (add-to-list 'apheleia-mode-alist '(haskell-mode . ormolu)))
 
-;; (setq treesit-language-source-alist
-;; 	    '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-;; 		    (c "https://github.com/tree-sitter/tree-sitter-c")
-;; 		    (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-;; 		    (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
-;; 		    (css "https://github.com/tree-sitter/tree-sitter-css")
-;; 		    (haskell "https://github.com/tree-sitter/tree-sitter-haskell")
-;; 		    (html "https://github.com/tree-sitter/tree-sitter-html")
-;; 		    (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-;; 		    (json "https://github.com/tree-sitter/tree-sitter-json")
-;; 		    (make "https://github.com/alemuller/tree-sitter-make")
-;; 		    (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-;; 		    (nix "https://github.com/nix-community/tree-sitter-nix")
-;; 		    (python "https://github.com/tree-sitter/tree-sitter-python")
-;; 		    (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+(setq treesit-language-source-alist
+	    '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+		    (c "https://github.com/tree-sitter/tree-sitter-c")
+		    (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+		    (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
+		    (css "https://github.com/tree-sitter/tree-sitter-css")
+		    (haskell "https://github.com/tree-sitter/tree-sitter-haskell")
+		    (html "https://github.com/tree-sitter/tree-sitter-html")
+		    (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+		    (json "https://github.com/tree-sitter/tree-sitter-json")
+		    (make "https://github.com/alemuller/tree-sitter-make")
+		    (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+		    (nix "https://github.com/nix-community/tree-sitter-nix")
+		    (python "https://github.com/tree-sitter/tree-sitter-python")
+		    (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
 
-;; (if (file-directory-p "~/.emacs.d/tree-sitter")
-;; 	  (message "")
-;;   (message "Downloading treesiter grammers")
-;;   (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist)))
+(if (file-directory-p "~/.emacs.d/tree-sitter")
+	  (message "")
+  (message "Downloading treesiter grammers")
+  (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist)))
 
-;; (setq major-mode-remap-alist
-;; 	    '((yaml-mode . yaml-ts-mode)
-;; 		    (bash-mode . bash-ts-mode)
-;; 		    (js2-mode . js-ts-mode)
-;; 		    (typescript-mode . typescript-ts-mode)
-;; 		    (json-mode . json-ts-mode)
-;; 		    (c-mode . c-ts-mode)
-;; 		    ("c++-mode" . "c++-ts-mode")
-;; 		    (csharp-mode . csharp-ts-mode)
-;; 		    (css-mode . css-ts-mode)
-;; 		    (python-mode . python-ts-mode)))
+(setq major-mode-remap-alist
+	    '((yaml-mode . yaml-ts-mode)
+		    (bash-mode . bash-ts-mode)
+		    (js2-mode . js-ts-mode)
+		    (typescript-mode . typescript-ts-mode)
+		    (json-mode . json-ts-mode)
+		    (c-mode . c-ts-mode)
+		    ("c++-mode" . "c++-ts-mode")
+		    (csharp-mode . csharp-ts-mode)
+		    (css-mode . css-ts-mode)
+		    (python-mode . python-ts-mode)))
 
 (use-package rainbow-mode
   :hook (prog-mode . rainbow-mode)
@@ -325,14 +291,10 @@
 
 (use-package rainbow-delimiters
   :hook (emacs-lisp-mode . rainbow-delimiters-mode))
-
-(use-package haskell-mode
-  :magic ("%hs" . haskell-mode))
-
 (use-package elfeed
   :config
-  (setq elfeed-search-title-max-width '130)
-  (setq elfeed-search-filter "@1-months-ago +unread")
+  ;; (setq elfeed-search-title-max-width '130)
+  (setq elfeed-search-filter "@3-days-ago +unread")
   (setq elfeed-db-directory "~/.emacs.d/elfeed"))
 
 (use-package elfeed-org
@@ -389,8 +351,7 @@
   :hook ((emacs-lisp-mode . flymake-mode)
 		     (LaTeX-mode . flymake-mode))
   :config
-  (setq elisp-flymake-byte-compile-load-path load-path)
-  (setq flymake-indicator-type nil))
+  (setq elisp-flymake-byte-compile-load-path load-path))
 
 
 (use-package yasnippet
@@ -422,12 +383,6 @@
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 ;; (setq-default TeX-master nil)
-
-(use-package goggles
-  :hook ((prog-mode text-mode) . goggles-mode)
-  :config
-  (setq-default goggles-pulse nil)
-  (diminish 'goggles-mode))
 
 (use-package gcmh
   :init
@@ -488,16 +443,8 @@
 
 (use-package magit)
 
-(use-package writeroom-mode
-  :custom
-  (writeroom-bottom-divider-width 0))
-
-(use-package sdcv)
-
 (use-package indent-guide
   :hook (python-ts-mode . indent-guide-mode))
-
-(use-package trashed)
 
 (require 'updnix)
 (require 'upmu)
@@ -560,25 +507,4 @@
 ;;(server-start)
 
 (provide 'init)
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(ace-window apheleia async auctex cape corfu diminish dired-subtree
-                edwina elfeed-org embark-consult expand-region expreg
-                gcmh goggles golden-ratio haskell-mode hungry-delete
-                indent-guide magit markdown-mode multi-vterm
-                multiple-cursors nix-ts-mode orderless org-bullets
-                org-make-toc pdf-tools rainbow-delimiters rainbow-mode
-                sdcv sudo-edit trashed undo-fu-session vertico vlf
-                writeroom-mode yasnippet)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 ;;; init.el ends here
