@@ -1,8 +1,8 @@
 ;; -*- lexical-binding: t; -*-
 (load-theme 'saturn t)
 ;; (setq custom-file (make-temp-file "emacs-custom-"))
-(setq custom-file (expand-file-name "~/.emacs.d/emacs-custom.el"))
-(setq auth-sources '("~/.emacs.d/.authinfo.gpg"))
+(setq custom-file (expand-file-name (format "'%s'emacs-custom.el"user-emacs-directory)))
+(setq auth-sources '((format "'%s'.authinfo.gpg"user-emacs-directory)))
 ;; (setq debug-on-error t)
 ;; (setq ffap-machine-p-known 'reject)
 (setq ring-bell-function 'ignore)
@@ -35,9 +35,9 @@
  kept-old-versions 2
  version-control t)
 (setq backup-directory-alist
-	    `((".*" . ,"~/.emacs.d/saves/")))
+	    `((".*" . ,(format "'%s'saves/"user-emacs-directory))t))
 (setq auto-save-file-name-transforms
-	    `((".*" ,"~/.emacs.d/saves/" t)))
+	    `((".*" ,(format "'%s'saves/"user-emacs-directory)t)))
 (setq isearch-lazy-count t)
 ;; (setq line-number-display-limit-width 2000000) ;;stop the question marks from showing in a large file
 (setq
@@ -291,7 +291,7 @@
 		    (python "https://github.com/tree-sitter/tree-sitter-python")
 		    (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
 
-(if (file-directory-p "~/.emacs.d/tree-sitter")
+(if (file-directory-p (format "'%s'tree-sitter/"user-emacs-directory))
 	  (message "")
   (message "Downloading treesiter grammers")
   (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist)))
@@ -319,13 +319,13 @@
   :config
   ;; (setq elfeed-search-title-max-width '130)
   (setq elfeed-search-filter "@3-days-ago +unread")
-  (setq elfeed-db-directory "~/.emacs.d/elfeed"))
+  (setq elfeed-db-directory (format "'%s'elfeed/"user-emacs-directory)))
 
 (use-package elfeed-org
   :init
   (elfeed-org)
   :config
-  (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org")))
+  (setq rmh-elfeed-org-files (list (format "'%s'elfeed.org"user-emacs-directory))))
 
 (use-package nix-ts-mode
   :mode "\\.nix\\'"
@@ -471,6 +471,8 @@
 (use-package indent-guide
   :hook (python-ts-mode . indent-guide-mode))
 
+
+
 (require 'updnix)
 (require 'upmu)
 (global-set-key (kbd "<f5>") 'recompile)
@@ -495,9 +497,9 @@
 (global-set-key (kbd "C-c c") 'flyspell-buffer) ;; maybe use this? https://github.com/minad/jinx
 (global-set-key (kbd "C-c s") 'ispell-buffer)
 (global-set-key (kbd "M-Z") 'zap-up-to-char)
-(global-set-key (kbd "C-c e")(lambda ()"opens init.el"(interactive)(find-file "~/.emacs.d/init.el")))
+(global-set-key (kbd "C-c e")(lambda ()"opens init.el"(interactive)(find-file (format "'%s'init.el"user-emacs-directory))))
 (global-set-key (kbd "C-x K")(lambda ()"kills curent buffer without confirmation"(interactive)(kill-buffer (current-buffer))))
-(global-set-key (kbd "C-c r")(lambda ()"reloads emacs config"(interactive)(load-file "~/.emacs.d/init.el")))
+(global-set-key (kbd "C-c r")(lambda ()"reloads emacs config"(interactive)(load-file (format "'%s'init.el"user-emacs-directory))))
 (global-set-key (kbd "C-c t")(lambda ()"opens todo"(interactive)(find-file "~/Documents/Notes/Org/todo.org")))
 (global-set-key (kbd "C-c C-l")
 				        (lambda ()

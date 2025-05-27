@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: item
+# key: <si
+# --
+
+\begin{itemize}
+$1
+\end{itemize}
