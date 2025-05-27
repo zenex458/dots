@@ -179,9 +179,9 @@
           hide_cursor = true;
           no_fade_in = true;
           no_fade_out = true;
-          animations = false;
         }
       ];
+      animations = [{enable = false;}];
       background = [{color = "rgb(0, 0, 0)";}];
       input-field = [
         {
@@ -197,7 +197,7 @@
           inner_color = "rgb(0, 0, 0)";
           # outer_color = "rgb(24, 25, 38)";
           outer_color = "rgb(0, 0, 0)";
-          outline_thickness = 3;
+          outline_thickness = 2;
           placeholder_text = "";
           shadow_passes = 0;
           rounding = 0;

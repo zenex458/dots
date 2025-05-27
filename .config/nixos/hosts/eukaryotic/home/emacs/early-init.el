@@ -1,0 +1,56 @@
+;; -*- lexical-binding: t; -*-
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+(setenv "MANWIDTH" "200")
+;; (setq shell-file-name "bash")
+;; (setq shell-command-switch "-ic")
+(setq inhibit-startup-screen t)
+(setq initial-scratch-message nil)
+(setq inhibit-startup-echo-area-message t)
+(setq initial-scratch-message nil)
+(setq initial-buffer-choice nil)
+(setq inhibit-x-resources t)
+(setq inhibit-startup-buffer-menu t)
+(setq-default bidi-display-reordering 'left-to-right)
+(setq-default bidi-paragraph-direction 'left-to-right)
+(setq bidi-inhibit-bpa t)
+(advice-add #'display-startup-screen :override #'ignore)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(save-place-mode 1)
+(menu-bar-mode -1)
+(global-font-lock-mode t)
+(global-auto-revert-mode t)
+(size-indication-mode 1)
+(fringe-mode 5)
+;;(global-hl-line-mode 1)
+;;(setq display-line-numbers-type 'relative)
+;;(add-hook 'prog-mode-hook #'display-line-numbers-mode)
+(push '(font . "Ttyp0:style=Regular") default-frame-alist)
+(global-visual-line-mode t)
+(advice-add #'x-apply-session-resources :override #'ignore)
+(defvar default-file-name-handler-alist file-name-handler-alist)
+(unless (daemonp)
+  (advice-add #'display-startup-echo-area-message :override #'ignore))
+(setq frame-inhibit-implied-resize t)
+
+(if (not(string= system-name '"eukaryotic"))
+    (progn
+      (setq use-package-always-ensure t
+	          use-package-expand-minimally t)
+      (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                               ("gnu" . "https://elpa.gnu.org/packages/")
+                               ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+      (package-initialize)
+      (unless (package-installed-p 'use-package)
+        (package-refresh-contents)
+        (package-install 'use-package))
+
+      (unless package-archive-contents
+        (package-refresh-contents))
+
+      (eval-when-compile
+        (require 'use-package))))
+
+(provide 'early-init)
+;;; early-init.el ends here

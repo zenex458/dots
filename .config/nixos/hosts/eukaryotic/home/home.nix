@@ -59,7 +59,7 @@
     # services.opensnitch-ui.enable = true;
     ssh-agent.enable = true;
     emacs = {
-      enable = true;
+      enable = false;
       startWithUserSession = true;
       client = {
         enable = true;
@@ -132,17 +132,51 @@
   programs = {
     man = {
       enable = true;
-      generateCaches = true;
+      generateCaches = false;
     };
 
     emacs = {
       enable = true;
-      package = pkgs.emacs-pgtk; #use just emacs if you want it the daemon to survive after the gui terminates
-      extraPackages = epkgs: [
-        epkgs.vterm
-        epkgs.pdf-tools
-        epkgs.multi-vterm
-      ];
+      package = pkgs.emacs-pgtk; #use just `emacs' if you want it the daemon to survive after the gui terminates
+      extraPackages = epkgs:
+        with pkgs.unstable.emacsPackages; [
+          vterm
+          pdf-tools
+          multi-vterm
+          ace-window
+          apheleia
+          async
+          auctex
+          cape
+          consult
+          corfu
+          diminish
+          dired-subtree
+          eglot
+          elfeed
+          elfeed-org
+          embark
+          embark-consult
+          expreg
+          flymake
+          gcmh
+          hungry-delete
+          indent-guide
+          magit
+          markdown-mode
+          multiple-cursors
+          nix-ts-mode
+          orderless
+          org-bullets
+          org-make-toc
+          rainbow-delimiters
+          rainbow-mode
+          sudo-edit
+          undo-fu-session
+          vertico
+          vlf
+          yasnippet
+        ];
       extraConfig = ''
         (use-package pdf-tools
             :magic ("%PDF" . pdf-view-mode)
@@ -565,6 +599,10 @@
         recursive = true;
         executable = true;
       };
+      ".config/emacs" = {
+        source = ./emacs;
+        recursive = true;
+      };
     };
     persistence."/persistent/home/zenex" = {
       directories = [
@@ -573,6 +611,7 @@
         "Dev"
         "Music"
         ".emacs.d"
+        ".config/emacs"
         ".mozilla"
         "Sync"
         ".config/vesktop"
@@ -673,11 +712,14 @@
       syncthing
       texliveFull
       traceroute
+      rustup
       trashy
       tree
       unstable.simplex-chat-desktop
+      tree-sitter-grammars.tree-sitter-nix
       unzip
       usbutils
+      gcc
       vesktop
       virt-manager
       wdisplays

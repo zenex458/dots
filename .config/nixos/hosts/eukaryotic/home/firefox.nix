@@ -124,9 +124,9 @@
         };
       };
       search.force = true;
-      search.default = "Searx";
+      search.default = "searx";
       search.order = [
-        "Searx"
+        "searx"
         "DuckDuckgo"
         "NixosPackage"
         "NixosOption"
