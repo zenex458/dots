@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t; -*-
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-(add-to-list 'load-path "~/.emacs.d/lisp/")
+(add-to-list 'custom-theme-load-path (format "%sthemes/"user-emacs-directory))
+(add-to-list 'load-path (format "%slisp/"user-emacs-directory))
 (setenv "MANWIDTH" "200")
 ;; (setq shell-file-name "bash")
 ;; (setq shell-command-switch "-ic")

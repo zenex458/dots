@@ -1,8 +1,8 @@
 ;; -*- lexical-binding: t; -*-
 (load-theme 'saturn t)
 ;; (setq custom-file (make-temp-file "emacs-custom-"))
-(setq custom-file (expand-file-name (format "'%s'emacs-custom.el"user-emacs-directory)))
-(setq auth-sources '((format "'%s'.authinfo.gpg"user-emacs-directory)))
+(setq custom-file (expand-file-name (format "%semacs-custom.el"user-emacs-directory)))
+(setq auth-sources '((format "%s.authinfo.gpg"user-emacs-directory)))
 ;; (setq debug-on-error t)
 ;; (setq ffap-machine-p-known 'reject)
 (setq ring-bell-function 'ignore)
@@ -35,9 +35,9 @@
  kept-old-versions 2
  version-control t)
 (setq backup-directory-alist
-	    `((".*" . ,(format "'%s'saves/"user-emacs-directory))t))
+	    `((".*" . ,(format "%ssaves/"user-emacs-directory))t))
 (setq auto-save-file-name-transforms
-	    `((".*" ,(format "'%s'saves/"user-emacs-directory)t)))
+	    `((".*" ,(format "%ssaves/"user-emacs-directory)t)))
 (setq isearch-lazy-count t)
 ;; (setq line-number-display-limit-width 2000000) ;;stop the question marks from showing in a large file
 (setq
@@ -139,6 +139,7 @@
   ;; (completion-category-overrides '((file (initials))))
   )
 
+
 (use-package consult
   :bind (;; C-c bindings in `mode-specific-map'
          ("C-c M-x" . consult-mode-command)
@@ -210,6 +211,7 @@
    consult--source-recent-file consult--source-project-recent-file
    :preview-key '(:debounce 0.4 any))
   (setq consult-narrow-key "<"))
+(setq completion-in-region-function #'consult-completion-in-region)
 
 (use-package embark
   :ensure t
@@ -291,7 +293,7 @@
 		    (python "https://github.com/tree-sitter/tree-sitter-python")
 		    (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
 
-(if (file-directory-p (format "'%s'tree-sitter/"user-emacs-directory))
+(if (file-directory-p (format "%stree-sitter/"user-emacs-directory))
 	  (message "")
   (message "Downloading treesiter grammers")
   (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist)))
@@ -319,30 +321,38 @@
   :config
   ;; (setq elfeed-search-title-max-width '130)
   (setq elfeed-search-filter "@3-days-ago +unread")
-  (setq elfeed-db-directory (format "'%s'elfeed/"user-emacs-directory)))
+  (setq elfeed-db-directory (format "%selfeed/"user-emacs-directory)))
 
 (use-package elfeed-org
   :init
   (elfeed-org)
   :config
-  (setq rmh-elfeed-org-files (list (format "'%s'elfeed.org"user-emacs-directory))))
+  (setq rmh-elfeed-org-files (list (format "%selfeed.org"user-emacs-directory))))
 
 (use-package nix-ts-mode
   :mode "\\.nix\\'"
   :bind ("C-c r" . updnix))
 
 (use-package corfu
+  :init
+  (global-corfu-mode)
+  (corfu-history-mode)
+  (corfu-popupinfo-mode)
   :custom
   (corfu-cycle t)
   (corfu-preselect 'prompt)
+  (global-corfu-minibuffer
+   (lambda ()
+     (not (or (bound-and-true-p mct--active)
+              (bound-and-true-p vertico--input)
+              (eq (current-local-map) read-passwd-map)))))
   :bind
   (:map corfu-map
         ("TAB" . corfu-next)
         ([tab] . corfu-next)
         ("S-TAB" . corfu-previous)
-        ([backtab] . corfu-previous))
-  :hook ((prog-mode . corfu-mode)
-		     (prog-mode . corfu-popupinfo-mode)))
+        ([backtab] . corfu-previous)))
+
 
 (use-package cape
   :init
@@ -375,7 +385,6 @@
   :hook ((emacs-lisp-mode . flymake-mode)
 		     (LaTeX-mode . flymake-mode))
   :config
-  (setq elisp-flymake-byte-compile-load-path load-path)
   (setq flymake-indicator-type 'fringes))
 
 
@@ -471,8 +480,6 @@
 (use-package indent-guide
   :hook (python-ts-mode . indent-guide-mode))
 
-
-
 (require 'updnix)
 (require 'upmu)
 (global-set-key (kbd "<f5>") 'recompile)
@@ -497,9 +504,9 @@
 (global-set-key (kbd "C-c c") 'flyspell-buffer) ;; maybe use this? https://github.com/minad/jinx
 (global-set-key (kbd "C-c s") 'ispell-buffer)
 (global-set-key (kbd "M-Z") 'zap-up-to-char)
-(global-set-key (kbd "C-c e")(lambda ()"opens init.el"(interactive)(find-file (format "'%s'init.el"user-emacs-directory))))
+(global-set-key (kbd "C-c e")(lambda ()"opens init.el"(interactive)(find-file "~/Dev/dots/.config/nixos/hosts/eukaryotic/home/emacs/init.el")))
 (global-set-key (kbd "C-x K")(lambda ()"kills curent buffer without confirmation"(interactive)(kill-buffer (current-buffer))))
-(global-set-key (kbd "C-c r")(lambda ()"reloads emacs config"(interactive)(load-file (format "'%s'init.el"user-emacs-directory))))
+(global-set-key (kbd "C-c r")(lambda ()"reloads emacs config"(interactive)"~/Dev/dots/.config/nixos/hosts/eukaryotic/home/emacs/init.el"))
 (global-set-key (kbd "C-c t")(lambda ()"opens todo"(interactive)(find-file "~/Documents/Notes/Org/todo.org")))
 (global-set-key (kbd "C-c C-l")
 				        (lambda ()

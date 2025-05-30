@@ -93,7 +93,7 @@
    `(org-document-title ((,class (:bold t :foreground ,fg1))))
    `(org-date ((,class (:underline t :foreground ,var) )))
    `(org-footnote  ((,class (:underline t :foreground ,fg4))))
-   `(org-link ((,class (:underline t :foreground ,comment ))))
+   `(org-link ((,class (:underline t :foreground ,type ))))
    `(org-special-keyword ((,class (:foreground ,func))))
    `(org-block ((,class (:foreground ,fg3))))
    `(org-quote ((,class (:inherit org-block :slant italic))))
@@ -280,9 +280,9 @@
   ;; Legacy
   (if (< emacs-major-version 22)
       (custom-theme-set-faces
-	   'saturn
-	   `(show-paren-match-face ((,class (:background ,warning)))) ;; obsoleted in 22.1, removed 2016
-	   )
+	     'saturn
+	     `(show-paren-match-face ((,class (:background ,warning)))) ;; obsoleted in 22.1, removed 2016
+	     )
     (custom-theme-set-faces
      'saturn
      `(show-paren-match ((,class (:foreground ,bg1 :background ,str))))
@@ -309,7 +309,7 @@
 ;;;###autoload
 (when load-file-name
   (add-to-list 'custom-theme-load-path
-			   (file-name-as-directory (file-name-directory load-file-name))))
+			         (file-name-as-directory (file-name-directory load-file-name))))
 
 (provide-theme 'saturn)
 
