@@ -13,7 +13,6 @@
 
   stylix = {
     enable = true;
-    # autoEnable = false;
     image = ./lowsat.jpg;
     polarity = "dark";
     # cursor.name = "plan9";
@@ -59,6 +58,10 @@
       hyprpaper.enable = false;
       hyprlock.enable = false;
       tmux.enable = false;
+      gtk.extraCss = ''
+        // Remove rounded corners
+        window.background { border-radius: 0; }
+      '';
     };
 
     base16Scheme = {

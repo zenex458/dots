@@ -59,7 +59,7 @@
     # services.opensnitch-ui.enable = true;
     ssh-agent.enable = true;
     emacs = {
-      enable = false;
+      enable = true;
       startWithUserSession = true;
       client = {
         enable = true;
@@ -187,76 +187,6 @@
       '';
     };
 
-    neovim = {
-      enable = true;
-      extraConfig = ''
-        let mapleader = " "
-        let g:currentmode={
-               \ 'n'  : '[N] ',
-               \ 'v'  : '[V] ',
-               \ 'V'  : '[VLine] ',
-               \ "\<C-V>" : '[VBlock] ',
-               \ 'i'  : '[I] ',
-               \ 'R'  : '[R] ',
-               \ 'Rv' : '[V·Replace] ',
-               \ 'c'  : '[Command] ',
-               \}
-
-        syntax on
-        filetype plugin indent on
-        "set laststatus=0
-        set ruler
-        set ignorecase
-        set smartcase
-        set smartindent
-        set autoindent
-        set cursorline
-        set title
-        set cursorcolumn
-        set showcmd
-        set showmatch
-        set hlsearch
-        set title
-        set nocompatible
-        set wildmode=longest,list,full
-        set clipboard+=unnamedplus
-        set termguicolors
-        set noshowmode
-        "set guicursor=i:bloack-iCursor
-        "set guicursor+=i:blinkon100
-        "set guicursor=n-v-c:hor50-Curosr
-        "set guicursor+=n-v-c:blinkon100
-
-        set guicursor=i:hor50-Cursor
-        set guicursor+=i:blinkon100
-        set guicursor+=n-v-c:blinkon100
-
-
-        "set guicursor=n-v-c:hor50-Cursor
-        "set guicursor+=i:hor50-Cursor
-        set statusline+=\%{toupper(g:currentmode[mode()])}
-        set statusline+=%<%f%m\ \ \ %=\ %R%H%W\ %l/%L:%c\ %p%% "[%n] %Y
-        "set guicursor=i:block-iCursor
-        "set guicursor+=i:blinkon100
-        "set guicursor+=n-v-c:blinkon100
-        "set mouse=a
-        "set linebreak
-        set rnu nu
-        colorscheme default
-        inoremap <expr> <Tab> pumvisible() ? '<C-n>' :
-        \ getline('.')[col('.')-2] =~# '[[:alnum:].-_#$]' ? '<C-x><C-o>' : '<Tab>'
-        map <leader>r :%s/
-        map <leader>+ <C-w>+
-        map <leader>- <C-w>-
-        map <leader>= <C-w>=
-        map <leader>/ :noh<CR>
-        map <leader>sp :setlocal spell! spelllang=en_gb<CR>
-        tnoremap <Esc> <C-\><C-n>
-        vmap <C-c> "+y
-        map <leader>oe :bro ol<CR>
-      '';
-    };
-
     chromium = {
       enable = true;
       package = pkgs.ungoogled-chromium.override {enableWideVine = true;};
@@ -265,69 +195,6 @@
     zoxide = {
       enable = true;
       enableBashIntegration = true;
-      enableZshIntegration = true;
-    };
-
-    fzf = {
-      enable = true;
-      enableBashIntegration = true;
-      enableZshIntegration = true;
-    };
-
-    zsh = {
-      enable = true;
-      dotDir = ".config/zsh";
-      shellAliases = config.programs.bash.shellAliases;
-      completionInit = "autoload -Uz compinit && compinit -d $HOME/.cache/.zcompdump";
-      enableCompletion = true;
-      autocd = true;
-      defaultKeymap = "emacs";
-      sessionVariables = config.programs.bash.sessionVariables;
-      history = {
-        extended = true;
-        ignoreAllDups = true;
-        path = "$ZDOTDIR/.zsh_history";
-      };
-      autosuggestion = {
-        enable = true;
-        highlight = "fg=#bdae93,bg=#000000,bold,underline";
-      };
-      syntaxHighlighting = {
-        enable = true;
-        styles = {
-          suffix-alias = "fg=#bdae93";
-          precommand = "fg=#bdae93";
-          arg0 = "fg=#bdae93";
-          alias = "fg=#bdae93";
-          path = "fg=#bdae93";
-          unknown-token = "fg=#bdae93,underline";
-          command_error = "fg=#bdae93,underline";
-        };
-      };
-      initContent = ''
-        PROMPT="[%~]''\nλ "
-        zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate _aliases _functions
-        zstyle ':completion:*:*:*:*:descriptions' format '%F{#bdae93}[%d]%f'
-        zstyle ':completion:*' use-cache on
-        zstyle ':completion:*' cache-path "$HOME/.cache/.zcompcache"
-        zstyle ':completion:*' group-name ' '
-        zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-        zstyle ':completion:*' list-colors "''${(s.:.)LS_COLORS}"
-        zstyle ':completion:*' verbose true
-        zstyle ':completion:*' menu select search
-        ZSH_AUTOSUGGEST_STRATEGY=(completion)
-        setopt AUTO_PUSHD PUSHD_IGNORE_DUPS PUSHD_MINUS COMPLETE_IN_WORD REC_EXACT LIST_PACKED LIST_ROWS_FIRST
-        cd() {
-        	if [ -z "$#" ]; then
-        		builtin cd
-        	else
-        		builtin cd "$@"
-        	fi
-        	if [ $? -eq 0 ]; then
-        		ls -h -A --classify=auto --color=auto --group-directories-first
-        	fi
-        }
-      '';
     };
 
     bash = {
@@ -342,9 +209,16 @@
         "dirspell"
         "autocd"
         "histappend"
-        "checkwinsize"
       ];
       bashrcExtra = ''
+        bind '"\C-g":"cd $(bfs -exclude -name .git -exclude -name .ccls-cache -exclude -name env -exclude -name "*venv*" | fzy)\n"'
+        bind -x '"\C-r":history_search'
+        history_search(){
+        READLINE_LINE=$(
+        	HISTTIMEFORMAT=
+        	history | sort -rn | cut -c 8- | awk '!visited[''$0]++' | fzy -q "''$READLINE_LINE")
+        READLINE_POINT=0x7FFFFFFF
+        }
         bind 'set show-all-if-ambiguous on'
         bind 'set completion-ignore-case on'
         bind 'TAB:menu-complete'
@@ -355,7 +229,6 @@
         		builtin cd "$@"
         	fi
         	if [ $? -eq 0 ]; then
-        		# ls -h --classify=auto --color=never --group-directories-first
             ls -h --classify=auto --color=auto --group-directories-first
         	fi
         }
@@ -368,8 +241,7 @@
         remoldgen = "nix-collect-garbage --delete-older-than 2d && sudo nix-collect-garbage --delete-older-than 2d && upd";
         re = "systemctl reboot";
         off = "systemctl poweroff";
-        nv = "nvim";
-        # ls = "ls -h --classify=auto --color=auto --group-directories-first";
+        nv = "vim";
         ls = "ls -h --classify=auto --group-directories-first --color=auto";
         ga = "git add";
         gc = "git commit -m";
@@ -383,10 +255,7 @@
         ll = "ls -lAF --color=auto";
         tm = "ps auxww | grep";
         tk = "tmux kill-session";
-        cco = "gcc -O -Wall -W -pedantic";
         ytmp3 = "yt-dlp --progress -q -x -o '%(title)s.%(ext)s' --audio-format mp3 --audio-quality 0 --embed-thumbnail";
-        ytflac_thum_chap = "yt-dlp --progress -q -x -o '%(title)s.%(ext)s' --audio-format flac --audio-quality 0 --embed-thumbnail --embed-chapters";
-        ytflac_aud = "yt-dlp --progress -q -x -o '%(title)s.%(ext)s' --audio-format flac --audio-quality 0";
         yt10 = "yt-dlp --progress -q -o '%(title)s.%(ext)s' --remux-video mp4 --embed-subs --embed-chapters --write-auto-subs --sub-langs en -f 'bestvideo[height<=1080][fps=30]+bestaudio/best[height<=1080]'";
         yt7 = "yt-dlp --progress -q -o '%(title)s.%(ext)s' --remux-video mp4 --embed-subs --embed-chapters --write-auto-subs --sub-langs en -f 'bestvideo[height<=720][fps=30]+bestaudio/best[height<=720]'";
         yt7s = "yt-dlp --progress -q -o '%(title)s.%(ext)s' --sponsorblock-remove sponsor --remux-video mp4 --embed-subs; --embed-chapters --write-auto-subs --sub-langs en -f 'bestvideo[height<=720][fps=30]+bestaudio/best[height<=720]'";
@@ -396,18 +265,12 @@
         tls = "tmux list-session";
         tat = "tmux attach -t";
         mm = "sudo mount -m -v -o rw,uid=1000,gid=1000";
-        msd = "sudo mount -m -v -o rw,noexec,uid=1000,gid=1000 UUID=3961-3035 /run/media/zenex/musicsd";
-        umsd = "sudo umount -v /run/media/zenex/musicsd";
         mhd = "sudo mount -v -t ntfs -m -o rw,noexec,uid=1000,gid=1000 UUID=742455142454DAA6 /run/media/zenex/seagate";
         umhd = "sudo umount -v /run/media/zenex/seagate && lsblk";
-        mssusb = "sudo mount -v -m -o rw,uid=1000,gid=1000 UUID=F5B6-E878 /run/media/zenex/silsam";
-        umssusb = "sudo umount -v /run/media/zenex/silsam && lsblk";
         sysdlist = "systemctl list-unit-files --type=service --state=enabled";
-        rsy = "rsync -ahPzRc --info=progress2";
-        del = "trash-put";
-        fnx = "find . -type f -exec chmod 644 {} +";
-        dnx = "find . -type d -exec chmod 755 {} +";
-        shx = "find . -name '*.sh' -execdir chmod +x {} +";
+        rsy = "rsync -ahPzRcL --info=progress2";
+        del = "trash";
+        dele = "trash empty --all";
         dow = "aria2c -c -s 16 -x 16 -k 1M -j 1";
         chkfstab = "sudo findmnt --verify";
         logs = "journalctl -S today -o verbose -r -x";
@@ -421,25 +284,22 @@
         XDG_STATE_HOME = "$HOME/.local/state";
         XDG_CACHE_HOME = "$HOME/.cache";
         MUPDFHISTFILE = "/tmp/.mupdf.history";
-        # WGETRC = "$XDG_CONFIG_HOME/wgetrc";
         DOTNET_CLI_TELEMETRY_OPTOUT = 1;
         TERMINAL = "foot";
         EDITOR = "emacsclient -c -a emacs";
         VISUAL = "emacsclient -c -a emacs";
-        FZF_DEFAULT_OPTS = "-e -i --no-scrollbar --border=none --reverse --no-info";
         LESSHISTFILE = "/tmp/.lesshst";
         MOZ_ENABLE_WAYLAND = 1;
         QT_QPA_PLATFORM = "wayland;xcb";
         GDK_BACKEND = "wayland";
         _JAVA_AWT_WM_NONREPARENTING = 1;
         SAL_USE_VCLPLUGIN = "gtk3";
-        XCURSOR_THEME = "plan9";
         XCURSOR_SIZE = 20;
         BEMENU_OPTS = ''-i --fn 'Ttyp0' -B '1' -f -p '>' -n --tb '#bdae93' --tf '#000000' --fb '#000000' --ff '#bdae93' --nb '#000000' --nf '#bdae93' --ab '#000000' --af '#bdae93' --sb '#000000' --sf '#bdae93' --cb '#bdae93' --cf '#bdae93' --hb '#bdae93' --hf '#000000' --sb '#bdae93' --sf '#000000' --scb '#000000' --scf '#bdae93' --bdr '#bdae93' '';
       };
-      initExtra = ''
-        PROMPT_COMMAND="''${PROMPT_COMMAND:+$PROMPT_COMMAND$'
-        '}history -a; history -c; history -r"'';
+      #initExtra = ''
+      #  PROMPT_COMMAND="''${PROMPT_COMMAND:+$PROMPT_COMMAND$'
+      #  '}history -a; history -c; history -r"'';
     };
 
     ncmpcpp = {
@@ -466,7 +326,7 @@
         progressbar_look = "->";
         allow_for_physical_item_deletion = "no";
         clock_display_seconds = "yes";
-        external_editor = "nvim";
+        external_editor = "vim";
         use_console_editor = "yes";
         header_window_color = "default";
         state_line_color = "black";
@@ -502,10 +362,6 @@
         "-" = "zoom out";
         "<C-q>" = "quit";
       };
-      # options = {
-      #   sandbox = "strict";
-      #   database = "sqlite";
-      # };
     };
 
     tmux = {
@@ -606,23 +462,21 @@
     };
     persistence."/persistent/home/zenex" = {
       directories = [
-        "Downloads"
-        "Documents"
-        "Dev"
-        "Music"
-        ".emacs.d"
         ".config/emacs"
-        ".mozilla"
-        "Sync"
-        ".config/vesktop"
-        ".config/simplex"
-        ".config/Signal"
-        ".local/share/simplex"
         ".config/feather"
-        ".config/zsh"
-        ".config/opensnitch"
-        ".config/zotero"
         ".config/gh"
+        ".config/opensnitch"
+        ".config/Signal"
+        ".config/simplex"
+        ".config/vesktop"
+        ".config/zotero"
+        ".local/share/simplex"
+        ".mozilla"
+        "Dev"
+        "Documents"
+        "Downloads"
+        "Music"
+        "Sync"
       ];
       files = [".local/share/.bash_history"];
       allowOther = true;
@@ -633,47 +487,51 @@
     ];
 
     packages = with pkgs; [
-      aria2
       # bsdgames
+      # entr # run a command when files change
       # ffmpegthumbnailer
+      # fq # jq for binary formats
+      # gron # json grepper
+      # https://viric.name/soft/ts/
+      # https://www.gnu.org/software/parallel
       # imhex
       # kismet
       # macchanger
+      # mpvScripts.mpris
       # nodePackages.prettier
       # rlwrap # for the readline
       # sigrok-cli
-      # gron # json grepper
-      # fq # jq for binary formats
-      # entr # run a command when files change
-      # https://viric.name/soft/ts/
-      # https://www.gnu.org/software/parallel
-      # mpvScripts.mpris
       age
       alacritty
       alejandra
       alsa-utils
       android-tools
       anki-bin
+      aria2
       astyle
+      basedpyright
       bc
       bemenu
+      bfs
       ccls
       cliphist
       cryptsetup
       dig
       exfatprogs
       exif
-      fd
       feather
       ffmpeg-full
       file
       fuse3
+      fzy
+      gcc
       gh
       gimp
       git
       gojq
       grim
       haskell-language-server
+      html-tidy
       htop
       hunspell
       hunspellDicts.en-gb-large
@@ -702,7 +560,6 @@
       ripgrep-all
       rsync
       ruff
-      basedpyright
       sbctl
       shellcheck
       shfmt
@@ -712,18 +569,15 @@
       syncthing
       texliveFull
       traceroute
-      rustup
       trashy
       tree
       unstable.simplex-chat-desktop
-      tree-sitter-grammars.tree-sitter-nix
       unzip
       usbutils
-      gcc
       vesktop
+      vim
       virt-manager
       wdisplays
-      html-tidy
       wl-clip-persist
       wl-clipboard
       wl-color-picker

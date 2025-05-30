@@ -154,7 +154,6 @@
     };
     light.enable = true;
     dconf.enable = true;
-    zsh = {enable = true;}; ##add some more stuff for root
     bash.promptInit = ''
       if [ "$LOGNAME" = root ] || [ "$(id -u)" -eq 0 ]; then
       	PS1="\[\e[01;31m\]\[\u@\h:\w\n# \]\\[\e[00m\]"
@@ -170,7 +169,7 @@
       root.hashedPasswordFile = "/persistent/var/keys/rootP";
       zenex = {
         hashedPasswordFile = "/persistent/var/keys/zenexP";
-        shell = pkgs.zsh;
+        shell = pkgs.bash;
         isNormalUser = true;
         description = "zenex";
         extraGroups = [
@@ -347,8 +346,8 @@
       # };
     };
     defaultPackages = lib.mkForce [];
-    systemPackages = with pkgs; [git neovim emacs-nox tmux sbctl];
-    pathsToLink = ["/share/bash-completion" "/share/zsh"];
+    systemPackages = with pkgs; [git vim emacs-nox tmux sbctl];
+    pathsToLink = ["/share/bash-completion"];
     persistence."/persistent" = {
       enable = true; # NB: Defaults to true, not needed
       hideMounts = true;

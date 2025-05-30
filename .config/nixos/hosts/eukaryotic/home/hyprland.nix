@@ -181,7 +181,7 @@
           no_fade_out = true;
         }
       ];
-      animations = [{enable = false;}];
+      animations = [{enabled = false;}];
       background = [{color = "rgb(0, 0, 0)";}];
       input-field = [
         {

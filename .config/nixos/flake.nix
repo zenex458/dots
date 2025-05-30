@@ -42,9 +42,7 @@
           inherit inputs;
         };
         system = "x86_64-linux";
-        modules = [
-          ./hosts/eukaryotic/configuration.nix
-        ];
+        modules = [./hosts/eukaryotic/configuration.nix];
       };
     };
   };
