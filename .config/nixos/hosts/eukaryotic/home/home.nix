@@ -211,7 +211,7 @@
         "histappend"
       ];
       bashrcExtra = ''
-        bind '"\C-g":"cd $(bfs -exclude -name .git -exclude -name .ccls-cache -exclude -name env -exclude -name "*venv*" | fzy)\n"'
+        bind -x '"\C-g":"cd $(bfs -type d -exclude -name .git -exclude -name .ccls-cache -exclude -name env -exclude -name '*venv*' | fzy)"'
         bind -x '"\C-r":history_search'
         history_search(){
         READLINE_LINE=$(
