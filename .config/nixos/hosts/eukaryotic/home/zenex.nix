@@ -29,6 +29,10 @@
       size = 32;
     };
     fonts = {
+      sizes = {
+        applications = 10;
+        terminal = 10;
+      };
       serif = {
         package = pkgs.uw-ttyp0;
         name = "Ttyp0";

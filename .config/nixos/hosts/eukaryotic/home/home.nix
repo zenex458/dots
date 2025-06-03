@@ -161,6 +161,7 @@
           flymake
           gcmh
           hungry-delete
+          haskell-mode
           indent-guide
           magit
           markdown-mode
@@ -174,6 +175,7 @@
           sudo-edit
           undo-fu-session
           vertico
+          zoxide
           vlf
           yasnippet
         ];
@@ -210,18 +212,20 @@
         "autocd"
         "histappend"
       ];
-      bashrcExtra = ''
-        bind -x '"\C-g":"cd $(bfs -type d -exclude -name .git -exclude -name .ccls-cache -exclude -name env -exclude -name '*venv*' | fzy)"'
-        bind -x '"\C-r":history_search'
-        history_search(){
-        READLINE_LINE=$(
-        	HISTTIMEFORMAT=
-        	history | sort -rn | cut -c 8- | awk '!visited[''$0]++' | fzy -q "''$READLINE_LINE")
-        READLINE_POINT=0x7FFFFFFF
-        }
-        bind 'set show-all-if-ambiguous on'
-        bind 'set completion-ignore-case on'
-        bind 'TAB:menu-complete'
+      initExtra = ''
+        if [ -z "$INSIDE_EMACS" ]; then
+           bind -x '"\C-g":"cd $(bfs -type d -exclude -name .git -exclude -name .ccls-cache -exclude -name env -exclude -name '*venv*' | fzy)"'
+           bind -x '"\C-r":history_search'
+           history_search(){
+           READLINE_LINE=$(
+           	HISTTIMEFORMAT=
+           	history | sort -rn | cut -c 8- | awk '!visited[''$0]++' | fzy -q "''$READLINE_LINE")
+           READLINE_POINT=0x7FFFFFFF
+           }
+           bind 'set show-all-if-ambiguous on'
+           bind 'set completion-ignore-case on'
+           bind 'TAB:menu-complete'
+        fi
         cd() {
         	if [ -z "$#" ]; then
         		builtin cd
@@ -410,7 +414,7 @@
       settings = {
         main = {
           term = "xterm-256color";
-          font = "Ttyp0:style=Regular:size=11";
+          font = "Ttyp0:style=Regular:size=10";
           dpi-aware = "no";
         };
         mouse = {
@@ -430,7 +434,7 @@
           regular4 = "2874B2"; # blue
           regular5 = "802caa"; # magenta
           regular6 = "6cb2eb"; # cyan
-          regular7 = "bdae93"; # white
+          regular7 = "a08a64"; # white
 
           bright0 = "666666"; # black
           bright1 = "f62b5a"; # red
@@ -439,7 +443,7 @@
           bright4 = "24acd4"; # blue
           bright5 = "f2affd"; # magenta
           bright6 = "13c299"; # cyan
-          bright7 = "e6e6e6"; # white
+          bright7 = "bdae93"; # white
         };
       };
     };
@@ -546,6 +550,7 @@
       man-pages-posix
       mpc-cli
       mpv
+      ghc
       mupdf
       nemo
       nixd

@@ -43,6 +43,10 @@
         disable_hyprland_logo = true;
         disable_splash_rendering = true;
       };
+      device = {
+        name = "kensington-usb-orbit";
+        middle_button_emulation = 1;
+      };
       bind = [
         "$mainMod, Return, exec, footclient tmux"
         "$mainMod, A, exec, vol.sh"

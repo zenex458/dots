@@ -321,7 +321,7 @@
   environment = {
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
-      # FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
+      FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
     };
     etc = {
       "firejail/firefox.local".text = ''
@@ -400,11 +400,12 @@
 
   fonts = {
     packages = with pkgs; [iosevka-bin uw-ttyp0 vistafonts];
-    # fontconfig = {
-    #   antialias = true;
-    #   hinting.enable = true;
-    #   hinting.style = "slight";
-    # };
+    fontconfig = {
+      antialias = true;
+      hinting.enable = true;
+      hinting.style = "full";
+      subpixel.rgba = "rgb";
+    };
   };
 
   security = {
