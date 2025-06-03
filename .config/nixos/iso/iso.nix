@@ -8,6 +8,8 @@
   ...
 }: {
   imports = [(modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix") inputs.home-manager.nixosModules.home-manager];
+
+  # isoImage.isoName = lib.mkForce "nixos.iso";
   networking.wireless.enable = false;
   networking.networkmanager = {enable = true;};
 
@@ -46,6 +48,7 @@
     git
     dmenu
     redshift
+    # (writeScriptBin "install.sh"'''')
   ];
   isoImage.squashfsCompression = "gzip -Xcompression-level 1";
 }
