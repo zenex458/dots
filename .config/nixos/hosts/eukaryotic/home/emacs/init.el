@@ -55,11 +55,12 @@
 (setq dired-dwim-target t)
 (setq-default indent-tabs-mode nil)
 (electric-indent-mode)
-(setq tab-always-indent 'complete)
-(setq completion-cycle-threshold 3)
+(setq-default tab-always-indent 'complete)
+(setq completion-cycle-threshold 1)
 (setq read-extended-command-predicate #'command-completion-default-include-p)
 (setq password-cache-expiry 3600)
 (setq history-length 2000)
+(setq bookmark-save-flag nil)
 (setq dired-kill-when-opening-new-dired-buffer t)
 (setq native-comp-async-report-warnings-errors nil)
 (setq warning-minimum-level :error)
@@ -132,10 +133,10 @@
 
 (use-package orderless
   :custom
-  (completion-styles '(orderless basic substring initials partial-completion))
+  (completion-styles '(orderless substring basic initials partial-completion))
   ;; (completion-styles '(substring orderless))
   ;; (completion-category-defaults nil)
-  (completion-category-overrides '((file (styles partial-completion))))
+  (completion-category-overrides '((file (initials styles partial-completion))))
   ;; (completion-category-overrides '((file (initials))))
   )
 
@@ -330,8 +331,9 @@
   (setq rmh-elfeed-org-files (list (format "%selfeed.org"user-emacs-directory))))
 
 (use-package nix-ts-mode
-  :mode "\\.nix\\'"
-  :bind ("C-c r" . updnix))
+  :mode "\\.nix\\'")
+
+(use-package haskell-mode)
 
 (use-package corfu
   :init
@@ -339,8 +341,10 @@
   (corfu-history-mode)
   (corfu-popupinfo-mode)
   :custom
-  (corfu-cycle t)
-  (corfu-preselect 'prompt)
+  (corfu-auto t)
+  (corfu-quit-no-match t)
+  ;; (corfu-cycle t)
+  ;; (corfu-preselect 'prompt)
   (global-corfu-minibuffer
    (lambda ()
      (not (or (bound-and-true-p mct--active)
@@ -479,6 +483,11 @@
 
 (use-package indent-guide
   :hook (python-ts-mode . indent-guide-mode))
+
+(use-package zoxide
+  :hook (find-file . zoxide-add)
+  :bind
+  ("M-s z f" . zoxide-find-file))
 
 (require 'updnix)
 (require 'upmu)
