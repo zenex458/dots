@@ -15,6 +15,7 @@
     ./pkgs.nix
   ];
   boot = {
+    kernel.sysctl."vm.swappiness" = 40;
     supportedFilesystems = ["ntfs"];
     kernelPackages = pkgs.linuxPackages_latest;
     #loader.systemd-boot.enable = true;
@@ -153,6 +154,7 @@
       };
     };
     light.enable = true;
+    zsh.enable = true;
     dconf.enable = true;
     bash.promptInit = ''
       if [ "$LOGNAME" = root ] || [ "$(id -u)" -eq 0 ]; then
@@ -169,7 +171,7 @@
       root.hashedPasswordFile = "/persistent/var/keys/rootP";
       zenex = {
         hashedPasswordFile = "/persistent/var/keys/zenexP";
-        shell = pkgs.bash;
+        shell = pkgs.zsh;
         isNormalUser = true;
         description = "zenex";
         extraGroups = [
@@ -347,7 +349,7 @@
     };
     defaultPackages = lib.mkForce [];
     systemPackages = with pkgs; [git vim emacs-nox tmux sbctl];
-    pathsToLink = ["/share/bash-completion"];
+    pathsToLink = ["/share/bash-completion" "/share/zsh"];
     persistence."/persistent" = {
       enable = true; # NB: Defaults to true, not needed
       hideMounts = true;

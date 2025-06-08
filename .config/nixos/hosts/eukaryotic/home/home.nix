@@ -137,12 +137,14 @@
 
     emacs = {
       enable = true;
-      package = pkgs.emacs-pgtk; #use just `emacs' if you want it the daemon to survive after the gui terminates
+      #package = pkgs.emacs-pgtk; #use just `emacs' if you want it the daemon to survive after the gui terminates
+      package = pkgs.emacs; #use just `emacs' if you want it the daemon to survive after the gui terminates
       extraPackages = epkgs:
         with pkgs.unstable.emacsPackages; [
           vterm
           pdf-tools
           multi-vterm
+          aggressive-indent
           ace-window
           apheleia
           async
@@ -155,6 +157,7 @@
           eglot
           elfeed
           elfeed-org
+          evil
           embark
           embark-consult
           expreg
@@ -173,6 +176,7 @@
           rainbow-delimiters
           rainbow-mode
           sudo-edit
+          undo-fu
           undo-fu-session
           vertico
           zoxide
@@ -189,6 +193,21 @@
       '';
     };
 
+    neovim = {
+      enable = true;
+      extraLuaConfig = ''
+        vim.wo.number = true
+        vim.wo.relativenumber = true
+        vim.o.termguicolors = true
+        vim.g.mapleader = " "
+        vim.o.statusline = "%<%f%m   %= %R%H%W %l/%L:%c %p%% "
+        vim.o.guicursor = "i:hor50-Cursor,i:blinkon100,n-v-c:blinkon100"
+        vim.o.clipboard = "unnamedplus"
+        vim.keymap.set("i", "jk", [[<ESC>]])
+        vim.cmd.colorscheme("murphy")
+      '';
+    };
+
     chromium = {
       enable = true;
       package = pkgs.ungoogled-chromium.override {enableWideVine = true;};
@@ -197,6 +216,87 @@
     zoxide = {
       enable = true;
       enableBashIntegration = true;
+      enableZshIntegration = true;
+    };
+
+    zsh = {
+      enable = true;
+      dotDir = ".config/zsh";
+      shellAliases = config.programs.bash.shellAliases;
+      completionInit = "autoload -Uz compinit && compinit -d $HOME/.config/zsh/.zcompdump";
+      enableCompletion = true;
+      autocd = true;
+      defaultKeymap = "emacs";
+      sessionVariables = config.programs.bash.sessionVariables;
+      history = {
+        ignoreAllDups = true;
+        path = "$ZDOTDIR/.zsh_history";
+      };
+      autosuggestion = {
+        enable = true;
+        highlight = "fg=#bdae93,bg=#000000,bold,underline";
+      };
+      syntaxHighlighting = {
+        enable = true;
+        styles = {
+          suffix-alias = "fg=#bdae93";
+          precommand = "fg=#bdae93";
+          arg0 = "fg=#bdae93";
+          alias = "fg=#bdae93";
+          path = "fg=#bdae93";
+          unknown-token = "fg=#bdae93,underline";
+          command_error = "fg=#bdae93,underline";
+        };
+      };
+      initContent = ''
+        PROMPT="[%~]''\nλ "
+        zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate _aliases _functions
+        zstyle ':completion:*:*:*:*:descriptions' format '%F{#bdae93}[%d]%f'
+        zstyle ':completion:*' use-cache on
+        zstyle ':completion:*' cache-path "$HOME/.config/zsh/.zcompcache"
+        zstyle ':completion:*' group-name ' '
+        zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+        zstyle ':completion:*' list-colors "''${(s.:.)LS_COLORS}"
+        zstyle ':completion:*' verbose true
+        zstyle ':completion:*' menu select search
+        ZSH_AUTOSUGGEST_STRATEGY=(completion)
+        setopt AUTO_PUSHD PUSHD_IGNORE_DUPS PUSHD_MINUS COMPLETE_IN_WORD REC_EXACT LIST_PACKED LIST_ROWS_FIRST GLOBDOTS NOMATCH NOTIFY CORRECT LIST_PACKED HIST_FIND_NO_DUPS HIST_REDUCE_BLANKS HIST_SAVE_NO_DUPS INC_APPEND_HISTORY SHARE_HISTORY
+        _comp_options+=(globdots)
+        unsetopt beep
+        if [ -z "$INSIDE_EMACS" ]; then
+          fzy-history-widget() {
+            emulate -L zsh
+           	zle -I
+           	local S=$(history | sort -rn | cut -c 8- | awk '!visited[''$0]++' | fzy -q "''${LBUFFER//$/\\$}")
+           	if [[ -n $S ]] ; then
+           		LBUFFER=$S
+           	fi
+           	zle reset-prompt
+           }
+           zle -N fzy-history-widget
+           bindkey '^R' fzy-history-widget
+
+        fi
+        cd() {
+        	if [ -z "$#" ]; then
+        		builtin cd
+        	else
+        		builtin cd "$@"
+        	fi
+        	if [ $? -eq 0 ]; then
+        		ls -h -A --classify=auto --color=auto --group-directories-first
+        	fi
+        }
+        #https://superuser.com/a/902508
+        zshaddhistory() {
+          local j=1
+          while ([[ ''${''${(z)1}[$j]} == *=* ]]) {
+            ((j++))
+          }
+          whence ''${''${(z)1}[$j]} >| /dev/null || return 1
+        }
+        zshaddhistory()
+      '';
     };
 
     bash = {
@@ -238,15 +338,15 @@
         }
       '';
       shellAliases = {
-        upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#eukaryotic --use-remote-sudo";
-        updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#eukaryotic --use-remote-sudo -v --show-trace";
+        upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#eukaryotic --use-remote-sudo --cores 2";
+        updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#eukaryotic --use-remote-sudo -v --show-trace --cores 2";
         updflake = "nix flake update --commit-lock-file";
         listnixgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
         remoldgen = "nix-collect-garbage --delete-older-than 2d && sudo nix-collect-garbage --delete-older-than 2d && upd";
         re = "systemctl reboot";
         off = "systemctl poweroff";
-        nv = "vim";
-        ls = "ls -h --classify=auto --group-directories-first --color=auto";
+        nv = "nvim";
+        ls = "ls -A -h --classify=auto --group-directories-first --color=auto";
         ga = "git add";
         gc = "git commit -m";
         updoff = "upd && sleep 2 && off";
@@ -300,6 +400,7 @@
         SAL_USE_VCLPLUGIN = "gtk3";
         XCURSOR_SIZE = 20;
         BEMENU_OPTS = ''-i --fn 'Ttyp0' -B '1' -f -p '>' -n --tb '#bdae93' --tf '#000000' --fb '#000000' --ff '#bdae93' --nb '#000000' --nf '#bdae93' --ab '#000000' --af '#bdae93' --sb '#000000' --sf '#bdae93' --cb '#bdae93' --cf '#bdae93' --hb '#bdae93' --hf '#000000' --sb '#bdae93' --sf '#000000' --scb '#000000' --scf '#bdae93' --bdr '#bdae93' '';
+        MATHPATH = "/run/current-system/sw/share/man";
       };
       #initExtra = ''
       #  PROMPT_COMMAND="''${PROMPT_COMMAND:+$PROMPT_COMMAND$'
@@ -330,7 +431,7 @@
         progressbar_look = "->";
         allow_for_physical_item_deletion = "no";
         clock_display_seconds = "yes";
-        external_editor = "vim";
+        external_editor = "nvim";
         use_console_editor = "yes";
         header_window_color = "default";
         state_line_color = "black";
@@ -474,6 +575,7 @@
         ".config/simplex"
         ".config/vesktop"
         ".config/zotero"
+        ".config/zsh"
         ".local/share/simplex"
         ".mozilla"
         "Dev"
@@ -541,6 +643,7 @@
       hunspellDicts.en-gb-large
       imagemagick
       imv
+      nomacs
       keepassxc
       libnotify
       libreoffice
@@ -556,6 +659,7 @@
       nixd
       nodePackages.bash-language-server
       ormolu
+      nodePackages.prettier
       p7zip
       pandoc
       pulsemixer
@@ -580,7 +684,6 @@
       unzip
       usbutils
       vesktop
-      vim
       virt-manager
       wdisplays
       wl-clip-persist

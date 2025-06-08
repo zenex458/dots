@@ -28,12 +28,14 @@
         rounding = 0;
         blur = {
           enabled = false;
-          size = 3;
+          size = 0;
           passes = 1;
         };
+        shadow.enabled = false;
       };
       animations = {
-        enabled = "no";
+        enabled = false;
+        first_launch_animation = false;
       };
       gestures = {
         workspace_swipe = "off";
@@ -43,10 +45,15 @@
         disable_hyprland_logo = true;
         disable_splash_rendering = true;
       };
+      binds = {
+        window_direction_monitor_fallback = false;
+        movefocus_cycles_fullscreen = true;
+      };
       device = {
         name = "kensington-usb-orbit";
         middle_button_emulation = 1;
       };
+      ecosystem.no_update_news = true;
       bind = [
         "$mainMod, Return, exec, footclient tmux"
         "$mainMod, A, exec, vol.sh"
@@ -67,6 +74,7 @@
         "ALT, Tab, exec, show.sh"
         "$mainMod, Y, exec, clipshow.sh"
         "$mainMod, F, fullscreen, 0"
+        "$mainMod SHIFT , F, fullscreenstate, 0 2"
         # "$mainMod, W, focusmonitor, HDMI-A-1"
         # "$mainMod, E, focusmonitor, eDP-1"
         # "$mainMod, R, focusmonitor, HDMI-A-2"
@@ -84,15 +92,15 @@
         "$mainMod CTRL, h, resizeactive, -10 0"
         "$mainMod CTRL, j, resizeactive, 0 -10"
         "$mainMod CTRL, k, resizeactive, 0 10"
-        "SUPER, 1, focusworkspaceoncurrentmonitor, 1"
-        "SUPER, 2, focusworkspaceoncurrentmonitor, 2"
-        "SUPER, 3, focusworkspaceoncurrentmonitor, 3"
-        "SUPER, 4, focusworkspaceoncurrentmonitor, 4"
-        "SUPER, 5, focusworkspaceoncurrentmonitor, 5"
-        "SUPER, 6, focusworkspaceoncurrentmonitor, 6"
-        "SUPER, 7, focusworkspaceoncurrentmonitor, 7"
-        "SUPER, 8, focusworkspaceoncurrentmonitor, 8"
-        "SUPER, 9, focusworkspaceoncurrentmonitor, 9"
+        "$mainMod, 1, focusworkspaceoncurrentmonitor, 1"
+        "$mainMod, 2, focusworkspaceoncurrentmonitor, 2"
+        "$mainMod, 3, focusworkspaceoncurrentmonitor, 3"
+        "$mainMod, 4, focusworkspaceoncurrentmonitor, 4"
+        "$mainMod, 5, focusworkspaceoncurrentmonitor, 5"
+        "$mainMod, 6, focusworkspaceoncurrentmonitor, 6"
+        "$mainMod, 7, focusworkspaceoncurrentmonitor, 7"
+        "$mainMod, 8, focusworkspaceoncurrentmonitor, 8"
+        "$mainMod, 9, focusworkspaceoncurrentmonitor, 9"
         "$mainMod SHIFT, 1, movetoworkspacesilent, 1"
         "$mainMod SHIFT, 2, movetoworkspacesilent, 2"
         "$mainMod SHIFT, 3, movetoworkspacesilent, 3"
@@ -144,8 +152,8 @@
     settings = {
       ipc = false;
       splash = false;
-      preload = ["~/Downloads/Images/lowsat.jpg"];
-      wallpaper = [",~/Downloads/Images/lowsat.jpg"];
+      preload = ["~/Downloads/Images/Dlowsat.png"];
+      wallpaper = [",~/Downloads/Images/Dlowsat.png"];
     };
   };
 
