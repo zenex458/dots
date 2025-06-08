@@ -13,7 +13,7 @@
 
   stylix = {
     enable = true;
-    image = ./Dlowsat.jpg;
+    image = ./Dlowsat.png;
     polarity = "dark";
     # cursor.name = "plan9";
     iconTheme = {
