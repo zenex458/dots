@@ -1,5 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 (add-to-list 'custom-theme-load-path (format "%sthemes/"user-emacs-directory))
+(load-theme 'saturn t)
 (add-to-list 'load-path (format "%slisp/"user-emacs-directory))
 (setenv "MANWIDTH" "200")
 ;; (setq shell-file-name "bash")

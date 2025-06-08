@@ -1,5 +1,4 @@
 ;; -*- lexical-binding: t; -*-
-(load-theme 'saturn t)
 ;; (setq custom-file (make-temp-file "emacs-custom-"))
 (setq custom-file (expand-file-name (format "%semacs-custom.el"user-emacs-directory)))
 (setq auth-sources '((format "%s.authinfo.gpg"user-emacs-directory)))
@@ -56,11 +55,10 @@
 (setq-default indent-tabs-mode nil)
 (electric-indent-mode)
 (setq-default tab-always-indent 'complete)
-(setq completion-cycle-threshold 1)
+(setq completion-cycle-threshold 3)
 (setq read-extended-command-predicate #'command-completion-default-include-p)
 (setq password-cache-expiry 3600)
 (setq history-length 2000)
-(setq bookmark-save-flag nil)
 (setq dired-kill-when-opening-new-dired-buffer t)
 (setq native-comp-async-report-warnings-errors nil)
 (setq warning-minimum-level :error)
@@ -79,6 +77,8 @@
 (global-subword-mode 1)
 (pending-delete-mode t)
 (savehist-mode 1)
+(recentf-mode)
+(setq recentf-max-saved-items 5)
 (add-hook 'prog-mode-hook 'electric-pair-mode)
 
 (defun close-or-kill-emacs ()
@@ -136,9 +136,8 @@
   (completion-styles '(orderless substring basic initials partial-completion))
   ;; (completion-styles '(substring orderless))
   ;; (completion-category-defaults nil)
-  (completion-category-overrides '((file (initials styles partial-completion))))
-  ;; (completion-category-overrides '((file (initials))))
-  )
+  (completion-category-overrides '((file (initials styles partial-completion)))))
+;; (completion-category-overrides '((file (initials)))))
 
 
 (use-package consult
@@ -203,27 +202,29 @@
   ;; Use Consult to select xref locations with preview
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
+  (setq consult-buffer-sources '(consult--source-hidden-buffer consult--source-modified-buffer
+                                                               consult--source-buffer
+                                                               consult--source-file-register
+                                                               consult--source-bookmark
+                                                               consult--source-project-buffer-hidden
+                                                               consult--source-project-root-hidden))
   :config
   (consult-customize
    consult-theme :preview-key '(:debounce 0.2 any)
    consult-ripgrep consult-git-grep consult-grep
    consult-bookmark consult-recent-file consult-xref
    consult--source-bookmark consult--source-file-register
-   consult--source-recent-file consult--source-project-recent-file
    :preview-key '(:debounce 0.4 any))
   (setq consult-narrow-key "<"))
 (setq completion-in-region-function #'consult-completion-in-region)
 
 (use-package embark
   :ensure t
-
   :bind
   (("C-." . embark-act)         ;; pick some comfortable binding
    ("C-;" . embark-dwim)        ;; good alternative: M-.
    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
-
   :init
-
   ;; Optionally replace the key help with a completing-read interface
   (setq prefix-help-command #'embark-prefix-help-command)
 
@@ -274,6 +275,9 @@
   (setf (alist-get 'xmlformat apheleia-formatters)
 		    '("xmlformat"))
   (add-to-list 'apheleia-mode-alist '(nxml-mode . xmlformat))
+  (setf (alist-get 'prettier apheleia-formatters)
+		    '("prettier"))
+  (add-to-list 'apheleia-mode-alist '(css-mode . prettier))
   (setf (alist-get 'ormolu apheleia-formatters)
 		    '("ormolu" "--stdin-input-file" "--"))
   (add-to-list 'apheleia-mode-alist '(haskell-mode . ormolu)))
@@ -318,6 +322,7 @@
 
 (use-package rainbow-delimiters
   :hook (emacs-lisp-mode . rainbow-delimiters-mode))
+
 (use-package elfeed
   :config
   ;; (setq elfeed-search-title-max-width '130)
@@ -325,15 +330,20 @@
   (setq elfeed-db-directory (format "%selfeed/"user-emacs-directory)))
 
 (use-package elfeed-org
-  :init
-  (elfeed-org)
+  :hook (elfeed-search-mode . (lambda ()
+							                  (elfeed-org)))
   :config
   (setq rmh-elfeed-org-files (list (format "%selfeed.org"user-emacs-directory))))
 
 (use-package nix-ts-mode
   :mode "\\.nix\\'")
 
-(use-package haskell-mode)
+;; https://github.com/promethial/.emacs.d/blob/c71732112300f1dc294769821533a8627440b282/init.el#L326
+(use-package haskell-mode
+  :bind
+  (:map haskell-mode-map
+        ("TAB" . corfu-next)))
+
 
 (use-package corfu
   :init
@@ -341,10 +351,10 @@
   (corfu-history-mode)
   (corfu-popupinfo-mode)
   :custom
-  (corfu-auto t)
-  (corfu-quit-no-match t)
-  ;; (corfu-cycle t)
-  ;; (corfu-preselect 'prompt)
+  ;; (corfu-auto t)
+  ;; (corfu-quit-no-match t)
+  (corfu-cycle t)
+  (corfu-preselect 'prompt)
   (global-corfu-minibuffer
    (lambda ()
      (not (or (bound-and-true-p mct--active)
@@ -445,7 +455,11 @@
 		     ("C->" . mc/mark-next-like-this)
 		     ("C-<" . mc/mark-previous-like-this)
 		     ("C-C C-@" . mc/mark-all-like-this)
-		     ("C-C M-v" . mc/edit-beggineing-of-lines)))
+		     ("C-C M-v" . mc/edit-beggineing-of-lines))
+  :custom
+  (mc/always-run-for-all t))
+
+(use-package undo-fu)
 
 (use-package undo-fu-session
   :config
@@ -484,10 +498,20 @@
 (use-package indent-guide
   :hook (python-ts-mode . indent-guide-mode))
 
+(use-package aggressive-indent
+  :hook (python-ts-mode . aggressive-indent-mode))
+
 (use-package zoxide
   :hook (find-file . zoxide-add)
   :bind
   ("M-s z f" . zoxide-find-file))
+
+(use-package evil
+  :init
+  (setq evil-undo-system 'undo-fu)
+  :config
+  (evil-mode))
+
 
 (require 'updnix)
 (require 'upmu)
