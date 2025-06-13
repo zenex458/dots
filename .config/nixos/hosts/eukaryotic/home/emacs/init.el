@@ -330,10 +330,8 @@
   (setq elfeed-db-directory (format "%selfeed/"user-emacs-directory)))
 
 (use-package elfeed-org
-  :hook (elfeed-search-mode . (lambda ()
-							                  (elfeed-org)))
   :config
-  (setq rmh-elfeed-org-files (list (format "%selfeed.org"user-emacs-directory))))
+  (setq rmh-elfeed-org-files (list "~/.config/emacs/elfeed.org")))
 
 (use-package nix-ts-mode
   :mode "\\.nix\\'")
@@ -506,11 +504,17 @@
   :bind
   ("M-s z f" . zoxide-find-file))
 
-(use-package evil
-  :init
-  (setq evil-undo-system 'undo-fu)
+(use-package golden-ratio
   :config
-  (evil-mode))
+  (setq golden-ratio-auto-scale t)
+  (add-to-list 'golden-ratio-extra-commands 'ace-window)
+  (golden-ratio-mode 1))
+
+(use-package edwina
+  :config
+  (setq display-buffer-base-action '(display-buffer-below-selected))
+  (setq edwina-mode-line-format "")
+  (edwina-mode 1))
 
 
 (require 'updnix)

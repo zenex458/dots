@@ -32,3 +32,17 @@
 
 
 
+(require 'transient)
+
+
+(transient-define-prefix Transient ()
+  "My Transient."
+  ["Commands" ("l" "List" List :transient t)])
+
+(defun List ()
+  "List."
+  (interactive)
+  (progn
+    (with-temp-buffer(shell-command "lsblk -P -o NAME,MOUNTPOINT | grep MOUNTPOINT=\"\" | grep -o \"sd[b-z][0-9]\"" "*test*"))))
+
+(Transient)
