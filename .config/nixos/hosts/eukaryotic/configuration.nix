@@ -54,9 +54,9 @@
   };
 
   systemd.tmpfiles.rules = [
-    "d /persistence/home/ 1777 root root-"
-    "d /persistence/home/zenex/ 1777 zenex users-"
-    "d /persistent/var/keys/ 0600 root root-"
+    # "d /persistent/home/ 1777 root root"
+    # "d /persistent/home/zenex/ 1777 zenex users"
+    "d /persistent/var/keys/ 0700 root root"
   ];
 
   programs.fuse.userAllowOther = true;
@@ -126,6 +126,7 @@
   };
 
   programs = {
+    niri.enable = true;
     adb.enable = true;
     localsend.enable = true;
     ssh.startAgent = true;
@@ -363,7 +364,7 @@
         "/etc/docker/key.json"
         "/var/lib/docker/"
         "/var/lib/lxd/"
-        "/var/lib/libvirt/images"
+        "/var/lib/libvirt/"
         {
           directory = "/etc/mullvad-vpn";
           user = "root";

@@ -137,8 +137,8 @@
 
     emacs = {
       enable = true;
-      #package = pkgs.emacs-pgtk; #use just `emacs' if you want it the daemon to survive after the gui terminates
-      package = pkgs.emacs; #use just `emacs' if you want it the daemon to survive after the gui terminates
+      package = pkgs.emacs-pgtk; #use just `emacs' if you want it the daemon to survive after the gui terminates
+      #package = pkgs.emacs; #use just `emacs' if you want it the daemon to survive after the gui terminates
       extraPackages = epkgs:
         with pkgs.unstable.emacsPackages; [
           vterm
@@ -147,17 +147,18 @@
           aggressive-indent
           ace-window
           apheleia
+          edwina
           async
           auctex
           cape
           consult
           corfu
           diminish
+          golden-ratio
           dired-subtree
           eglot
           elfeed
           elfeed-org
-          evil
           embark
           embark-consult
           expreg
@@ -287,15 +288,6 @@
         		ls -h -A --classify=auto --color=auto --group-directories-first
         	fi
         }
-        #https://superuser.com/a/902508
-        zshaddhistory() {
-          local j=1
-          while ([[ ''${''${(z)1}[$j]} == *=* ]]) {
-            ((j++))
-          }
-          whence ''${''${(z)1}[$j]} >| /dev/null || return 1
-        }
-        zshaddhistory()
       '';
     };
 
@@ -343,6 +335,7 @@
         updflake = "nix flake update --commit-lock-file";
         listnixgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
         remoldgen = "nix-collect-garbage --delete-older-than 2d && sudo nix-collect-garbage --delete-older-than 2d && upd";
+        Hyprland = "Hyprland >> /tmp/hy";
         re = "systemctl reboot";
         off = "systemctl poweroff";
         nv = "nvim";
