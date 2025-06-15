@@ -296,8 +296,8 @@
       enableCompletion = true;
       historyControl = ["ignoredups"];
       historyFile = "$HOME/.local/share/.bash_history";
-      historyFileSize = 10000;
-      historySize = 10000;
+      historyFileSize = 1000;
+      #historySize = 10000;
       shellOptions = [
         "cdspell"
         "dirspell"
@@ -335,7 +335,6 @@
         updflake = "nix flake update --commit-lock-file";
         listnixgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
         remoldgen = "nix-collect-garbage --delete-older-than 2d && sudo nix-collect-garbage --delete-older-than 2d && upd";
-        Hyprland = "Hyprland >> /tmp/hy";
         re = "systemctl reboot";
         off = "systemctl poweroff";
         nv = "nvim";
@@ -374,6 +373,8 @@
         log = "journalctl -S today -r -x";
         e = "emacsclient -a emacs -t";
         upded = "systemctl --user restart emacs.service  &&  systemctl --user status emacs.service";
+        Hyprland = "Hyprland >> /tmp/hy";
+        ns = "niri-session";
       };
       sessionVariables = {
         XDG_CONFIG_HOME = "$HOME/.config";
