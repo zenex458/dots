@@ -18,6 +18,7 @@
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
     impermanence.url = "github:nix-community/impermanence";
     stylix.url = "github:nix-community/stylix/release-25.05";
+    niri.url = "github:sodiboo/niri-flake";
   };
 
   # For more information about well-known outputs checked by `nix flake check`:
@@ -32,6 +33,7 @@
     lanzaboote,
     stylix,
     nixpkgs-unstable,
+    niri,
     ...
   } @ inputs: {
     # Used with `nixos-rebuild --flake .#<hostname>`

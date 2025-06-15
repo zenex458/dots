@@ -28,6 +28,7 @@
           withKeePassSSHAgent = false;
         };
       })
+      inputs.niri.overlays.niri
     ];
   };
 }

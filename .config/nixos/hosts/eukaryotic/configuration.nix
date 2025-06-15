@@ -124,9 +124,7 @@
       rootless.setSocketVariable = true;
     };
   };
-
   programs = {
-    niri.enable = true;
     adb.enable = true;
     localsend.enable = true;
     ssh.startAgent = true;

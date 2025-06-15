@@ -10,6 +10,7 @@
     ../pkgs.nix
     ./firefox.nix
     ./hyprland.nix
+    ./niri.nix
   ];
 
   dconf.settings = {
@@ -134,7 +135,6 @@
       enable = true;
       generateCaches = false;
     };
-
     emacs = {
       enable = true;
       package = pkgs.emacs-pgtk; #use just `emacs' if you want it the daemon to survive after the gui terminates
