@@ -1,113 +1,148 @@
 ;; -*- lexical-binding: t; -*-
-;; (setq custom-file (make-temp-file "emacs-custom-"))
-(setq custom-file (expand-file-name (format "%semacs-custom.el"user-emacs-directory)))
-(setq auth-sources '((format "%s.authinfo.gpg"user-emacs-directory)))
-;; (setq debug-on-error t)
-;; (setq ffap-machine-p-known 'reject)
-(setq ring-bell-function 'ignore)
-(setq visible-bell nil)
-(defvar ispell-dictionary "british")
-(setq auto-save-default t)
-(setq sort-fold-case t)
-(setq comment-multi-line t)
-(setq sentence-end-double-space nil)
-(setq compilation-scroll-output t)
-(setq compilation-auto-jump-to-first-error t)
-(add-hook 'compilation-filter-hook #'ansi-color-compilation-filter)
-(setq fill-column 80)
-(setq confirm-kill-emacs 'y-or-n-p)
-(setq dired-listing-switches "-AlF --si -Gg --group-directories-first")
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program '"firefox")
-;; browse-url-generic-args '("-P" "priv"))
-(setq minibuffer-prompt-properties
-      '(read-only t point-entered minibuffer-avoid-prompt face minibuffer-prompt))
-(setq enable-recursive-minibuffers t)
-(minibuffer-depth-indicate-mode 1)
-(setq scroll-conservatively 100)
-(setq dired-movement-style t)
-(setq auto-save-timeout 5)
-(setq
- backup-by-copying t
- delete-old-versions t
- kept-new-versions 6
- kept-old-versions 2
- version-control t)
-(setq backup-directory-alist
-	    `((".*" . ,(format "%ssaves/"user-emacs-directory))t))
-(setq auto-save-file-name-transforms
-	    `((".*" ,(format "%ssaves/"user-emacs-directory)t)))
-(setq isearch-lazy-count t)
-;; (setq line-number-display-limit-width 2000000) ;;stop the question marks from showing in a large file
-(setq
- shr-use-fonts  nil                          ; No special fonts
- shr-use-colors nil                          ; No colours
- eww-search-prefix "https://html.duckduckgo.com/?q=")    ; Use another engine for searching
 
-;; (org-babel-do-load-languages 'org-babel-load-languages '((C . t)))
 
-(defalias 'yes-or-no-p 'y-or-n-p)
-;; (setq save-interprogram-paste-before-kill nil)
-(setq delete-by-moving-to-trash t)
-(setq-default tab-width 2)
+(use-package emacs
+  :init
+  (setq custom-file (expand-file-name (format "%semacs-custom.el"user-emacs-directory)))
+  ;; (setq custom-file (make-temp-file "emacs-custom-"))
+  (setq auth-sources '((format "%s.authinfo.gpg"user-emacs-directory)))
+  (setq backup-directory-alist
+	      `((".*" . ,(format "%ssaves/"user-emacs-directory))t))
+  (setq auto-save-file-name-transforms
+	      `((".*" ,(format "%ssaves/"user-emacs-directory)t)))
+  (defalias 'yes-or-no-p 'y-or-n-p)
+  (define-prefix-command 'vterm-n-map)
+  (define-prefix-command 'avy-n-map);; add this? http://yummymelon.com/devnull/announcing-casual-avy.html
+  (define-key isearch-mode-map (kbd "<backspace>") 'isearch-del-char)
+  (defun close-or-kill-emacs ()
+    "Close the current frame if there are multiple visible frames otherwise kill Emacs."
+    (interactive)
+    (require 'cl-lib)
+    (let ((visible-frames (cl-remove-if-not 'frame-visible-p (frame-list))))
+      (if (> (length visible-frames) 1)
+	        (if (y-or-n-p (format "Are you sure you want to close this frame? "))
+	            (delete-frame)
+	          (save-buffers-kill-emacs))
+	      (save-buffers-kill-emacs))))
+  (require 'updnix)
+  (require 'upmu)
+  (display-time-mode 1)
+  (display-battery-mode 1)
+  (global-subword-mode 1)
+  (pending-delete-mode 1)
+  :custom
+  (shr-use-fonts  nil); No special fonts
+  (shr-use-colors nil); No colours
+  (eww-search-prefix "https://html.duckduckgo.com/?q="); Use another engine for searching
+  ;; (setq debug-on-error t)
+  ;; (setq ffap-machine-p-known 'reject)
+  (ring-bell-function 'ignore)
+  (visible-bell nil)
+  (defvar ispell-dictionary "british")
+  (auto-save-default t)
+  (sort-fold-case t)
+  (comment-multi-line t)
+  (sentence-end-double-space nil)
+  (compilation-scroll-output t)
+  (compilation-auto-jump-to-first-error t)
+  (fill-column 80)
+  (confirm-kill-emacs 'y-or-n-p)
+  (dired-listing-switches "-AlF --si -Gg --group-directories-first")
+  (browse-url-browser-function 'browse-url-generic
+			                         browse-url-generic-program '"firefox")
+  ;; browse-url-generic-args '("-P" "priv"))
+  (minibuffer-prompt-properties '(read-only t point-entered minibuffer-avoid-prompt face minibuffer-prompt))
+  (enable-recursive-minibuffers t)
+  (minibuffer-depth-indicate-mode 1)
+  (scroll-conservatively 100)
+  (dired-movement-style t)
+  (auto-save-timeout 5)
+  (backup-by-copying t)
+  (delete-old-versions t)
+  (kept-new-versions 6)
+  (kept-old-versions 2)
+  (version-control t)
+  (isearch-lazy-count t)
+  ;; (setq line-number-display-limit-width 2000000) ;;stop the question marks from showing in a large file
+  ;; (org-babel-do-load-languages 'org-babel-load-languages '((C . t)))
+  ;; (setq save-interprogram-paste-before-kill nil)
+  (delete-by-moving-to-trash t)
+  (tab-width 2)
 ;;;(setopt ediff-window-setup-function #'ediff-setup-windows-plain)
-(setq dired-dwim-target t)
-(setq-default indent-tabs-mode nil)
-(electric-indent-mode)
-(setq-default tab-always-indent 'complete)
-(setq completion-cycle-threshold 3)
-(setq read-extended-command-predicate #'command-completion-default-include-p)
-(setq password-cache-expiry 3600)
-(setq history-length 2000)
-(setq dired-kill-when-opening-new-dired-buffer t)
-(setq native-comp-async-report-warnings-errors nil)
-(setq warning-minimum-level :error)
-(setq read-file-name-completion-ignore-case t
-	    read-buffer-completion-ignore-case t
-	    completion-ignore-case t)
+  (dired-dwim-target t)
+  (indent-tabs-mode nil)
+  (electric-indent-mode)
+  (tab-always-indent 'complete)
+  (completion-cycle-threshold 3)
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  (password-cache-expiry 3600)
+  (history-length 2000)
+  (dired-kill-when-opening-new-dired-buffer t)
+  (native-comp-async-report-warnings-errors nil)
+  (warning-minimum-level :error)
+  (read-file-name-completion-ignore-case t)
+  (read-buffer-completion-ignore-case t)
+  (completion-ignore-case t)
+  (display-time-default-load-average nil)
+  (display-time-format "%H:%M")
+  (savehist-mode 1)
+  (recentf-mode)
+  (recentf-max-saved-items 5)
+  (org-startup-indented t)
+  (org-pretty-entities t)
+  ;;(org-hide-emphasis-markers t)
+  ;;(org-agenda-start-on-weekday t)
+  (org-ellipsis "~")
+  (org-log-done 'time)
+  (org-html-validation-link nil)
+  (org-enforce-todo-dependencies t)
+  (calendar-week-start-day 1)
+  (org-agenda-files '("~/Documents/Notes/Org/todo.org"))
+  (org-todo-keywords '((type "TODO" "IN PROGRESS(I!)" "CANCELED(C@/!)" "|" "DONE")))
+  (org-todo-keyword-faces
+   '(("TODO" .  "#bdae93" )("IN PROGRESS" . "#BD8700") ("CANCELED" . "red")))
+  (org-display-custom-times t)
+  (org-time-stamp-custom-formats '("<%A %d/%m/%Y>" . "<%A %d %B %Y %H:%M>"))
+  :hook
+  ((compilation-filter . ansi-color-compilation-filter)
+   (prog-mode-hook . (lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
+   (prog-mode . (lambda ()(setq show-trailing-whitespace t)))
+   (prog-mode . electric-pair-mode))
+  :bind (("C-x C-c" . close-or-kill-emacs)
+         ("<f5>" . recompile)
+         ("C-x v" . vterm-n-map)
+         ("C-x v v" . multi-vterm)
+         ("C-x v n" . multi-vterm-next)
+         ("C-x v p" . multi-vterm-prev)
+         ("C-x v d" . multi-vterm-dedicated-toggle)
+         ("C-c u" . upmu-add-entry)
+	       ;;   (global-set-key (kbd "<C-S-D>") 'backward-delete-char) ;;https://www.emacswiki.org/emacs/ShiftedKeys and https://www.emacswiki.org/emacs/TheMysteriousCaseOfShiftedFunctionKeys to fix
+         ("C-;" . comment-or-uncomment-region)
+         ([remap dabbrev-expand] . hippie-expand)
+         ("C-M-x" . embark-export)
+         ("M-j" . avy-n-map)
+         ("M-j l" . avy-copy-line)
+         ("M-j k" . avy-kill-whole-line)
+         ("M-j m" . avy-move-line)
+         ("M-j c" . avy-goto-char)
+         ("M-j g" . avy-goto-line)
+         ("C-c c" . flyspell-buffer);; maybe use this? https://github.com/minad/jinx
+         ("C-c s" . ispell-buffer)
+         ("M-Z" . zap-up-to-char)
+         ("C-c e" . (lambda ()"opens init.el"(interactive)(find-file "~/Dev/dots/.config/nixos/hosts/eukaryotic/home/emacs/init.el")))
+         ("C-x K" . (lambda ()"kills curent buffer without confirmation"(interactive)(kill-buffer (current-buffer))))
+         ("C-c r" . (lambda ()"reloads emacs config"(interactive)"~/Dev/dots/.config/nixos/hosts/eukaryotic/home/emacs/init.el"))
+         ("C-c t" . (lambda ()"opens todo"(interactive)(find-file "~/Documents/Notes/Org/todo.org")))
+         ("C-c C-l" . (lambda ()
+	  		                "Copies the whole line without moving the cursor"
+	  		                (interactive)
+	  		                (save-excursion
+	  		                  (kill-new
+	  		                   (buffer-substring
+	  		                    (line-beginning-position)
+	  		                    (line-end-position))))
+	  		                (message "Line copied.")))))
 
-(add-hook 'prog-mode-hook #'(lambda ()
-							                (local-set-key (kbd "RET") 'newline-and-indent)))
-(add-hook 'prog-mode-hook  #'(lambda ()(setq show-trailing-whitespace t)))
-
-(setq display-time-default-load-average nil)
-(setq display-time-format "%H:%M")
-(display-time-mode 1)
-(display-battery-mode 1)
-(global-subword-mode 1)
-(pending-delete-mode t)
-(savehist-mode 1)
-(recentf-mode)
-(setq recentf-max-saved-items 5)
-(add-hook 'prog-mode-hook 'electric-pair-mode)
-
-(defun close-or-kill-emacs ()
-  "Close the current frame if there are multiple visible frames otherwise kill Emacs."
-  (interactive)
-  (require 'cl-lib)
-  (let ((visible-frames (cl-remove-if-not 'frame-visible-p (frame-list))))
-	  (if (> (length visible-frames) 1)
-		    (if (y-or-n-p (format "Are you sure you want to close this frame? "))
-			      (delete-frame)
-		      (save-buffers-kill-emacs))
-	    (save-buffers-kill-emacs))))
-(global-set-key (kbd "C-x C-c") 'close-or-kill-emacs)
-
-(setq org-startup-indented t
-	    org-pretty-entities t
-	    ;;	  org-hide-emphasis-markers t
-	    ;;org-agenda-start-on-weekday t
-	    org-ellipsis "~"
-	    org-log-done 'time
-	    org-html-validation-link nil
-	    org-enforce-todo-dependencies t
-	    calendar-week-start-day 1)
-(setq org-agenda-files '("~/Documents/Notes/Org/todo.org"))
-(setq org-todo-keywords '((type "TODO" "IN PROGRESS(I!)" "CANCELED(C@/!)" "|" "DONE")))
-(setq org-todo-keyword-faces
-	    '(("TODO" .  "#bdae93" )("IN PROGRESS" . "#BD8700") ("CANCELED" . "red")))
-(setq-default org-display-custom-times t)
-(setq org-time-stamp-custom-formats '("<%A %d/%m/%Y>" . "<%A %d %B %Y %H:%M>"))
 
 (use-package diminish)
 (diminish 'subword-mode)
@@ -125,9 +160,9 @@
   :after vertico
   :ensure nil
   :bind (:map vertico-map
-              ("RET" . vertico-directory-enter)
-              ("DEL" . vertico-directory-delete-char)
-              ("M-DEL" . vertico-directory-delete-word))
+	            ("RET" . vertico-directory-enter)
+	            ("DEL" . vertico-directory-delete-char)
+	            ("M-DEL" . vertico-directory-delete-word))
   ;; Tidy shadowed file names
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
@@ -203,11 +238,11 @@
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
   (setq consult-buffer-sources '(consult--source-hidden-buffer consult--source-modified-buffer
-                                                               consult--source-buffer
-                                                               consult--source-file-register
-                                                               consult--source-bookmark
-                                                               consult--source-project-buffer-hidden
-                                                               consult--source-project-root-hidden))
+							                                                 consult--source-buffer
+							                                                 consult--source-file-register
+							                                                 consult--source-bookmark
+							                                                 consult--source-project-buffer-hidden
+							                                                 consult--source-project-root-hidden))
   :config
   (consult-customize
    consult-theme :preview-key '(:debounce 0.2 any)
@@ -222,7 +257,7 @@
   :ensure t
   :bind
   (("C-." . embark-act)         ;; pick some comfortable binding
-   ("C-;" . embark-dwim)        ;; good alternative: M-.
+   ;; ("C-;" . embark-dwim)        ;; good alternative: M-.
    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
   :init
   ;; Optionally replace the key help with a completing-read interface
@@ -241,7 +276,7 @@
 
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+	             '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
                  nil
                  (window-parameters (mode-line-format . none)))))
 
@@ -254,66 +289,66 @@
 (use-package apheleia
   :init
   :hook ((prog-mode . apheleia-mode)
-		     (LaTeX-mode . apheleia-mode))
+	       (LaTeX-mode . apheleia-mode))
   :config
   (setq apheleia-remote-algorithm 'local)
   (setf (alist-get 'astyle apheleia-formatters)
-		    '("astyle" "--mode=c" "--style=google" "-s2"))
+	      '("astyle" "--mode=c" "--style=google" "-s2"))
   (add-to-list 'apheleia-mode-alist '(c-ts-mode . astyle))
   (setf (alist-get 'shfmt apheleia-formatters)
-		    '("shfmt"))
+	      '("shfmt"))
   (add-to-list 'apheleia-mode-alist '(bash-ts-mode . shfmt))
   (setf (alist-get 'ruff apheleia-formatters)
-		    '("ruff format"))
+	      '("ruff format"))
   (add-to-list 'apheleia-mode-alist '(python-ts-mode . ruff))
   (setf (alist-get 'tidy apheleia-formatters)
-		    '("tidy" "-i" "-q" "--tidy-mark" "no"))
+	      '("tidy" "-i" "-q" "--tidy-mark" "no"))
   (add-to-list 'apheleia-mode-alist '(html-mode . tidy))
   (setf (alist-get 'nixfmt apheleia-formatters)
-		    '("alejandra"))
+	      '("alejandra"))
   (add-to-list 'apheleia-mode-alist '(nix-ts-mode . nixfmt))
   (setf (alist-get 'xmlformat apheleia-formatters)
-		    '("xmlformat"))
+	      '("xmlformat"))
   (add-to-list 'apheleia-mode-alist '(nxml-mode . xmlformat))
   (setf (alist-get 'prettier apheleia-formatters)
-		    '("prettier"))
+	      '("prettier"))
   (add-to-list 'apheleia-mode-alist '(css-mode . prettier))
   (setf (alist-get 'ormolu apheleia-formatters)
-		    '("ormolu" "--stdin-input-file" "--"))
+	      '("ormolu" "--stdin-input-file" "--"))
   (add-to-list 'apheleia-mode-alist '(haskell-mode . ormolu)))
 
 (setq treesit-language-source-alist
-	    '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-		    (c "https://github.com/tree-sitter/tree-sitter-c")
-		    (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-		    (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
-		    (css "https://github.com/tree-sitter/tree-sitter-css")
-		    (haskell "https://github.com/tree-sitter/tree-sitter-haskell")
-		    (html "https://github.com/tree-sitter/tree-sitter-html")
-		    (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-		    (json "https://github.com/tree-sitter/tree-sitter-json")
-		    (make "https://github.com/alemuller/tree-sitter-make")
-		    (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-		    (nix "https://github.com/nix-community/tree-sitter-nix")
-		    (python "https://github.com/tree-sitter/tree-sitter-python")
-		    (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+      '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+	      (c "https://github.com/tree-sitter/tree-sitter-c")
+	      (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+	      (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
+	      (css "https://github.com/tree-sitter/tree-sitter-css")
+	      (haskell "https://github.com/tree-sitter/tree-sitter-haskell")
+	      (html "https://github.com/tree-sitter/tree-sitter-html")
+	      (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+	      (json "https://github.com/tree-sitter/tree-sitter-json")
+	      (make "https://github.com/alemuller/tree-sitter-make")
+	      (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+	      (nix "https://github.com/nix-community/tree-sitter-nix")
+	      (python "https://github.com/tree-sitter/tree-sitter-python")
+	      (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
 
 (if (file-directory-p (format "%stree-sitter/"user-emacs-directory))
-	  (message "")
+    (message "")
   (message "Downloading treesiter grammers")
   (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist)))
 
 (setq major-mode-remap-alist
-	    '((yaml-mode . yaml-ts-mode)
-		    (bash-mode . bash-ts-mode)
-		    (js2-mode . js-ts-mode)
-		    (typescript-mode . typescript-ts-mode)
-		    (json-mode . json-ts-mode)
-		    (c-mode . c-ts-mode)
-		    ("c++-mode" . "c++-ts-mode")
-		    (csharp-mode . csharp-ts-mode)
-		    (css-mode . css-ts-mode)
-		    (python-mode . python-ts-mode)))
+      '((yaml-mode . yaml-ts-mode)
+	      (bash-mode . bash-ts-mode)
+	      (js2-mode . js-ts-mode)
+	      (typescript-mode . typescript-ts-mode)
+	      (json-mode . json-ts-mode)
+	      (c-mode . c-ts-mode)
+	      ("c++-mode" . "c++-ts-mode")
+	      (csharp-mode . csharp-ts-mode)
+	      (css-mode . css-ts-mode)
+	      (python-mode . python-ts-mode)))
 
 (use-package rainbow-mode
   :hook (prog-mode . rainbow-mode)
@@ -356,8 +391,8 @@
   (global-corfu-minibuffer
    (lambda ()
      (not (or (bound-and-true-p mct--active)
-              (bound-and-true-p vertico--input)
-              (eq (current-local-map) read-passwd-map)))))
+	            (bound-and-true-p vertico--input)
+	            (eq (current-local-map) read-passwd-map)))))
   :bind
   (:map corfu-map
         ("TAB" . corfu-next)
@@ -375,35 +410,35 @@
   (add-to-list 'completion-at-point-functions #'cape-dict)
   (add-to-list 'completion-at-point-functions #'cape-file)
   (setq-local completion-at-point-functions
-			        (mapcar #'cape-company-to-capf
-					            (list #'company-files #'company-keywords #'company-dabbrev))))
+	            (mapcar #'cape-company-to-capf
+		                  (list #'company-files #'company-keywords #'company-dabbrev))))
 
 (use-package eglot
   :hook ((haskell-mode . eglot-ensure)
-		     (dart-mode . eglot-ensure)
-		     (clojure-mode . eglot-ensure)
-		     (bash-ts-mode . eglot-ensure)
-		     (sh-mode . eglot-ensure)
-		     (c-ts-mode . eglot-ensure)
- 		     (csharp-ts-mode . eglot-ensure)
-		     (python-ts-mode . eglot-ensure)
-		     (nix-ts-mode . eglot-ensure))
+	       (dart-mode . eglot-ensure)
+	       (clojure-mode . eglot-ensure)
+	       (bash-ts-mode . eglot-ensure)
+	       (sh-mode . eglot-ensure)
+	       (c-ts-mode . eglot-ensure)
+ 	       (csharp-ts-mode . eglot-ensure)
+	       (python-ts-mode . eglot-ensure)
+	       (nix-ts-mode . eglot-ensure))
   :config
   (setq eglot-autoshutdown t)
   (add-to-list 'eglot-server-programs
-    		       `(nix-ts-mode  . ("nixd"))))
+    	         `(nix-ts-mode  . ("nixd"))))
 
 (use-package flymake
   :hook ((emacs-lisp-mode . flymake-mode)
-		     (LaTeX-mode . flymake-mode))
+	       (LaTeX-mode . flymake-mode))
   :config
   (setq flymake-indicator-type 'fringes))
 
 
 (use-package yasnippet
   :hook ((prog-mode . yas-minor-mode)
-		     (org-mode . yas-minor-mode)
-		     (LaTeX-mode . yas-minor-mode))
+	       (org-mode . yas-minor-mode)
+	       (LaTeX-mode . yas-minor-mode))
   :config
   (yas-reload-all)
   (diminish 'yas-minor-mode))
@@ -433,14 +468,14 @@
 (use-package gcmh
   :init
   (setq gcmh-idle-delay 5
-		    gcmh-high-cons-threshold (* 20 1024 1024)) ;;20mb
+	      gcmh-high-cons-threshold (* 20 1024 1024)) ;;20mb
   (gcmh-mode 1)
   (diminish 'gcmh-mode))
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
 (use-package hungry-delete
   :bind (([C-backspace] . hungry-delete-backward)
-		     ([C-delete] . hungry-delete-forward)))
+	       ([C-delete] . hungry-delete-forward)))
 
 (use-package ace-window
   :bind ("C-x o" . ace-window)
@@ -450,10 +485,10 @@
 
 (use-package multiple-cursors
   :bind (("C-S-c C-S-c" . mc/edit-lines)
-		     ("C->" . mc/mark-next-like-this)
-		     ("C-<" . mc/mark-previous-like-this)
-		     ("C-C C-@" . mc/mark-all-like-this)
-		     ("C-C M-v" . mc/edit-beggineing-of-lines))
+	       ("C->" . mc/mark-next-like-this)
+	       ("C-<" . mc/mark-previous-like-this)
+	       ("C-C C-@" . mc/mark-all-like-this)
+	       ("C-C M-v" . mc/edit-beggineing-of-lines))
   :custom
   (mc/always-run-for-all t))
 
@@ -516,64 +551,23 @@
   (setq edwina-mode-line-format "")
   (edwina-mode 1))
 
-
-(require 'updnix)
-(require 'upmu)
-(global-set-key (kbd "<f5>") 'recompile)
-(define-prefix-command 'vterm-n-map)
-(global-set-key (kbd "C-x v") 'vterm-n-map)
-(global-set-key (kbd "C-x v v") 'multi-vterm)
-(global-set-key (kbd "C-x v n") 'multi-vterm-next)
-(global-set-key (kbd "C-x v p") 'multi-vterm-prev)
-(global-set-key (kbd "C-x v d") 'multi-vterm-dedicated-toggle)
-(global-set-key (kbd "C-c u") 'upmu-add-entry)
-;;(global-set-key (kbd "<C-S-D>") 'backward-delete-char) ;;https://www.emacswiki.org/emacs/ShiftedKeys and https://www.emacswiki.org/emacs/TheMysteriousCaseOfShiftedFunctionKeys to fix
-(global-set-key (kbd "C-;") 'comment-or-uncomment-region)
-(global-set-key [remap dabbrev-expand] 'hippie-expand)
-(global-set-key (kbd "C-M-x") 'embark-export)
-(define-prefix-command 'avy-n-map);; add this? http://yummymelon.com/devnull/announcing-casual-avy.html
-(global-set-key (kbd "M-j") 'avy-n-map)
-(global-set-key (kbd "M-j l") 'avy-copy-line)
-(global-set-key (kbd "M-j k") 'avy-kill-whole-line)
-(global-set-key (kbd "M-j m") 'avy-move-line)
-(global-set-key (kbd "M-j c") 'avy-goto-char)
-(global-set-key (kbd "M-j g") 'avy-goto-line)
-(global-set-key (kbd "C-c c") 'flyspell-buffer) ;; maybe use this? https://github.com/minad/jinx
-(global-set-key (kbd "C-c s") 'ispell-buffer)
-(global-set-key (kbd "M-Z") 'zap-up-to-char)
-(global-set-key (kbd "C-c e")(lambda ()"opens init.el"(interactive)(find-file "~/Dev/dots/.config/nixos/hosts/eukaryotic/home/emacs/init.el")))
-(global-set-key (kbd "C-x K")(lambda ()"kills curent buffer without confirmation"(interactive)(kill-buffer (current-buffer))))
-(global-set-key (kbd "C-c r")(lambda ()"reloads emacs config"(interactive)"~/Dev/dots/.config/nixos/hosts/eukaryotic/home/emacs/init.el"))
-(global-set-key (kbd "C-c t")(lambda ()"opens todo"(interactive)(find-file "~/Documents/Notes/Org/todo.org")))
-(global-set-key (kbd "C-c C-l")
-				        (lambda ()
-				          "Copies the whole line without moving the cursor"
-				          (interactive)
-				          (save-excursion
-					          (kill-new
-					           (buffer-substring
-					            (line-beginning-position)
-					            (line-end-position))))
-                  (message "Line copied.")))
-(define-key isearch-mode-map (kbd "<backspace>") 'isearch-del-char)
-
 (setq mode-line-position (list " (%l:%C %P %I) "))
 ;;https://www.emacs.dyerdwelling.family/emacs/20230902114449-emacs--my-evolving-modeline/
 (setq-default mode-line-format '((:eval
-								                  (if (and (buffer-file-name) (buffer-modified-p))
-									                    (propertize "**" 'face
-												                          '(:background "#e20023" :foreground "#000000" :inherit bold)) " "))
-								                 (:eval
-								                  (if (and buffer-read-only (mode-line-window-selected-p))
-									                    (propertize "%%%%" 'face
-												                          '(:background "#bdae93" :foreground "#000000" :inherit bold)) " "))
-								                 " "
-								                 (:eval
-								                  (if (mode-line-window-selected-p)
-									                    (propertize (buffer-name) 'face '(:foreground "#bdae93" :inherit bold))
-									                  (propertize (buffer-name) 'face '(:foreground "#222222" :inherit bold))))
-								                 mode-line-position
-								                 (vc-mode vc-mode) mode-line-modes mode-line-misc-info mode-line-end-spaces))
+				                          (if (and (buffer-file-name) (buffer-modified-p))
+				                              (propertize "**" 'face
+						                                      '(:background "#e20023" :foreground "#000000" :inherit bold)) " "))
+				                         (:eval
+				                          (if (and buffer-read-only (mode-line-window-selected-p))
+				                              (propertize "%%%%" 'face
+						                                      '(:background "#bdae93" :foreground "#000000" :inherit bold)) " "))
+				                         " "
+				                         (:eval
+				                          (if (mode-line-window-selected-p)
+				                              (propertize (buffer-name) 'face '(:foreground "#bdae93" :inherit bold))
+				                            (propertize (buffer-name) 'face '(:foreground "#222222" :inherit bold))))
+				                         mode-line-position
+				                         (vc-mode vc-mode) mode-line-modes mode-line-misc-info mode-line-end-spaces))
 
 ;;(server-start)
 
