@@ -205,7 +205,7 @@
         vim.o.guicursor = "i:hor50-Cursor,i:blinkon100,n-v-c:blinkon100"
         vim.o.clipboard = "unnamedplus"
         vim.keymap.set("i", "jk", [[<ESC>]])
-        vim.cmd.colorscheme("murphy")
+        # vim.cmd.colorscheme("murphy")
       '';
     };
 
@@ -601,11 +601,13 @@
       # nodePackages.prettier
       # rlwrap # for the readline
       # sigrok-cli
+      # android-tools
+      # gojq
+      # wl-color-picker
       age
       alacritty
       alejandra
       alsa-utils
-      android-tools
       anki-bin
       aria2
       astyle
@@ -626,18 +628,14 @@
       fzy
       gcc
       gh
-      gimp
       git
-      gojq
       grim
-      haskell-language-server
       html-tidy
       htop
       hunspell
       hunspellDicts.en-gb-large
       imagemagick
       imv
-      nomacs
       keepassxc
       libnotify
       libreoffice
@@ -647,17 +645,14 @@
       man-pages-posix
       mpc-cli
       mpv
-      ghc
       mupdf
       nemo
       nixd
       nodePackages.bash-language-server
-      ormolu
       nodePackages.prettier
       p7zip
       pandoc
       pulsemixer
-      python312Packages.deemix
       python3Full
       ripgrep
       ripgrep-all
@@ -667,7 +662,6 @@
       shellcheck
       shfmt
       signal-desktop
-      sioyek
       slurp
       syncthing
       texliveFull
@@ -682,11 +676,11 @@
       wdisplays
       wl-clip-persist
       wl-clipboard
-      wl-color-picker
       wlr-randr
       wlsunset
       xdg-utils
       xmlformat
+      xwayland-satellite
       yt-dlp
       zip
       zotero

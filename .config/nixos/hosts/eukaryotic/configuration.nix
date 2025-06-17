@@ -15,7 +15,7 @@
     ./pkgs.nix
   ];
   boot = {
-    kernel.sysctl."vm.swappiness" = 40;
+    kernel.sysctl."vm.swappiness" = 30;
     supportedFilesystems = ["ntfs"];
     kernelPackages = pkgs.linuxPackages_latest;
     #loader.systemd-boot.enable = true;
@@ -54,8 +54,6 @@
   };
 
   systemd.tmpfiles.rules = [
-    # "d /persistent/home/ 1777 root root"
-    # "d /persistent/home/zenex/ 1777 zenex users"
     "d /persistent/var/keys/ 0700 root root"
   ];
 
@@ -125,20 +123,17 @@
     };
   };
   programs = {
-    adb.enable = true;
+    niri.enable = true;
+    # adb.enable = true;
     localsend.enable = true;
     ssh.startAgent = true;
     gnupg.agent.enable = true;
-    wireshark = {
-      enable = true;
-      package = pkgs.wireshark;
-    };
     xwayland.enable = true;
-    hyprland = {
-      enable = true;
-      withUWSM = true;
-      xwayland.enable = true;
-    };
+    # hyprland = {
+    #   enable = true;
+    #   withUWSM = true;
+    #   xwayland.enable = true;
+    # };
     firejail = {
       enable = true;
       wrappedBinaries = {
@@ -194,9 +189,9 @@
   };
 
   services = {
-    udev.packages = [
-      pkgs.android-udev-rules
-    ];
+    # udev.packages = [
+    #   pkgs.android-udev-rules
+    # ];
     seatd = {
       enable = true;
     };
@@ -204,16 +199,15 @@
     mullvad-vpn.package = pkgs.mullvad-vpn;
     nscd.enableNsncd = true;
     gnome.gnome-keyring.enable = true;
-    journald.extraConfig = ''
-      # SystemMaxUse=250M
-      MaxRetentionSec=1month
-    '';
+    # journald.extraConfig = ''
+    #   # SystemMaxUse=250M
+    #   MaxRetentionSec=1month
+    # '';
     logind = {lidSwitch = "suspend";};
     #with hardened profile this is needed otherwise nix will not build
     #    logrotate.checkConfig = false;
     fwupd.enable = true;
     fstrim.enable = true;
-
     openssh = {
       enable = true;
       # require public key authentication for better security
@@ -231,14 +225,14 @@
     };
 
     printing.enable = false; #enable for printing
-    printing.drivers = [
-      # pkgs.gutenprint
-      pkgs.gutenprintBin
-      pkgs.epson-escpr
-      pkgs.epson-escpr2
-      # pkgs.foomatic-db-ppds-withNonfreeDb
-      #      pkgs.foomatic-db-nonfree
-    ];
+    # printing.drivers = [
+    #   # pkgs.gutenprint
+    #   pkgs.gutenprintBin
+    #   pkgs.epson-escpr
+    #   pkgs.epson-escpr2
+    #   # pkgs.foomatic-db-ppds-withNonfreeDb
+    #   #      pkgs.foomatic-db-nonfree
+    # ];
     # avahi = { #enable for printing
     #   enable = true;
     #   nssmdns4 = true;

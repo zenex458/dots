@@ -29,7 +29,13 @@
         {
           command = ["cliphist" "wipe"];
         }
+        {
+          command = ["xwayland-satellite"];
+        }
       ];
+      environment = {
+        DISPLAY = ":0";
+      };
 
       input = {
         keyboard = {
@@ -70,6 +76,12 @@
       };
       animations.enable = false;
       layout = {
+        default-column-width = {proportion = 0.5;};
+        preset-column-widths = [
+          {proportion = 1. / 4.;}
+          {proportion = 1. / 2.;}
+          {proportion = 2. / 3.;}
+        ];
         border = {
           enable = true;
           width = 1;
@@ -139,8 +151,8 @@
         "Mod+F".action = maximize-column;
         "Mod+Shift+F".action = fullscreen-window;
         "Mod+Ctrl+F".action = expand-column-to-available-width;
-        "Mod+Minus".action = set-column-width "-10%";
-        "Mod+Equal".action = set-column-width "+10%";
+        "Mod+Minus".action = set-column-width "-2%";
+        "Mod+Equal".action = set-column-width "+2%";
         "Mod+Shift+Minus".action = set-window-height "-10%";
         "Mod+Shift+Equal".action = set-window-height "+10%";
         "Mod+V".action = toggle-window-floating;

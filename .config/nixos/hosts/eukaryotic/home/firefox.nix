@@ -70,7 +70,7 @@
         "NixosPackage" = {
           urls = [
             {
-              template = "https://search.nixos.org/packages?channel=24.11&from=0&size=50&sort=relevance&type=packages";
+              template = "https://search.nixos.org/packages?channel=25.05&from=0&size=50&sort=relevance&type=packages";
               params = [
                 {
                   name = "query";
@@ -88,7 +88,7 @@
         "NixosOption" = {
           urls = [
             {
-              template = "https://search.nixos.org/options?channel=24.11&from=0&size=50&sort=relevance&type=packages";
+              template = "https://search.nixos.org/options?channel=25.05&from=0&size=50&sort=relevance&type=packages";
               params = [
                 {
                   name = "query";
@@ -114,7 +114,7 @@
         "HomemanagerSearch" = {
           urls = [
             {
-              template = "https://home-manager-options.extranix.com/?query={searchTerms}&release=release-24.11";
+              template = "https://home-manager-options.extranix.com/?query={searchTerms}&release=release-25.05";
             }
           ];
           # iconUpdateURL = "https://home-manager-options.extranix.com/images/favicon.png";
