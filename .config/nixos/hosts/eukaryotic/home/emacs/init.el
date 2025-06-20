@@ -1,15 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
-
 (use-package emacs
   :init
-  (setq custom-file (expand-file-name (format "%semacs-custom.el"user-emacs-directory)))
-  ;; (setq custom-file (make-temp-file "emacs-custom-"))
-  (setq auth-sources '((format "%s.authinfo.gpg"user-emacs-directory)))
-  (setq backup-directory-alist
-	      `((".*" . ,(format "%ssaves/"user-emacs-directory))t))
-  (setq auto-save-file-name-transforms
-	      `((".*" ,(format "%ssaves/"user-emacs-directory)t)))
   (defalias 'yes-or-no-p 'y-or-n-p)
   (define-prefix-command 'vterm-n-map)
   (define-prefix-command 'avy-n-map);; add this? http://yummymelon.com/devnull/announcing-casual-avy.html
@@ -26,16 +18,37 @@
 	      (save-buffers-kill-emacs))))
   (require 'updnix)
   (require 'upmu)
-  (display-time-mode 1)
-  (display-battery-mode 1)
-  (global-subword-mode 1)
-  (pending-delete-mode 1)
   :custom
+  (custom-file (expand-file-name (format "%semacs-custom.el"user-emacs-directory))) ;; fix formatting, because that is wrong, but it works
+  ;; (custom-file (make-temp-file "emacs-custom-"))
+  (auth-sources '((format "%s.authinfo.gpg"user-emacs-directory)))
+  (backup-directory-alist
+	 `((".*" . ,(format "%ssaves/"user-emacs-directory))t))
+  (auto-save-file-name-transforms
+	 `((".*" ,(format "%ssaves/"user-emacs-directory)t)))
+  (treesit-language-source-alist
+   '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+	   (c "https://github.com/tree-sitter/tree-sitter-c")
+	   (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+	   (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
+	   (css "https://github.com/tree-sitter/tree-sitter-css")
+	   (haskell "https://github.com/tree-sitter/tree-sitter-haskell")
+	   (html "https://github.com/tree-sitter/tree-sitter-html")
+	   (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+	   (json "https://github.com/tree-sitter/tree-sitter-json")
+	   (make "https://github.com/alemuller/tree-sitter-make")
+	   (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+	   (nix "https://github.com/nix-community/tree-sitter-nix")
+	   (python "https://github.com/tree-sitter/tree-sitter-python")
+	   (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
   (shr-use-fonts  nil); No special fonts
   (shr-use-colors nil); No colours
   (eww-search-prefix "https://html.duckduckgo.com/?q="); Use another engine for searching
   ;; (setq debug-on-error t)
   ;; (setq ffap-machine-p-known 'reject)
+  (TeX-auto-save t)
+  (TeX-parse-self t)
+  ;; (TeX-master nil)
   (ring-bell-function 'ignore)
   (visible-bell nil)
   (defvar ispell-dictionary "british")
@@ -104,7 +117,11 @@
   (org-display-custom-times t)
   (org-time-stamp-custom-formats '("<%A %d/%m/%Y>" . "<%A %d %B %Y %H:%M>"))
   :hook
-  ((compilation-filter . ansi-color-compilation-filter)
+  ((after-init . display-time-mode)
+   (after-init . display-battery-mode)
+   (after-init . global-subword-mode)
+   (after-init . pending-delete-mode)
+   (compilation-filter . ansi-color-compilation-filter)
    (prog-mode-hook . (lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
    (prog-mode . (lambda ()(setq show-trailing-whitespace t)))
    (prog-mode . electric-pair-mode))
@@ -144,17 +161,18 @@
 	  		                (message "Line copied.")))))
 
 
-(use-package diminish)
-(diminish 'subword-mode)
-(diminish 'visual-line-mode)
-(diminish 'eldoc-mode)
+(use-package diminish
+  :init
+  (diminish 'subword-mode)
+  (diminish 'visual-line-mode)
+  (diminish 'eldoc-mode))
 
 (use-package vertico
-  :config
-  (vertico-mode 1)
-  (vertico-flat-mode 1)
-  (vertico-indexed-mode 1)
-  (setq vertico-count 40))
+  :hook((after-init . vertico-mode)
+        (after-init . vertico-flat-mode)
+        (after-init . vertico-indexed-mode))
+  :custom
+  (vertico-count 40))
 
 (use-package vertico-directory
   :after vertico
@@ -231,18 +249,18 @@
   ;; Enable automatic preview at point in the *Completions* buffer. This is
   ;; relevant when you use the default completion UI.
   :hook (completion-list-mode . consult-preview-at-point-mode)
-  :init
+  :custom
   (advice-add #'register-preview :override #'consult-register-window)
-  (setq register-preview-delay 0.5)
+  (register-preview-delay 0.5)
   ;; Use Consult to select xref locations with preview
-  (setq xref-show-xrefs-function #'consult-xref
-        xref-show-definitions-function #'consult-xref)
-  (setq consult-buffer-sources '(consult--source-hidden-buffer consult--source-modified-buffer
-							                                                 consult--source-buffer
-							                                                 consult--source-file-register
-							                                                 consult--source-bookmark
-							                                                 consult--source-project-buffer-hidden
-							                                                 consult--source-project-root-hidden))
+  (xref-show-xrefs-function #'consult-xref)
+  (xref-show-definitions-function #'consult-xref)
+  (consult-buffer-sources '(consult--source-hidden-buffer consult--source-modified-buffer
+							                                            consult--source-buffer
+							                                            consult--source-file-register
+							                                            consult--source-bookmark
+							                                            consult--source-project-buffer-hidden
+							                                            consult--source-project-root-hidden))
   :config
   (consult-customize
    consult-theme :preview-key '(:debounce 0.2 any)
@@ -254,7 +272,6 @@
 (setq completion-in-region-function #'consult-completion-in-region)
 
 (use-package embark
-  :ensure t
   :bind
   (("C-." . embark-act)         ;; pick some comfortable binding
    ;; ("C-;" . embark-dwim)        ;; good alternative: M-.
@@ -262,32 +279,18 @@
   :init
   ;; Optionally replace the key help with a completing-read interface
   (setq prefix-help-command #'embark-prefix-help-command)
-
-  ;; Show the Embark target at point via Eldoc. You may adjust the
-  ;; Eldoc strategy, if you want to see the documentation from
-  ;; multiple providers. Beware that using this can be a little
-  ;; jarring since the message shown in the minibuffer can be more
-  ;; than one line, causing the modeline to move up and down:
-
-  ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
-  ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
-
   :config
-
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
 	             '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
                  nil
                  (window-parameters (mode-line-format . none)))))
 
-;; Consult users will also want the embark-consult package.
 (use-package embark-consult
-  :ensure t ; only need to install it, embark loads it after consult if found
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package apheleia
-  :init
   :hook ((prog-mode . apheleia-mode)
 	       (LaTeX-mode . apheleia-mode))
   :config
@@ -317,21 +320,6 @@
 	      '("ormolu" "--stdin-input-file" "--"))
   (add-to-list 'apheleia-mode-alist '(haskell-mode . ormolu)))
 
-(setq treesit-language-source-alist
-      '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-	      (c "https://github.com/tree-sitter/tree-sitter-c")
-	      (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-	      (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
-	      (css "https://github.com/tree-sitter/tree-sitter-css")
-	      (haskell "https://github.com/tree-sitter/tree-sitter-haskell")
-	      (html "https://github.com/tree-sitter/tree-sitter-html")
-	      (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-	      (json "https://github.com/tree-sitter/tree-sitter-json")
-	      (make "https://github.com/alemuller/tree-sitter-make")
-	      (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-	      (nix "https://github.com/nix-community/tree-sitter-nix")
-	      (python "https://github.com/tree-sitter/tree-sitter-python")
-	      (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
 
 (if (file-directory-p (format "%stree-sitter/"user-emacs-directory))
     (message "")
@@ -359,17 +347,20 @@
   :hook (emacs-lisp-mode . rainbow-delimiters-mode))
 
 (use-package elfeed
-  :config
+  :custom
   ;; (setq elfeed-search-title-max-width '130)
-  (setq elfeed-search-filter "@3-days-ago +unread")
-  (setq elfeed-db-directory (format "%selfeed/"user-emacs-directory)))
+  (elfeed-search-filter "@3-days-ago +unread")
+  (elfeed-db-directory (format "%selfeed/"user-emacs-directory)))
 
 (use-package elfeed-org
-  :config
-  (setq rmh-elfeed-org-files (list "~/.config/emacs/elfeed.org")))
+  :custom
+  (rmh-elfeed-org-files (list "~/.config/emacs/elfeed.org")))
 
 (use-package nix-ts-mode
-  :mode "\\.nix\\'")
+  :mode "\\.nix\\'"
+  :hook
+  (nix-ts-mode . (lambda ()(electric-pair-mode -1))))
+
 
 ;; https://github.com/promethial/.emacs.d/blob/c71732112300f1dc294769821533a8627440b282/init.el#L326
 (use-package haskell-mode
@@ -377,12 +368,10 @@
   (:map haskell-mode-map
         ("TAB" . corfu-next)))
 
-
 (use-package corfu
-  :init
-  (global-corfu-mode)
-  (corfu-history-mode)
-  (corfu-popupinfo-mode)
+  :hook((after-init . global-corfu-mode)
+        (after-init . corfu-history-mode)
+        (after-init . corfu-popupinfo-mode))
   :custom
   ;; (corfu-auto t)
   ;; (corfu-quit-no-match t)
@@ -400,18 +389,17 @@
         ("S-TAB" . corfu-previous)
         ([backtab] . corfu-previous)))
 
-
 (use-package cape
-  :init
+  :custom
   (add-to-list 'completion-at-point-functions #'cape-keyword)
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-abbrev)
   (add-to-list 'completion-at-point-functions #'cape-history)
   (add-to-list 'completion-at-point-functions #'cape-dict)
   (add-to-list 'completion-at-point-functions #'cape-file)
-  (setq-local completion-at-point-functions
-	            (mapcar #'cape-company-to-capf
-		                  (list #'company-files #'company-keywords #'company-dabbrev))))
+  (completion-at-point-functions
+	 (mapcar #'cape-company-to-capf
+		       (list #'company-files #'company-keywords #'company-dabbrev))))
 
 (use-package eglot
   :hook ((haskell-mode . eglot-ensure)
@@ -423,16 +411,16 @@
  	       (csharp-ts-mode . eglot-ensure)
 	       (python-ts-mode . eglot-ensure)
 	       (nix-ts-mode . eglot-ensure))
-  :config
-  (setq eglot-autoshutdown t)
+  :custom
+  (eglot-autoshutdown t)
   (add-to-list 'eglot-server-programs
     	         `(nix-ts-mode  . ("nixd"))))
 
 (use-package flymake
   :hook ((emacs-lisp-mode . flymake-mode)
 	       (LaTeX-mode . flymake-mode))
-  :config
-  (setq flymake-indicator-type 'fringes))
+  :custom
+  (flymake-indicator-type 'fringes))
 
 
 (use-package yasnippet
@@ -440,30 +428,25 @@
 	       (org-mode . yas-minor-mode)
 	       (LaTeX-mode . yas-minor-mode))
   :config
-  (yas-reload-all)
   (diminish 'yas-minor-mode))
 
 (use-package async
-  :config
+  :custom
   (dired-async-mode t))
 
 (use-package org-bullets
   :hook (org-mode . org-bullets-mode)
-  :init
-  (setq org-bullets-bullet-list '("*" "+")))
+  :custom
+  (org-bullets-bullet-list '("*" "+")))
 
 (use-package org-make-toc)
 
 (use-package markdown-mode
   :magic ("%md" . markdown-mode)
-  :init (setq markdown-command "pandoc"))
+  :custom (setq markdown-command "pandoc"))
 
 (use-package auctex
   :hook (tex-mode . LaTeX-mode))
-
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
-;; (setq-default TeX-master nil)
 
 (use-package gcmh
   :init
@@ -479,9 +462,9 @@
 
 (use-package ace-window
   :bind ("C-x o" . ace-window)
-  :config
-  (setq aw-scope 'frame)
-  (setq aw-minibuffer-flag t))
+  :custom
+  (aw-scope 'frame)
+  (aw-minibuffer-flag t))
 
 (use-package multiple-cursors
   :bind (("C-S-c C-S-c" . mc/edit-lines)
@@ -495,31 +478,35 @@
 (use-package undo-fu)
 
 (use-package undo-fu-session
-  :config
-  (setq undo-fu-session-compression 'zst)
-  (setq undo-fu-session-incompatible-files
-        '("COMMIT_EDITMSG"
-          "NOTES_EDITMSG"
-          "MERGE_MSG"
-          "TAG_EDITMSG"
-          "\\.gpg\\'"
-          "/tmp"
-          file-remote-p))
-  (undo-fu-session-global-mode))
+  :hook (after-init . undo-fu-session-global-mode)
+  :custom
+  (undo-fu-session-compression 'zst)
+  (undo-fu-session-incompatible-files
+   '("COMMIT_EDITMSG"
+     "NOTES_EDITMSG"
+     "MERGE_MSG"
+     "TAG_EDITMSG"
+     "\\.gpg\\'"
+     "/tmp"
+     file-remote-p)))
 
 (use-package expreg
   :bind ("C-@" . expreg-expand)
   ("C-'" . expreg-contract))
 
 (use-package vlf
-  :init
+  :custom
   (require 'vlf-setup))
 
 (use-package dired-subtree
-  :init
-  (setq dired-subtree-use-backgrounds nil)
-  (define-key dired-mode-map (kbd "TAB") #'dired-subtree-toggle)
-  (define-key dired-mode-map [backtab] #'dired-subtree-cycle))
+  :bind
+  (:map dired-mode-map
+        ("TAB" . dired-subtree-toggle)
+        ([tab] . dired-subtree-toggle)
+        ("S-TAB" . dired-subtree-cycle)
+        ([backtab] . dired-subtree-cycle))
+  :custom
+  (dired-subtree-use-backgrounds nil))
 
 (use-package sudo-edit
   :bind
@@ -540,16 +527,16 @@
   ("M-s z f" . zoxide-find-file))
 
 (use-package golden-ratio
-  :config
-  (setq golden-ratio-auto-scale t)
-  (add-to-list 'golden-ratio-extra-commands 'ace-window)
-  (golden-ratio-mode 1))
+  :hook (after-init . golden-ratio-mode)
+  :custom
+  (golden-ratio-auto-scale t)
+  (add-to-list 'golden-ratio-extra-commands 'ace-window))
 
 (use-package edwina
-  :config
-  (setq display-buffer-base-action '(display-buffer-below-selected))
-  (setq edwina-mode-line-format "")
-  (edwina-mode 1))
+  :hook (after-init . edwina-mode)
+  :custom
+  (display-buffer-base-action '(display-buffer-below-selected))
+  (edwina-mode-line-format ""))
 
 (setq mode-line-position (list " (%l:%C %P %I) "))
 ;;https://www.emacs.dyerdwelling.family/emacs/20230902114449-emacs--my-evolving-modeline/

@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: inverted-commas
-# key: \"
+# key: "
 # --
 
-\"$1\";
+"$1";

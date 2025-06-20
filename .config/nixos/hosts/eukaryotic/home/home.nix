@@ -12,7 +12,6 @@
     ./hyprland.nix
     ./niri.nix
   ];
-
   dconf.settings = {
     "org/virt-manager/virt-manager/connections" = {
       autoconnect = ["qemu:///system"];
