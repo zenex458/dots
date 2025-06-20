@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: square
+# key: [
+# --
+
+[
+$1
+];
