@@ -25,7 +25,7 @@
         "bing".metaData.hidden = true;
         "google".metaData.hidden = true;
         "amazon.co.uk".metaData.hidden = true;
-        "eay".metaData.hidden = true;
+        "ebay".metaData.hidden = true;
       };
       search.force = true;
     };

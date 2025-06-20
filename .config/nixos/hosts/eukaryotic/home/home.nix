@@ -135,6 +135,42 @@
       enable = true;
       generateCaches = false;
     };
+    git = {
+      enable = true;
+      extraConfig = {
+        core = {
+          compression = 9;
+        };
+        init = {
+          defaultBranch = "main";
+        };
+        status = {
+          showUntrackedFiles = "all";
+        };
+        diff = {
+          algorithm = "histogram";
+          interHunkContext = 10;
+          colorMoved = "plain";
+        };
+        commit = {
+          verbose = "true";
+        };
+        url = {
+          "git@github.com:" = {
+            insteadOf = "gh:";
+          };
+        };
+        column = {
+          ui = "auto";
+        };
+        branch = {
+          sort = "-comitterdate";
+        };
+        help = {
+          autocorrect = "prompt";
+        };
+      };
+    };
     emacs = {
       enable = true;
       package = pkgs.emacs-pgtk; #use just `emacs' if you want it the daemon to survive after the gui terminates
@@ -205,8 +241,13 @@
         vim.o.guicursor = "i:hor50-Cursor,i:blinkon100,n-v-c:blinkon100"
         vim.o.clipboard = "unnamedplus"
         vim.keymap.set("i", "jk", [[<ESC>]])
-        # vim.cmd.colorscheme("murphy")
       '';
+    };
+
+    fd = {
+      enable = true;
+      hidden = true;
+      ignores = [".git/" ".ccls-cache/" "*env*"];
     };
 
     chromium = {
@@ -268,7 +309,7 @@
           fzy-history-widget() {
             emulate -L zsh
            	zle -I
-           	local S=$(history | sort -rn | cut -c 8- | awk '!visited[''$0]++' | fzy -q "''${LBUFFER//$/\\$}")
+           	local S=$(history 0 | sort -rn | cut -c 8- | awk '!visited[''$0]++' | fzy -q "''${LBUFFER//$/\\$}")
            	if [[ -n $S ]] ; then
            		LBUFFER=$S
            	fi
@@ -306,7 +347,7 @@
       ];
       initExtra = ''
         if [ -z "$INSIDE_EMACS" ]; then
-           bind -x '"\C-g":"cd $(bfs -type d -exclude -name .git -exclude -name .ccls-cache -exclude -name env -exclude -name '*venv*' | fzy)"'
+           bind -x '"\C-g":"cd $(bfs -type d -exclude -name .git -exclude -name .ccls-cache -exclude -name '*env*' | fzy)"'
            bind -x '"\C-r":history_search'
            history_search(){
            READLINE_LINE=$(
@@ -373,8 +414,9 @@
         log = "journalctl -S today -r -x";
         e = "emacsclient -a emacs -t";
         upded = "systemctl --user restart emacs.service  &&  systemctl --user status emacs.service";
-        Hyprland = "Hyprland >> /tmp/hy";
+        hy = "Hyprland >> /tmp/hy";
         ns = "niri-session";
+        bfs = "bfs -exclude -name .git -exclude -name .ccls-cache -exclude -name '*env*'";
       };
       sessionVariables = {
         XDG_CONFIG_HOME = "$HOME/.config";
@@ -618,6 +660,7 @@
       ccls
       cliphist
       cryptsetup
+      pciutils
       dig
       exfatprogs
       exif
@@ -628,7 +671,6 @@
       fzy
       gcc
       gh
-      git
       grim
       html-tidy
       htop

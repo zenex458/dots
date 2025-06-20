@@ -15,7 +15,7 @@
     ./pkgs.nix
   ];
   boot = {
-    kernel.sysctl."vm.swappiness" = 30;
+    # kernel.sysctl."vm.swappiness" = 30;
     supportedFilesystems = ["ntfs"];
     kernelPackages = pkgs.linuxPackages_latest;
     #loader.systemd-boot.enable = true;
@@ -206,7 +206,6 @@
     logind = {lidSwitch = "suspend";};
     #with hardened profile this is needed otherwise nix will not build
     #    logrotate.checkConfig = false;
-    fwupd.enable = true;
     fstrim.enable = true;
     openssh = {
       enable = true;
@@ -239,7 +238,6 @@
     #   openFirewall = true;
     # };
     dbus.enable = true;
-    smartd.enable = true;
     libinput.enable = true;
     xserver = {
       enable = true;
