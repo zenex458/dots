@@ -83,7 +83,7 @@
              	type "pipewire"
               	name "pipewire"
           }
-         #volume_normalization "yes"
+         volume_normalization "yes"
         #replaygain "track"
       '';
     };
@@ -184,6 +184,7 @@
           apheleia
           edwina
           async
+          delight
           auctex
           cape
           consult
@@ -206,6 +207,7 @@
           markdown-mode
           multiple-cursors
           nix-ts-mode
+          paredit
           orderless
           org-bullets
           org-make-toc
@@ -370,8 +372,8 @@
         }
       '';
       shellAliases = {
-        upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#eukaryotic --use-remote-sudo --cores 2";
-        updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#eukaryotic --use-remote-sudo -v --show-trace --cores 2";
+        upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#eukaryotic --use-remote-sudo";
+        updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#eukaryotic --use-remote-sudo -v --show-trace";
         updflake = "nix flake update --commit-lock-file";
         listnixgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
         remoldgen = "nix-collect-garbage --delete-older-than 2d && sudo nix-collect-garbage --delete-older-than 2d && upd";
@@ -612,6 +614,7 @@
         ".config/zotero"
         ".config/zsh"
         ".local/share/simplex"
+        ".local/state/wireplumber"
         ".mozilla"
         "Dev"
         "Documents"
@@ -687,7 +690,6 @@
       mpc-cli
       mpv
       mupdf
-      nemo
       nixd
       nodePackages.bash-language-server
       nodePackages.prettier

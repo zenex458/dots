@@ -64,10 +64,10 @@
       hyprlock.enable = false;
       tmux.enable = false;
       # neovim.enable = false;
-      gtk.extraCss = ''
-        // Remove rounded corners
-        window.background { border-radius: 0; }
-      '';
+      # gtk.extraCss = ''
+      #   // Remove rounded corners
+      #   window.background { border-radius: 0; }
+      # '';
     };
 
     base16Scheme = {
