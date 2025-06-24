@@ -78,8 +78,8 @@
       settings = {
         General = {
           "EnableNetworkConfiguration" = true;
-          # "AddressRandomization" = "network";
-          # "AddressRandomizationRange" = "nic";
+          "AddressRandomization" = "network";
+          "AddressRandomizationRange" = "nic";
         };
         Settings = {
           AutoConnect = true;
@@ -96,6 +96,10 @@
   hardware = {
     graphics.enable = true;
     cpu.amd.updateMicrocode = true;
+    bluetooth = {
+      enable = false;
+      powerOnBoot = false;
+    };
   };
   time.timeZone = "Europe/London";
 
@@ -122,7 +126,9 @@
       rootless.setSocketVariable = true;
     };
   };
+
   programs = {
+    obs-studio.enable = true;
     niri.enable = true;
     # adb.enable = true;
     localsend.enable = true;
@@ -185,7 +191,8 @@
 
   console = {
     useXkbConfig = true;
-    font = "Lat2-Terminus16";
+    packages = [pkgs.uw-ttyp0];
+    font = "t0-16-uni";
   };
 
   services = {
@@ -266,7 +273,7 @@
       initstepslew.enabled = true;
       serverOption = "iburst";
       enableNTS = true;
-      #https://raw.githubusercontent.com/GrapheneOS/infrastructure/main/chrony.conf
+      #https://github.com/GrapheneOS/infrastructure/blob/8b87654075d954043d710596940426fb62b79ef9/etc/chrony.conf
       extraConfig = ''
         minsources 2
         authselectmode require
@@ -276,7 +283,6 @@
 
         leapsectz right/UTC
         makestep 1.0 3
-
 
         cmdport 0
       '';
@@ -295,7 +301,8 @@
         CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
         CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
         START_CHARGE_THRESH_BAT0 = 75;
-        STOP_CHARGE_THRESH_BAT0 = 80;
+        # STOP_CHARGE_THRESH_BAT0 = 80;
+        STOP_CHARGE_THRESH_BAT0 = 1; #for on, for some reason. run `sudo tlp-stat' to see what value you should use
       };
     };
     pipewire = {
@@ -305,7 +312,7 @@
       pulse.enable = true;
       wireplumber.enable = true;
     };
-    gvfs.enable = true;
+    # gvfs.enable = true;
   };
 
   # List packages installed in system profile. To search, run:
@@ -314,7 +321,7 @@
   environment = {
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
-      FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
+      # FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
     };
     etc = {
       "firejail/firefox.local".text = ''
@@ -392,13 +399,13 @@
   };
 
   fonts = {
-    packages = with pkgs; [iosevka-bin uw-ttyp0 vistafonts];
-    fontconfig = {
-      antialias = true;
-      hinting.enable = true;
-      hinting.style = "full";
-      subpixel.rgba = "rgb";
-    };
+    packages = with pkgs; [iosevka-bin vistafonts uw-ttyp0];
+    # fontconfig = {
+    #   antialias = true;
+    #   hinting.enable = true;
+    #   hinting.style = "full";
+    #   subpixel.rgba = "rgb";
+    # };
   };
 
   security = {
@@ -412,11 +419,15 @@
     chromiumSuidSandbox.enable = true;
     rtkit.enable = true;
     polkit.enable = true;
-    sudo = {
+    # sudo = {
+    #   execWheelOnly = true;
+    #   extraConfig = ''
+    #     Defaults lecture = never
+    #   '';
+    # };
+    sudo-rs = {
+      enable = true;
       execWheelOnly = true;
-      extraConfig = ''
-        Defaults lecture = never
-      '';
     };
   };
 
@@ -445,7 +456,6 @@
     #   # kdeconnect
     # ];
   };
-
   nix = {
     nixPath = ["nixpkgs=${inputs.nixpkgs}"];
     settings = {
