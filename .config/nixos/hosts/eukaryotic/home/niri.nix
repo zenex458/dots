@@ -10,6 +10,7 @@
     enable = true;
     package = pkgs.niri-stable;
     settings = {
+      gestures.hot-corners.enable = false;
       screenshot-path = null;
       hotkey-overlay.skip-at-startup = true;
       prefer-no-csd = true;
@@ -47,7 +48,7 @@
           };
         };
         touchpad.dwt = true;
-        warp-mouse-to-focus = true;
+        warp-mouse-to-focus.enable = true;
       };
       cursor.hide-when-typing = true;
       outputs = {
@@ -72,6 +73,7 @@
             x = 0;
             y = 0;
           };
+          focus-at-startup = true;
         };
       };
       animations.enable = false;
@@ -87,10 +89,37 @@
           width = 1;
           active.color = "#bdae93";
           inactive.color = "#000000";
+          urgent.color = "#9b0000";
         };
         focus-ring.enable = false;
         gaps = 0;
       };
+      window-rules = [
+        {
+          matches = [
+            {
+              app-id = "^signal$";
+            }
+          ];
+          block-out-from = "screen-capture";
+        }
+        {
+          matches = [
+            {
+              app-id = "^org.keepassxc.KeePassXC$";
+            }
+          ];
+          block-out-from = "screen-capture";
+        }
+        {
+          matches = [
+            {
+              app-id = "^chat-simplex-desktop-MainKt$";
+            }
+          ];
+          block-out-from = "screen-capture";
+        }
+      ];
       binds = with config.lib.niri.actions; {
         "Mod+Return".action = spawn "foot" "tmux";
         "Mod+P".action = spawn "bemenu-run";
@@ -111,18 +140,18 @@
         "Mod+E".action = focus-monitor-right;
         "Mod+Shift+W".action = move-column-to-monitor-left;
         "Mod+Shift+E".action = move-column-to-monitor-right;
-        "Mod+U".action = spawn "bash" "-c" "emacsclient -c -a emacs";
-        "Mod+A".action = spawn "bash" "-c" "vol.sh";
-        "Mod+C".action = spawn "bash" "-c" "firejail firefox";
-        "Mod+Shift+C".action = spawn "bash" "-c" "firejail firefox -P work";
-        "Mod+Shift+O".action = spawn "bash" "-c" "mpc next";
-        "Mod+Shift+I".action = spawn "bash" "-c" "mpc prev";
-        "Mod+Shift+P".action = spawn "bash" "-c" "mpc toggle";
-        "Mod+Shift+Prior".action = spawn "bash" "-c" "light -A 2";
-        "Mod+Shift+Next".action = spawn "bash" "-c" "light -U 2";
-        "Mod+Shift+Home".action = spawn "bash" "-c" "light.sh";
-        "Mod+M".action = spawn "bash" "-c" "Menu";
-        "Mod+Y".action = spawn "bash" "-c" "clipshow.sh";
+        "Mod+U".action = spawn "emacsclient" "-c" "-a" "emacs";
+        "Mod+A".action = spawn "vol.sh";
+        "Mod+C".action = spawn "firejail" "firefox";
+        "Mod+Shift+C".action = spawn "firejail" "firefox" "-P" "work";
+        "Mod+Shift+O".action = spawn "mpc" "next";
+        "Mod+Shift+I".action = spawn "mpc" "prev";
+        "Mod+Shift+P".action = spawn "mpc" "toggle";
+        "Mod+Shift+Prior".action = spawn "light" "-A" "2";
+        "Mod+Shift+Next".action = spawn "light" "-U" "2";
+        "Mod+Shift+Home".action = spawn "light.sh";
+        "Mod+M".action = spawn "Menu";
+        "Mod+Y".action = spawn "clipshow.sh";
         "Mod+1".action = focus-workspace 1;
         "Mod+2".action = focus-workspace 2;
         "Mod+3".action = focus-workspace 3;
@@ -151,10 +180,10 @@
         "Mod+F".action = maximize-column;
         "Mod+Shift+F".action = fullscreen-window;
         "Mod+Ctrl+F".action = expand-column-to-available-width;
-        "Mod+Minus".action = set-column-width "-2%";
-        "Mod+Equal".action = set-column-width "+2%";
-        "Mod+Shift+Minus".action = set-window-height "-10%";
-        "Mod+Shift+Equal".action = set-window-height "+10%";
+        "Mod+Minus".action = set-column-width "-1%";
+        "Mod+Equal".action = set-column-width "+1%";
+        "Mod+Shift+Minus".action = set-window-height "-1%";
+        "Mod+Shift+Equal".action = set-window-height "+1%";
         "Mod+V".action = toggle-window-floating;
         "Mod+Shift+V".action = switch-focus-between-floating-and-tiling;
         "Mod+Shift+Z".action = quit;
