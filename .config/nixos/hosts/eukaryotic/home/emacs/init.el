@@ -16,16 +16,23 @@
 	            (delete-frame)
 	          (save-buffers-kill-emacs))
 	      (save-buffers-kill-emacs))))
+  (setq org-latex-classes
+        '(("IEEEtran" "\\documentclass[conference]{IEEEtran}"
+           ("\\section{%s}" . "\\section*{%s}")
+           ("\\subsection{%s}" . "\\subsection*{%s}")
+           ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+           ("\\paragraph{%s}" . "\\paragraph*{%s}")
+           ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+          ("article" "\\documentclass[11pt]{article}"
+           ("\\section{%s}" . "\\section*{%s}")
+           ("\\subsection{%s}" . "\\subsection*{%s}")
+           ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+           ("\\paragraph{%s}" . "\\paragraph*{%s}")
+           ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+
   (require 'updnix)
   (require 'upmu)
   :custom
-  (custom-file (expand-file-name (format "%semacs-custom.el"user-emacs-directory))) ;; fix formatting, because that is wrong, but it works
-  ;; (custom-file (make-temp-file "emacs-custom-"))
-  (auth-sources '((format "%s.authinfo.gpg"user-emacs-directory)))
-  (backup-directory-alist
-	 `((".*" . ,(format "%ssaves/"user-emacs-directory))t))
-  (auto-save-file-name-transforms
-	 `((".*" ,(format "%ssaves/"user-emacs-directory)t)))
   (treesit-language-source-alist
    '((bash "https://github.com/tree-sitter/tree-sitter-bash")
 	   (c "https://github.com/tree-sitter/tree-sitter-c")
@@ -41,6 +48,25 @@
 	   (nix "https://github.com/nix-community/tree-sitter-nix")
 	   (python "https://github.com/tree-sitter/tree-sitter-python")
 	   (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+  (major-mode-remap-alist
+   '((yaml-mode . yaml-ts-mode)
+	   (bash-mode . bash-ts-mode)
+	   (js2-mode . js-ts-mode)
+	   (typescript-mode . typescript-ts-mode)
+	   (json-mode . json-ts-mode)
+	   (c-mode . c-ts-mode)
+	   ("c++-mode" . "c++-ts-mode")
+	   (csharp-mode . csharp-ts-mode)
+	   (css-mode . css-ts-mode)
+	   (python-mode . python-ts-mode)))
+  (custom-file (expand-file-name (format "%s%s" user-emacs-directory "emacs-custom.el")))
+  ;; (custom-file (make-temp-file "emacs-custom-"))
+  (auth-sources (expand-file-name (format "%s%s" user-emacs-directory ".authinfo.gpg")))
+  (backup-directory-alist
+	 `((".*" . ,(expand-file-name (format "%s%s" user-emacs-directory "saves/")))t))
+  (auto-save-file-name-transforms
+	 `((".*" ,(expand-file-name (format "%s%s" user-emacs-directory "saves/"))t)))
+
   (shr-use-fonts  nil); No special fonts
   (shr-use-colors nil); No colours
   (eww-search-prefix "https://html.duckduckgo.com/?q="); Use another engine for searching
@@ -48,7 +74,6 @@
   ;; (setq ffap-machine-p-known 'reject)
   (TeX-auto-save t)
   (TeX-parse-self t)
-  ;; (TeX-master nil)
   (ring-bell-function 'ignore)
   (visible-bell nil)
   (defvar ispell-dictionary "british")
@@ -65,6 +90,7 @@
 			                         browse-url-generic-program '"firefox")
   ;; browse-url-generic-args '("-P" "priv"))
   (minibuffer-prompt-properties '(read-only t point-entered minibuffer-avoid-prompt face minibuffer-prompt))
+  (completion-in-region-function #'consult-completion-in-region)
   (enable-recursive-minibuffers t)
   (minibuffer-depth-indicate-mode 1)
   (scroll-conservatively 100)
@@ -162,15 +188,15 @@
 
 
 (use-package diminish
-  :init
-  (diminish 'subword-mode)
-  (diminish 'visual-line-mode)
-  (diminish 'eldoc-mode))
+  :init)
+(diminish 'subword-mode)
+(diminish 'visual-line-mode)
+(diminish 'eldoc-mode)
 
 (use-package vertico
-  :hook((after-init . vertico-mode)
-        (after-init . vertico-flat-mode)
-        (after-init . vertico-indexed-mode))
+  :hook ((after-init . vertico-mode)
+         (after-init . vertico-flat-mode)
+         (after-init . vertico-indexed-mode))
   :custom
   (vertico-count 40))
 
@@ -246,13 +272,10 @@
          ("M-s" . consult-history)                 ;; orig. next-matching-history-element
          ("M-r" . consult-history))                ;; orig. previous-matching-history-element
 
-  ;; Enable automatic preview at point in the *Completions* buffer. This is
-  ;; relevant when you use the default completion UI.
   :hook (completion-list-mode . consult-preview-at-point-mode)
   :custom
   (advice-add #'register-preview :override #'consult-register-window)
   (register-preview-delay 0.5)
-  ;; Use Consult to select xref locations with preview
   (xref-show-xrefs-function #'consult-xref)
   (xref-show-definitions-function #'consult-xref)
   (consult-buffer-sources '(consult--source-hidden-buffer consult--source-modified-buffer
@@ -269,7 +292,7 @@
    consult--source-bookmark consult--source-file-register
    :preview-key '(:debounce 0.4 any))
   (setq consult-narrow-key "<"))
-(setq completion-in-region-function #'consult-completion-in-region)
+
 
 (use-package embark
   :bind
@@ -321,22 +344,10 @@
   (add-to-list 'apheleia-mode-alist '(haskell-mode . ormolu)))
 
 
-(if (file-directory-p (format "%stree-sitter/"user-emacs-directory))
+(if (file-directory-p (expand-file-name (format "%s%s" user-emacs-directory "tree-sitter/")))
     (message "")
   (message "Downloading treesiter grammers")
   (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist)))
-
-(setq major-mode-remap-alist
-      '((yaml-mode . yaml-ts-mode)
-	      (bash-mode . bash-ts-mode)
-	      (js2-mode . js-ts-mode)
-	      (typescript-mode . typescript-ts-mode)
-	      (json-mode . json-ts-mode)
-	      (c-mode . c-ts-mode)
-	      ("c++-mode" . "c++-ts-mode")
-	      (csharp-mode . csharp-ts-mode)
-	      (css-mode . css-ts-mode)
-	      (python-mode . python-ts-mode)))
 
 (use-package rainbow-mode
   :hook (prog-mode . rainbow-mode)
@@ -350,17 +361,16 @@
   :custom
   ;; (setq elfeed-search-title-max-width '130)
   (elfeed-search-filter "@3-days-ago +unread")
-  (elfeed-db-directory (format "%selfeed/"user-emacs-directory)))
+  (elfeed-db-directory (expand-file-name (format "%s%s" user-emacs-directory "elfeed/"))))
 
 (use-package elfeed-org
+  :after elfeed
   :custom
-  (rmh-elfeed-org-files (list "~/.config/emacs/elfeed.org")))
+  (rmh-elfeed-org-files (list (expand-file-name (format "%s%s" user-emacs-directory "elfeed.org")))))
 
 (use-package nix-ts-mode
   :mode "\\.nix\\'"
-  :hook
-  (nix-ts-mode . (lambda ()(electric-pair-mode -1))))
-
+  :hook ((nix-ts-mode . (lambda ()(electric-pair-mode -1)))));;surely theres a better way?
 
 ;; https://github.com/promethial/.emacs.d/blob/c71732112300f1dc294769821533a8627440b282/init.el#L326
 (use-package haskell-mode
@@ -369,9 +379,9 @@
         ("TAB" . corfu-next)))
 
 (use-package corfu
-  :hook((after-init . global-corfu-mode)
-        (after-init . corfu-history-mode)
-        (after-init . corfu-popupinfo-mode))
+  :hook ((after-init . global-corfu-mode)
+         (after-init . corfu-history-mode)
+         (after-init . corfu-popupinfo-mode))
   :custom
   ;; (corfu-auto t)
   ;; (corfu-quit-no-match t)
@@ -537,6 +547,9 @@
   :custom
   (display-buffer-base-action '(display-buffer-below-selected))
   (edwina-mode-line-format ""))
+
+(use-package paredit
+  :hook (emacs-lisp-mode . paredit-mode))
 
 (setq mode-line-position (list " (%l:%C %P %I) "))
 ;;https://www.emacs.dyerdwelling.family/emacs/20230902114449-emacs--my-evolving-modeline/
