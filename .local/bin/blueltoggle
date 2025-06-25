@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-hyprshade toggle blue-light-filter
