@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: srcblock
-# key: <s
-# --
-
-#+begin_src $1
-$2
-#+end_src
