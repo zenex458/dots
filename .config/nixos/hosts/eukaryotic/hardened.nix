@@ -1,10 +1,7 @@
-# A profile with most (vanilla) hardening options enabled by default,
-# potentially at the cost of stability, features and performance.
-#
-# This profile enables options that are known to affect system
-# stability. If you experience any stability issues when using the
-# profile, try disabling it. If you report an issue and use this
-# profile, always mention that you do.
+# Taken from:
+# https://github.com/NixOS/nixpkgs/blob/fb2c741ea98a6d12c91a6b322caf2357247e4d71/nixos/modules/profiles/hardened.nix
+# https://madaidans-insecurities.github.io/guides/linux-hardening.html
+# https://raw.githubusercontent.com/zenex458/dots/refs/heads/main/root/sysctl.conf
 {
   config,
   lib,
@@ -12,18 +9,11 @@
   ...
 }:
 with lib; {
-  meta = {
-    maintainers = [
-      maintainers.joachifm
-      maintainers.emily
-    ];
-  };
-
   #  security.lockKernelModules = mkDefault true;
 
   #  security.protectKernelImage = mkDefault true;
 
-  # boot.kernelPackages = mkDefault pkgs.pkgs.linuxPackages_hardened;
+  boot.kernelPackages = mkDefault pkgs.pkgs.linuxPackages_hardened;
 
   nix.settings.allowed-users = mkDefault ["@wheel"];
 
@@ -57,6 +47,19 @@ with lib; {
     "tsx_async_abort=full"
     "kvm.nx_huge_pages=force"
     "efi=disable_early_pci_dma"
+    "jitterentropy_rng"
+    "mds=full"
+    "random.trust_cpu=off"
+    "tsx_async_abort=full"
+    "l1tf=full,force"
+    "kvm.nx_huge_pages=force"
+    #"intel_iommu=on"
+    "amd_iommu=on"
+    "iommu.passthrough=0"
+    "iommu.strict=1"
+    "l1d_flush=on"
+    "mmio_stale_data=full"
+    "extra_latent_entropy"
     # "loglevel=3"
     # "quiet"
   ];
@@ -170,6 +173,9 @@ with lib; {
     "cdrom"
     "sr_mod"
   ];
+  #this should stop the firefox security error(it now can create namespaces)
+  #https://discuss.privacyguides.net/t/firefox-and-unprivileged-namespaces/20158/11
+  boot.kernel.sysctl."kernel.unprivileged_userns_clone" = "1";
 
   #prevent unprivileged attackers from loading vulnerable line disciplines
   boot.kernel.sysctl."dev.tty.ldisc_autoload" = mkDefault "0";
@@ -189,13 +195,13 @@ with lib; {
   boot.kernel.sysctl."vm.mmap_rnd_bits" = mkDefault "32";
   boot.kernel.sysctl."vm.mmap_rnd_compat_bits" = mkDefault "16";
 
-  boot.kernel.sysctl."vm.swappiness" = mkOverride 60 1;
+  # boot.kernel.sysctl."vm.swappiness" = mkOverride 60 1;
   # Restrict ptrace() usage to processes with a pre-defined relationship
   # (e.g., parent/child)
   boot.kernel.sysctl."kernel.yama.ptrace_scope" = mkOverride 500 2;
 
   # Hide kptrs even for processes with CAP_SYSLOG
-  boot.kernel.sysctl."kernel.kptr_restrict" = mkOverride 500 1;
+  boot.kernel.sysctl."kernel.kptr_restrict" = mkOverride 500 2;
 
   # Disable bpf() JIT (to eliminate spray attacks)
   boot.kernel.sysctl."net.core.bpf_jit_enable" = mkDefault false;
@@ -206,34 +212,36 @@ with lib; {
   # Enable strict reverse path filtering (that is, do not attempt to route
   # packets that "obviously" do not belong to the iface's network; dropped
   # packets are logged as martians).
-  # boot.kernel.sysctl."net.ipv4.conf.all.log_martians" = mkDefault true;
-  # boot.kernel.sysctl."net.ipv4.conf.all.rp_filter" = mkDefault "1";
-  # boot.kernel.sysctl."net.ipv4.conf.default.log_martians" = mkDefault true;
-  # boot.kernel.sysctl."net.ipv4.conf.default.rp_filter" = mkDefault "1";
+  boot.kernel.sysctl."net.ipv4.conf.all.log_martians" = mkDefault true;
+  boot.kernel.sysctl."net.ipv4.conf.all.rp_filter" = mkDefault "1";
+  boot.kernel.sysctl."net.ipv4.conf.default.log_martians" = mkDefault true;
+  boot.kernel.sysctl."net.ipv4.conf.default.rp_filter" = mkDefault "1";
+
+  boot.kernel.sysctl."net.ipv4.conf.all.forwarding" = mkDefault "0";
 
   # # Ignore broadcast ICMP (mitigate SMURF)
-  # boot.kernel.sysctl."net.ipv4.icmp_echo_ignore_broadcasts" = mkDefault true;
+  boot.kernel.sysctl."net.ipv4.icmp_echo_ignore_broadcasts" = mkDefault true;
 
   # # Ignore incoming ICMP redirects (note: default is needed to ensure that the
   # # setting is applied to interfaces added after the sysctls are set)
-  # boot.kernel.sysctl."net.ipv4.conf.all.accept_redirects" = mkDefault false;
-  # boot.kernel.sysctl."net.ipv4.conf.all.secure_redirects" = mkDefault false;
-  # boot.kernel.sysctl."net.ipv4.conf.default.accept_redirects" = mkDefault false;
-  # boot.kernel.sysctl."net.ipv4.conf.default.secure_redirects" = mkDefault false;
-  # boot.kernel.sysctl."net.ipv6.conf.all.accept_redirects" = mkDefault false;
-  # boot.kernel.sysctl."net.ipv6.conf.default.accept_redirects" = mkDefault false;
+  boot.kernel.sysctl."net.ipv4.conf.all.accept_redirects" = mkDefault false;
+  boot.kernel.sysctl."net.ipv4.conf.all.secure_redirects" = mkDefault false;
+  boot.kernel.sysctl."net.ipv4.conf.default.accept_redirects" = mkDefault false;
+  boot.kernel.sysctl."net.ipv4.conf.default.secure_redirects" = mkDefault false;
+  boot.kernel.sysctl."net.ipv6.conf.all.accept_redirects" = mkDefault false;
+  boot.kernel.sysctl."net.ipv6.conf.default.accept_redirects" = mkDefault false;
 
   # # Ignore outgoing ICMP redirects (this is ipv4 only)
-  # boot.kernel.sysctl."net.ipv4.conf.all.send_redirects" = mkDefault false;
-  # boot.kernel.sysctl."net.ipv4.conf.default.send_redirects" = mkDefault false;
+  boot.kernel.sysctl."net.ipv4.conf.all.send_redirects" = mkDefault false;
+  boot.kernel.sysctl."net.ipv4.conf.default.send_redirects" = mkDefault false;
 
-  # boot.kernel.sysctl."net.ipv4.conf.all.accept_source_route" = mkDefault "0";
-  # boot.kernel.sysctl."net.ipv4.conf.default.accept_source_route" = mkDefault "0";
-  # boot.kernel.sysctl."net.ipv6.conf.all.accept_source_route" = mkDefault "0";
+  boot.kernel.sysctl."net.ipv4.conf.all.accept_source_route" = mkDefault "0";
+  boot.kernel.sysctl."net.ipv4.conf.default.accept_source_route" = mkDefault "0";
+  boot.kernel.sysctl."net.ipv6.conf.all.accept_source_route" = mkDefault "0";
 
   # # Do not accept ICMP redirects (prevent MITM attacks)
-  # boot.kernel.sysctl."net.ipv4.icmp_echo_ignore_all" = mkDefault "1";
-  # boot.kernel.sysctl."net.ipv6.icmp.echo_ignore_all" = mkDefault "1";
+  boot.kernel.sysctl."net.ipv4.icmp_echo_ignore_all" = mkDefault "1";
+  boot.kernel.sysctl."net.ipv6.icmp.echo_ignore_all" = mkDefault "1";
 
   # Do not accept router advertisments
   boot.kernel.sysctl."net.ipv6.conf.all.accept_ra" = mkDefault "0";

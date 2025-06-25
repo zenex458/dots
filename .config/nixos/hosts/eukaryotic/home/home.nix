@@ -179,12 +179,10 @@
           vterm
           pdf-tools
           multi-vterm
-          aggressive-indent
           ace-window
           apheleia
           edwina
           async
-          delight
           auctex
           cape
           consult
@@ -598,7 +596,7 @@
         executable = true;
       };
       ".config/emacs" = {
-        source = ./emacs;
+        source = ../../../../emacs;
         recursive = true;
       };
     };

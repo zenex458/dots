@@ -9,7 +9,7 @@
     inputs.impermanence.nixosModules.impermanence
     inputs.disko.nixosModules.disko
     inputs.lanzaboote.nixosModules.lanzaboote
-    #    ./hardened.nix
+    ./hardened.nix
     ./disko-config.nix
     ./hardware-configuration.nix
     ./pkgs.nix
@@ -17,7 +17,7 @@
   boot = {
     # kernel.sysctl."vm.swappiness" = 30;
     supportedFilesystems = ["ntfs"];
-    kernelPackages = pkgs.linuxPackages_latest;
+    # kernelPackages = pkgs.linuxPackages_latest;
     #loader.systemd-boot.enable = true;
     loader.systemd-boot.enable = lib.mkForce false;
     lanzaboote = {
@@ -55,6 +55,7 @@
 
   systemd.tmpfiles.rules = [
     "d /persistent/var/keys/ 0700 root root"
+    "d /persistent/etc/nixos/ 0700 root root"
   ];
 
   programs.fuse.userAllowOther = true;
@@ -78,7 +79,7 @@
       settings = {
         General = {
           "EnableNetworkConfiguration" = true;
-          "AddressRandomization" = "network";
+          "AddressRandomization" = "once";
           "AddressRandomizationRange" = "nic";
         };
         Settings = {
@@ -89,7 +90,6 @@
         };
       };
     };
-
     enableIPv6 = false;
   };
 
@@ -216,9 +216,8 @@
     fstrim.enable = true;
     openssh = {
       enable = true;
-      # require public key authentication for better security
-      settings.PasswordAuthentication = false;
-      settings.KbdInteractiveAuthentication = false;
+      settings.PasswordAuthentication = true;
+      settings.KbdInteractiveAuthentication = true;
       settings.PermitRootLogin = "no";
       allowSFTP = false;
       extraConfig = ''
@@ -226,7 +225,6 @@
         X11Forwarding no
         AllowAgentForwarding no
         AllowStreamLocalForwarding no
-        #AuthenticationMethods publickey
       '';
     };
 
@@ -260,10 +258,21 @@
       };
     };
     usbguard = {
-      enable = false;
+      enable = true;
       presentControllerPolicy = "apply-policy";
       implicitPolicyTarget = "block";
       rules = ''
+        allow id 1d6b:0002 serial "0000:03:00.3" name "xHCI Host Controller" hash "cmzdizBgI3dt4cFMO8H1QUW3FWqsDSXqkGP5r5XZtEs=" parent-hash "PeOe/xaA1IiqkrGiI1Zaa9uUS35iLSvdBe78BridqEQ=" with-interface 09:00:00 with-connect-type ""
+        allow id 1d6b:0003 serial "0000:03:00.3" name "xHCI Host Controller" hash "BJI8loU2ltTPxc6wSrxp3Rzpt/xpSwuuJ/+QTie7fnI=" parent-hash "PeOe/xaA1IiqkrGiI1Zaa9uUS35iLSvdBe78BridqEQ=" with-interface 09:00:00 with-connect-type ""
+        allow id 0951:1666 serial "408D5C15CB92E911290E05C5" name "DataTraveler 3.0" hash "2EaYKuXgzTb9sCQUwJZvP9dxQb0D4AguKGMqigouD5M=" parent-hash "cmzdizBgI3dt4cFMO8H1QUW3FWqsDSXqkGP5r5XZtEs=" with-interface 08:06:50 with-connect-type "hotplug"
+        allow id 05e3:0610 serial "" name "USB2.1 Hub" hash "CbRB9LX/JdGjNWCYSOcIwMVXE0UpOR03LCotWrTbuCM=" parent-hash "cmzdizBgI3dt4cFMO8H1QUW3FWqsDSXqkGP5r5XZtEs=" with-interface 09:00:00 with-connect-type "hotplug"
+        allow id 05e3:0610 serial "" name "USB2.0 Hub" hash "To7KDzOAgi4jFrnLNIttvUKO428/MLM1/eWqsv969gw=" parent-hash "cmzdizBgI3dt4cFMO8H1QUW3FWqsDSXqkGP5r5XZtEs=" with-interface { 09:00:01 09:00:02 } with-connect-type "hardwired"
+        allow id 0bda:c123 serial "00e04c000001" name "Bluetooth Radio" hash "ggisKS6sIOiLKw5VtqcFgZIFVYAkOK1ebdx01g37huk=" parent-hash "cmzdizBgI3dt4cFMO8H1QUW3FWqsDSXqkGP5r5XZtEs=" with-interface { e0:01:01 e0:01:01 e0:01:01 e0:01:01 e0:01:01 e0:01:01 e0:01:01 } with-connect-type "hardwired"
+        allow id 05e3:0626 serial "" name "USB3.1 Hub" hash "15SBGsOo8K+JjtOKSCn7t0i6ifer4wmhzep1yEB5pLQ=" parent-hash "BJI8loU2ltTPxc6wSrxp3Rzpt/xpSwuuJ/+QTie7fnI=" with-interface 09:00:00 with-connect-type "hotplug"
+        allow id 2972:0047 serial "" name "FiiO K3" hash "YNur060AyFfKrnIT2qfA+GDscg0vNchYtt0Lh3j2Zt4=" parent-hash "CbRB9LX/JdGjNWCYSOcIwMVXE0UpOR03LCotWrTbuCM=" with-interface { 01:01:20 01:02:20 01:02:20 01:02:20 01:02:20 fe:01:01 01:01:20 01:02:20 01:02:20 01:02:20 01:02:20 fe:01:01 } with-connect-type "unknown"
+        allow id 046d:c08b serial "1285335A3232" name "G502 HERO Gaming Mouse" hash "ukNMlamAkPMh7baihqjodyq1X2cF75bqoMTP6vnHADw=" parent-hash "CbRB9LX/JdGjNWCYSOcIwMVXE0UpOR03LCotWrTbuCM=" with-interface { 03:01:02 03:00:00 } with-connect-type "unknown"
+        allow id 0951:16dc serial "" name "HyperX Alloy FPS RGB" hash "H/mSsemErhu6jSIjbiA0PEz4NYHdH0Q5juMtNDc0eGA=" parent-hash "CbRB9LX/JdGjNWCYSOcIwMVXE0UpOR03LCotWrTbuCM=" with-interface { 03:01:01 03:01:01 03:00:00 } with-connect-type "unknown"
+        allow id 5986:2137 serial "" name "Integrated Camera" hash "eg+SlU0pANNmAjsl8cDYiULjq9l+rGJ1kbvX/N+2r/Y=" parent-hash "To7KDzOAgi4jFrnLNIttvUKO428/MLM1/eWqsv969gw=" with-interface { 0e:01:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 } with-connect-type "hardwired"
       '';
     };
     opensnitch.enable = false;
@@ -464,11 +473,11 @@
       allowed-users = ["@wheel"];
       download-buffer-size = 524288000;
     };
-    gc = {
-      automatic = true;
-      dates = "daily";
-      options = "--delete-older-than 2d";
-    };
+    # gc = { ##change  for every three days
+    #   automatic = true;
+    #   # dates = "daily";
+    #   options = "--delete-older-than 2d";
+    # };
   };
 
   system.stateVersion = "23.05"; # Did you read the comment?
