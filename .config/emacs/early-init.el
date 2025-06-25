@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t; -*-
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-(add-to-list 'load-path "~/.emacs.d/lisp/")
+(add-to-list 'custom-theme-load-path (format "%sthemes/"user-emacs-directory))
+(load-theme 'saturn t)
+(add-to-list 'load-path (format "%slisp/"user-emacs-directory))
 (setenv "MANWIDTH" "200")
 ;; (setq shell-file-name "bash")
 ;; (setq shell-command-switch "-ic")
@@ -11,9 +12,9 @@
 (setq initial-buffer-choice nil)
 (setq inhibit-x-resources t)
 (setq inhibit-startup-buffer-menu t)
-;; (setq-default bidi-display-reordering 'left-to-right)
-;; (setq-default bidi-paragraph-direction 'left-to-right)
-;; (setq bidi-inhibit-bpa t)
+(setq-default bidi-display-reordering 'left-to-right)
+(setq-default bidi-paragraph-direction 'left-to-right)
+(setq bidi-inhibit-bpa t)
 (advice-add #'display-startup-screen :override #'ignore)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
@@ -26,16 +27,34 @@
 ;;(global-hl-line-mode 1)
 ;;(setq display-line-numbers-type 'relative)
 ;;(add-hook 'prog-mode-hook #'display-line-numbers-mode)
-(push '(font . "Ttyp0:style=Regular") default-frame-alist)
+(push '(font . "Ttyp0-10:style=Regular") default-frame-alist)
+(set-face-font 'default "Ttyp0-10:style=Regular")
+(set-face-font 'variable-pitch "Ttyp0-10:style=Regular")
+(copy-face 'default 'fixed-pitch)
 (global-visual-line-mode t)
 (advice-add #'x-apply-session-resources :override #'ignore)
 (defvar default-file-name-handler-alist file-name-handler-alist)
 (unless (daemonp)
   (advice-add #'display-startup-echo-area-message :override #'ignore))
 (setq frame-inhibit-implied-resize t)
-(setq use-package-always-ensure t
-	    use-package-expand-minimally t)
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("gnu" . "https://elpa.gnu.org/packages/")
-                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+
+(if (not(string= system-name '"eukaryotic"))
+    (progn
+      (setq use-package-always-ensure t
+	          use-package-expand-minimally t)
+      (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                               ("gnu" . "https://elpa.gnu.org/packages/")
+                               ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+      (package-initialize)
+      (unless (package-installed-p 'use-package)
+        (package-refresh-contents)
+        (package-install 'use-package))
+
+      (unless package-archive-contents
+        (package-refresh-contents))
+
+      (eval-when-compile
+        (require 'use-package))))
+
 (provide 'early-init)
+;;; early-init.el ends here
