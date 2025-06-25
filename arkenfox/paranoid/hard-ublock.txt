@@ -1,31 +1,27 @@
 {
-  "timeStamp": 1734468431442,
-  "version": "1.61.2",
+  "timeStamp": 1750861008546,
+  "version": "1.64.0",
   "userSettings": {
     "advancedUserEnabled": true,
+    "uiAccentCustom": true,
+    "uiAccentCustom0": "#bdae93",
     "uiTheme": "dark",
-    "externalLists": "https://divested.dev/blocklists/Fingerprinting.ubl\nhttps://filters.adtidy.org/extension/ublock/filters/14.txt\nhttps://o0.pages.dev/Pro/adblock.txt\nhttps://o0.pages.dev/Xtra/adblock.txt\nhttps://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt\nhttps://raw.githubusercontent.com/DandelionSprout/adfilt/refs/heads/master/Dandelion%20Sprout's%20Anti-Malware%20List.txt\nhttps://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts\nhttps://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/tif.txt\nhttps://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/ultimate.txt\nhttps://raw.githubusercontent.com/iam-py-test/my_filters_001/refs/heads/main/antimalware.txt\nhttps://raw.githubusercontent.com/yokoffing%/filterlists/main/annoyance_list.txt\nhttps://raw.githubusercontent.com/yokoffing/filterlists/refs/heads/main/annoyance_list.txt\nhttps://raw.githubusercontent.com/yokoffing/filterlists/refs/heads/main/enhanced_site_protection.txt\nhttps://raw.githubusercontent.com/yokoffing/filterlists/refs/heads/main/privacy_essentials.txt\nhttps://secure.fanboy.co.nz/fanboy-annoyance_ubo.txt",
+    "externalLists": "https://big.oisd.nl\nhttps://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt\nhttps://raw.githubusercontent.com/DandelionSprout/adfilt/refs/heads/master/Dandelion%20Sprout's%20Anti-Malware%20List.txt\nhttps://raw.githubusercontent.com/badmojr/1Hosts/refs/heads/master/Xtra/adblock.txt\nhttps://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/fake.txt\nhttps://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/tif.txt\nhttps://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/ultimate.txt\nhttps://raw.githubusercontent.com/iam-py-test/my_filters_001/refs/heads/main/antimalware.txt\nhttps://raw.githubusercontent.com/yokoffing/filterlists/refs/heads/main/enhanced_site_protection.txt\nhttps://raw.githubusercontent.com/yokoffing/filterlists/refs/heads/main/privacy_essentials.txt",
     "importedLists": [
-      "https://divested.dev/blocklists/Fingerprinting.ubl",
-      "https://filters.adtidy.org/extension/ublock/filters/14.txt",
-      "https://o0.pages.dev/Pro/adblock.txt",
-      "https://o0.pages.dev/Xtra/adblock.txt",
+      "https://big.oisd.nl",
       "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt",
       "https://raw.githubusercontent.com/DandelionSprout/adfilt/refs/heads/master/Dandelion%20Sprout's%20Anti-Malware%20List.txt",
-      "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts",
+      "https://raw.githubusercontent.com/badmojr/1Hosts/refs/heads/master/Xtra/adblock.txt",
+      "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/fake.txt",
       "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/tif.txt",
       "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/ultimate.txt",
       "https://raw.githubusercontent.com/iam-py-test/my_filters_001/refs/heads/main/antimalware.txt",
-      "https://raw.githubusercontent.com/yokoffing%/filterlists/main/annoyance_list.txt",
-      "https://raw.githubusercontent.com/yokoffing/filterlists/refs/heads/main/annoyance_list.txt",
       "https://raw.githubusercontent.com/yokoffing/filterlists/refs/heads/main/enhanced_site_protection.txt",
-      "https://raw.githubusercontent.com/yokoffing/filterlists/refs/heads/main/privacy_essentials.txt",
-      "https://secure.fanboy.co.nz/fanboy-annoyance_ubo.txt"
+      "https://raw.githubusercontent.com/yokoffing/filterlists/refs/heads/main/privacy_essentials.txt"
     ],
     "popupPanelSections": 31
   },
   "selectedFilterLists": [
-    "user-filters",
     "ublock-filters",
     "ublock-badware",
     "ublock-privacy",
@@ -39,12 +35,6 @@
     "block-lan",
     "urlhaus-1",
     "curben-phishing",
-    "plowe-0",
-    "dpollock-0",
-    "fanboy-cookiemonster",
-    "ublock-cookies-easylist",
-    "adguard-cookies",
-    "ublock-cookies-adguard",
     "fanboy-social",
     "adguard-social",
     "fanboy-thirdparty_social",
@@ -61,16 +51,12 @@
     "https://raw.githubusercontent.com/DandelionSprout/adfilt/refs/heads/master/Dandelion%20Sprout's%20Anti-Malware%20List.txt",
     "https://raw.githubusercontent.com/yokoffing/filterlists/refs/heads/main/enhanced_site_protection.txt",
     "https://raw.githubusercontent.com/yokoffing/filterlists/refs/heads/main/privacy_essentials.txt",
-    "https://raw.githubusercontent.com/yokoffing/filterlists/refs/heads/main/annoyance_list.txt",
-    "https://filters.adtidy.org/extension/ublock/filters/14.txt",
-    "https://secure.fanboy.co.nz/fanboy-annoyance_ubo.txt",
+    "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/fake.txt",
     "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/tif.txt",
     "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/ultimate.txt",
-    "https://o0.pages.dev/Pro/adblock.txt",
-    "https://o0.pages.dev/Xtra/adblock.txt",
-    "https://divested.dev/blocklists/Fingerprinting.ubl",
-    "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts",
-    "https://raw.githubusercontent.com/iam-py-test/my_filters_001/refs/heads/main/antimalware.txt"
+    "https://raw.githubusercontent.com/badmojr/1Hosts/refs/heads/master/Xtra/adblock.txt",
+    "https://raw.githubusercontent.com/iam-py-test/my_filters_001/refs/heads/main/antimalware.txt",
+    "https://big.oisd.nl"
   ],
   "hiddenSettings": {
     "filterAuthorMode": true
@@ -80,16 +66,18 @@
     "chrome-extension-scheme",
     "chrome-scheme",
     "edge-scheme",
+    "hn.algolia.com",
     "moz-extension-scheme",
     "opera-scheme",
     "vivaldi-scheme",
     "web.whatsapp.com",
+    "www.boardsource.xyz",
     "www.linkedin.com",
     "www.whatsapp.com",
     "wyciwyg-scheme"
   ],
-  "dynamicFilteringString": "* github.com * block\ngithub.com github.com * noop\n* githubassets.com * block\ngithub.com githubassets.com * noop\n* user-images.githubusercontent.com * block\ngithub.com user-images.githubusercontent.com * noop\n* cloud.githubusercontent.com * block\ngithub.com cloud.githubusercontent.com * noop\n* * 3p-script block\n* * 3p-frame block\n* * 3p block\nwww.deezer.com * 3p-script noop\nwww.deezer.com * 3p-frame noop\nwww.deezer.com * 3p noop\naccount.deezer.com dzcdn.net * noop\naccount.deezer.com w27.akamai.net * noop\naccount.deezer.com sentry.io * noop\n* facebook.net * block\naccount.deezer.com googletagmanager.com * noop\naccount.deezer.com a.akamaiedge.net * noop\n* doubleclick.net * block\nwww.whatsapp.com whatsapp.net * noop\nwww.whatsapp.com * 3p-script noop\nwww.whatsapp.com * 3p-frame noop\nwww.whatsapp.com * 3p noop\nweb.whatsapp.com * 3p-script noop\nweb.whatsapp.com * 3p-frame noop\nweb.whatsapp.com * 3p noop\nweb.whatsapp.com whatsapp.net * noop\n* facebook.com * block\ngithub.com raw.githubusercontent.com * noop\ngithub.com avatars.githubusercontent.com * noop\nprojecteuler.net * 3p-script noop\nprojecteuler.net * 3p-frame noop\nprojecteuler.net * 3p noop\nhome-manager-options.extranix.com * 3p-script noop\nhome-manager-options.extranix.com * 3p-frame noop\nhome-manager-options.extranix.com * 3p noop\nmelpa.org * 3p-script noop\nmelpa.org * 3p-frame noop\nmelpa.org * 3p noop",
+  "dynamicFilteringString": "account.deezer.com * 3p-script noop\naccount.deezer.com * 3p-frame noop\naccount.deezer.com * 3p noop\naccount.deezer.com dzcdn.net * noop\ngithub.com raw.githubusercontent.com * noop\nsearch.nixos.org * 3p-script noop\nsearch.nixos.org * 3p-frame noop\nsearch.nixos.org * 3p noop\nmelpa.org * 3p-script noop\nmelpa.org * 3p-frame noop\nmelpa.org * 3p noop\nhome-manager-options.extranix.com * 3p-script noop\nhome-manager-options.extranix.com * 3p-frame noop\nhome-manager-options.extranix.com * 3p noop\nwww.w3schools.com snigelweb.com * noop\nwww.w3schools.com googletagmanager.com * noop\nwww.w3schools.com * 3p-script noop\nwww.w3schools.com * 3p-frame noop\nwww.w3schools.com * 3p noop\namiunique.org * 3p-script noop\namiunique.org * 3p-frame noop\namiunique.org * 3p noop\ncoveryourtracks.eff.org * 3p-script noop\ncoveryourtracks.eff.org * 3p-frame noop\ncoveryourtracks.eff.org * 3p noop\nwww.youtube.com googlevideo.com * noop\n* sstatic.net * noop\n* cloudflare.com * noop\nwww.youtube.com * 3p-script noop\nwww.youtube.com * 3p-frame noop\nwww.youtube.com * 3p noop\nwww.amazon.co.uk * 3p-script noop\nwww.amazon.co.uk * 3p-frame noop\nwww.amazon.co.uk * 3p noop\nen.wikipedia.org wikimedia.org * noop\nsearx.tiekoetter.com * 3p-script block\nsearx.tiekoetter.com * 3p-frame block\nsearx.tiekoetter.com * 3p block",
   "urlFilteringString": "",
-  "hostnameSwitchesString": "no-cosmetic-filtering: * true\nno-remote-fonts: * true\nno-large-media: * true\nno-csp-reports: * true\nno-scripting: * true\nno-scripting: search.nixos.org false\nno-cosmetic-filtering: www.deezer.com false\nno-remote-fonts: www.deezer.com false\nno-large-media: www.deezer.com false\nno-scripting: www.deezer.com false\nno-cosmetic-filtering: account.deezer.com false\nno-remote-fonts: account.deezer.com false\nno-large-media: account.deezer.com false\nno-scripting: account.deezer.com false\nno-cosmetic-filtering: www.whatsapp.com false\nno-remote-fonts: www.whatsapp.com false\nno-large-media: www.whatsapp.com false\nno-scripting: www.whatsapp.com false\nno-cosmetic-filtering: web.whatsapp.com false\nno-remote-fonts: web.whatsapp.com false\nno-large-media: web.whatsapp.com false\nno-scripting: web.whatsapp.com false\nno-large-media: www.phoronix.com false\nno-cosmetic-filtering: github.com false\nno-remote-fonts: github.com false\nno-large-media: github.com false\nno-scripting: github.com false\nno-cosmetic-filtering: projecteuler.net false\nno-remote-fonts: projecteuler.net false\nno-large-media: projecteuler.net false\nno-scripting: projecteuler.net false\nno-cosmetic-filtering: cpu.userbenchmark.com false\nno-remote-fonts: cpu.userbenchmark.com false\nno-large-media: cpu.userbenchmark.com false\nno-scripting: cpu.userbenchmark.com false\nno-cosmetic-filtering: home-manager-options.extranix.com false\nno-remote-fonts: home-manager-options.extranix.com false\nno-large-media: home-manager-options.extranix.com false\nno-scripting: home-manager-options.extranix.com false\nno-cosmetic-filtering: melpa.org false\nno-remote-fonts: melpa.org false\nno-large-media: melpa.org false\nno-scripting: melpa.org false",
-  "userFilters": "!(no shorts\nwww.youtube.com##ytd-guide-renderer a.yt-simple-endpoint path[d^=\"M10 14.65v-5.3L15 12l-5 2.65zm7.77-4.33\"]:upward(ytd-guide-entry-renderer)\nwww.youtube.com##ytd-mini-guide-renderer a.yt-simple-endpoint path[d^=\"M10 14.65v-5.3L15 12l-5 2.65zm7.77-4.33\"]:upward(ytd-mini-guide-entry-renderer)\nwww.youtube.com##ytd-browse[page-subtype=\"home\"] .ytd-thumbnail[href^=\"/shorts/\"]:upward(ytd-rich-item-renderer)\nwww.youtube.com##ytd-browse[page-subtype=\"subscriptions\"] .ytd-thumbnail[href^=\"/shorts/\"]:upward(ytd-grid-video-renderer,ytd-rich-item-renderer)\nwww.youtube.com##ytd-search .ytd-thumbnail[href^=\"/shorts/\"]:upward(ytd-video-renderer)\nwww.youtube.com##ytd-browse[page-subtype=\"subscriptions\"] ytd-video-renderer .ytd-thumbnail[href^=\"/shorts/\"]:upward(ytd-item-section-renderer)\nwww.youtube.com##ytd-watch-next-secondary-results-renderer .ytd-thumbnail[href^=\"/shorts/\"]:upward(ytd-compact-video-renderer,ytd-shelf-renderer)\nwww.youtube.com##ytd-browse[page-subtype=\"trending\"] .ytd-thumbnail[href^=\"/shorts/\"]:upward(ytd-video-renderer)\nwww.youtube.com##ytd-search .ytd-thumbnail[href^=\"/shorts/\"]:upward(ytd-video-renderer)\nwww.youtube.com##ytd-rich-shelf-renderer[is-shorts]\nwww.youtube.com##ytd-rich-shelf-renderer[is-shorts].ytd-rich-section-renderer:upward(ytd-rich-section-renderer)\nwww.youtube.com##ytd-reel-shelf-renderer\nm.youtube.com##ytm-reel-shelf-renderer\nm.youtube.com##ytm-pivot-bar-renderer div.pivot-shorts:upward(ytm-pivot-bar-item-renderer)\nm.youtube.com##ytm-browse ytm-item-section-renderer ytm-thumbnail-overlay-time-status-renderer[data-style=\"SHORTS\"]:upward(ytm-video-with-context-renderer)\nm.youtube.com##ytm-browse ytm-item-section-renderer ytm-thumbnail-overlay-time-status-renderer[data-style=\"SHORTS\"]:upward(ytm-compact-video-renderer)\nm.youtube.com##ytm-search ytm-thumbnail-overlay-time-status-renderer[data-style=\"SHORTS\"]:upward(ytm-compact-video-renderer,ytm-video-with-context-renderer)\nm.youtube.com##ytm-single-column-watch-next-results-renderer ytm-thumbnail-overlay-time-status-renderer span:has-text(/^(0:\\d\\d|1:0\\d)$/):upward(ytm-video-with-context-renderer)\nyoutube.com##ytd-rich-grid-row, #contents.ytd-rich-grid-row:style(display:contents !important;)\n!)\n\n!(hide video recommendations\nwww.youtube.com###related\nm.youtube.com##ytm-watch ytm-item-section-renderer[data-content-type=\"related\"]\nwww.youtube.com##ytd-browse[page-subtype=\"home\"]\nm.youtube.com##ytm-browse div[tab-identifier=\"FEwhat_to_watch\"]\nwww.youtube.com##.ytp-ce-element\nwww.youtube.com##.ytp-endscreen-content\n!below is updates as there is a new ui change\nwww.youtube.com##ytd-rich-grid-renderer.ytd-watch-grid.style-scope > .ytd-rich-grid-renderer.style-scope\n!)\n\n!(homepage cleanup\nwww.youtube.com##ytd-browse[page-subtype=\"home\"] ytd-rich-section-renderer\nwww.youtube.com##ytd-rich-item-renderer[is-post].ytd-rich-shelf-renderer:upward(ytd-rich-section-renderer)\n!)\n\n!(other cleanups\nwww.youtube.com###actions.ytd-watch-metadata button > div[class$=\"text-content\"]:not(:has-text(/[\\d]/))\nwww.youtube.com###actions.ytd-watch-metadata ytd-button-renderer .yt-spec-button-shape-next .yt-spec-button-shape-next--button-text-content\nwww.youtube.com###actions.ytd-watch-metadata ytd-button-renderer .yt-spec-button-shape-next__icon:style(margin-right: -6px !important; margin-left: -6px !important;)\nm.youtube.com##ytm-slim-video-action-bar-renderer button [class*=\"button-text-content\"]:not(:has-text(/\\d/))\nm.youtube.com##ytm-slim-video-action-bar-renderer ytm-button-renderer div[class$=\"icon\"]:style(margin-right: -6px !important; margin-left: -6px !important;)\nwww.youtube.com###comments #contents:remove()\nwww.youtube.com##.yt-spec-button-shape-next--enable-backdrop-filter-experiment.yt-spec-button-shape-next--icon-leading.yt-spec-button-shape-next--size-m.yt-spec-button-shape-next--overlay.yt-spec-button-shape-next--outline.yt-spec-button-shape-next\nwww.youtube.com###header > .ytd-search.style-scope\n\nwww.youtube.com##ytd-comments-header-renderer\nwww.youtube.com##ytd-topbar-menu-button-renderer\nwww.youtube.com##yt-spec-touch-feedback-shape__fill \n!remove the signin button ^^^^ doesn't work\nwww.youtube.com###menu > .ytd-watch-metadata.style-scope\nwww.youtube.com##.yt-spec-button-shape-next--icon-only-default.yt-spec-button-shape-next--size-m.yt-spec-button-shape-next--overlay.yt-spec-button-shape-next--text.yt-spec-button-shape-next\nwww.youtube.com##.yt-spec-button-shape-next--icon-leading.yt-spec-button-shape-next--size-m.yt-spec-button-shape-next--call-to-action.yt-spec-button-shape-next--outline.yt-spec-button-shape-next\nwww.youtube.com###subscribe-button-shape\nwww.youtube.com###sponsor-button\nwww.youtube.com###logo\nwww.youtube.com###guide-button\nwww.youtube.com##.tp-yt-app-drawer.style-scope\n!)\n!(remove distracting elements from reddit: recomennded and top posts,the side bar(x2), the top bar(x2), and the comment button, report button, goback arrorow, search comments bar\nwww.reddit.com##pdp-right-rail\nwww.reddit.com##.xs\\:overflow-x-hidden.xs\\:overflow-y-auto.xs\\:max-h-\\[calc\\(100vh-var\\(--shreddit-header-height\\)-1px\\)\\].xs\\:top-\\[56px\\].xs\\:sticky.styled-scrollbars.block.xs\\:min-w-\\[316px\\].xs\\:w-\\[316px\\].w-full.right-sidebar\nwww.reddit.com##.pt-md.px-md.w-\\[272px\\].box-border.bg-neutral-background.overflow-x-hidden.overflow-y-scroll.styled-scrollbars.h-screen-without-header.top-\\[56px\\].sticky.w-full.block.nd\\:visible\nwww.reddit.com##.border-r-neutral-border.s\\:border-r-sm.border-solid.border-0.m\\:block.hidden.order-first.isolate.theme-rpl.left-sidebar\nwww.reddit.com##.items-center.flex.border-neutral-border.border-solid.border-r-0.border-l-0.border-t-0.border-b-sm.h-header-large\nwww.reddit.com##.px-md.border-neutral-border.border-b.border-0.border-solid.pointer-events-auto.bg-neutral-background.v2\nwww.reddit.com##.inline-flex.button.justify-center.items-center.button-bordered.pr-\\[var\\(--rem14\\)\\].pl-\\[var\\(--rem10\\)\\].button-medium.xs\\:w-auto.w-full\nwww.reddit.com##shreddit-post-overflow-menu\nwww.reddit.com##.pdp-float-back-btn\\:-left-\\[2\\.5rem\\].pdp-float-back-btn\\:top-md.pdp-float-back-btn\\:absolute.h-\\[32px\\].w-\\[32px\\].xs\\:block.hidden\nwww.reddit.com##.mt-sm.flex-wrap.justify-between.flex\n!)"
+  "hostnameSwitchesString": "no-csp-reports: * true\nno-cosmetic-filtering: account.deezer.com false\nno-remote-fonts: account.deezer.com false\nno-large-media: account.deezer.com false\nno-scripting: account.deezer.com false\nno-cosmetic-filtering: github.com false\nno-remote-fonts: github.com false\nno-large-media: github.com false\nno-scripting: github.com false\nno-strict-blocking: www.reddit.com true\nno-cosmetic-filtering: search.nixos.org false\nno-remote-fonts: search.nixos.org false\nno-large-media: search.nixos.org false\nno-scripting: search.nixos.org false\nno-cosmetic-filtering: melpa.org false\nno-remote-fonts: melpa.org false\nno-large-media: melpa.org false\nno-scripting: melpa.org false\nno-cosmetic-filtering: home-manager-options.extranix.com false\nno-remote-fonts: home-manager-options.extranix.com false\nno-large-media: home-manager-options.extranix.com false\nno-scripting: home-manager-options.extranix.com false\nno-cosmetic-filtering: www.w3schools.com false\nno-remote-fonts: www.w3schools.com false\nno-large-media: www.w3schools.com false\nno-scripting: www.w3schools.com false\nno-cosmetic-filtering: amiunique.org false\nno-remote-fonts: amiunique.org false\nno-large-media: amiunique.org false\nno-scripting: amiunique.org false\nno-cosmetic-filtering: coveryourtracks.eff.org false\nno-remote-fonts: coveryourtracks.eff.org false\nno-large-media: coveryourtracks.eff.org false\nno-scripting: coveryourtracks.eff.org false\nno-scripting: searx.tiekoetter.com true",
+  "userFilters": ""
 }

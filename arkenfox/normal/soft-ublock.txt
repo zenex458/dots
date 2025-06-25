@@ -1,26 +1,18 @@
 {
-  "timeStamp": 1734468353810,
-  "version": "1.61.2",
+  "timeStamp": 1750861048866,
+  "version": "1.64.0",
   "userSettings": {
     "advancedUserEnabled": true,
+    "uiAccentCustom": true,
+    "uiAccentCustom0": "#bdae93",
     "uiTheme": "dark",
-    "externalLists": "https://badmojr.github.io/1Hosts/Pro/adblock.txt\nhttps://divested.dev/blocklists/Fingerprinting.ubl\nhttps://filters.adtidy.org/extension/ublock/filters/14.txt\nhttps://raw.githubusercontent.com/DandelionSprout/adfilt/master/ClearURLs%20for%20uBo/clear_urls_uboified.txt\nhttps://raw.githubusercontent.com/DandelionSprout/adfilt/master/Dandelion%20Sprout's%20Anti-Malware%20List.txt\nhttps://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt\nhttps://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/porn/hosts\nhttps://raw.githubusercontent.com/iam-py-test/my_filters_001/main/antimalware.txt\nhttps://raw.githubusercontent.com/liamengland1/miscfilters/master/antipaywall.txt\nhttps://raw.githubusercontent.com/yokoffing/filterlists/main/annoyance_list.txt",
+    "externalLists": "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt",
     "importedLists": [
-      "https://badmojr.github.io/1Hosts/Pro/adblock.txt",
-      "https://divested.dev/blocklists/Fingerprinting.ubl",
-      "https://filters.adtidy.org/extension/ublock/filters/14.txt",
-      "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/ClearURLs%20for%20uBo/clear_urls_uboified.txt",
-      "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Dandelion%20Sprout's%20Anti-Malware%20List.txt",
-      "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt",
-      "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/porn/hosts",
-      "https://raw.githubusercontent.com/iam-py-test/my_filters_001/main/antimalware.txt",
-      "https://raw.githubusercontent.com/liamengland1/miscfilters/master/antipaywall.txt",
-      "https://raw.githubusercontent.com/yokoffing/filterlists/main/annoyance_list.txt"
+      "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt"
     ],
     "popupPanelSections": 31
   },
   "selectedFilterLists": [
-    "user-filters",
     "ublock-filters",
     "ublock-badware",
     "ublock-privacy",
@@ -29,40 +21,32 @@
     "easylist",
     "adguard-generic",
     "easyprivacy",
-    "adguard-spyware",
     "adguard-spyware-url",
     "block-lan",
     "urlhaus-1",
-    "curben-phishing",
     "plowe-0",
-    "fanboy-cookiemonster",
-    "ublock-cookies-easylist",
-    "adguard-cookies",
-    "ublock-cookies-adguard",
+    "dpollock-0",
     "fanboy-social",
     "adguard-social",
     "fanboy-thirdparty_social",
-    "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt",
-    "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Dandelion%20Sprout's%20Anti-Malware%20List.txt",
-    "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/ClearURLs%20for%20uBo/clear_urls_uboified.txt",
-    "https://raw.githubusercontent.com/iam-py-test/my_filters_001/main/antimalware.txt"
+    "easylist-chat",
+    "easylist-newsletters",
+    "easylist-notifications",
+    "easylist-annoyances",
+    "adguard-mobile-app-banners",
+    "adguard-other-annoyances",
+    "adguard-popup-overlays",
+    "adguard-widgets",
+    "ublock-annoyances",
+    "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt"
   ],
-  "hiddenSettings": {
-    "filterAuthorMode": true
-  },
+  "hiddenSettings": {},
   "whitelist": [
-    "account.deezer.com",
-    "account.jetbrains.com",
-    "accounts.spotify.com",
     "chrome-extension-scheme",
-    "excalidraw.com",
-    "identity.bluehost.com",
-    "moz-extension-scheme",
-    "open.spotify.com",
-    "www.linkedin.com"
+    "moz-extension-scheme"
   ],
-  "dynamicFilteringString": "behind-the-scene * * noop\nbehind-the-scene * inline-script noop\nbehind-the-scene * 1p-script noop\nbehind-the-scene * 3p-script noop\nbehind-the-scene * 3p-frame noop\nbehind-the-scene * image noop\nbehind-the-scene * 3p noop\nwww.deezer.com facebook.net * block\n* doubleclick.net * block\n* facebook.net * block\n* facebook.com * block\n* google-analytics.com * block\n* ad-delivery.net * block\nwww.vice.com * 3p block\nwww.versobooks.com * 3p block\nwww.reddit.com google.com * block\ngithub.com githubassets.com * noop\ngithub.com user-images.githubusercontent.com * noop\nweb.whatsapp.com * 3p-script noop\nweb.whatsapp.com * 3p-frame noop\nweb.whatsapp.com * 3p noop\n* googlevideo.com * noop\nen.wikipedia.org wikimedia.org * noop\nzoom.us * 3p-script noop\nzoom.us * 3p-frame noop\nzoom.us * 3p noop\narchive.org * 3p-script noop\narchive.org * 3p-frame noop\narchive.org * 3p noop\nbandcamp.com bcbits.com * noop\n* fastly.net * noop\ngithub.com avatars.githubusercontent.com * noop\ngithub.com raw.githubusercontent.com * noop\nwww.ebay.co.uk ebaystatic.com * noop\nwww.ebay.co.uk a.akamaiedge.net * noop\nwww.ebay.co.uk ebayimg.com * noop\nwww.ebay.co.uk systemcdn.net * noop\nwww.ebay.co.uk ebay.com * noop\nwww.ebay.co.uk ebayrtm.com * noop\nwormhole.app * 3p-script noop\nwormhole.app * 3p-frame noop\nwormhole.app * 3p noop\n* mathjax.org * noop\nmelpa.org bootstrapcdn.com * noop\nmelpa.org cloudflare.com * noop\nwww.reddit.com redditstatic.com * noop\nhn.algolia.com algolia.net * noop\nhn.algolia.com algolianet.com * noop\nwww.lta.org.uk * 3p-script noop\nwww.lta.org.uk * 3p-frame noop\nwww.lta.org.uk * 3p noop\nwww.instagram.com facebook.com * noop\n* instagram.com * block\nwww.instagram.com instagram.com * noop\n* www.instagram.com * block\nwww.instagram.com www.instagram.com * noop\n* cdninstagram.com * block\nwww.instagram.com cdninstagram.com * noop\nwww.instagram.com static.cdninstagram.com * noop\nwww.instagram.com scontent.cdninstagram.com * noop\nwww.instagram.com edge-chat.instagram.com * noop\nwww.instagram.com instagram.c10r.facebook.com * noop\nwww.instagram.com gateway.instagram.com * noop\nwww.instagram.com dgw.c10r.facebook.com * noop\nwww.instagram.com scontent-lhr8-1.cdninstagram.com * noop\nwww.instagram.com scontent-lhr6-1.cdninstagram.com * noop\n* fbcdn.net * block\nwww.instagram.com fbcdn.net * noop\nwww.instagram.com scontent-lhr6-2.xx.fbcdn.net * noop\nwww.instagram.com scontent-lhr6-2.cdninstagram.com * noop\nwww.instagram.com scontent-lhr8-2.cdninstagram.com * noop\nwww.instagram.com www.facebook.com * noop\nwww.instagram.com edge-chat.facebook.com * noop\nwww.instagram.com static.xx.fbcdn.net * noop",
+  "dynamicFilteringString": "behind-the-scene * * noop\nbehind-the-scene * inline-script noop\nbehind-the-scene * 1p-script noop\nbehind-the-scene * 3p-script noop\nbehind-the-scene * 3p-frame noop\nbehind-the-scene * image noop\nbehind-the-scene * 3p noop",
   "urlFilteringString": "",
-  "hostnameSwitchesString": "no-large-media: behind-the-scene false\nno-csp-reports: * true\nno-scripting: www.tutor2u.net false\nno-scripting: news.ycombinator.com false\nno-scripting: harpers.org false\nno-scripting: discord.com false\nno-cosmetic-filtering: www.youtube.com false\nno-scripting: www.youtube.com false\nno-scripting: isaaccomputerscience.org false\nno-scripting: gitlab.com false\nno-scripting: mastodon.social false\nno-scripting: www.reddit.com false\nno-scripting: web.archive.org false\nno-scripting: annas-archive.org false\nno-remote-fonts: www.vice.com true\nno-scripting: www.vice.com true\nno-scripting: www.versobooks.com true\nno-scripting: www.wired.com true\nno-scripting: www.forbes.com true\nno-remote-fonts: web.whatsapp.com false\nno-scripting: web.whatsapp.com false\nno-remote-fonts: zoom.us false\nno-scripting: zoom.us false\nno-remote-fonts: archive.org false\nno-scripting: archive.org false\nno-scripting: github.com false\nno-scripting: home-manager-options.extranix.com false\nno-scripting: www.ebay.co.uk false\nno-scripting: piped.kavin.rocks false\nno-scripting: wormhole.app false\nno-scripting: search.nixos.org false\nno-remote-fonts: www.deezer.com false\nno-scripting: www.deezer.com false\nno-remote-fonts: cyberplace.social false\nno-scripting: cyberplace.social false\nno-remote-fonts: crab.garden false\nno-scripting: crab.garden false\nno-remote-fonts: www.ryantolsma.com false\nno-scripting: www.ryantolsma.com false\nno-scripting: melpa.org false\nno-scripting: hn.algolia.com false\nno-remote-fonts: www.lta.org.uk false\nno-scripting: www.lta.org.uk false",
+  "hostnameSwitchesString": "no-large-media: behind-the-scene false\nno-csp-reports: * true",
   "userFilters": ""
 }
