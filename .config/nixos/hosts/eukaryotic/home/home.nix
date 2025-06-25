@@ -591,7 +591,7 @@
     username = "zenex";
     file = {
       ".local/bin" = {
-        source = ./scripts;
+        source = ../../../../../../.local/bin;
         recursive = true;
         executable = true;
       };
