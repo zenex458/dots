@@ -62,7 +62,7 @@ NixOS() {
         exit
     fi
     cat .config/nixos/hosts/eukaryotic/disko-config.nix
-	  read -rp "Is this disk configuration correct?(y/n)" disko
+	  read -rp "Is this disk configuration correct, if you click yes ALL DATA WILL BE REMOVED?(y/n)" disko
     if [ "$disko" == n ]; then
         nano .config/nixos/hosts/eukaryotic/disko-config.nix
 
