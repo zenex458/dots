@@ -1,9 +1,14 @@
-{
+let
+  # the number of headers to disks is a to one to one map
+  headerdevice = "/dev/disk/by-id/usb-Kingston_DataTraveler_3.0_408D5C15CB92E911290E05C5-0:0";
+  header1 = headerdevice + "-part1"; #luks header for nvme
+  header2 = headerdevice + "-part2"; #luks header for hdd
+in {
   disko.devices = {
     disk = {
       disk0 = {
         type = "disk";
-        device = "/dev/disk/by-id/usb-Kingston_DataTraveler_3.0_408D5C15CB92E911290E05C5-0:0";
+        device = headerdevice;
         content = {
           type = "gpt";
           partitions = {
@@ -52,15 +57,15 @@
                 type = "luks";
                 name = "crypted1";
                 extraFormatArgs = [
-                  "--header /dev/disk/by-id/usb-Kingston_DataTraveler_3.0_408D5C15CB92E911290E05C5-0:0-part1"
+                  "--header ${header1}"
                   #                  "--iter-time 1" # insecure but fast for tests
                   "--pbkdf argon2id -c serpent-xts-plain64 -h sha-512"
                 ];
                 extraOpenArgs = [
-                  "--header /dev/disk/by-id/usb-Kingston_DataTraveler_3.0_408D5C15CB92E911290E05C5-0:0-part1"
+                  "--header ${header1}"
                 ];
                 settings = {
-                  header = "/dev/disk/by-id/usb-Kingston_DataTraveler_3.0_408D5C15CB92E911290E05C5-0:0-part1";
+                  header = header1;
                 };
                 content = {
                   type = "lvm_pv";
@@ -84,15 +89,15 @@
                 type = "luks";
                 name = "crypted2";
                 extraFormatArgs = [
-                  "--header /dev/disk/by-id/usb-Kingston_DataTraveler_3.0_408D5C15CB92E911290E05C5-0:0-part2"
+                  "--header ${header2}"
                   #                  "--iter-time 1" # insecure but fast for tests
                   "--pbkdf argon2id -c serpent-xts-plain64 -h sha-512"
                 ];
                 extraOpenArgs = [
-                  "--header /dev/disk/by-id/usb-Kingston_DataTraveler_3.0_408D5C15CB92E911290E05C5-0:0-part2"
+                  "--header ${header2}"
                 ];
                 settings = {
-                  header = "/dev/disk/by-id/usb-Kingston_DataTraveler_3.0_408D5C15CB92E911290E05C5-0:0-part2";
+                  header = header2;
                 };
                 content = {
                   type = "lvm_pv";
@@ -109,12 +114,16 @@
       pool = {
         type = "lvm_vg";
         lvs = {
-          # add a swap logical volume https://jefftp.com/nixos-disko/
+          # swap = {
+          #   size = "12G";
+          #   content = {
+          #     type = "swap";
+          #   };
+          # };
           root = {
             size = "100%";
             content = {
               type = "btrfs";
-              #              format = "btrfs";
               extraArgs = ["-f"];
               subvolumes = {
                 "/root" = {
@@ -133,10 +142,10 @@
                   mountpoint = "/nix";
                 };
                 "/tmp" = {
-                  # mountOptions = ["compress=zstd" "noatime" "noexec"];
                   mountOptions = ["compress=zstd" "noatime"];
                   mountpoint = "/tmp";
                 };
+
                 "/swap" = {
                   mountpoint = "/.swapvol";
                   swap.swapfile.size = "12G";
