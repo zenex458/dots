@@ -1,4 +1,7 @@
 * dots
+:PROPERTIES:
+:TOC:      ignore
+:END:
 This contains all my config files for Linux. It can be installed my =setup.sh= or by using [[https://nixos.org/][NixOS]].
 
 | Font     | [[https://people.mpi-inf.mpg.de/~uwe/misc/uw-ttyp0/][ttyp0]] |
@@ -8,6 +11,23 @@ This contains all my config files for Linux. It can be installed my =setup.sh= o
 | Editor   | [[https://www.gnu.org/software/emacs/][Emacs]] |
 | Shell    | [[https://www.zsh.org][Zsh]]   |
 
+* Contents                                                         :noexport:
+:PROPERTIES:
+:TOC:      :include siblings :depth 2 :ignore this
+:END:
+:CONTENTS:
+- [[#screenshot][Screenshot]]
+- [[#nixos][NixOS]]
+  - [[#why-nixos][Why NixOS?]]
+  - [[#why-not-nixos][Why not NixOS]]
+- [[#emacs][Emacs]]
+  - [[#why-emacs][Why Emacs?]]
+  - [[#why-not-emacs][Why Not Emacs?]]
+- [[#getting-started][Getting Started]]
+  - [[#prerequisites][Prerequisites]]
+  - [[#installation][Installation]]
+- [[#acknowledgements][Acknowledgements]]
+:END:
 * Screenshot
 [[file:screenshot.png]]
 /Screenshot showing my three monitors. The left showing the output of the neofetch command. The middle showing an Emacs frame, editing my NixOS config. The right showing my wallpaper./
