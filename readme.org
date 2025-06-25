@@ -1,42 +1,51 @@
 * dots
-This contains all my config files for Linux. It can be installed my =setup.sh= or by using [[https://nixos.org/][Nixos]].
+This contains all my config files for Linux. It can be installed my =setup.sh= or by using [[https://nixos.org/][NixOS]].
 
-| Font     | [[https://people.mpi-inf.mpg.de/~uwe/misc/uw-ttyp0/][ttyp0]]    |
-| OS       | [[https://nixos.org][NixOS]]    |
-| WM       | [[https://hyprland.org/][Hyprland]] |
-| Terminal | [[https://codeberg.org/dnkl/foot][foot]]     |
-| Editor   | [[https://www.gnu.org/software/emacs/][Emacs]]    |
-| Shell    | [[https://www.zsh.org][Zsh]]      |
+| Font     | [[https://people.mpi-inf.mpg.de/~uwe/misc/uw-ttyp0/][ttyp0]] |
+| OS       | [[https://nixos.org][NixOS]] |
+| WM       | [[https://github.com/YaLTeR/niri][niri]]  |
+| Terminal | [[https://codeberg.org/dnkl/foot][foot]]  |
+| Editor   | [[https://www.gnu.org/software/emacs/][Emacs]] |
+| Shell    | [[https://www.zsh.org][Zsh]]   |
 
 * Screenshot
 [[file:screenshot.png]]
-/Screenshot showing my three monitors. The left showing the output of the neofetch command. The middle showing an Emacs frame, editing my Nixos config. The right showing my wallpaper./
-* Emacs
-** Why Emacs?
-*** No context switching
-[[https://en.wikipedia.org/wiki/Emacs][Emacs]] feels more fluid to me as you can do a lot of things, in a few keybinds, without any context switching. I did use [[https://neovim.io/][Neovim]], and its predecessor, [[https://www.vim.org/][Vim]] for a few years with [[https://en.wikipedia.org/wiki/Tmux][tmux]]. While using tmux in conjunction doesn't take too much brain power, it still doesn't feel as /connected/ as Emacs does. I think it just feels nice to have everything in once place.
-*** Dynamic state
-Emacs is basically a [[https://en.wikipedia.org/wiki/Lisp_(programming_language)][Lisp]] interpreter, that also edits text. It feels nice to be able to directly manipulate your editor with code, /without restarting it/. Since Neovim has [[https://en.wikipedia.org/wiki/Lua_(programming_language)][Lua]] support, I think this more achievable now.
-** Why Not Emacs?
-*** Can be slow
-Lisp is an interpreted language, which means it is slower than compiled languages. Although, in recent releases Emacs has become faster, under certain circumstances it is still slower than Neovim.
-*** Unintuitive keybinds
-Emacs does have some unintuitive keybinds, for example to search a file you press: =C-s=, which means holding down the control key and pressing the =s= key at the same time without releasing. Also, to split your view you can press =C-x 2= for a horizontal split, and =C-x 3= for a vertical split. These require holding down the control key and pressing the =x= key at the same time, then letting go and pressing =2= or =3=. These are different to Neovim's [[https://en.wikipedia.org/wiki/Vi_(text_editor)#Interface][modal editing]], which is generally more efficient and does not induce [[https://en.wikipedia.org/wiki/Emacs#Emacs_pinky][Emacs pinky]].
-* Nixos
-** Why Nixos?
+/Screenshot showing my three monitors. The left showing the output of the neofetch command. The middle showing an Emacs frame, editing my NixOS config. The right showing my wallpaper./
+* NixOS
+- My config can be found [[https://github.com/zenex458/dots/tree/main/.config/nixos][here]] start from [[https://github.com/zenex458/dots/blob/main/.config/nixos/flake.nix][flake.nix]].
+- You can see a more in depth explanation of how NixOS works at: https://nixos.org/guides/how-nix-works/ and https://nixos.org/guides/nix-pills/.
+** Why NixOS?
 *** Stable
-Every package is installed with its own libraries. Let say that you have two packages that depend on the same library: package =foo=, =bar= and library =baz0.9=. When =baz= gets a =baz1.0= release, =foo= will make the necessary changes, but lets say for some reason, =bar= does not make these changes. This ends up breaking =bar= because =bar= depends on =baz0.9=, instead of =baz1.0=. If you are using Nixos, then you would have /two instances/ of =baz=, one for =foo= and one for =bar=. This means if there is a new version of =baz=, then, only =foo's= =baz= gets updated because it needs it. This allows them to both work with different versions of =baz=. Not =bar's=. This means there is no mutation of your operating system state, so if you want to make changes, the current state is copied over. This is called atomic updates and this is stable because it means that there is no half-working state. This means that it will not bork your system if your system loses power or internet when updating, just reconnect then rebuild!
+Every package is installed with its own libraries. Let say that you have two packages that depend on the same library: package =foo=, =bar= and library =baz0.9=. When =baz= gets a =baz1.0= release, =foo= will make the necessary changes, but lets say for some reason, =bar= does not make these changes. This ends up breaking =bar= because =bar= depends on =baz0.9=, instead of =baz1.0=. If you are using NixOS, then you would have /two instances/ of =baz=, one for =foo= and one for =bar=. This means if there is a new version of =baz=, then, only =foo's= =baz= gets updated because it needs it. This allows them to both work with different versions of =baz=. Not =bar's=. This means there is no mutation of your operating system state, so if you want to make changes, the current state is copied over. This is called atomic updates and this is stable because it means that there is no half-working state as before it applys the config, it evauluates to check if everything is correct. This means that it will not bork your system if your system loses power or internet when updating, just reconnect then rebuild!
 *** Rollbacks
 Because the system state is copied over, every change is tracked in a new rollback. So if you do make a mistake you can just rollback. You can achieve this in a normal system with the BTRFS file system, but this is not as extensive. It does not track /every change/.
-*** Lazy Configs
-Write it once and never worry about it again. It is basically an install script, but all the work done for you. This is good if you are like me and like tweaking your system. I have some files which are part of the =/etc/= directory, quite a large set of config settings for Firefox in the =arkenfox= directory and I have some more for other programs. It is a lot of mental overhead to keep track of the files which i have modified in different places of my file system. Nixos /forces/ me to put everything in /one/ directory and it does the rest for me. It also means that if I ever move to a different system, then I just have to worry about backing up one directory.
-** Why not Nixos
+*** Declarative Configs
+Write it once and never worry about it again. It is basically an install script, but all the work done for you. This is good if you are like me and like tweaking your system. I have some files which are part of the =/etc/= directory, quite a large set of config settings for Firefox in the =arkenfox= directory and I have some more for other programs, and I even change the [[https://keepassxc.org/][KeePassXC]] compile [[https://github.com/zenex458/dots/blob/aaab664562984772d722d0ae3599195fc6f49d2e/.config/nixos/hosts/eukaryotic/pkgs.nix#L23][flags]]. It is a lot of mental overhead to keep track of the files which i have modified in different places of my file system. NixOS /forces/ me to put everything in /one/ directory and it does the rest for me. It also means that if I ever move to a different machine, then I just have to worry about backing up one directory. With the [[https://github.com/nix-community/disko][disko]] module, you can also setup declarative partitioning. Realistically, you can achieve a [[https://en.wikipedia.org/wiki/Diminishing_returns][good enough]] result with a [[https://github.com/zenex458/dots/blob/main/setup.sh][shell script]].
+*** Opt-in State
+I use the [[https://github.com/nix-community/impermanence][impermanence]] NixOS module which allows for opt-in state. This means I can choose which directories are mutable, so I choose which directories are a kept between reboots. If you imagine a normal [[https://en.wikipedia.org/wiki/Imperative_programming][imperative]] system you install different packages, you add a config file somwhere, this is mutating the state. With impermanence, it deletes everything apart from files generated by nixos or files in your whitelist(which is just a [[https://www.baeldung.com/linux/bind-mounts][bind mount]]), so =/nix= and =/persistent=, this means that it returns to a base state and it seperates the files which are mutable and immutable. If I want keep a file, like my zsh history, then I can add it to whitelist. Overall, I like this as it keeps my system clean. You can learn more about this [[https://grahamc.com/blog/erase-your-darlings/][here]].
+** Why not NixOS
 *** Learning curve
 The learning curve is a bit high, but doable, especially once you start looking into [[https:][flakes]] and the documentation is sparse. But once you get everything just right then, at least in my case, it is just the matter of searching a package on [[https://search.nixos.org/packages]] or a option on [[https://search.nixos.org/options?]], then adding it to your config. Although my config is quite basic at the moment and I am still learning nix.
 *** Forcing everything to be in nix
-One other caveat is that it only understands nix expressions. This can lead to some programs not working because Nixos does not use
-[[https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard][Unix Filesystem Hierarchy Standard]].
+One other caveat is that it only understands nix expressions. This can lead to some programs not working because NixOS does not use the [[https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard][Unix Filesystem Hierarchy Standard]].
 
+* Emacs
+- My config can be found [[https://github.com/zenex458/dots/tree/main/.config/emacs][here]].
+** Why Emacs?
+*** No context switching
+[[https://en.wikipedia.org/wiki/Emacs][Emacs]] feels more fluid to me as you can do a lot of things, in a few keybinds, without any context switching. This is because emacs is a [[https://tilde.town/~ramin_hal9001/articles/emacs-unix-01_emacs-is-an-app-platform.html][program platform]], not a editor. After all /Emacs is a great operating system, lacking only a decent editor/. This is because it was heavily inspired by [[https://en.wikipedia.org/wiki/Lisp_machine][Lisp Machines]]. I did use [[https://neovim.io/][Neovim]], and its predecessor, [[https://www.vim.org/][Vim]] for a few years with [[https://en.wikipedia.org/wiki/Tmux][tmux]]. While using tmux in conjunction doesn't take too much brain power, it still doesn't feel as /connected/ as Emacs does. I think it just feels nice to have everything in once place, despite my love for the [[https://en.wikipedia.org/wiki/Unix_philosophy][Unix Philosophy]], which in turn is just [[https://en.wikipedia.org/wiki/Functional_programming][functional programming]] as nicely explained [[https://tilde.town/~ramin_hal9001/articles/emacs-unix-03_unix-is-lesser-fp.html][here]].
+*** Dynamic state
+Emacs is basically a [[https://en.wikipedia.org/wiki/Lisp_(programming_language)][Lisp]] interpreter, that also edits text. It feels nice to be able to directly manipulate your editor with code, /without restarting it/. Since Neovim has [[https://en.wikipedia.org/wiki/Lua_(programming_language)][Lua]] support, I think this more achievable now.
+*** Killer Programs
+- [[https://orgmode.org/][Org Mode]]
+- [[https://magit.vc/][Magit]]
+- [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Quick-Start-Guide.html][TRAMP]]
+- [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Dired.html][Dired]]
+** Why Not Emacs?
+*** Can be slow
+Lisp is an interpreted language, which means it is slower than compiled languages. Although, in recent releases Emacs has become faster, thanks to [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Native-Compilation.html][native compliation]], under most circumstances it is still slower than Neovim, but not noticeable to me.
+*** Unintuitive keybinds
+Emacs does have some unintuitive keybinds, for example to save a file you press: =C-x C-s=, which means holding down the control key and pressing the =x= key, then the =s= at the same time without releasing. Also, to split your view you can press =C-x 2= for a horizontal split, and =C-x 3= for a vertical split. These require holding down the control key and pressing the =x= key at the same time, then letting go and pressing =2= or =3=. These are different to Neovim's [[https://en.wikipedia.org/wiki/Vi_(text_editor)#Interface][modal editing]], which is generally more efficient and does not induce [[https://en.wikipedia.org/wiki/Emacs#Emacs_pinky][Emacs pinky]].
 * Getting Started
 ** Prerequisites
 - [[https://git-scm.com/downloads][Git]]
@@ -50,8 +59,7 @@ git clone --depth 1 https://github.com/zenex458/dots
 cd dots && ./setup.sh
 #+end_src
 For Debian and Fedora the script will install packages, prompt for some program options and setup the appearance. For other distros, it will only setup the appearance. For NixOS, boot into a [[https://nixos.org/download/#nixos-iso][liveISO]] and run the script as root. It will format the disks and install NixOS, with impermanence. Secureboot support will be disabled to allow installation. The setup instructions for secureboot can be found [[https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md][here]].
-* Notes
-You can see a more indepth explanation of how Nixos works at: https://nixos.org/guides/how-nix-works/ and https://nixos.org/guides/nix-pills/.
+
 * Acknowledgements
 - Wallpaper by [[https://unsplash.com/photos/saturn-and-its-rings-2W-QWAC0mzI][NASA]] on [[https://unsplash.com][Unsplash]]
 - [[https://nixos.asia][NixOS Asia]] for commands for disko and install
