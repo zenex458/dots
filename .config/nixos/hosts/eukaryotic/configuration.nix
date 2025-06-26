@@ -473,9 +473,8 @@
       download-buffer-size = 524288000;
     };
     gc = {
-      ##change  for every three days
       automatic = true;
-      dates = "3d";
+      dates = "weekly";
       options = "--delete-older-than 2d";
     };
   };

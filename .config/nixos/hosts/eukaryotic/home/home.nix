@@ -73,10 +73,9 @@
 
     mpd = {
       enable = true;
-      musicDirectory = "${config.home.homeDirectory}" + "Music/Alt";
-      dataDir = "${config.home.homeDirectory}" + "Music/";
-      # dbFile = "/home/zenex/Music/mpd.db";
-      dbFile = "${config.home.homeDirectory}" + "Music/mpd.db";
+      musicDirectory = "${config.home.homeDirectory}" + "/Music/Alt";
+      dataDir = "${config.home.homeDirectory}" + "/Music";
+      dbFile = "${config.home.homeDirectory}" + "/Music/mpd.db";
       network.startWhenNeeded = true;
       extraConfig = ''
           audio_output {
@@ -588,7 +587,6 @@
 
   home = {
     stateVersion = "24.05";
-    homeDirectory = "/home/zenex/";
     username = "zenex";
     file = {
       ".local/bin" = {

@@ -99,6 +99,7 @@ in {
                 settings = {
                   header = header2;
                 };
+
                 content = {
                   type = "lvm_pv";
                   vg = "pool";
