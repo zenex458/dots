@@ -474,7 +474,8 @@
     };
     gc = {
       automatic = true;
-      dates = "weekly";
+      # runs twice a month on the 7th and the 21st
+      dates = "*-*-7,21";
       options = "--delete-older-than 2d";
     };
   };
