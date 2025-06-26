@@ -73,11 +73,11 @@
 
     mpd = {
       enable = true;
-      musicDirectory = "/home/zenex/Music/Alt";
-      dataDir = "/home/zenex/Music/";
-      dbFile = "/home/zenex/Music/mpd.db";
+      musicDirectory = "${config.home.homeDirectory}" + "Music/Alt";
+      dataDir = "${config.home.homeDirectory}" + "Music/";
+      # dbFile = "/home/zenex/Music/mpd.db";
+      dbFile = "${config.home.homeDirectory}" + "Music/mpd.db";
       network.startWhenNeeded = true;
-      #change so instead of zenex it is the current user, do this also for the mounting, #change to a home.file by using: ${config.home.username}
       extraConfig = ''
           audio_output {
              	type "pipewire"
@@ -588,6 +588,7 @@
 
   home = {
     stateVersion = "24.05";
+    homeDirectory = "/home/zenex/";
     username = "zenex";
     file = {
       ".local/bin" = {
@@ -710,6 +711,7 @@
       trashy
       tree
       unstable.simplex-chat-desktop
+      samba4Full
       unzip
       usbutils
       vesktop

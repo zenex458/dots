@@ -120,7 +120,6 @@ with lib; {
     "p8022"
     "can"
     "atm"
-    "cifs"
     "nfs"
     "nfsv3"
     "nfsv4"

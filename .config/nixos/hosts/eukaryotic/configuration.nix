@@ -95,7 +95,6 @@
 
   hardware = {
     graphics.enable = true;
-    cpu.amd.updateMicrocode = true;
     bluetooth = {
       enable = false;
       powerOnBoot = false;
@@ -473,11 +472,12 @@
       allowed-users = ["@wheel"];
       download-buffer-size = 524288000;
     };
-    # gc = { ##change  for every three days
-    #   automatic = true;
-    #   # dates = "daily";
-    #   options = "--delete-older-than 2d";
-    # };
+    gc = {
+      ##change  for every three days
+      automatic = true;
+      dates = "3d";
+      options = "--delete-older-than 2d";
+    };
   };
 
   system.stateVersion = "23.05"; # Did you read the comment?
