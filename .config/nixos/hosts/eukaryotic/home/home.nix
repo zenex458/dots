@@ -129,6 +129,12 @@
   };
 
   programs = {
+    nh = {
+      enable = true;
+      clean.enable = false;
+      flake = /home/zenex/Dev/dots/.config/nixos;
+    };
+
     man = {
       enable = true;
       generateCaches = false;
@@ -150,9 +156,9 @@
           interHunkContext = 10;
           colorMoved = "plain";
         };
-        commit = {
-          verbose = "true";
-        };
+        # commit = {
+        #   verbose = "true"; #enable this if you don't use emacs
+        # };
         url = {
           "git@github.com:" = {
             insteadOf = "gh:";
@@ -403,7 +409,7 @@
         mhd = "sudo mount -v -t ntfs -m -o rw,noexec,uid=1000,gid=1000 UUID=742455142454DAA6 /run/media/zenex/seagate";
         umhd = "sudo umount -v /run/media/zenex/seagate && lsblk";
         sysdlist = "systemctl list-unit-files --type=service --state=enabled";
-        rsy = "rsync -ahPzRcL --info=progress2";
+        rsy = "rsync -ahPzRcL --info=progress2 --stats --exclude=.ccls-cache --exclude=sessionData --exclude=elfeed --exclude=eln-cache --exclude=Signal --exclude=simplex --exclude=chromium --exclude=.mozilla --exclude=.local --exclude=.cache --exclude=.nix-defexpr --exclude=.nix-profile --exclude=.java --exclude=yyt --exclude=iso --exclude=Music --filter=':- .gitignore'";
         del = "trash";
         dele = "trash empty --all";
         dow = "aria2c -c -s 16 -x 16 -k 1M -j 1";
@@ -699,6 +705,7 @@
       rsync
       ruff
       sbctl
+      nemo
       shellcheck
       shfmt
       signal-desktop
