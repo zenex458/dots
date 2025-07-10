@@ -70,8 +70,8 @@ NixOS() {
     nixos-generate-config --no-filesystems --show-hardware-config > .config/nixos/hosts/eukaryotic/hardware-configuration.nix
     nix  --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko .config/nixos/hosts/eukaryotic/disko-config.nix
 	  read -rp "Enter username: " usrname
-    sed -i '21,25 s/^/#/' .config/nixos/hosts/eukaryotic/configuration.nix
-    sed -i '20 s/#//' .config/nixos/hosts/eukaryotic/configuration.nix
+    sed -i '23,27 s/^/#/' .config/nixos/hosts/eukaryotic/configuration.nix
+    sed -i '22 s/#//' .config/nixos/hosts/eukaryotic/configuration.nix
     find .config/nixos -type f -exec sed -i s/zenex/"$usrname"/g {} +
 	  mkdir -p /mnt/persistent/etc
     cp -r ./config/nixos /mnt/persistent/etc

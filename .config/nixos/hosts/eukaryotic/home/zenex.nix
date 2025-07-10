@@ -8,7 +8,6 @@
   imports = [
     inputs.impermanence.nixosModules.home-manager.impermanence
     inputs.stylix.homeModules.stylix
-    inputs.niri.homeModules.niri
     ./home.nix
   ];
 

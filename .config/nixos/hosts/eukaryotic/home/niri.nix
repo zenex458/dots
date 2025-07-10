@@ -7,8 +7,6 @@
   ...
 }: {
   programs.niri = {
-    enable = true;
-    package = pkgs.niri-stable;
     settings = {
       gestures.hot-corners.enable = false;
       screenshot-path = null;

@@ -9,7 +9,7 @@
     inputs.impermanence.nixosModules.impermanence
     inputs.disko.nixosModules.disko
     inputs.lanzaboote.nixosModules.lanzaboote
-    #    inputs.niri.nixosModules.niri
+    inputs.niri.nixosModules.niri
     ./hardened.nix
     ./disko-config.nix
     ./hardware-configuration.nix
@@ -19,12 +19,12 @@
     # kernel.sysctl."vm.swappiness" = 30;
     supportedFilesystems = ["ntfs"];
     # kernelPackages = pkgs.linuxPackages_latest;
-    loader.systemd-boot.enable = true;
-    #loader.systemd-boot.enable = lib.mkForce false;
-    #lanzaboote = {
-    #  enable = true;
-    #  pkiBundle = "/etc/secureboot";
-    #};
+    #loader.systemd-boot.enable = true;
+    loader.systemd-boot.enable = lib.mkForce false;
+    lanzaboote = {
+      enable = true;
+      pkiBundle = "/etc/secureboot";
+    };
     loader.efi.canTouchEfiVariables = true;
     tmp.cleanOnBoot = true;
 
@@ -126,9 +126,13 @@
       rootless.setSocketVariable = true;
     };
   };
+  niri-flake.cache.enable = true;
   programs = {
     obs-studio.enable = true;
-    #niri.enable = true;
+    niri = {
+      enable = true;
+      package = pkgs.niri-stable;
+    };
     # adb.enable = true;
     localsend.enable = true;
     ssh.startAgent = true;
