@@ -113,7 +113,7 @@
         };
 
         urgency_normal = {
-          background = "#000000";
+          background = "#060606";
           foreground = "#bdae93";
           timeout = 10;
         };
@@ -187,6 +187,7 @@
           ace-window
           apheleia
           edwina
+          evil
           async
           auctex
           cape
@@ -280,7 +281,7 @@
       };
       autosuggestion = {
         enable = true;
-        highlight = "fg=#bdae93,bg=#000000,bold,underline";
+        highlight = "fg=#bdae93,bg=#060606,bold,underline";
       };
       syntaxHighlighting = {
         enable = true;
@@ -294,6 +295,17 @@
           command_error = "fg=#bdae93,underline";
         };
       };
+      plugins = [
+        {
+          name = "zsh-command-time";
+          src = pkgs.fetchFromGitHub {
+            owner = "popstas";
+            repo = "zsh-command-time";
+            rev = "f731dbb";
+            sha256 = "sha256-zuvlqjmMcF844GZU0PtZNY/XaiHNC24kvUPifLcHLOg=";
+          };
+        }
+      ];
       initContent = ''
         PROMPT="[%~]''\nλ "
         zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate _aliases _functions
@@ -439,7 +451,7 @@
         _JAVA_AWT_WM_NONREPARENTING = 1;
         SAL_USE_VCLPLUGIN = "gtk3";
         XCURSOR_SIZE = 20;
-        BEMENU_OPTS = ''-i --fn 'Ttyp0' -B '1' -f -p '>' -n --tb '#bdae93' --tf '#000000' --fb '#000000' --ff '#bdae93' --nb '#000000' --nf '#bdae93' --ab '#000000' --af '#bdae93' --sb '#000000' --sf '#bdae93' --cb '#bdae93' --cf '#bdae93' --hb '#bdae93' --hf '#000000' --sb '#bdae93' --sf '#000000' --scb '#000000' --scf '#bdae93' --bdr '#bdae93' '';
+        BEMENU_OPTS = ''-i --fn 'Ttyp0' -B '1' -f -p '>' -n --tb '#bdae93' --tf '#060606' --fb '#060606' --ff '#bdae93' --nb '#060606' --nf '#bdae93' --ab '#060606' --af '#bdae93' --sb '#060606' --sf '#bdae93' --cb '#bdae93' --cf '#bdae93' --hb '#bdae93' --hf '#060606' --sb '#bdae93' --sf '#060606' --scb '#060606' --scf '#bdae93' --bdr '#bdae93' '';
         MATHPATH = "/run/current-system/sw/share/man";
       };
       #initExtra = ''
@@ -525,13 +537,13 @@
         set -g set-titles on
         set -g status-keys emacs
         set -s set-clipboard external
-        set -g status-style "fg=#bdae93,bg=#000000"
+        set -g status-style "fg=#bdae93,bg=#060606"
         setw -g monitor-activity on
         set -g visual-activity on
         set -g status-right ""
         set -g status-left "#{session_group}"
-        set -g window-status-current-format "#[fg=#000000 bg=#000000]|#[fg=#bdae93 bg=#000000]#W#[fg=#000000 bg=#000000]|"
-        set -g window-status-last-style "fg=#a08a64 bg=#000000"
+        set -g window-status-current-format "#[fg=#060606 bg=#060606]|#[fg=#bdae93 bg=#060606]#W#[fg=#060606 bg=#060606]|"
+        set -g window-status-last-style "fg=#a08a64 bg=#060606"
         bind-key -n M-"v" split-window -v
         bind-key -n M-"V" split-window -h
         bind-key -n M-h select-pane -L
@@ -566,7 +578,7 @@
           blink = "yes";
         };
         colors = {
-          background = "000000";
+          background = "060606";
           foreground = "bdae93";
           regular0 = "444444"; # black
           regular1 = "B33929"; # red

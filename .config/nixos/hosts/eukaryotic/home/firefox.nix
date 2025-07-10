@@ -175,6 +175,7 @@
         "browser.tabs.hoverPreview.enabled" = false;
         "privacy.resistFingerprinting.autoDeclineNoUserInputCanvasPrompts" = true;
         "browser.ml.chat.enabled" = false;
+        "browser.aboutHomeSnippets.updateUrl" = "";
         "browser.ml.chat.provider" = "";
         "browser.ml.chat.shortcuts" = false;
         "browser.ml.chat.sidebar" = false;
@@ -400,6 +401,9 @@
         "toolkit.telemetry.firstShutdownPing.enabled" = false;
         "toolkit.telemetry.newProfilePing.enabled" = false;
         "toolkit.telemetry.server" = "data: =";
+        "devtools.webide.enabled" = false;
+        "devtools.webide.autoinstallADBHelper" = false;
+        "devtools.webide.autoinstallFxdtAdapters" = false;
         "toolkit.telemetry.shutdownPingSender.enabled" = false;
         "toolkit.telemetry.unified" = false;
         "toolkit.telemetry.updatePing.enabled" = false;
@@ -543,6 +547,7 @@
         "browser.ping-centre.telemetry" = false;
         "browser.preferences.moreFromMozilla" = false;
         "browser.search.isUS" = false;
+        "browser.casting.enabled" = false;
         "browser.search.region" = "GB";
         "browser.search.suggest.enabled" = false;
         "browser.shell.shortcutFavicons" = true;

@@ -59,7 +59,7 @@ in {
                 extraFormatArgs = [
                   "--header ${header1}"
                   #                  "--iter-time 1" # insecure but fast for tests
-                  "--pbkdf argon2id -c serpent-xts-plain64 -h sha-512" #--hash blake2b-512 --iter-time 5000
+                  "--pbkdf argon2id -c serpent-xts-plain64 -h blake2b-512 --iter-time 5000"
                 ];
                 extraOpenArgs = [
                   "--header ${header1}"
@@ -91,7 +91,7 @@ in {
                 extraFormatArgs = [
                   "--header ${header2}"
                   #                  "--iter-time 1" # insecure but fast for tests
-                  "--pbkdf argon2id -c serpent-xts-plain64 -h sha-512" #--hash blake2b-512 --iter-time 5000
+                  "--pbkdf argon2id -c serpent-xts-plain64 -h blake2b-512 --iter-time 5000"
                 ];
                 extraOpenArgs = [
                   "--header ${header2}"
@@ -115,12 +115,12 @@ in {
       pool = {
         type = "lvm_vg";
         lvs = {
-          # swap = {
-          #   size = "12G";
-          #   content = {
-          #     type = "swap";
-          #   };
-          # };
+           swap = {
+             size = "12G";
+             content = {
+               type = "swap";
+             };
+           };
           root = {
             size = "100%";
             content = {
@@ -132,7 +132,7 @@ in {
                   mountOptions = ["compress=zstd" "noatime"];
                 };
                 "/persistent" = {
-                  mountOptions = ["subvol=persistent" "compress=zstd"];
+                  mountOptions = ["subvol=persistent" "compress=zstd" "noatime"];
                   mountpoint = "/persistent";
                 };
                 "/nix" = {
@@ -146,15 +146,6 @@ in {
                 "/tmp" = {
                   mountOptions = ["compress=zstd" "noatime"];
                   mountpoint = "/tmp";
-                };
-                # "/var/log" = {
-                #   mountOptions = ["compress=zstd" "realtime"];
-                #   mountpoint = "/var/log";
-                # };
-
-                "/swap" = {
-                  mountpoint = "/.swapvol";
-                  swap.swapfile.size = "12G";
                 };
               };
             };

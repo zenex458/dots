@@ -9,6 +9,7 @@
     inputs.impermanence.nixosModules.impermanence
     inputs.disko.nixosModules.disko
     inputs.lanzaboote.nixosModules.lanzaboote
+    #    inputs.niri.nixosModules.niri
     ./hardened.nix
     ./disko-config.nix
     ./hardware-configuration.nix
@@ -18,12 +19,12 @@
     # kernel.sysctl."vm.swappiness" = 30;
     supportedFilesystems = ["ntfs"];
     # kernelPackages = pkgs.linuxPackages_latest;
-    #loader.systemd-boot.enable = true;
-    loader.systemd-boot.enable = lib.mkForce false;
-    lanzaboote = {
-      enable = true;
-      pkiBundle = "/etc/secureboot";
-    };
+    loader.systemd-boot.enable = true;
+    #loader.systemd-boot.enable = lib.mkForce false;
+    #lanzaboote = {
+    #  enable = true;
+    #  pkiBundle = "/etc/secureboot";
+    #};
     loader.efi.canTouchEfiVariables = true;
     tmp.cleanOnBoot = true;
 
@@ -125,10 +126,9 @@
       rootless.setSocketVariable = true;
     };
   };
-
   programs = {
     obs-studio.enable = true;
-    niri.enable = true;
+    #niri.enable = true;
     # adb.enable = true;
     localsend.enable = true;
     ssh.startAgent = true;
@@ -279,6 +279,8 @@
         allow id 5986:2137 serial "" name "Integrated Camera" hash "eg+SlU0pANNmAjsl8cDYiULjq9l+rGJ1kbvX/N+2r/Y=" parent-hash "To7KDzOAgi4jFrnLNIttvUKO428/MLM1/eWqsv969gw=" with-interface { 0e:01:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 } with-connect-type "hardwired"
         allow id 0bc2:2343 serial "NACAPZXW" name "Portable" hash "uNlV1Q6teT1NaR89ByP5xMO1US495x/RUOVCAStUXtA=" parent-hash "15SBGsOo8K+JjtOKSCn7t0i6ifer4wmhzep1yEB5pLQ=" with-interface { 08:06:50 08:06:62 } with-connect-type "unknown"
         allow id 04e8:61fb serial "S6YJNJ0X301164A" name "PSSD T7 Shield" hash "m0oln1SciQzP6k4TPn9ZFC03YkSkbwUSkNQCHS9PvTw=" parent-hash "15SBGsOo8K+JjtOKSCn7t0i6ifer4wmhzep1yEB5pLQ=" with-interface { 08:06:50 08:06:62 } with-connect-type "unknown"
+        allow id 0bda:0177 serial "20121112761000000" name "USB2.0-CRW" hash "e2uNi2LwAzeDYUbSBzd8VS6LqfpmZj/vnXkKxI8Fa4c=" parent-hash "cmzdizBgI3dt4cFMO8H1QUW3FWqsDSXqkGP5r5XZtEs=" with-interface 08:06:50 with-connect-type "hardwired"
+        allow id 16c0:27db serial "moergo.com:GLV80-4A2A8176E2496089" name "Glove80 Left" hash "aD39zz93dNP61EPXjHtlX+fg7EcNlc5a41B5pO+JDCU=" parent-hash "CbRB9LX/JdGjNWCYSOcIwMVXE0UpOR03LCotWrTbuCM=" with-interface 03:01:01 with-connect-type "unknown"
       '';
     };
     opensnitch.enable = false;
