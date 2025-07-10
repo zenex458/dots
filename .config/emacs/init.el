@@ -364,7 +364,7 @@
   (elfeed-db-directory (expand-file-name (format "%s%s" user-emacs-directory "elfeed/"))))
 
 (use-package elfeed-org
-  :after elfeed
+  :hook (after-init . elfeed-org)
   :custom
   (rmh-elfeed-org-files (list (expand-file-name (format "%s%s" user-emacs-directory "elfeed.org")))))
 
@@ -382,6 +382,7 @@
   :hook ((after-init . global-corfu-mode)
          (after-init . corfu-history-mode)
          (after-init . corfu-popupinfo-mode))
+
   :custom
   ;; (corfu-auto t)
   ;; (corfu-quit-no-match t)
@@ -390,8 +391,8 @@
   (global-corfu-minibuffer
    (lambda ()
      (not (or (bound-and-true-p mct--active)
-	            (bound-and-true-p vertico--input)
-	            (eq (current-local-map) read-passwd-map)))))
+              (bound-and-true-p vertico--input)
+              (eq (current-local-map) read-passwd-map)))))
   :bind
   (:map corfu-map
         ("TAB" . corfu-next)
@@ -547,6 +548,9 @@
 
 (use-package paredit
   :hook (emacs-lisp-mode . paredit-mode))
+
+(use-package evil
+  :hook (prog-mode . evil-local-mode))
 
 (setq mode-line-position (list " (%l:%C %P %I) "))
 ;;https://www.emacs.dyerdwelling.family/emacs/20230902114449-emacs--my-evolving-modeline/
