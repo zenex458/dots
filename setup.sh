@@ -74,15 +74,15 @@ NixOS() {
     sed -i '22 s/#//' .config/nixos/hosts/eukaryotic/configuration.nix
     find .config/nixos -type f -exec sed -i s/zenex/"$usrname"/g {} +
 	  mkdir -p /mnt/persistent/etc
-    cp -r ./config/nixos /mnt/persistent/etc
+    cp -r .config/nixos /mnt/persistent/etc
 	  mkdir -p /mnt/persistent/var/keys
 	  echo "Enter username password:"
-	  mkpasswd -m yescrypt > /mnt/var/keys/"${usrname}P"
+	  mkpasswd -m yescrypt > /mnt/persistent/var/keys/"${usrname}P"
 	  read -rp "Do you want root to have the same password as your user?(y/n)" rpasswd
-    if [ "$rpasswd" == Y ]; then
-        cp /mnt/persistent/var/keys/"$usrname"P /mnt/persistent/var/keys/rootP
+    if [ "$rpasswd" == y ]; then
+        cp /mnt/persistent/var/keys/"${usrname}P" /mnt/persistent/var/keys/rootP
     else
-	      mkpasswd -m yescrypt > /mnt/var/keys/rootP
+	      mkpasswd -m yescrypt > /mnt/persistentvar/keys/rootP
     fi
     nixos-install --no-root-password --root /mnt --flake '/mnt/persistent/etc/nixos#eukaryotic'
     exit
