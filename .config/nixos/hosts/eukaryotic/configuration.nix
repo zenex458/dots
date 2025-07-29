@@ -18,7 +18,7 @@
   boot = {
     # kernel.sysctl."vm.swappiness" = 30;
     supportedFilesystems = ["ntfs"];
-    # kernelPackages = pkgs.linuxPackages_latest;
+    #kernelPackages = pkgs.linuxPackages_latest;
     #loader.systemd-boot.enable = true;
     loader.systemd-boot.enable = lib.mkForce false;
     lanzaboote = {
@@ -187,6 +187,7 @@
           "wireshark"
           "docker"
           "adbusers"
+          "kvm"
         ];
       };
     };
@@ -205,9 +206,9 @@
       interval = "daily";
       pruneNames = [".bzr" ".cache" ".git" ".hg" ".svn" ".ccls-cache" "*env*"];
     };
-    # udev.packages = [
-    #   pkgs.android-udev-rules
-    # ];
+    #udev.packages = [
+    #  pkgs.android-udev-rules
+    #];
     seatd = {
       enable = true;
     };
@@ -285,6 +286,8 @@
         allow id 04e8:61fb serial "S6YJNJ0X301164A" name "PSSD T7 Shield" hash "m0oln1SciQzP6k4TPn9ZFC03YkSkbwUSkNQCHS9PvTw=" parent-hash "15SBGsOo8K+JjtOKSCn7t0i6ifer4wmhzep1yEB5pLQ=" with-interface { 08:06:50 08:06:62 } with-connect-type "unknown"
         allow id 0bda:0177 serial "20121112761000000" name "USB2.0-CRW" hash "e2uNi2LwAzeDYUbSBzd8VS6LqfpmZj/vnXkKxI8Fa4c=" parent-hash "cmzdizBgI3dt4cFMO8H1QUW3FWqsDSXqkGP5r5XZtEs=" with-interface 08:06:50 with-connect-type "hardwired"
         allow id 16c0:27db serial "moergo.com:GLV80-4A2A8176E2496089" name "Glove80 Left" hash "aD39zz93dNP61EPXjHtlX+fg7EcNlc5a41B5pO+JDCU=" parent-hash "CbRB9LX/JdGjNWCYSOcIwMVXE0UpOR03LCotWrTbuCM=" with-interface 03:01:01 with-connect-type "unknown"
+        allow id 090c:1000 serial "0320619110005669" name "Flash Drive" hash "HN91eZPfVx5LVYm22GQRriZM/HbCPF1fmILuq423EwQ=" parent-hash "15SBGsOo8K+JjtOKSCn7t0i6ifer4wmhzep1yEB5pLQ=" with-interface 08:06:50 with-connect-type "unknown"
+        allow id 090c:1000 serial "0378623070002866" name "Flash Drive" hash "26QA1cD/Y0OQ39RG37alHNi4YKqSkA6hl+wiT+3SVzk=" parent-hash "15SBGsOo8K+JjtOKSCn7t0i6ifer4wmhzep1yEB5pLQ=" with-interface 08:06:50 with-connect-type "unknown"
       '';
     };
     opensnitch.enable = false;
@@ -333,7 +336,7 @@
       pulse.enable = true;
       wireplumber.enable = true;
     };
-    # gvfs.enable = true;
+    gvfs.enable = true;
   };
 
   # List packages installed in system profile. To search, run:
@@ -342,7 +345,7 @@
   environment = {
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
-      # FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
+      FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
     };
     etc = {
       "firejail/firefox.local".text = ''
@@ -422,12 +425,12 @@
 
   fonts = {
     packages = with pkgs; [iosevka-bin vistafonts uw-ttyp0];
-    # fontconfig = {
-    #   antialias = true;
-    #   hinting.enable = true;
-    #   hinting.style = "full";
-    #   subpixel.rgba = "rgb";
-    # };
+    fontconfig = {
+      antialias = true;
+      hinting.enable = true;
+      hinting.style = "full";
+      subpixel.rgba = "rgb";
+    };
   };
 
   security = {

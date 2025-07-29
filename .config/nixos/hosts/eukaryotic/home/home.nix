@@ -206,12 +206,12 @@
           gcmh
           hungry-delete
           haskell-mode
+          key-chord
           indent-guide
           magit
           markdown-mode
           multiple-cursors
           nix-ts-mode
-          paredit
           orderless
           org-bullets
           org-make-toc
@@ -243,7 +243,6 @@
         vim.o.termguicolors = true
         vim.g.mapleader = " "
         vim.o.statusline = "%<%f%m   %= %R%H%W %l/%L:%c %p%% "
-        vim.o.guicursor = "i:hor50-Cursor,i:blinkon100,n-v-c:blinkon100"
         vim.o.clipboard = "unnamedplus"
         vim.keymap.set("i", "jk", [[<ESC>]])
       '';
@@ -273,7 +272,7 @@
       completionInit = "autoload -Uz compinit && compinit -d $HOME/.config/zsh/.zcompdump";
       enableCompletion = true;
       autocd = true;
-      defaultKeymap = "emacs";
+      defaultKeymap = "viins";
       sessionVariables = config.programs.bash.sessionVariables;
       history = {
         ignoreAllDups = true;
@@ -298,12 +297,13 @@
       plugins = [
         {
           name = "zsh-command-time";
-          src = pkgs.fetchFromGitHub {
-            owner = "popstas";
-            repo = "zsh-command-time";
-            rev = "f731dbb";
-            sha256 = "sha256-zuvlqjmMcF844GZU0PtZNY/XaiHNC24kvUPifLcHLOg=";
-          };
+          src = pkgs.zsh-command-time;
+          file = "share/zsh/plugins/command-time/command-time.plugin.zsh";
+        }
+        {
+          name = "zsh-vi-mode";
+          src = pkgs.zsh-vi-mode;
+          file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
         }
       ];
       initContent = ''
@@ -345,6 +345,7 @@
         		ls -h -A --classify=auto --color=auto --group-directories-first
         	fi
         }
+        ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
       '';
     };
 
@@ -530,7 +531,7 @@
       baseIndex = 0;
       escapeTime = 0;
       historyLimit = 100000;
-      keyMode = "emacs";
+      keyMode = "vi";
       mouse = true;
       terminal = "tmux-256color";
       extraConfig = ''

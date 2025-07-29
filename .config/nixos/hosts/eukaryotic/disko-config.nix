@@ -115,12 +115,12 @@ in {
       pool = {
         type = "lvm_vg";
         lvs = {
-           swap = {
-             size = "12G";
-             content = {
-               type = "swap";
-             };
-           };
+          swap = {
+            size = "12G";
+            content = {
+              type = "swap";
+            };
+          };
           root = {
             size = "100%";
             content = {
@@ -129,22 +129,25 @@ in {
               subvolumes = {
                 "/root" = {
                   mountpoint = "/";
-                  mountOptions = ["compress=zstd" "noatime"];
+                  #mountOptions = ["compress=zstd" "noatime"];
+                  mountOptions = ["noatime"];
                 };
                 "/persistent" = {
-                  mountOptions = ["subvol=persistent" "compress=zstd" "noatime"];
+                  #mountOptions = ["subvol=persistent" "compress=zstd" "noatime"];
+                  mountOptions = ["subvol=persistent" "noatime"];
                   mountpoint = "/persistent";
                 };
                 "/nix" = {
                   mountOptions = [
-                    "compress=zstd"
+                    #"compress=zstd"
                     "noatime"
                     "subvol=nix"
                   ];
                   mountpoint = "/nix";
                 };
                 "/tmp" = {
-                  mountOptions = ["compress=zstd" "noatime"];
+                  #mountOptions = ["compress=zstd" "noatime"];
+                  mountOptions = ["noatime"];
                   mountpoint = "/tmp";
                 };
               };
