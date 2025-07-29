@@ -16,6 +16,47 @@
       exec xmonad
     '';
   };
+
+  tmux = {
+    # add new-window -c "#{pane_current_path}"
+    # add splitp -c "#{pane_current_path}"
+    enable = true;
+    aggressiveResize = true;
+    prefix = "C-q";
+    baseIndex = 0;
+    escapeTime = 0;
+    historyLimit = 100000;
+    keyMode = "vi";
+    mouse = true;
+    terminal = "tmux-256color";
+    extraConfig = ''
+      set -g set-titles on
+      set -g status-keys emacs
+      set -s set-clipboard external
+      set -g status-style "fg=#bdae93,bg=#060606"
+      setw -g monitor-activity on
+      set -g visual-activity on
+      set -g status-right ""
+      set -g status-left "#{session_group}"
+      set -g window-status-current-format "#[fg=#060606 bg=#060606]|#[fg=#bdae93 bg=#060606]#W#[fg=#060606 bg=#060606]|"
+      set -g window-status-last-style "fg=#a08a64 bg=#060606"
+      bind-key -n M-"v" split-window -v
+      bind-key -n M-"V" split-window -h
+      bind-key -n M-h select-pane -L
+      bind-key -n M-j select-pane -D
+      bind-key -n M-k select-pane -U
+      bind-key -n M-l select-pane -R
+      bind-key -n M-H swap-pane -U
+      bind-key -n M-J swap-pane -D
+      bind-key -n M-K swap-pane -U
+      bind-key -n M-L swap-pane -D
+      bind-key -n M-C-h resize-pane -L
+      bind-key -n M-C-j resize-pane -D
+      bind-key -n M-C-k resize-pane -U
+      bind-key -n M-C-l resize-pane -R
+    '';
+  };
+
   xsession.windowManager.xmonad = {
     enable = true;
     enableContribAndExtras = true;
