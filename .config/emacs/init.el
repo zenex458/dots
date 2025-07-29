@@ -112,7 +112,8 @@
   (indent-tabs-mode nil)
   (electric-indent-mode)
   (tab-always-indent 'complete)
-  (completion-cycle-threshold 3)
+  (completion-cycle-threshold 1)
+  (text-mode-ispell-word-completion nil)
   (read-extended-command-predicate #'command-completion-default-include-p)
   (password-cache-expiry 3600)
   (history-length 2000)
@@ -214,7 +215,7 @@
   :custom
   (completion-styles '(orderless substring basic initials partial-completion))
   ;; (completion-styles '(substring orderless))
-  ;; (completion-category-defaults nil)
+  (completion-category-defaults nil)
   (completion-category-overrides '((file (initials styles partial-completion)))))
 ;; (completion-category-overrides '((file (initials)))))
 
@@ -373,10 +374,7 @@
   :hook ((nix-ts-mode . (lambda ()(electric-pair-mode -1)))));;surely theres a better way?
 
 ;; https://github.com/promethial/.emacs.d/blob/c71732112300f1dc294769821533a8627440b282/init.el#L326
-(use-package haskell-mode
-  :bind
-  (:map haskell-mode-map
-        ("TAB" . corfu-next)))
+(use-package haskell-mode)
 
 (use-package corfu
   :hook ((after-init . global-corfu-mode)
@@ -384,8 +382,8 @@
          (after-init . corfu-popupinfo-mode))
 
   :custom
-  ;; (corfu-auto t)
-  ;; (corfu-quit-no-match t)
+  ;;(corfu-auto t)
+  ;;(corfu-quit-no-match t)
   (corfu-cycle t)
   (corfu-preselect 'prompt)
   (global-corfu-minibuffer
@@ -546,11 +544,14 @@
   (display-buffer-base-action '(display-buffer-below-selected))
   (edwina-mode-line-format ""))
 
-(use-package paredit
-  :hook (emacs-lisp-mode . paredit-mode))
-
 (use-package evil
   :hook (prog-mode . evil-local-mode))
+
+(use-package key-chord
+  :hook (evil-local-mode . key-chord-mode)
+  :config
+  (setq key-chord-two-keys-delay 0.3)
+  (key-chord-define evil-insert-state-map "jk" 'evil-normal-state))
 
 (setq mode-line-position (list " (%l:%C %P %I) "))
 ;;https://www.emacs.dyerdwelling.family/emacs/20230902114449-emacs--my-evolving-modeline/
