@@ -74,7 +74,7 @@
       "nts.netnod.se"
       "ptbtime1.ptb.de"
     ];
-    hostName = "eukaryotic";
+    hostName = "nidus";
     wireless.iwd = {
       enable = true;
       settings = {
@@ -268,7 +268,7 @@
       };
     };
     usbguard = {
-      enable = true;
+      enable = false;
       presentControllerPolicy = "apply-policy";
       implicitPolicyTarget = "block";
       rules = ''

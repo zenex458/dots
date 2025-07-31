@@ -2,7 +2,6 @@ let
   # the number of headers to disks is a to one to one map
   headerdevice = "/dev/disk/by-id/usb-Kingston_DataTraveler_3.0_408D5C15CB92E911290E05C5-0:0";
   header1 = headerdevice + "-part1"; #luks header for nvme
-  header2 = headerdevice + "-part2"; #luks header for hdd
 in {
   disko.devices = {
     disk = {
@@ -21,17 +20,8 @@ in {
                 format = "vfat";
               };
             };
-            HED2 = {
-              start = "129M";
-              end = "256M";
-              #              type = "EF00";
-              content = {
-                type = "filesystem";
-                format = "vfat";
-              };
-            };
             ESP = {
-              start = "257M";
+              start = "129M";
               size = "100%";
               type = "EF00";
               content = {
@@ -46,7 +36,7 @@ in {
       };
       disk1 = {
         type = "disk";
-        device = "/dev/disk/by-id/nvme-UMIS_RPJTJ128MEE1MWX_SS1B60642Z1CD26A26BY";
+        device = "/dev/disk/by-id/nvme-SAMSUNG_MZVLB512HBJQ-000L7_S4ENNX2NC35223";
         content = {
           type = "gpt";
           partitions = {
@@ -76,39 +66,6 @@ in {
           };
         };
       };
-      disk2 = {
-        type = "disk";
-        device = "/dev/disk/by-id/ata-KINGSTON_SA400S37240G_50026B7785918FC7";
-        content = {
-          type = "gpt";
-          partitions = {
-            luks = {
-              start = "1M";
-              size = "100%";
-              content = {
-                type = "luks";
-                name = "crypted2";
-                extraFormatArgs = [
-                  "--header ${header2}"
-                  #                  "--iter-time 1" # insecure but fast for tests
-                  "--pbkdf argon2id -c serpent-xts-plain64 -h blake2b-512 --iter-time 5000"
-                ];
-                extraOpenArgs = [
-                  "--header ${header2}"
-                ];
-                settings = {
-                  header = header2;
-                };
-
-                content = {
-                  type = "lvm_pv";
-                  vg = "pool";
-                };
-              };
-            };
-          };
-        };
-      };
     };
 
     lvm_vg = {
@@ -116,7 +73,7 @@ in {
         type = "lvm_vg";
         lvs = {
           swap = {
-            size = "12G";
+            size = "32G";
             content = {
               type = "swap";
             };

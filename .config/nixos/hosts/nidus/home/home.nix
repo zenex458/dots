@@ -177,8 +177,8 @@
     };
     emacs = {
       enable = true;
-      package = pkgs.emacs-pgtk; #use just `emacs' if you want it the daemon to survive after the gui terminates
-      #package = pkgs.emacs; #use just `emacs' if you want it the daemon to survive after the gui terminates
+      #package = pkgs.emacs-pgtk; #use just `emacs' if you want it the daemon to survive after the gui terminates
+      package = pkgs.emacs; #use just `emacs' if you want it the daemon to survive after the gui terminates
       extraPackages = epkgs:
         with pkgs.unstable.emacsPackages; [
           vterm
@@ -388,8 +388,8 @@
         }
       '';
       shellAliases = {
-        upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#eukaryotic --use-remote-sudo";
-        updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#eukaryotic --use-remote-sudo -v --show-trace";
+        upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --use-remote-sudo";
+        updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --use-remote-sudo -v --show-trace";
         updflake = "nix flake update --commit-lock-file";
         listnixgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
         remoldgen = "nix-collect-garbage --delete-older-than 2d && sudo nix-collect-garbage --delete-older-than 2d && upd";

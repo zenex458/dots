@@ -61,17 +61,17 @@ NixOS() {
         echo "Please run this script as root."
         exit
     fi
-    cat .config/nixos/hosts/eukaryotic/disko-config.nix
+    cat .config/nixos/hosts/nidus/disko-config.nix
 	  read -rp "Is this disk configuration correct, if you click yes ALL DATA WILL BE REMOVED?(y/n)" disko
     if [ "$disko" == n ]; then
-        nano .config/nixos/hosts/eukaryotic/disko-config.nix
+        nano .config/nixos/hosts/nidus/disko-config.nix
 
     fi
-    nixos-generate-config --no-filesystems --show-hardware-config > .config/nixos/hosts/eukaryotic/hardware-configuration.nix
-    nix  --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko .config/nixos/hosts/eukaryotic/disko-config.nix
+    nixos-generate-config --no-filesystems --show-hardware-config > .config/nixos/hosts/nidus/hardware-configuration.nix
+    nix  --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko .config/nixos/hosts/nidus/disko-config.nix
 	  read -rp "Enter username: " usrname
-    sed -i '23,27 s/^/#/' .config/nixos/hosts/eukaryotic/configuration.nix
-    sed -i '22 s/#//' .config/nixos/hosts/eukaryotic/configuration.nix
+    sed -i '23,27 s/^/#/' .config/nixos/hosts/nidus/configuration.nix
+    sed -i '22 s/#//' .config/nixos/hosts/nidus/configuration.nix
     find .config/nixos -type f -exec sed -i s/zenex/"$usrname"/g {} +
 	  mkdir -p /mnt/persistent/etc
     cp -r .config/nixos /mnt/persistent/etc
@@ -84,7 +84,7 @@ NixOS() {
     else
 	      mkpasswd -m yescrypt > /mnt/persistentvar/keys/rootP
     fi
-    nixos-install --no-root-password --root /mnt --flake '/mnt/persistent/etc/nixos#eukaryotic'
+    nixos-install --no-root-password --root /mnt --flake '/mnt/persistent/etc/nixos#nidus'
     exit
 }
 
