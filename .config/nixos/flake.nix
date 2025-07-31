@@ -39,13 +39,24 @@
     # Used with `nixos-rebuild --flake .#<hostname>`
     # nixosConfigurations."<hostname>".config.system.build.toplevel must be a derivation
     nixosConfigurations = {
-      eukaryotic = nixpkgs.lib.nixosSystem {
+      nidus = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs;
         };
         system = "x86_64-linux";
-        modules = [./hosts/eukaryotic/configuration.nix];
+        modules = [./hosts/nidus/configuration.nix];
       };
+
+
+      tetanus = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs;
+        };
+        system = "x86_64-linux";
+        modules = [./hosts/tetanus/configuration.nix];
+      };
+
+
     };
   };
 }
