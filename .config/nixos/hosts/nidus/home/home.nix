@@ -338,7 +338,7 @@
            	fi
            	zle reset-prompt
            }
-           #zle -N fzy-history-widget
+           zle -N fzy-history-widget
            #bindkey '^R' fzy-history-widget
            zvm_bindkey vicmd '^R' fzy-history-widget
            zvm_bindkey viins '^R' fzy-history-widget
