@@ -47,6 +47,7 @@
         };
         touchpad.dwt = true;
         warp-mouse-to-focus.enable = true;
+        focus-follows-mouse.enable = true;
       };
       cursor.hide-when-typing = true;
       outputs = {
