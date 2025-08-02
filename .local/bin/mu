@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 mu() {
-	moudir="/run/media/zenex/musicsd"
+	moudir="/home/zenex/Music"
 	dirs=$(ls -A $moudir 2>/dev/null | wc -l) #change to find
 	if [ "$dirs" -eq 0 ]; then
 		printf '%s\n%s\n' "SD Card not mounted." "Mounting...."
-		sudo mount -m -v -o rw,noexec,uid=1000,gid=1000 UUID=3961-3035 /run/media/zenex/musicsd
+		sudo mount -m -v -o rw,noexec,uid=1000,gid=1000 UUID=3961-3035 "$moudir"
 		echo "Starting mpd and ncmpcpp"
 	fi
 	if [ -f ~/.local/share/mpd/mpd.pid ]; then
@@ -24,7 +24,8 @@ helpp() { #fix this to one printf statement?
 if [ -z "$1" ]; then
 	mu
 elif [ "$1" = "-r" ]; then
-	mpc pause && mpd --kill || systemctl --user stop mpd.service && sudo umount -v /run/media/zenex/musicsd && lsblk ##add a awk line or something to check if mount point is unmounted
+  pkill ncmpcpp
+	mpc pause && mpd --kill || systemctl --user stop mpd.service && sudo umount -v /home/zenex/Music && lsblk ##add a awk line or something to check if mount point is unmounted
 else
 	helpp
 fi
