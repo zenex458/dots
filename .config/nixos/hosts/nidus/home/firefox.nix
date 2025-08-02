@@ -314,10 +314,10 @@
         "geo.enabled" = false; #https://wiki.mozilla.org/Privacy/Privacy_Task_Force/firefox_about_config_privacy_tweeks
         "gfx.font_rendering.opentype_svg.enabled" = false;
         "identity.fxaccounts.enabled" = false;
-        "javascript.options.asmjs" = false; # enable if too slow
-        "javascript.options.baselinejit" = false; # enable if too slow
-        "javascript.options.ion" = false; # enable if too slow
-        "javascript.options.wasm" = false; # enable if too slow
+        "javascript.options.asmjs" = true; # enable if too slow
+        "javascript.options.baselinejit" = true; # enable if too slow
+        "javascript.options.ion" = true; # enable if too slow
+        "javascript.options.wasm" = true; # enable if too slow
         "keyword.enabled" = true; # false = no automatic search engine
         "layout.spellcheckDefault" = 0;
         "dom.private-attribution.submission.enabled" = false; # https://wiki.mozilla.org/Privacy/Privacy_Task_Force/firefox_about_config_privacy_tweeks
