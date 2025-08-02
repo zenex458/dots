@@ -38,7 +38,7 @@
   (advice-add #'display-startup-echo-area-message :override #'ignore))
 (setq frame-inhibit-implied-resize t)
 
-(if (not(string= system-name '"eukaryotic"))
+(if (not(string= system-name '"nidus"))
     (progn
       (setq use-package-always-ensure t
 	          use-package-expand-minimally t)
