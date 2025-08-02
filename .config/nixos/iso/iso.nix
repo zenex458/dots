@@ -50,5 +50,26 @@
     redshift
     # (writeScriptBin "install.sh"'''')
   ];
+
+  fonts = {
+    fontconfig.enable = true;
+    enableDefaultPackages = true;
+    packages = with pkgs; [
+      noto-fonts
+      noto-fonts-cjk-sans
+      noto-fonts-emoji
+      liberation_ttf
+      fira-code
+      fira-code-symbols
+    ];
+  };
+
+  nix = {
+    settings = {
+      experimental-features = ["nix-command" "flakes"];
+      download-buffer-size = 524288000;
+    };
+  };
+
   isoImage.squashfsCompression = "gzip -Xcompression-level 1";
 }

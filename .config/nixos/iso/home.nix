@@ -17,7 +17,7 @@
     '';
   };
 
-  tmux = {
+  programs.tmux = {
     # add new-window -c "#{pane_current_path}"
     # add splitp -c "#{pane_current_path}"
     enable = true;
@@ -63,7 +63,7 @@
     config = pkgs.writeText "xmonad.hs" ''
       import XMonad
       main = xmonad defaultConfig
-          { terminal    = "xterm -e tmux"
+          { terminal    = "alacritty -e tmux"
           , modMask     = mod4Mask
           , borderWidth = 2
           }
@@ -153,6 +153,50 @@
 
   programs.alacritty = {
     enable = true;
+    settings = {
+      env = {
+        "TERM" = "xterm-256color";
+      };
+
+      font = {
+        size = 12.0;
+        normal.family = "firacode";
+        bold.family = "firacode";
+        italic.family = "firacode";
+      };
+
+      colors = {
+        # Default colors
+        primary = {
+          background = "0x060606";
+          foreground = "0xbdae93";
+        };
+
+        # Normal colors
+        normal = {
+          black = "0x100e23";
+          red = "0xff8080";
+          green = "0x95ffa4";
+          yellow = "0xffe9aa";
+          blue = "0x91ddff";
+          magenta = "0xc991e1";
+          cyan = "0xaaffe4";
+          white = "0xcbe3e7";
+        };
+
+        # Bright colors
+        bright = {
+          black = "0x565575";
+          red = "0xff5458";
+          green = "0x62d196";
+          yellow = "0xffb378";
+          blue = "0x65b2ff";
+          magenta = "0x906cff";
+          cyan = "0x63f2f1";
+          white = "0xa6b3cc";
+        };
+      };
+    };
   };
 
   programs.firefox = {
@@ -279,7 +323,6 @@
         "sidebar.main.tools" = "	history,bookmarks";
         "browser.startup.homepage" = "about:blank";
         "browser.theme.content-theme" = 0;
-        "browser.theme.toolbar-theme" = 0;
         "accessibility.force_disabled" = 1;
         "app.normandy.api_url" = "";
         "app.normandy.enabled" = false;

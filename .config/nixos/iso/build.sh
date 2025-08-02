@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 printf "Building..."
 nix build
 
