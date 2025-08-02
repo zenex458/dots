@@ -202,8 +202,9 @@
   services = {
     locate = {
       enable = true;
-      output = /var/cache/locatedb;
-      interval = "daily";
+      package = pkgs.plocate;
+      output = /var/cache/locate/locatedb;
+      interval = "hourly";
       pruneNames = [".bzr" ".cache" ".git" ".hg" ".svn" ".ccls-cache" "*env*"];
     };
     #udev.packages = [
@@ -212,8 +213,10 @@
     seatd = {
       enable = true;
     };
-    mullvad-vpn.enable = true;
-    mullvad-vpn.package = pkgs.mullvad-vpn;
+    mullvad-vpn = {
+      enable = true;
+      package = pkgs.mullvad;
+    };
     nscd.enableNsncd = true;
     gnome.gnome-keyring.enable = true;
     # journald.extraConfig = ''
@@ -247,11 +250,11 @@
     #   # pkgs.foomatic-db-ppds-withNonfreeDb
     #   #      pkgs.foomatic-db-nonfree
     # ];
-    # avahi = { #enable for printing
-    #   enable = true;
-    #   nssmdns4 = true;
-    #   openFirewall = true;
-    # };
+    #avahi = { #needed for printing
+    #  enable = true;
+    #  nssmdns4 = true;
+    #  openFirewall = true;
+    #};
     dbus.enable = true;
     libinput.enable = true;
     xserver = {
@@ -317,16 +320,11 @@
       enable = true;
       settings = {
         CPU_SCALING_GOVERNOR_ON_AC = "performance";
-        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-        CPU_MIN_PERF_ON_AC = 0;
-        CPU_MAX_PERF_ON_AC = 100;
-        CPU_MIN_PERF_ON_BAT = 0;
-        CPU_MAX_PERF_ON_BAT = 50;
-        CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-        CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
+        CPU_SCALING_GOVERNOR_ON_BAT = "schedutil";
+        PLATFORM_PROFILE_ON_AC = "performance";
+        PLATFORM_PROFILE_ON_BAT = "low-power";
         START_CHARGE_THRESH_BAT0 = 75;
-        # STOP_CHARGE_THRESH_BAT0 = 80;
-        STOP_CHARGE_THRESH_BAT0 = 1; #for on, for some reason. run `sudo tlp-stat' to see what value you should use
+        STOP_CHARGE_THRESH_BAT0 = 80;
       };
     };
     pipewire = {
@@ -371,7 +369,7 @@
     };
     defaultPackages = lib.mkForce [];
     systemPackages = with pkgs; [git vim emacs-nox tmux sbctl];
-    pathsToLink = ["/share/bash-completion" "/share/zsh"];
+    pathsToLink = ["/share/bash-completion" "/share/zsh" "/share/xdg-desktop-portal" "/share/applications"];
     persistence."/persistent" = {
       enable = true; # NB: Defaults to true, not needed
       hideMounts = true;
@@ -386,7 +384,7 @@
         "/var/lib/docker/"
         "/var/lib/lxd/"
         "/var/lib/libvirt/"
-        "/var/cache/locatedb"
+        "/var/cache/locate/"
         {
           directory = "/etc/mullvad-vpn";
           user = "root";
@@ -400,6 +398,7 @@
           mode = "0700";
         }
       ];
+
       users.zenex = {
         directories = [
           {
