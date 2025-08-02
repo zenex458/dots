@@ -269,7 +269,7 @@
       enable = true;
       dotDir = ".config/zsh";
       shellAliases = config.programs.bash.shellAliases;
-      completionInit = "autoload -Uz compinit && compinit -d $HOME/.config/zsh/.zcompdump";
+      completionInit = "autoload -Uz compinit";
       enableCompletion = true;
       autocd = true;
       defaultKeymap = "viins";
@@ -308,6 +308,13 @@
       ];
       initContent = ''
         PROMPT="[%~]''\nλ "
+        #https://scottspence.com/posts/speeding-up-my-zsh-shell
+        if [ "$(date +'%j')" != "''$(stat -f '%Sm' -t '%j' $HOME/.config/zsh/.zcompdump 2>/dev/null)" ]; then
+            compinit -d $HOME/.config/zsh/.zcompdump
+        else
+            compinit -C -d $HOME/.config/zsh/.zcompdump #i don't think -d is needed here
+        fi
+
         zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate _aliases _functions
         zstyle ':completion:*:*:*:*:descriptions' format '%F{#bdae93}[%d]%f'
         zstyle ':completion:*' use-cache on
@@ -331,9 +338,10 @@
            	fi
            	zle reset-prompt
            }
-           zle -N fzy-history-widget
-           bindkey '^R' fzy-history-widget
-
+           #zle -N fzy-history-widget
+           #bindkey '^R' fzy-history-widget
+           zvm_bindkey vicmd '^R' fzy-history-widget
+           zvm_bindkey viins '^R' fzy-history-widget
         fi
         cd() {
         	if [ -z "$#" ]; then
@@ -419,8 +427,6 @@
         tls = "tmux list-session";
         tat = "tmux attach -t";
         mm = "sudo mount -m -v -o rw,uid=1000,gid=1000";
-        mhd = "sudo mount -v -t ntfs -m -o rw,noexec,uid=1000,gid=1000 UUID=742455142454DAA6 /run/media/zenex/seagate";
-        umhd = "sudo umount -v /run/media/zenex/seagate && lsblk";
         sysdlist = "systemctl list-unit-files --type=service --state=enabled";
         rsy = "rsync -ahPzRcL --info=progress2 --stats --exclude=.ccls-cache --exclude=sessionData --exclude=elfeed --exclude=eln-cache --exclude=Signal --exclude=simplex --exclude=chromium --exclude=.mozilla --exclude=.local --exclude=.cache --exclude=.nix-defexpr --exclude=.nix-profile --exclude=.java --exclude=yyt --exclude=iso --exclude=Music --filter=':- .gitignore'";
         del = "trash";
@@ -434,6 +440,7 @@
         hy = "Hyprland >> /tmp/hy";
         ns = "niri-session";
         bfs = "bfs -exclude -name .git -exclude -name .ccls-cache -exclude -name '*env*'";
+        locate = "locate -i -d /var/cache/locate/locatedb";
       };
       sessionVariables = {
         XDG_CONFIG_HOME = "$HOME/.config";
@@ -536,7 +543,7 @@
       terminal = "tmux-256color";
       extraConfig = ''
         set -g set-titles on
-        set -g status-keys emacs
+        set -g status-keys vi
         set -s set-clipboard external
         set -g status-style "fg=#bdae93,bg=#060606"
         setw -g monitor-activity on
@@ -719,6 +726,7 @@
       ruff
       sbctl
       nemo
+      nautilus
       shellcheck
       shfmt
       signal-desktop
