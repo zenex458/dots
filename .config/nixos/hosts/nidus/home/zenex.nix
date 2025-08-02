@@ -62,18 +62,18 @@
       hyprpaper.enable = false;
       hyprlock.enable = false;
       tmux.enable = false;
-      # neovim.enable = false;
-      # gtk.extraCss = ''
-      #   // Remove rounded corners
-      #   window.background { border-radius: 0; }
-      # '';
+      #  neovim.enable = false;
+      gtk.extraCss = ''
+        // Remove rounded corners
+        window.background { border-radius: 0; }
+      '';
     };
 
     base16Scheme = {
       base00 = "060606";
       base01 = "2e2e2e";
       base02 = "414141";
-      base03 = "555555";
+      base03 = "515151";
       base04 = "a08a64";
       base05 = "aa9673";
       base06 = "b3a283";
