@@ -200,6 +200,10 @@
   };
 
   services = {
+    tailscale = {
+      enable = true;
+      useRoutingFeatures = "both";
+    };
     locate = {
       enable = true;
       package = pkgs.plocate;
@@ -334,7 +338,7 @@
       pulse.enable = true;
       wireplumber.enable = true;
     };
-    gvfs.enable = true;
+    gvfs.enable = false;
   };
 
   # List packages installed in system profile. To search, run:
