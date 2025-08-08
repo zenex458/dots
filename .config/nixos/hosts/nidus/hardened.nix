@@ -172,81 +172,88 @@ with lib; {
     "cdrom"
     "sr_mod"
   ];
-  #this should stop the firefox security error(it now can create namespaces)
-  #https://discuss.privacyguides.net/t/firefox-and-unprivileged-namespaces/20158/11
-  boot.kernel.sysctl."kernel.unprivileged_userns_clone" = "1";
 
-  #prevent unprivileged attackers from loading vulnerable line disciplines
-  boot.kernel.sysctl."dev.tty.ldisc_autoload" = mkDefault "0";
-  #disallow opening FIFOs or regular files not owned by the user in world writable sticky directories
-  boot.kernel.sysctl."fs.protected_fifos" = mkDefault "1";
-  #this setting aims to mitigate kernel pointer leaks
-  boot.kernel.sysctl."kernel.unprivileged_bpf_disabled" = mkDefault "1";
-  #harden bpf jit for everyone
-  boot.kernel.sysctl."net.core.bpf_jit_harden" = mkDefault "2";
+  boot.kernel.sysctl = {
+    #this should stop the firefox security error(it now can create namespaces)
+    #https://discuss.privacyguides.net/t/firefox-and-unprivileged-namespaces/20158/11
+    "kernel.unprivileged_userns_clone" = "1";
 
-  boot.kernel.sysctl."kernel.randomize_va_space" = mkDefault "2";
-  #disables kexec which can be used to replace the running kernel.
-  #  boot.kernel.sysctl."kernel.kexec_load_disabled" = mkDefault "1";
-  #protects against time-wait assassination. It drops RST packets for sockets in the time-wait state.
-  boot.kernel.sysctl."net.ipv4.tcp_rfc1337" = mkDefault "1";
-  #These settings are set to the highest value to improve ASLR effectiveness for mmap
-  boot.kernel.sysctl."vm.mmap_rnd_bits" = mkDefault "32";
-  boot.kernel.sysctl."vm.mmap_rnd_compat_bits" = mkDefault "16";
+    #Prevent kernel info leaks in console during boot.
+    #https://phabricator.whonix.org/T950
+    "kernel.printk" = "3 3 3 3";
 
-  # boot.kernel.sysctl."vm.swappiness" = mkOverride 60 1;
-  # Restrict ptrace() usage to processes with a pre-defined relationship
-  # (e.g., parent/child)
-  boot.kernel.sysctl."kernel.yama.ptrace_scope" = mkOverride 500 2;
+    #prevent unprivileged attackers from loading vulnerable line disciplines
+    "dev.tty.ldisc_autoload" = mkDefault "0";
+    #disallow opening FIFOs or regular files not owned by the user in world writable sticky directories
+    "fs.protected_fifos" = mkDefault "1";
+    #this setting aims to mitigate kernel pointer leaks
+    "kernel.unprivileged_bpf_disabled" = mkDefault "1";
+    #harden bpf jit for everyone
+    "net.core.bpf_jit_harden" = mkDefault "2";
 
-  # Hide kptrs even for processes with CAP_SYSLOG
-  boot.kernel.sysctl."kernel.kptr_restrict" = mkOverride 500 2;
+    "kernel.randomize_va_space" = mkDefault "2";
+    #disables kexec which can be used to replace the running kernel.
+    #  "kernel.kexec_load_disabled" = mkDefault "1";
+    #protects against time-wait assassination. It drops RST packets for sockets in the time-wait state.
+    "net.ipv4.tcp_rfc1337" = mkDefault "1";
+    #These settings are set to the highest value to improve ASLR effectiveness for mmap
+    "vm.mmap_rnd_bits" = mkDefault "32";
+    "vm.mmap_rnd_compat_bits" = mkDefault "16";
 
-  # Disable bpf() JIT (to eliminate spray attacks)
-  boot.kernel.sysctl."net.core.bpf_jit_enable" = mkDefault false;
+    # "vm.swappiness" = mkOverride 60 1;
+    # Restrict ptrace() usage to processes with a pre-defined relationship
+    # (e.g., parent/child)
+    "kernel.yama.ptrace_scope" = mkOverride 500 2;
 
-  # Disable ftrace debugging
-  boot.kernel.sysctl."kernel.ftrace_enabled" = mkDefault false;
+    # Hide kptrs even for processes with CAP_SYSLOG
+    "kernel.kptr_restrict" = mkOverride 500 2;
 
-  # Enable strict reverse path filtering (that is, do not attempt to route
-  # packets that "obviously" do not belong to the iface's network; dropped
-  # packets are logged as martians).
-  boot.kernel.sysctl."net.ipv4.conf.all.log_martians" = mkDefault true;
-  boot.kernel.sysctl."net.ipv4.conf.all.rp_filter" = mkDefault "1";
-  boot.kernel.sysctl."net.ipv4.conf.default.log_martians" = mkDefault true;
-  boot.kernel.sysctl."net.ipv4.conf.default.rp_filter" = mkDefault "1";
+    # Disable bpf() JIT (to eliminate spray attacks)
+    "net.core.bpf_jit_enable" = mkDefault false;
 
-  boot.kernel.sysctl."net.ipv4.conf.all.forwarding" = mkDefault "0";
+    # Disable ftrace debugging
+    "kernel.ftrace_enabled" = mkDefault false;
 
-  # # Ignore broadcast ICMP (mitigate SMURF)
-  boot.kernel.sysctl."net.ipv4.icmp_echo_ignore_broadcasts" = mkDefault true;
+    # Enable strict reverse path filtering (that is, do not attempt to route
+    # packets that "obviously" do not belong to the iface's network; dropped
+    # packets are logged as martians).
+    "net.ipv4.conf.all.log_martians" = mkDefault true;
+    "net.ipv4.conf.all.rp_filter" = mkDefault "1";
+    "net.ipv4.conf.default.log_martians" = mkDefault true;
+    "net.ipv4.conf.default.rp_filter" = mkDefault "1";
 
-  # # Ignore incoming ICMP redirects (note: default is needed to ensure that the
-  # # setting is applied to interfaces added after the sysctls are set)
-  boot.kernel.sysctl."net.ipv4.conf.all.accept_redirects" = mkDefault false;
-  boot.kernel.sysctl."net.ipv4.conf.all.secure_redirects" = mkDefault false;
-  boot.kernel.sysctl."net.ipv4.conf.default.accept_redirects" = mkDefault false;
-  boot.kernel.sysctl."net.ipv4.conf.default.secure_redirects" = mkDefault false;
-  boot.kernel.sysctl."net.ipv6.conf.all.accept_redirects" = mkDefault false;
-  boot.kernel.sysctl."net.ipv6.conf.default.accept_redirects" = mkDefault false;
+    "net.ipv4.conf.all.forwarding" = mkDefault "0";
 
-  # # Ignore outgoing ICMP redirects (this is ipv4 only)
-  boot.kernel.sysctl."net.ipv4.conf.all.send_redirects" = mkDefault false;
-  boot.kernel.sysctl."net.ipv4.conf.default.send_redirects" = mkDefault false;
+    # # Ignore broadcast ICMP (mitigate SMURF)
+    "net.ipv4.icmp_echo_ignore_broadcasts" = mkDefault true;
 
-  boot.kernel.sysctl."net.ipv4.conf.all.accept_source_route" = mkDefault "0";
-  boot.kernel.sysctl."net.ipv4.conf.default.accept_source_route" = mkDefault "0";
-  boot.kernel.sysctl."net.ipv6.conf.all.accept_source_route" = mkDefault "0";
+    # # Ignore incoming ICMP redirects (note: default is needed to ensure that the
+    # # setting is applied to interfaces added after the sysctls are set)
+    "net.ipv4.conf.all.accept_redirects" = mkDefault false;
+    "net.ipv4.conf.all.secure_redirects" = mkDefault false;
+    "net.ipv4.conf.default.accept_redirects" = mkDefault false;
+    "net.ipv4.conf.default.secure_redirects" = mkDefault false;
+    "net.ipv6.conf.all.accept_redirects" = mkDefault false;
+    "net.ipv6.conf.default.accept_redirects" = mkDefault false;
 
-  # # Do not accept ICMP redirects (prevent MITM attacks)
-  boot.kernel.sysctl."net.ipv4.icmp_echo_ignore_all" = mkDefault "1";
-  boot.kernel.sysctl."net.ipv6.icmp.echo_ignore_all" = mkDefault "1";
+    # # Ignore outgoing ICMP redirects (this is ipv4 only)
+    "net.ipv4.conf.all.send_redirects" = mkDefault false;
+    "net.ipv4.conf.default.send_redirects" = mkDefault false;
 
-  # Do not accept router advertisments
-  boot.kernel.sysctl."net.ipv6.conf.all.accept_ra" = mkDefault "0";
-  boot.kernel.sysctl."net.ipv6.conf.default.accept_ra" = mkDefault "0";
-  boot.kernel.sysctl."net.ipv4.tcp_timestamps" = mkDefault "0";
+    "net.ipv4.conf.all.accept_source_route" = mkDefault "0";
+    "net.ipv4.conf.default.accept_source_route" = mkDefault "0";
+    "net.ipv6.conf.all.accept_source_route" = mkDefault "0";
 
-  #protect against SYN flood attacks
-  boot.kernel.sysctl."net.ipv4.tcp_syncookies" = mkDefault "1";
+    # # Do not accept ICMP redirects (prevent MITM attacks)
+    "net.ipv4.icmp_echo_ignore_all" = mkDefault "1";
+    "net.ipv6.icmp.echo_ignore_all" = mkDefault "1";
+
+    # Do not accept router advertisments
+    "net.ipv6.conf.all.accept_ra" = mkDefault "0";
+    "net.ipv6.conf.default.accept_ra" = mkDefault "0";
+    "net.ipv4.tcp_timestamps" = mkDefault "0";
+
+    #protect against SYN flood attacks
+    "net.ipv4.tcp_syncookies" = mkDefault "1";
+  };
 }
