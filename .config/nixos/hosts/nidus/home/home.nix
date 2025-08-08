@@ -177,8 +177,8 @@
     };
     emacs = {
       enable = true;
-      #package = pkgs.emacs-pgtk; #use just `emacs' if you want it the daemon to survive after the gui terminates
-      package = pkgs.emacs; #use just `emacs' if you want it the daemon to survive after the gui terminates
+      package = pkgs.emacs-pgtk; #use just `emacs' if you want it the daemon to survive after the gui terminates
+      #package = pkgs.emacs;
       extraPackages = epkgs:
         with pkgs.unstable.emacsPackages; [
           vterm
@@ -725,7 +725,6 @@
       rsync
       ruff
       sbctl
-      nemo
       nautilus
       shellcheck
       shfmt
