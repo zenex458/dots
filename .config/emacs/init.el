@@ -360,7 +360,7 @@
 
 (use-package elfeed
   :custom
-  ;; (setq elfeed-search-title-max-width '130)
+  (setq elfeed-search-title-max-width '130)
   (elfeed-search-filter "@3-days-ago +unread")
   (elfeed-db-directory (expand-file-name (format "%s%s" user-emacs-directory "elfeed/"))))
 
@@ -532,17 +532,17 @@
   :bind
   ("M-s z f" . zoxide-find-file))
 
-(use-package golden-ratio
-  :hook (after-init . golden-ratio-mode)
-  :custom
-  (golden-ratio-auto-scale t)
-  (add-to-list 'golden-ratio-extra-commands 'ace-window))
-
-(use-package edwina
-  :hook (after-init . edwina-mode)
-  :custom
-  (display-buffer-base-action '(display-buffer-below-selected))
-  (edwina-mode-line-format ""))
+;;(use-package golden-ratio
+;;  :hook (after-init . golden-ratio-mode)
+;;  :custom
+;;  (golden-ratio-auto-scale t)
+;;  (add-to-list 'golden-ratio-extra-commands 'ace-window))
+;;
+;;(use-package edwina
+;;  :hook (after-init . edwina-mode)
+;;  :custom
+;;  (display-buffer-base-action '(display-buffer-below-selected))
+;;  (edwina-mode-line-format ""))
 
 (use-package evil
   :hook (prog-mode . evil-local-mode))
