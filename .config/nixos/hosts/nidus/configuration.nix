@@ -219,7 +219,7 @@
     };
     mullvad-vpn = {
       enable = true;
-      package = pkgs.mullvad;
+      package = pkgs.unstable.mullvad;
     };
     nscd.enableNsncd = true;
     gnome.gnome-keyring.enable = true;
@@ -389,6 +389,12 @@
         "/var/lib/lxd/"
         "/var/lib/libvirt/"
         "/var/cache/locate/"
+        {
+          directory = "/var/lib/tailscale";
+          user = "root";
+          group = "root";
+          mode = "0700";
+        }
         {
           directory = "/etc/mullvad-vpn";
           user = "root";
