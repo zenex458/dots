@@ -747,6 +747,7 @@
       wlr-randr
       wlsunset
       xdg-utils
+      virt-viewer
       xmlformat
       xwayland-satellite
       yt-dlp
