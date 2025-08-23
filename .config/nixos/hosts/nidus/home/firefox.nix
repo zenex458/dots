@@ -34,22 +34,19 @@
         "bing".metaData.hidden = true;
         "google".metaData.hidden = true;
         "amazon.co.uk".metaData.hidden = true;
+        "Amazon.com".metaData.hidden = true;
         "ebay".metaData.hidden = true;
-        "startpage" = {
-          urls = [
-            {
-              template = "https://www.startpage.com/do/search";
-              params = [
-                {
-                  name = "query";
-                  value = "{searchTerms}";
-                }
-              ];
-            }
-          ];
-          iconMapObj."16" = "https://www.startpage.com/sp/cdn/favicons/favicon-32x32-gradient.png";
-          updateInterval = 24 * 60 * 60 * 1000; # every day
-          definedAliases = ["@st"];
+        "Leta" = {
+          name = "Leta";
+          urls = [{template = "https://leta.mullvad.net/search?q={searchTerms}&engine=google";}];
+          iconMapObj."16" = "https://leta.mullvad.net/favicon.ico";
+          definedAliases = ["@l"];
+        };
+        "Duckduckgohtml" = {
+          name = "Duckduckgohtml";
+          urls = [{template = "https://html.duckduckgo.com/html?q={searchTerms}";}];
+          iconMapObj."16" = "https://duckduckgo.com/favicon.ico";
+          definedAliases = ["@ddgh"];
         };
         "searx" = {
           urls = [
@@ -127,7 +124,9 @@
       search.default = "searx";
       search.order = [
         "searx"
+        "Leta"
         "DuckDuckgo"
+        "Duckduckgohtml"
         "NixosPackage"
         "NixosOption"
         "HomemanagerSearch"
@@ -333,7 +332,7 @@
         "toolkit.telemetry.shutdownPingSender.enabled" = false;
         "toolkit.telemetry.updatePing.enabled" = false;
         "toolkit.cosmeticAnimations.enabled" = false;
-
+        "browser.display.use_system_colors" = false;
         ###https://github.com/pyllyukko/user.js
 
         # PREF: Disable Service Workers
@@ -574,7 +573,7 @@
 
         # PREF: Do not submit invalid URIs entered in the address bar to the default search engine
         # https://kb.mozillazine.org/Keyword.enabled
-        "keyword.enabled" = false; # false = no automatic search engine
+        "keyword.enabled" = true; # false = no automatic search engine
 
         # PREF: Don't trim HTTP off of URLs in the address bar.
         # https://bugzilla.mozilla.org/show_bug.cgi?id=665580
@@ -1272,7 +1271,7 @@
         # PREF: Don't fetch and permanently store favicons for Windows .URL shortcuts created by drag and drop
         # NOTICE: .URL shortcut files will be created with a generic icon
         # Favicons are stored as .ico files in $profile_dir\shortcutCache
-        "browser.shell.shortcutFavicons" = true;
+        "browser.shell.shortcutFavicons" = true; #this is enabled
 
         # PREF: Disable bookmarks backups (default: 15)
         # https://kb.mozillazine.org/Browser.bookmarks.max_backups
@@ -1287,7 +1286,7 @@
         # https://github.com/jonasstrehle/supercookie
         # https://kb.mozillazine.org/Browser.chrome.site_icons
         # https://blog.mozilla.org/security/2021/01/26/supercookie-protections/
-        "browser.chrome.site_icons" = false;
+        "browser.chrome.site_icons" = true; #this is enabled
 
         /**
          *****************************************************************************
@@ -1418,26 +1417,16 @@
         "bing".metaData.hidden = true;
         "google".metaData.hidden = true;
         "amazon.co.uk".metaData.hidden = true;
+        "amazondotcom-us".metaData.hidden = true;
         "ebay".metaData.hidden = true;
-        "Startpage" = {
-          urls = [
-            {
-              template = "https://www.startpage.com/do/search";
-              params = [
-                {
-                  name = "query";
-                  value = "{searchTerms}";
-                }
-              ];
-            }
-          ];
-          icon = "https://www.startpage.com/sp/cdn/favicons/favicon-32x32-gradient.png";
-          updateInterval = 24 * 60 * 60 * 1000; # every day
-          definedAliases = ["@st"];
+        "Leta" = {
+          name = "Leta";
+          urls = [{template = "https://leta.mullvad.net/search?q={searchTerms}&engine=google";}];
+          iconMapObj."16" = "https://leta.mullvad.net/favicon.ico";
         };
       };
       search.force = true;
-      search.default = "Startpage";
+      search.default = "Leta";
       userChrome = ''
         /* https://gist.github.com/chris-vecchio/d6a47fc733559752cc3a09937381d7ae */
         /* Firefox userChrome.css */
