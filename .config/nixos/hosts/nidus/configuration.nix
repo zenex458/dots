@@ -217,10 +217,6 @@
     seatd = {
       enable = true;
     };
-    mullvad-vpn = {
-      enable = true;
-      package = pkgs.unstable.mullvad;
-    };
     nscd.enableNsncd = true;
     gnome.gnome-keyring.enable = true;
     # journald.extraConfig = ''
@@ -396,12 +392,6 @@
           mode = "0700";
         }
         {
-          directory = "/etc/mullvad-vpn";
-          user = "root";
-          group = "root";
-          mode = "0755";
-        }
-        {
           directory = "/var/keys";
           user = "root";
           group = "root";
@@ -467,7 +457,7 @@
 
   networking.firewall = {
     #    nftables.enable = true;
-    enable = true;
+    enable = false;
     #    pingLimit = "--limit 1/minute --limit-burst 5";
     # allowedTCPPorts = [631 5353]; # printing
     # allowedUDPPorts = [631 5353]; # printing
@@ -501,7 +491,7 @@
     gc = {
       automatic = true;
       # runs twice a month on the 7th and the 21st
-      dates = "*-*-7,21";
+      dates = "weekly";
       options = "--delete-older-than 2d";
     };
   };
