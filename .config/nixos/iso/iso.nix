@@ -48,20 +48,22 @@
     git
     dmenu
     redshift
+    disko
     # (writeScriptBin "install.sh"'''')
+    xclip
   ];
 
   fonts = {
     fontconfig.enable = true;
     enableDefaultPackages = true;
-    packages = with pkgs; [
-      noto-fonts
-      noto-fonts-cjk-sans
-      noto-fonts-emoji
-      liberation_ttf
-      fira-code
-      fira-code-symbols
-    ];
+    #packages = with pkgs; [
+    #  noto-fonts
+    #  noto-fonts-cjk-sans
+    #  noto-fonts-emoji
+    #  liberation_ttf
+    #  fira-code
+    #  fira-code-symbols
+    #];
   };
 
   nix = {

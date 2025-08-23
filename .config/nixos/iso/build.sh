@@ -9,7 +9,7 @@ path=$(realpath result/iso/*.iso)
 
 read -rp "Copy iso to this directory?(y/n) " answ
 if [[ $answ == "y" ]]; then
-	cp "$path" "$PWD"
+	cp -f "$path" "$PWD"
 else
         ls
 fi

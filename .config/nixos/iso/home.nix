@@ -158,12 +158,12 @@
         "TERM" = "xterm-256color";
       };
 
-      font = {
-        size = 12.0;
-        normal.family = "firacode";
-        bold.family = "firacode";
-        italic.family = "firacode";
-      };
+      #font = {
+      #  size = 12.0;
+      #  normal.family = "firacode";
+      #  bold.family = "firacode";
+      #  italic.family = "firacode";
+      #};
 
       colors = {
         # Default colors
@@ -219,12 +219,22 @@
       PasswordManagerEnabled = false;
       NoDefaultBookmarks = true;
     };
+    profiles."test" = {
+      id = 1;
+      search.engines = {
+        "bing".metaData.hidden = true;
+        "google".metaData.hidden = true;
+        "amazon.co.uk".metaData.hidden = true;
+        "ebay".metaData.hidden = true;
+      };
+      search.force = true;
+    };
     profiles."work" = {
       search.engines = {
-        "Bing".metaData.hidden = true;
-        "Google".metaData.hidden = true;
-        "Amazon.co.uk".metaData.hidden = true;
-        "eBay".metaData.hidden = true;
+        "bing".metaData.hidden = true;
+        "google".metaData.hidden = true;
+        "amazon.co.uk".metaData.hidden = true;
+        "ebay".metaData.hidden = true;
         "Startpage" = {
           urls = [
             {
@@ -237,92 +247,81 @@
               ];
             }
           ];
-          iconUpdateURL = "https://www.startpage.com/sp/cdn/favicons/favicon-32x32-gradient.png";
-          updateInterval = 24 * 60 * 60 * 1000 * 30; #every month
+          icon = "https://www.startpage.com/sp/cdn/favicons/favicon-32x32-gradient.png";
+          updateInterval = 24 * 60 * 60 * 1000; # every day
           definedAliases = ["@st"];
         };
       };
       search.force = true;
       search.default = "Startpage";
       userChrome = ''
-        #   /* hides the native tabs */
-        #   #TabsToolbar {
-        #     visibility: collapse;
-        #   }
+        /* https://gist.github.com/chris-vecchio/d6a47fc733559752cc3a09937381d7ae */
+        /* Firefox userChrome.css */
 
-           # /* hides that annoying extension button */
-           # #unified-extensions-button {
-           #    display: none !important;
-           # }
+        /*** PROTON TABS TWEAKS ***/
+        /* SOURCE: modified version of https://www.userchrome.org/firefox-89-styling-proton-ui.html#tabstyler */
+        /* Make tab shape square */
+        #tabbrowser-tabs {
+          --user-tab-rounding: 0px;
+        }
 
-          /* https://gist.github.com/chris-vecchio/d6a47fc733559752cc3a09937381d7ae */
-          /* Firefox userChrome.css */
+        .tab-background {
+          border-radius: var(--user-tab-rounding) var(--user-tab-rounding) 0px 0px !important;
+          margin-block: 1px 0 !important;
+        }
 
-          /*** PROTON TABS TWEAKS ***/
-          /* SOURCE: modified version of https://www.userchrome.org/firefox-89-styling-proton-ui.html#tabstyler */
-          /* Make tab shape square */
-          #tabbrowser-tabs {
-            --user-tab-rounding: 0px;
-          }
+        /* Borders on tab scroll right and left buttons */
+        #scrollbutton-up, #scrollbutton-down { /* 6/10/2021 */
+          border-top-width: 1px !important;
+          border-bottom-width: 0 !important;
+        }
 
-          .tab-background {
-            border-radius: var(--user-tab-rounding) var(--user-tab-rounding) 0px 0px !important;
-            margin-block: 1px 0 !important;
-          }
+        /* Inactive tabs: Separator line style */
+        /* For light backgrounds */
+        .tabbrowser-tab:not([selected=true]):not([multiselected=true]):not([beforeselected-visible="true"]) .tab-background {
+          border-right: 1px solid var(--lwt-background-tab-separator-color, rgba(0, 0, 0, .20)) !important;
+        }
 
-          /* Borders on tab scroll right and left buttons */
-          #scrollbutton-up, #scrollbutton-down { /* 6/10/2021 */
-            border-top-width: 1px !important;
-            border-bottom-width: 0 !important;
-          }
+        /* For dark backgrounds */
+        [brighttext="true"] .tabbrowser-tab:not([selected=true]):not([multiselected=true]):not([beforeselected-visible="true"]) .tab-background {
+          border-right: 1px solid var(--lwt-background-tab-separator-color, var(--lwt-selected-tab-background-color, rgba(255, 255, 255, .20))) !important;
+        }
 
-          /* Inactive tabs: Separator line style */
-          /* For light backgrounds */
-          .tabbrowser-tab:not([selected=true]):not([multiselected=true]):not([beforeselected-visible="true"]) .tab-background {
-            border-right: 1px solid var(--lwt-background-tab-separator-color, rgba(0, 0, 0, .20)) !important;
-          }
+        .tabbrowser-tab:not([selected=true]):not([multiselected=true]) .tab-background {
+          border-radius: 0 !important;
+        }
 
-          /* For dark backgrounds */
-          [brighttext="true"] .tabbrowser-tab:not([selected=true]):not([multiselected=true]):not([beforeselected-visible="true"]) .tab-background {
-            border-right: 1px solid var(--lwt-background-tab-separator-color, var(--lwt-selected-tab-background-color, rgba(255, 255, 255, .20))) !important;
-          }
+        /* Remove padding between tabs */
+        .tabbrowser-tab {
+          padding-left: 0 !important;
+          padding-right: 0 !important;
+        }
 
-          .tabbrowser-tab:not([selected=true]):not([multiselected=true]) .tab-background {
-            border-radius: 0 !important;
-          }
+        /* Set tab fill color and text color */
+        #TabsToolbar {
+          background-color: #202340;
+          color: #F9F9FA;
+        }
+        /*** END PROTON TABS TWEAKS ***/
 
-          /* Remove padding between tabs */
-          .tabbrowser-tab {
-            padding-left: 0 !important;
-            padding-right: 0 !important;
-          }
+        /*** TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
+        /* SOURCE: https://www.userchrome.org/firefox-89-styling-proton-ui.html#menuspacing */
+        menupopup > menuitem, menupopup > menu {
+          padding-block: 4px !important;
+        }
 
-          /* Set tab fill color and text color */
-          #TabsToolbar {
-            background-color: #202340;
-            color: #F9F9FA;
-          }
-          /*** END PROTON TABS TWEAKS ***/
-
-          /*** TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
-          /* SOURCE: https://www.userchrome.org/firefox-89-styling-proton-ui.html#menuspacing */
-          menupopup > menuitem, menupopup > menu {
-            padding-block: 4px !important;
-          }
-
-          /* Tighten up hamburger menu spacing and square the edges */
-          :root {
-            --arrowpanel-menuitem-padding: 2px !important;
-            --arrowpanel-border-radius: 0px !important;
-            --arrowpanel-menuitem-border-radius: 0px !important;
-          }
-          /*** END TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
+        /* Tighten up hamburger menu spacing and square the edges */
+        :root {
+          --arrowpanel-menuitem-padding: 2px !important;
+          --arrowpanel-border-radius: 0px !important;
+          --arrowpanel-menuitem-border-radius: 0px !important;
+        }
+        /*** END TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
 
       '';
       settings = {
-        "sidebar.main.tools" = "	history,bookmarks";
-        "browser.startup.homepage" = "about:blank";
-        "browser.theme.content-theme" = 0;
+        # "network.trr.mode" = 3;
+        # "network.trr.uri" = "https://all.dns.mullvad.net/dns-query";
         "accessibility.force_disabled" = 1;
         "app.normandy.api_url" = "";
         "app.normandy.enabled" = false;
@@ -351,6 +350,7 @@
         "browser.ping-centre.telemetry" = false;
         "browser.preferences.moreFromMozilla" = false;
         "browser.search.isUS" = false;
+        "browser.casting.enabled" = false;
         "browser.search.region" = "GB";
         "browser.search.suggest.enabled" = false;
         "browser.shell.shortcutFavicons" = true;
@@ -421,7 +421,6 @@
         "signon.rememberSignons" = false;
         "toolkit.coverage.endpoint.base" = "";
         "toolkit.coverage.opt-out" = true;
-        "sidebar.animation.enabled" = false;
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
         "toolkit.telemetry.archive.enabled" = false;
         "toolkit.telemetry.bhrPing.enabled" = false;
@@ -439,9 +438,22 @@
         "browser.ml.chat.shortcuts" = false;
         "browser.ml.chat.sidebar" = false;
         "browser.ml.enable" = false;
-        "sidebar.verticalTabs" = true;
         "browser.tabs.hoverPreview.enabled" = false;
         "browser.tabs.inTitlebar" = 0;
+        "sidebar.animation.duration-ms" = 200;
+        "sidebar.animation.enabled" = false;
+        "sidebar.animation.expand-on-hover.duration-ms" = 400;
+        "sidebar.backupState" = "{\"panelOpen\":false,\"launcherWidth\":50,\"launcherExpanded\":false,\"launcherVisible\":true}";
+        "sidebar.expandOnHover" = false;
+        "sidebar.main.tools" = "history,bookmarks";
+        "sidebar.new-sidebar.has-used" = true;
+        "sidebar.old-sidebar.has-used" = false;
+        "sidebar.position_start" = true;
+        "sidebar.revamp" = true;
+        "sidebar.revamp.defaultLauncherVisible" = true;
+        "sidebar.revamp.round-content-area" = false;
+        "sidebar.verticalTabs" = true;
+        "sidebar.visibility" = "always-show";
       };
     };
   };
