@@ -457,7 +457,7 @@
 
   networking.firewall = {
     #    nftables.enable = true;
-    enable = false;
+    enable = true;
     #    pingLimit = "--limit 1/minute --limit-burst 5";
     # allowedTCPPorts = [631 5353]; # printing
     # allowedUDPPorts = [631 5353]; # printing
