@@ -12,7 +12,14 @@
       screenshot-path = null;
       hotkey-overlay.skip-at-startup = true;
       prefer-no-csd = true;
+      workspaces."1" = {name = "browser";};
+      workspaces."2" = {name = "emacs";};
+      workspaces."3" = {name = "vid";};
+      workspaces."4" = {name = "mu";};
       spawn-at-startup = [
+        {
+          command = ["foot -s"];
+        }
         {
           command = ["dunst"];
         }
@@ -97,6 +104,39 @@
         {
           matches = [
             {
+              app-id = "^firefox$";
+            }
+          ];
+          open-on-workspace = "browser";
+        }
+        {
+          matches = [
+            {
+              app-id = "^emacs$";
+            }
+          ];
+          open-on-workspace = "emacs";
+        }
+        {
+          matches = [
+            {
+              title = "^ncmpcpp$";
+            }
+          ];
+          open-on-workspace = "mu";
+          open-fullscreen = true;
+        }
+        {
+          matches = [
+            {
+              app-id = "^mpv$";
+            }
+          ];
+          open-on-workspace = "vid";
+        }
+        {
+          matches = [
+            {
               app-id = "^signal$";
             }
           ];
@@ -120,7 +160,8 @@
         }
       ];
       binds = with config.lib.niri.actions; {
-        "Mod+Return".action = spawn "foot" "tmux";
+        "Mod+Tab".action = spawn "show.sh";
+        "Mod+Return".action = spawn "footclient" "tmux";
         "Mod+P".action = spawn "bemenu-run";
         "Mod+Shift+Q".action = close-window;
         "Mod+H".action = focus-column-left;

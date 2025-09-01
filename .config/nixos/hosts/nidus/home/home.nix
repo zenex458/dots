@@ -471,6 +471,7 @@
       enable = true;
       mpdMusicDir = "/home/zenex/Music/Alt";
       settings = {
+        enable_window_title = "no";
         ncmpcpp_directory = "~/.config/ncmpcpp";
         mpd_crossfade_time = 1;
         header_visibility = "yes";
@@ -512,10 +513,45 @@
 
     htop = {
       enable = true;
-      settings = {
-        show_cpu_frequency = 1;
-        show_cpu_temperature = 1;
-      };
+      settings =
+        {
+          show_cpu_frequency = 1;
+          show_cpu_temperature = 1;
+          color_scheme = 6;
+          highlight_threads = 1;
+          delay = 10;
+          fields = with config.lib.htop.fields; [
+            PID
+            USER
+            PRIORITY
+            NICE
+            M_SIZE
+            M_RESIDENT
+            M_SHARE
+            STATE
+            PERCENT_CPU
+            PERCENT_MEM
+            TIME
+            ELAPSED
+            COMM
+            IO_RATE
+          ];
+        }
+        // (with config.lib.htop;
+          leftMeters [
+            (bar "CPU")
+            (bar "GPU")
+            (text "MemorySwap")
+          ])
+        // (with config.lib.htop;
+          rightMeters [
+            (text "PressureStallCPUSome")
+            (text "Tasks")
+            (text "Uptime")
+            (text "DiskIO")
+            (text "PressureStallIOFull")
+            (text "NetworkIO")
+          ]);
     };
 
     zathura = {
@@ -630,6 +666,7 @@
         ".config/emacs"
         ".config/feather"
         ".config/gh"
+        ".config/gurk"
         ".config/opensnitch"
         ".config/Signal"
         ".config/simplex"
@@ -637,13 +674,13 @@
         ".config/zotero"
         ".config/zsh"
         ".local/share/simplex"
+        ".local/share/gurk"
         ".local/state/wireplumber"
         ".mozilla"
         "Dev"
         "Documents"
         "Downloads"
         "Music"
-        "Sync"
       ];
       files = [".local/share/.bash_history"];
       allowOther = true;
@@ -662,9 +699,9 @@
       # https://viric.name/soft/ts/
       # https://www.gnu.org/software/parallel
       # imhex
+      # mpvScripts.mpris
       # kismet
       # macchanger
-      # mpvScripts.mpris
       # nodePackages.prettier
       # rlwrap # for the readline
       # sigrok-cli
@@ -722,6 +759,8 @@
       python3Full
       ripgrep
       ripgrep-all
+      gurk-rs
+      irssi
       rsync
       ruff
       sbctl
@@ -739,11 +778,14 @@
       samba4Full
       unzip
       usbutils
+      tarsnap
       vesktop
       virt-manager
       wdisplays
+      borgbackup
       wl-clip-persist
       wl-clipboard
+      jq
       wlr-randr
       wlsunset
       xdg-utils

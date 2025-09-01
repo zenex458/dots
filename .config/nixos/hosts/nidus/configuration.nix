@@ -128,7 +128,6 @@
   };
   niri-flake.cache.enable = true;
   programs = {
-    obs-studio.enable = true;
     niri = {
       enable = true;
       package = pkgs.niri-stable;
@@ -465,20 +464,20 @@
     allowedTCPPorts = [33573];
     allowedUDPPorts = [33573];
 
-    # allowedTCPPortRanges = [
-    #   {
-    #     from = 1714;
-    #     to = 1764;
-    #   }
-    #   # kdeconnect
-    # ];
-    # allowedUDPPortRanges = [
-    #   {
-    #     from = 1714;
-    #     to = 1764;
-    #   }
-    #   # kdeconnect
-    # ];
+    #allowedTCPPortRanges = [
+    #  {
+    #    from = 1714;
+    #    to = 1764;
+    #  }
+    #  # kdeconnect
+    #];
+    #allowedUDPPortRanges = [
+    #  {
+    #    from = 1714;
+    #    to = 1764;
+    #  }
+    #  # kdeconnect
+    #];
   };
   nix = {
     nixPath = ["nixpkgs=${inputs.nixpkgs}"];
