@@ -1,31 +1,41 @@
 #!/usr/bin/env bash
+
+isservice=$(systemctl --user is-enabled mpd.service)
+moudir="/home/zenex/Music"
+
+if [ "$isservice" == "linked" ]; then
+    mpdstartcmd="systemctl --user restart mpd.service"
+    mpdkillcmd="systemctl --user stop mpd.service"
+else
+    mpdstartcmd="mpd"
+    mpdkillcmd="mpd --kill"
+fi
+
 mu() {
-	moudir="/home/zenex/Music"
-	dirs=$(ls -A $moudir 2>/dev/null | wc -l) #change to find
-	if [ "$dirs" -eq 0 ]; then
+	dirs=$(find "$moudir" -maxdepth 1 2>/dev/null | wc -l)
+	if [ "$dirs" -eq 5 ] || [ "$dirs" -eq 1 ] ; then
 		printf '%s\n%s\n' "SD Card not mounted." "Mounting...."
 		sudo mount -m -v -o rw,noexec,uid=1000,gid=1000 UUID=3961-3035 "$moudir"
 		echo "Starting mpd and ncmpcpp"
 	fi
-	if [ -f ~/.local/share/mpd/mpd.pid ]; then
-		ncmpcpp
-	else
-		mpd || systemctl --user restart mpd.service && ncmpcpp
-	fi
+	$mpdstartcmd
+  footclient -T ncmpcpp ncmpcpp >/dev/null &
 }
 
-helpp() { #fix this to one printf statement?
-	printf "Usage: sel [OPTIONS]\n"
-	printf "Options:\n"
-	printf "\t-r\t Unmount and kill mpd and print lsblk for verification\n"
-	printf "\t-h\t Show this help message.\n"
+_help() {
+	printf "Usage:\n mu [OPTION]\n
+Options:
+ -r\t Unmount and kill mpd and print lsblk for verification
+ -h\t Show this help message.\n"
 }
 
 if [ -z "$1" ]; then
 	mu
 elif [ "$1" = "-r" ]; then
   pkill ncmpcpp
-	mpc pause && mpd --kill || systemctl --user stop mpd.service && sudo umount -v /home/zenex/Music && lsblk ##add a awk line or something to check if mount point is unmounted
+	mpc pause >/dev/null
+ $mpdkillcmd 2>/dev/null
+ sudo umount -v "$moudir"
 else
-	helpp
+	_help
 fi
