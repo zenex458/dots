@@ -15,7 +15,6 @@
     enable = true;
     image = ./Dlowsat.png;
     polarity = "dark";
-    # cursor.name = "plan9";
     iconTheme = {
       enable = true;
       package =

@@ -161,6 +161,7 @@
     bash.promptInit = ''
       if [ "$LOGNAME" = root ] || [ "$(id -u)" -eq 0 ]; then
       	PS1="\[\e[01;31m\]\[\u@\h:\w\n# \]\\[\e[00m\]"
+        #PS1="\[\033[01;31m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[01;34m\]#\033[00m\] "
       else
       	PS1="[\w]\n$ "
       fi
@@ -199,6 +200,7 @@
   };
 
   services = {
+    netbird = {enable = false;};
     tailscale = {
       enable = true;
       useRoutingFeatures = "both";
@@ -215,6 +217,10 @@
     #];
     seatd = {
       enable = true;
+    };
+    mullvad-vpn = {
+      enable = false;
+      package = pkgs.unstable.mullvad;
     };
     nscd.enableNsncd = true;
     gnome.gnome-keyring.enable = true;

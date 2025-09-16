@@ -47,7 +47,6 @@
         modules = [./hosts/nidus/configuration.nix];
       };
 
-
       tetanus = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs;
@@ -55,8 +54,6 @@
         system = "x86_64-linux";
         modules = [./hosts/tetanus/configuration.nix];
       };
-
-
     };
   };
 }

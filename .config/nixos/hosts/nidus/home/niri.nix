@@ -56,7 +56,10 @@
         warp-mouse-to-focus.enable = true;
         focus-follows-mouse.enable = true;
       };
-      cursor.hide-when-typing = true;
+      cursor = {
+        theme = "plan9";
+        hide-when-typing = true;
+      };
       outputs = {
         "eDP-1" = {
           scale = 1;

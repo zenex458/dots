@@ -168,7 +168,7 @@
           ui = "auto";
         };
         branch = {
-          sort = "-comitterdate";
+          sort = "committerdate";
         };
         help = {
           autocorrect = "prompt";
@@ -441,6 +441,8 @@
         ns = "niri-session";
         bfs = "bfs -exclude -name .git -exclude -name .ccls-cache -exclude -name '*env*'";
         locate = "locate -i -d /var/cache/locate/locatedb";
+        conng = "iwctl station wlan0 scan && iwctl station wlan0 get-networks";
+        conn = "iwctl station wlan0 connect";
       };
       sessionVariables = {
         XDG_CONFIG_HOME = "$HOME/.config";
@@ -456,7 +458,7 @@
         MOZ_ENABLE_WAYLAND = 1;
         QT_QPA_PLATFORM = "wayland;xcb";
         GDK_BACKEND = "wayland";
-        _JAVA_AWT_WM_NONREPARENTING = 1;
+        #_JAVA_AWT_WM_NONREPARENTING = 1;
         SAL_USE_VCLPLUGIN = "gtk3";
         XCURSOR_SIZE = 20;
         BEMENU_OPTS = ''-i --fn 'Ttyp0' -B '1' -f -p '>' -n --tb '#bdae93' --tf '#060606' --fb '#060606' --ff '#bdae93' --nb '#060606' --nf '#bdae93' --ab '#060606' --af '#bdae93' --sb '#060606' --sf '#bdae93' --cb '#bdae93' --cf '#bdae93' --hb '#bdae93' --hf '#060606' --sb '#bdae93' --sf '#060606' --scb '#060606' --scf '#bdae93' --bdr '#bdae93' '';
@@ -677,6 +679,7 @@
         ".local/share/gurk"
         ".local/state/wireplumber"
         ".mozilla"
+        ".icons"
         "Dev"
         "Documents"
         "Downloads"
@@ -708,6 +711,7 @@
       # android-tools
       # gojq
       # wl-color-picker
+      autopsy
       age
       alacritty
       alejandra
@@ -793,7 +797,12 @@
       xmlformat
       xwayland-satellite
       yt-dlp
+      yewtube
+      discordo
+      gns3-gui #an alternative to packettracer
+      #ciscoPacketTracer8
       zip
+      tcpdump
       zotero
       (aspellWithDicts (
         dicts:

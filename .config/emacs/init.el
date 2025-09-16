@@ -57,6 +57,9 @@
 	        (css-mode . css-ts-mode)
 	        (python-mode . python-ts-mode)))
 
+  (setq browse-url-browser-function 'browse-url-generic
+	      browse-url-generic-program "firefox")
+  ;; (setq browse-url-generic-args '("-P" "priv"))
   (require 'updnix)
   (require 'upmu)
   :custom
@@ -87,9 +90,6 @@
   (fill-column 80)
   (confirm-kill-emacs 'y-or-n-p)
   (dired-listing-switches "-AlF --si -Gg --group-directories-first")
-  (browse-url-browser-function 'browse-url-generic
-			                         browse-url-generic-program '"firefox")
-  ;; browse-url-generic-args '("-P" "priv"))
   (minibuffer-prompt-properties '(read-only t point-entered minibuffer-avoid-prompt face minibuffer-prompt))
   (completion-in-region-function #'consult-completion-in-region)
   (enable-recursive-minibuffers t)
