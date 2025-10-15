@@ -2,6 +2,7 @@
 
 (use-package emacs
   :init
+  (setq-default org-time-stamp-custom-formats '("<%A %d/%m/%Y>" . "<%A %d/%m/%Y %H:%M>"))
   (defalias 'yes-or-no-p 'y-or-n-p)
   (define-prefix-command 'vterm-n-map)
   (define-prefix-command 'avy-n-map);; add this? http://yummymelon.com/devnull/announcing-casual-avy.html
@@ -78,6 +79,7 @@
   ;; (setq ffap-machine-p-known 'reject)
   (TeX-auto-save t)
   (TeX-parse-self t)
+  (TeX-view-program-selection '((output-pdf "PDF Tools")))
   (ring-bell-function 'ignore)
   (visible-bell nil)
   (defvar ispell-dictionary "british")
@@ -114,7 +116,7 @@
   (electric-indent-mode)
   (tab-always-indent 'complete)
   (completion-cycle-threshold 1)
-  (text-mode-ispell-word-completion nil)
+  ;;(text-mode-ispell-word-completion nil)
   (read-extended-command-predicate #'command-completion-default-include-p)
   (password-cache-expiry 3600)
   (history-length 2000)
@@ -143,7 +145,8 @@
   (org-todo-keyword-faces
    '(("TODO" .  "#bdae93" )("IN PROGRESS" . "#BD8700") ("CANCELED" . "red")))
   (org-display-custom-times t)
-  (org-time-stamp-custom-formats '("<%A %d/%m/%Y>" . "<%A %d %B %Y %H:%M>"))
+  (org-icalendar-use-scheduled '(event-if-todo-not-done))
+  (org-icalendar-use-deadline '(event-if-todo-not-done))
   :hook
   ((after-init . display-time-mode)
    (after-init . display-battery-mode)
@@ -339,8 +342,9 @@
 	      '("xmlformat"))
   (add-to-list 'apheleia-mode-alist '(nxml-mode . xmlformat))
   (setf (alist-get 'prettier apheleia-formatters)
-	      '("prettier"))
+	      '("yamlfmt" "--"))
   (add-to-list 'apheleia-mode-alist '(css-mode . prettier))
+  (add-to-list 'apheleia-mode-alist '(yaml-ts-mode . prettier))
   (setf (alist-get 'ormolu apheleia-formatters)
 	      '("ormolu" "--stdin-input-file" "--"))
   (add-to-list 'apheleia-mode-alist '(haskell-mode . ormolu)))
@@ -373,6 +377,16 @@
 (use-package nix-ts-mode
   :mode "\\.nix\\'"
   :hook ((nix-ts-mode . (lambda ()(electric-pair-mode -1)))));;surely theres a better way?
+
+
+(use-package yaml-ts-mode
+  :mode "\\.yml\\'")
+
+
+(use-package pipenv
+  :hook (python-ts-mode . pipenv-mode))
+
+
 
 ;; https://github.com/promethial/.emacs.d/blob/c71732112300f1dc294769821533a8627440b282/init.el#L326
 (use-package haskell-mode)
@@ -407,6 +421,7 @@
   (add-to-list 'completion-at-point-functions #'cape-history)
   (add-to-list 'completion-at-point-functions #'cape-dict)
   (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-tex)
   (completion-at-point-functions
 	 (mapcar #'cape-company-to-capf
 		       (list #'company-files #'company-keywords #'company-dabbrev))))
@@ -420,11 +435,18 @@
 	       (c-ts-mode . eglot-ensure)
  	       (csharp-ts-mode . eglot-ensure)
 	       (python-ts-mode . eglot-ensure)
+	       (LaTeX-mode . eglot-ensure)
 	       (nix-ts-mode . eglot-ensure))
   :custom
   (eglot-autoshutdown t)
+  :config
   (add-to-list 'eglot-server-programs
-    	         `(nix-ts-mode  . ("nixd"))))
+    	         `(nix-ts-mode  . ("nixd")))
+  (add-to-list 'eglot-server-programs
+               `(LaTeX-mode  . ("texlab")))
+  )
+
+
 
 (use-package flymake
   :hook ((emacs-lisp-mode . flymake-mode)
@@ -545,14 +567,14 @@
 ;;  (display-buffer-base-action '(display-buffer-below-selected))
 ;;  (edwina-mode-line-format ""))
 
-(use-package evil
-  :hook (prog-mode . evil-local-mode))
+;; (use-package evil
+;;   :hook (prog-mode . evil-local-mode))
 
-(use-package key-chord
-  :hook (evil-local-mode . key-chord-mode)
-  :config
-  (setq key-chord-two-keys-delay 0.3)
-  (key-chord-define evil-insert-state-map "jk" 'evil-normal-state))
+;; (use-package key-chord
+;;   :hook (evil-local-mode . key-chord-mode)
+;;   :config
+;;   (setq key-chord-two-keys-delay 0.3)
+;;   (key-chord-define evil-insert-state-map "jk" 'evil-normal-state))
 
 (setq mode-line-position (list " (%l:%C %P %I) "))
 ;;https://www.emacs.dyerdwelling.family/emacs/20230902114449-emacs--my-evolving-modeline/
