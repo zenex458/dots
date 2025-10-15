@@ -197,7 +197,7 @@
         }
       ];
       animations = [{enabled = false;}];
-      background = [{color = "rgb(0, 0, 0)";}];
+      background = [{color = "rgb(6, 6, 6)";}];
       input-field = [
         {
           size = "300, 50";
@@ -209,9 +209,9 @@
           fade_on_empty = true;
           font_color = "rgb(202, 211, 245)";
           # inner_color = "rgb(91, 96, 120)";
-          inner_color = "rgb(0, 0, 0)";
+          inner_color = "rgb(6, 6, 6)";
           # outer_color = "rgb(24, 25, 38)";
-          outer_color = "rgb(0, 0, 0)";
+          outer_color = "rgb(6, 6, 6)";
           outline_thickness = 2;
           placeholder_text = "";
           shadow_passes = 0;

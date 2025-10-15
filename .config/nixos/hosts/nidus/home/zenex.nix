@@ -38,8 +38,8 @@
       };
 
       sansSerif = {
-        package = pkgs.uw-ttyp0;
-        name = "Ttyp0";
+        package = pkgs.iosevka-bin;
+        name = "Iosevka Medium";
       };
 
       monospace = {
