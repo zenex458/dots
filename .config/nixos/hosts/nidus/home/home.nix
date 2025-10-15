@@ -224,6 +224,7 @@
           zoxide
           vlf
           yasnippet
+          pipenv
         ];
       extraConfig = ''
         (use-package pdf-tools
@@ -441,8 +442,7 @@
         ns = "niri-session";
         bfs = "bfs -exclude -name .git -exclude -name .ccls-cache -exclude -name '*env*'";
         locate = "locate -i -d /var/cache/locate/locatedb";
-        conng = "iwctl station wlan0 scan && iwctl station wlan0 get-networks";
-        conn = "iwctl station wlan0 connect";
+        rbackup = "restic -r sftp:restic-backup-host:/home/ubuntu/data/Inc_Backup backup ~/Documents ~/.ssh ~/.gnupg";
       };
       sessionVariables = {
         XDG_CONFIG_HOME = "$HOME/.config";
@@ -613,7 +613,7 @@
       settings = {
         main = {
           term = "xterm-256color";
-          font = "Ttyp0:style=Regular:size=10";
+          font = "ttyp0:style=regular:size=10";
           dpi-aware = "no";
         };
         mouse = {
@@ -679,6 +679,7 @@
         ".local/share/gurk"
         ".local/state/wireplumber"
         ".mozilla"
+        ".thunderbird"
         ".icons"
         "Dev"
         "Documents"
@@ -705,13 +706,13 @@
       # mpvScripts.mpris
       # kismet
       # macchanger
-      # nodePackages.prettier
       # rlwrap # for the readline
       # sigrok-cli
       # android-tools
       # gojq
       # wl-color-picker
       autopsy
+      sleuthkit
       age
       alacritty
       alejandra
@@ -756,7 +757,6 @@
       mupdf
       nixd
       nodePackages.bash-language-server
-      nodePackages.prettier
       p7zip
       pandoc
       pulsemixer
@@ -784,9 +784,10 @@
       usbutils
       tarsnap
       vesktop
-      virt-manager
+      gnumake
+      pcsc-tools
       wdisplays
-      borgbackup
+      restic
       wl-clip-persist
       wl-clipboard
       jq
@@ -794,16 +795,26 @@
       wlsunset
       xdg-utils
       virt-viewer
+      nitrokey-app2
+      pynitrokey
       xmlformat
       xwayland-satellite
       yt-dlp
       yewtube
       discordo
       gns3-gui #an alternative to packettracer
+      hugo
+      go
+      pipenv
+      thunderbird
       #ciscoPacketTracer8
+      gimp3-with-plugins
       zip
       tcpdump
+      texlab
+      flashprog
       zotero
+      yamlfmt
       (aspellWithDicts (
         dicts:
           with dicts; [
