@@ -10,7 +10,7 @@
     inputs.disko.nixosModules.disko
     inputs.lanzaboote.nixosModules.lanzaboote
     inputs.niri.nixosModules.niri
-    ./hardened.nix
+    #    ./hardened.nix
     ./disko-config.nix
     ./hardware-configuration.nix
     ./pkgs.nix
@@ -95,6 +95,7 @@
   };
 
   hardware = {
+    nitrokey.enable = true;
     graphics.enable = true;
     bluetooth = {
       enable = false;
@@ -128,6 +129,12 @@
   };
   niri-flake.cache.enable = true;
   programs = {
+    ghidra = {
+      enable = true;
+      gdb = true;
+    };
+    obs-studio.enable = true;
+    virt-manager.enable = true;
     niri = {
       enable = true;
       package = pkgs.niri-stable;
@@ -161,7 +168,6 @@
     bash.promptInit = ''
       if [ "$LOGNAME" = root ] || [ "$(id -u)" -eq 0 ]; then
       	PS1="\[\e[01;31m\]\[\u@\h:\w\n# \]\\[\e[00m\]"
-        #PS1="\[\033[01;31m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[01;34m\]#\033[00m\] "
       else
       	PS1="[\w]\n$ "
       fi
@@ -200,7 +206,12 @@
   };
 
   services = {
-    netbird = {enable = false;};
+    pcscd = {enable = true;};
+    netbird = {
+      enable = true;
+      package = pkgs.unstable.netbird;
+    };
+
     tailscale = {
       enable = true;
       useRoutingFeatures = "both";
@@ -212,9 +223,10 @@
       interval = "hourly";
       pruneNames = [".bzr" ".cache" ".git" ".hg" ".svn" ".ccls-cache" "*env*"];
     };
-    #udev.packages = [
-    #  pkgs.android-udev-rules
-    #];
+    udev.packages = [
+      #  pkgs.android-udev-rules
+      pkgs.nitrokey-udev-rules
+    ];
     seatd = {
       enable = true;
     };
@@ -224,10 +236,10 @@
     };
     nscd.enableNsncd = true;
     gnome.gnome-keyring.enable = true;
-    # journald.extraConfig = ''
-    #   # SystemMaxUse=250M
-    #   MaxRetentionSec=1month
-    # '';
+    #journald.extraConfig = ''
+    #  # SystemMaxUse=250M
+    #  MaxRetentionSec=1month
+    #'';
     logind = {lidSwitch = "suspend";};
     #with hardened profile this is needed otherwise nix will not build
     #    logrotate.checkConfig = false;
@@ -390,6 +402,7 @@
         "/var/lib/lxd/"
         "/var/lib/libvirt/"
         "/var/cache/locate/"
+
         {
           directory = "/var/lib/tailscale";
           user = "root";
@@ -402,6 +415,10 @@
           group = "root";
           mode = "0700";
         }
+      ];
+
+      files = [
+        "/etc/machine-id"
       ];
 
       users.zenex = {
@@ -428,7 +445,14 @@
   };
 
   fonts = {
-    packages = with pkgs; [iosevka-bin vistafonts uw-ttyp0];
+    packages = with pkgs; [
+      iosevka-bin
+      vistafonts
+      uw-ttyp0
+      noto-fonts
+      noto-fonts-cjk-sans
+      cozette
+    ];
     fontconfig = {
       antialias = true;
       hinting.enable = true;
@@ -438,7 +462,16 @@
   };
 
   security = {
-    pam.services.hyprlock = {};
+    pam = {
+      services.hyprlock = {};
+      u2f = {
+        enable = true;
+        settings = {
+          authfile = "/home/zenex/Documents/u2f_keys";
+          cue = true;
+        };
+      };
+    };
     #    apparmor = {
     #      enable = true;
     #    };
