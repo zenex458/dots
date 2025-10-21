@@ -18,7 +18,7 @@
   boot = {
     # kernel.sysctl."vm.swappiness" = 30;
     supportedFilesystems = ["ntfs"];
-    #kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages_latest;
     #loader.systemd-boot.enable = true;
     loader.systemd-boot.enable = lib.mkForce false;
     lanzaboote = {
@@ -129,9 +129,9 @@
   };
   niri-flake.cache.enable = true;
   programs = {
-    ghidra = {
+    nix-ld = {
       enable = true;
-      gdb = true;
+      libraries = [pkgs.libpthread-stubs pkgs.ell pkgs.xorg.libxshmfence pkgs.xorg.libXScrnSaver pkgs.xprintidle-ng pkgs.libGL pkgs.pipewire];
     };
     obs-studio.enable = true;
     virt-manager.enable = true;
@@ -208,7 +208,7 @@
   services = {
     pcscd = {enable = true;};
     netbird = {
-      enable = true;
+      enable = false;
       package = pkgs.unstable.netbird;
     };
 
@@ -405,6 +405,12 @@
 
         {
           directory = "/var/lib/tailscale";
+          user = "root";
+          group = "root";
+          mode = "0700";
+        }
+        {
+          directory = "/var/lib/netbird";
           user = "root";
           group = "root";
           mode = "0700";
