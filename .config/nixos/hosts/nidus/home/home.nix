@@ -273,7 +273,8 @@
       completionInit = "autoload -Uz compinit";
       enableCompletion = true;
       autocd = true;
-      defaultKeymap = "viins";
+      # defaultKeymap = "viins";
+      defaultKeymap = "emacs";
       sessionVariables = config.programs.bash.sessionVariables;
       history = {
         ignoreAllDups = true;
@@ -301,11 +302,11 @@
           src = pkgs.zsh-command-time;
           file = "share/zsh/plugins/command-time/command-time.plugin.zsh";
         }
-        {
-          name = "zsh-vi-mode";
-          src = pkgs.zsh-vi-mode;
-          file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
-        }
+        # {
+        #   name = "zsh-vi-mode";
+        #   src = pkgs.zsh-vi-mode;
+        #   file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
+        # }
       ];
       initContent = ''
         PROMPT="[%~]''\nλ "
@@ -340,9 +341,9 @@
            	zle reset-prompt
            }
            zle -N fzy-history-widget
-           #bindkey '^R' fzy-history-widget
-           zvm_bindkey vicmd '^R' fzy-history-widget
-           zvm_bindkey viins '^R' fzy-history-widget
+           bindkey '^R' fzy-history-widget
+           # zvm_bindkey vicmd '^R' fzy-history-widget
+           # zvm_bindkey viins '^R' fzy-history-widget
         fi
         cd() {
         	if [ -z "$#" ]; then
@@ -354,7 +355,7 @@
         		ls -h -A --classify=auto --color=auto --group-directories-first
         	fi
         }
-        ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
+        # ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
       '';
     };
 
@@ -443,6 +444,7 @@
         bfs = "bfs -exclude -name .git -exclude -name .ccls-cache -exclude -name '*env*'";
         locate = "locate -i -d /var/cache/locate/locatedb";
         rbackup = "restic -r sftp:restic-backup-host:/home/ubuntu/data/Inc_Backup backup ~/Documents ~/.ssh ~/.gnupg";
+        dc = "docker compose";
       };
       sessionVariables = {
         XDG_CONFIG_HOME = "$HOME/.config";
@@ -675,11 +677,11 @@
         ".config/vesktop"
         ".config/zotero"
         ".config/zsh"
+        ".config/netbird"
         ".local/share/simplex"
         ".local/share/gurk"
         ".local/state/wireplumber"
         ".mozilla"
-        ".thunderbird"
         ".icons"
         "Dev"
         "Documents"
@@ -757,13 +759,13 @@
       mupdf
       nixd
       nodePackages.bash-language-server
+      amdgpu_top
       p7zip
       pandoc
       pulsemixer
       python3Full
       ripgrep
       ripgrep-all
-      gurk-rs
       irssi
       rsync
       ruff
@@ -801,18 +803,18 @@
       xwayland-satellite
       yt-dlp
       yewtube
-      discordo
       gns3-gui #an alternative to packettracer
       hugo
+      cutter
+      moreutils
+      gdb
       go
       pipenv
-      thunderbird
       #ciscoPacketTracer8
       gimp3-with-plugins
       zip
       tcpdump
       texlab
-      flashprog
       zotero
       yamlfmt
       (aspellWithDicts (
