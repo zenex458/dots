@@ -8,6 +8,7 @@
 }: {
   programs.niri = {
     settings = {
+      xwayland-satellite.enable = true;
       gestures.hot-corners.enable = false;
       screenshot-path = null;
       hotkey-overlay.skip-at-startup = true;
@@ -34,9 +35,6 @@
         }
         {
           command = ["cliphist" "wipe"];
-        }
-        {
-          command = ["xwayland-satellite"];
         }
       ];
       environment = {
