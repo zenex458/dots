@@ -256,7 +256,7 @@
     };
 
     chromium = {
-      enable = false;
+      enable = true;
       package = pkgs.ungoogled-chromium.override {enableWideVine = true;};
     };
 
@@ -398,9 +398,9 @@
         }
       '';
       shellAliases = {
-        upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --use-remote-sudo";
+        upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --use-remote-sudo --log-format multiline-with-logs";
+        updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --use-remote-sudo -v --show-trace --log-format multiline-with-logs";
         updf = "nh os switch -a";
-        updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --use-remote-sudo -v --show-trace";
         updflake = "nix flake update --commit-lock-file";
         listnixgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
         remoldgen = "nix-collect-garbage --delete-older-than 2d && sudo nix-collect-garbage --delete-older-than 2d && upd";
