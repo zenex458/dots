@@ -19,6 +19,7 @@
     impermanence.url = "github:nix-community/impermanence";
     stylix.url = "github:nix-community/stylix/release-25.05";
     niri.url = "github:sodiboo/niri-flake";
+    niri.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   # For more information about well-known outputs checked by `nix flake check`:
