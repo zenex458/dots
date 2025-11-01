@@ -28,6 +28,14 @@
           withKeePassKeeShare = false;
           withKeePassSSHAgent = false;
         };
+
+        inherit
+          (prev.lixPackageSets.stable)
+          nixpkgs-review
+          nix-eval-jobs
+          nix-fast-build
+          colmena
+          ;
       })
       inputs.niri.overlays.niri
     ];

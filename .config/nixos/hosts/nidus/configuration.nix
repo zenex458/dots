@@ -127,9 +127,8 @@
       rootless.setSocketVariable = true;
     };
   };
-  niri-flake.cache.enable = true;
+  niri-flake.cache.enable = false;
   programs = {
-    steam.enable = true;
     ghidra.enable = true;
     nix-ld = {
       enable = true;
@@ -139,7 +138,7 @@
     virt-manager.enable = true;
     niri = {
       enable = true;
-      package = pkgs.niri-stable;
+      package = pkgs.niri;
     };
     # adb.enable = true;
     localsend.enable = true;
@@ -527,12 +526,13 @@
     #];
   };
   nix = {
+    package = pkgs.lix;
     nixPath = ["nixpkgs=${inputs.nixpkgs}"];
     settings = {
       experimental-features = ["nix-command" "flakes"];
       auto-optimise-store = true;
       allowed-users = ["@wheel"];
-      download-buffer-size = 524288000;
+      # download-buffer-size = 524288000;
     };
     gc = {
       automatic = true;

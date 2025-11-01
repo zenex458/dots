@@ -256,7 +256,7 @@
     };
 
     chromium = {
-      enable = true;
+      enable = false;
       package = pkgs.ungoogled-chromium.override {enableWideVine = true;};
     };
 
@@ -796,6 +796,7 @@
       trash-cli
       tree
       unstable.simplex-chat-desktop
+      xwayland-satellite
       unzip
       usbutils
       vesktop

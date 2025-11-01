@@ -8,7 +8,10 @@
 }: {
   programs.niri = {
     settings = {
-      xwayland-satellite.enable = false;
+      xwayland-satellite = {
+        enable = true;
+        path = lib.getExe pkgs.xwayland-satellite;
+      };
       gestures.hot-corners.enable = false;
       screenshot-path = null;
       hotkey-overlay.skip-at-startup = true;
