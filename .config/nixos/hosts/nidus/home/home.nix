@@ -180,7 +180,7 @@
       package = pkgs.emacs-pgtk; #use just `emacs' if you want it the daemon to survive after the gui terminates
       #package = pkgs.emacs;
       extraPackages = epkgs:
-        with pkgs.unstable.emacsPackages; [
+        with pkgs.unstable.emacs.pkgs; [
           vterm
           pdf-tools
           multi-vterm
@@ -231,7 +231,7 @@
             :magic ("%PDF" . pdf-view-mode)
             :hook (pdf-view-mode . pdf-view-themed-minor-mode)
             :config
-              (setq pdf-info-epdfinfo-program "${pkgs.emacsPackages.pdf-tools}/share/emacs/site-lisp/elpa/pdf-tools-20240429.407/epdfinfo")
+              (setq pdf-info-epdfinfo-program "${pkgs.emacs.pkgs.pdf-tools}/share/emacs/site-lisp/elpa/pdf-tools-20240429.407/epdfinfo")
              (pdf-tools-install))
       '';
     };
@@ -399,6 +399,7 @@
       '';
       shellAliases = {
         upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --use-remote-sudo";
+        updf = "nh os switch -a";
         updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --use-remote-sudo -v --show-trace";
         updflake = "nix flake update --commit-lock-file";
         listnixgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
@@ -431,8 +432,8 @@
         mm = "sudo mount -m -v -o rw,uid=1000,gid=1000";
         sysdlist = "systemctl list-unit-files --type=service --state=enabled";
         rsy = "rsync -ahPzRcL --info=progress2 --stats --exclude=.ccls-cache --exclude=sessionData --exclude=elfeed --exclude=eln-cache --exclude=Signal --exclude=simplex --exclude=chromium --exclude=.mozilla --exclude=.local --exclude=.cache --exclude=.nix-defexpr --exclude=.nix-profile --exclude=.java --exclude=yyt --exclude=iso --exclude=Music --filter=':- .gitignore'";
-        del = "trash";
-        dele = "trash empty --all";
+        trp = "trash-put";
+        tre = "trash-empty";
         dow = "aria2c -c -s 16 -x 16 -k 1M -j 1";
         chkfstab = "sudo findmnt --verify";
         logs = "journalctl -S today -o verbose -r -x";
@@ -460,7 +461,7 @@
         MOZ_ENABLE_WAYLAND = 1;
         QT_QPA_PLATFORM = "wayland;xcb";
         GDK_BACKEND = "wayland";
-        #_JAVA_AWT_WM_NONREPARENTING = 1;
+        _JAVA_AWT_WM_NONREPARENTING = 1;
         SAL_USE_VCLPLUGIN = "gtk3";
         XCURSOR_SIZE = 20;
         BEMENU_OPTS = ''-i --fn 'Ttyp0' -B '1' -f -p '>' -n --tb '#bdae93' --tf '#060606' --fb '#060606' --ff '#bdae93' --nb '#060606' --nf '#bdae93' --ab '#060606' --af '#bdae93' --sb '#060606' --sf '#bdae93' --cb '#bdae93' --cf '#bdae93' --hb '#bdae93' --hf '#060606' --sb '#bdae93' --sf '#060606' --scb '#060606' --scf '#bdae93' --bdr '#bdae93' '';
@@ -670,7 +671,6 @@
         ".config/emacs"
         ".config/feather"
         ".config/gh"
-        ".config/gurk"
         ".config/opensnitch"
         ".config/Signal"
         ".config/simplex"
@@ -679,7 +679,6 @@
         ".config/zsh"
         ".config/netbird"
         ".local/share/simplex"
-        ".local/share/gurk"
         ".local/state/wireplumber"
         ".mozilla"
         ".icons"
@@ -713,12 +712,13 @@
       # android-tools
       # gojq
       # wl-color-picker
-      autopsy
-      sleuthkit
+      #ciscoPacketTracer8
+      #yewtube
       age
       alacritty
       alejandra
       alsa-utils
+      amdgpu_top
       anki-bin
       aria2
       astyle
@@ -729,7 +729,7 @@
       ccls
       cliphist
       cryptsetup
-      pciutils
+      cutter
       dig
       exfatprogs
       exif
@@ -739,7 +739,11 @@
       fuse3
       fzy
       gcc
+      gdb
       gh
+      gimp3-with-plugins
+      gns3-gui #an alternative to packettracer
+      gnumake
       grim
       html-tidy
       htop
@@ -747,6 +751,8 @@
       hunspellDicts.en-gb-large
       imagemagick
       imv
+      irssi
+      jq
       keepassxc
       libnotify
       libreoffice
@@ -754,69 +760,57 @@
       magic-wormhole
       man-pages
       man-pages-posix
+      moreutils
       mpc-cli
       mpv
       mupdf
+      nautilus
+      nitrokey-app2
       nixd
       nodePackages.bash-language-server
-      amdgpu_top
       p7zip
       pandoc
+      pciutils
+      pcsc-tools
+      pipenv
       pulsemixer
+      # pynitrokey
       python3Full
+      restic
       ripgrep
       ripgrep-all
-      irssi
       rsync
       ruff
+      samba4Full
       sbctl
-      nautilus
       shellcheck
       shfmt
       signal-desktop
       slurp
       syncthing
+      tarsnap
+      tcpdump
+      texlab
       texliveFull
       traceroute
-      trashy
+      trash-cli
       tree
       unstable.simplex-chat-desktop
-      samba4Full
       unzip
       usbutils
-      tarsnap
       vesktop
-      gnumake
-      pcsc-tools
+      virt-viewer
       wdisplays
-      restic
       wl-clip-persist
       wl-clipboard
-      jq
       wlr-randr
       wlsunset
       xdg-utils
-      virt-viewer
-      nitrokey-app2
-      pynitrokey
       xmlformat
-      xwayland-satellite
-      yt-dlp
-      yewtube
-      gns3-gui #an alternative to packettracer
-      hugo
-      cutter
-      moreutils
-      gdb
-      go
-      pipenv
-      #ciscoPacketTracer8
-      gimp3-with-plugins
-      zip
-      tcpdump
-      texlab
-      zotero
       yamlfmt
+      yt-dlp
+      zip
+      zotero
       (aspellWithDicts (
         dicts:
           with dicts; [

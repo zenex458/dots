@@ -8,7 +8,7 @@
 }: {
   programs.niri = {
     settings = {
-      xwayland-satellite.enable = true;
+      xwayland-satellite.enable = false;
       gestures.hot-corners.enable = false;
       screenshot-path = null;
       hotkey-overlay.skip-at-startup = true;

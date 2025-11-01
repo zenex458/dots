@@ -129,6 +129,8 @@
   };
   niri-flake.cache.enable = true;
   programs = {
+    steam.enable = true;
+    ghidra.enable = true;
     nix-ld = {
       enable = true;
       libraries = [pkgs.libpthread-stubs pkgs.ell pkgs.xorg.libxshmfence pkgs.xorg.libXScrnSaver pkgs.xprintidle-ng pkgs.libGL pkgs.pipewire];
@@ -143,7 +145,7 @@
     localsend.enable = true;
     ssh.startAgent = true;
     gnupg.agent.enable = true;
-    xwayland.enable = true;
+    # xwayland.enable = true;
     # hyprland = {
     #   enable = true;
     #   withUWSM = true;
@@ -457,7 +459,7 @@
       uw-ttyp0
       noto-fonts
       noto-fonts-cjk-sans
-      cozette
+      aileron
     ];
     fontconfig = {
       antialias = true;

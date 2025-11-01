@@ -18,6 +18,12 @@
       OfferToSaveLoginsDefault = false;
       PasswordManagerEnabled = false;
       NoDefaultBookmarks = true;
+      PDFjs = false;
+      GenerativeAI = {
+        Chatbot = false;
+        LinkPreviews = false;
+        TabGroups = false;
+      };
     };
     profiles."test" = {
       id = 2;
@@ -34,8 +40,10 @@
         "bing".metaData.hidden = true;
         "google".metaData.hidden = true;
         "amazon.co.uk".metaData.hidden = true;
-        "Amazon.com".metaData.hidden = true;
-        "ebay".metaData.hidden = true;
+        "amazondotcom-us".metaData.hidden = true;
+        "ddg".metaData.hidden = true;
+        "perplexity".metaData.hidden = true;
+        "ebay.co.uk".metaData.hidden = true;
         "Leta" = {
           name = "Leta";
           urls = [{template = "https://leta.mullvad.net/search?q={searchTerms}&engine=google";}];
@@ -47,6 +55,12 @@
           urls = [{template = "https://html.duckduckgo.com/html?q={searchTerms}";}];
           iconMapObj."16" = "https://duckduckgo.com/favicon.ico";
           definedAliases = ["@ddgh"];
+        };
+        "noaiduckduckgo" = {
+          name = "noaiduckduckgo";
+          urls = [{template = "https://noai.duckduckgo.com/?q={searchTerms}&noai=1";}];
+          iconMapObj."16" = "https://noai.duckduckgo.com/favicon.ico";
+          definedAliases = ["@ddg"];
         };
         "searx" = {
           urls = [
@@ -177,6 +191,11 @@
         "browser.ml.chat.shortcuts" = false;
         "browser.ml.chat.sidebar" = false;
         "browser.ml.enable" = false;
+        "browser.ml.chat.menu" = false;
+        "browser.ml.chat.page" = false;
+        "browser.ml.linkPreview.enabled" = false;
+        "browser.ml.linkPreview.optin" = false;
+        "browser.ml.modelHubRootUrl" = "";
         "browser.tabs.closeWindowWithLastTab" = false;
         "dom.security.https_only_mode" = true;
         "accessibility.force_disabled" = 1;
@@ -1416,9 +1435,17 @@
       search.engines = {
         "bing".metaData.hidden = true;
         "google".metaData.hidden = true;
+        "perplexity".metaData.hidden = true;
         "amazon.co.uk".metaData.hidden = true;
         "amazondotcom-us".metaData.hidden = true;
+        "ddg".metaData.hidden = true;
         "ebay".metaData.hidden = true;
+        "noaiduckduckgo" = {
+          name = "noaiduckduckgo";
+          urls = [{template = "https://noai.duckduckgo.com/?q={searchTerms}&noai=1";}];
+          iconMapObj."16" = "https://noai.duckduckgo.com/favicon.ico";
+          definedAliases = ["@ddg"];
+        };
         "Leta" = {
           name = "Leta";
           urls = [{template = "https://leta.mullvad.net/search?q={searchTerms}&engine=google";}];
@@ -1426,7 +1453,7 @@
         };
       };
       search.force = true;
-      search.default = "Leta";
+      search.default = "noaiduckduckgo";
       userChrome = ''
         /* https://gist.github.com/chris-vecchio/d6a47fc733559752cc3a09937381d7ae */
         /* Firefox userChrome.css */
@@ -1607,10 +1634,16 @@
         "toolkit.telemetry.updatePing.enabled" = false;
         "toolkit.cosmeticAnimations.enabled" = false;
         "webgl.disabled" = false;
+        "browser.ml.chat.enabled" = false;
         "browser.ml.chat.provider" = "";
         "browser.ml.chat.shortcuts" = false;
         "browser.ml.chat.sidebar" = false;
         "browser.ml.enable" = false;
+        "browser.ml.chat.menu" = false;
+        "browser.ml.chat.page" = false;
+        "browser.ml.linkPreview.enabled" = false;
+        "browser.ml.linkPreview.optin" = false;
+        "browser.ml.modelHubRootUrl" = "";
         "browser.tabs.hoverPreview.enabled" = false;
         "browser.tabs.inTitlebar" = 0;
         "sidebar.animation.duration-ms" = 200;

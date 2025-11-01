@@ -550,6 +550,7 @@
 (use-package indent-guide
   :hook (python-ts-mode . indent-guide-mode))
 
+
 (use-package zoxide
   :hook (find-file . zoxide-add)
   :bind
