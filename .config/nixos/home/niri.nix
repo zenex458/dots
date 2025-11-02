@@ -1,6 +1,4 @@
 {
-  inputs,
-  outputs,
   lib,
   config,
   pkgs,
@@ -8,11 +6,22 @@
 }: {
   programs.niri = {
     settings = {
+      xwayland-satellite = {
+        enable = true;
+        path = lib.getExe pkgs.xwayland-satellite;
+      };
       gestures.hot-corners.enable = false;
       screenshot-path = null;
       hotkey-overlay.skip-at-startup = true;
       prefer-no-csd = true;
+      workspaces."1" = {name = "browser";};
+      workspaces."2" = {name = "emacs";};
+      workspaces."3" = {name = "vid";};
+      workspaces."4" = {name = "mu";};
       spawn-at-startup = [
+        {
+          command = ["foot -s"];
+        }
         {
           command = ["dunst"];
         }
@@ -27,9 +36,6 @@
         }
         {
           command = ["cliphist" "wipe"];
-        }
-        {
-          command = ["xwayland-satellite"];
         }
       ];
       environment = {
@@ -47,8 +53,12 @@
         };
         touchpad.dwt = true;
         warp-mouse-to-focus.enable = true;
+        focus-follows-mouse.enable = true;
       };
-      cursor.hide-when-typing = true;
+      cursor = {
+        theme = "plan9";
+        hide-when-typing = true;
+      };
       outputs = {
         "eDP-1" = {
           scale = 1;
@@ -96,6 +106,39 @@
         {
           matches = [
             {
+              app-id = "^firefox$";
+            }
+          ];
+          open-on-workspace = "browser";
+        }
+        {
+          matches = [
+            {
+              app-id = "^emacs$";
+            }
+          ];
+          open-on-workspace = "emacs";
+        }
+        {
+          matches = [
+            {
+              title = "^ncmpcpp$";
+            }
+          ];
+          open-on-workspace = "mu";
+          open-fullscreen = true;
+        }
+        {
+          matches = [
+            {
+              app-id = "^mpv$";
+            }
+          ];
+          open-on-workspace = "vid";
+        }
+        {
+          matches = [
+            {
               app-id = "^signal$";
             }
           ];
@@ -119,7 +162,8 @@
         }
       ];
       binds = with config.lib.niri.actions; {
-        "Mod+Return".action = spawn "foot" "tmux";
+        "Mod+Tab".action = spawn "show.sh";
+        "Mod+Return".action = spawn "footclient" "tmux";
         "Mod+P".action = spawn "bemenu-run";
         "Mod+Shift+Q".action = close-window;
         "Mod+H".action = focus-column-left;

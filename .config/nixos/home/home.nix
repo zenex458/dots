@@ -1,7 +1,4 @@
 {
-  inputs,
-  outputs,
-  lib,
   config,
   pkgs,
   ...
@@ -168,7 +165,7 @@
           ui = "auto";
         };
         branch = {
-          sort = "-comitterdate";
+          sort = "committerdate";
         };
         help = {
           autocorrect = "prompt";
@@ -178,9 +175,9 @@
     emacs = {
       enable = true;
       package = pkgs.emacs-pgtk; #use just `emacs' if you want it the daemon to survive after the gui terminates
-      #package = pkgs.emacs; #use just `emacs' if you want it the daemon to survive after the gui terminates
+      #package = pkgs.emacs;
       extraPackages = epkgs:
-        with pkgs.unstable.emacsPackages; [
+        with pkgs.unstable.emacs.pkgs; [
           vterm
           pdf-tools
           multi-vterm
@@ -224,13 +221,14 @@
           zoxide
           vlf
           yasnippet
+          pipenv
         ];
       extraConfig = ''
         (use-package pdf-tools
             :magic ("%PDF" . pdf-view-mode)
             :hook (pdf-view-mode . pdf-view-themed-minor-mode)
             :config
-              (setq pdf-info-epdfinfo-program "${pkgs.emacsPackages.pdf-tools}/share/emacs/site-lisp/elpa/pdf-tools-20240429.407/epdfinfo")
+              (setq pdf-info-epdfinfo-program "${pkgs.emacs.pkgs.pdf-tools}/share/emacs/site-lisp/elpa/pdf-tools-20240429.407/epdfinfo")
              (pdf-tools-install))
       '';
     };
@@ -269,10 +267,11 @@
       enable = true;
       dotDir = ".config/zsh";
       shellAliases = config.programs.bash.shellAliases;
-      completionInit = "autoload -Uz compinit && compinit -d $HOME/.config/zsh/.zcompdump";
+      completionInit = "autoload -Uz compinit";
       enableCompletion = true;
       autocd = true;
-      defaultKeymap = "viins";
+      # defaultKeymap = "viins";
+      defaultKeymap = "emacs";
       sessionVariables = config.programs.bash.sessionVariables;
       history = {
         ignoreAllDups = true;
@@ -300,14 +299,21 @@
           src = pkgs.zsh-command-time;
           file = "share/zsh/plugins/command-time/command-time.plugin.zsh";
         }
-        {
-          name = "zsh-vi-mode";
-          src = pkgs.zsh-vi-mode;
-          file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
-        }
+        # {
+        #   name = "zsh-vi-mode";
+        #   src = pkgs.zsh-vi-mode;
+        #   file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
+        # }
       ];
       initContent = ''
         PROMPT="[%~]''\nλ "
+        #https://scottspence.com/posts/speeding-up-my-zsh-shell
+        if [ "$(date +'%j')" != "''$(stat -f '%Sm' -t '%j' $HOME/.config/zsh/.zcompdump 2>/dev/null)" ]; then
+            compinit -d $HOME/.config/zsh/.zcompdump
+        else
+            compinit -C -d $HOME/.config/zsh/.zcompdump #i don't think -d is needed here
+        fi
+
         zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate _aliases _functions
         zstyle ':completion:*:*:*:*:descriptions' format '%F{#bdae93}[%d]%f'
         zstyle ':completion:*' use-cache on
@@ -333,7 +339,8 @@
            }
            zle -N fzy-history-widget
            bindkey '^R' fzy-history-widget
-
+           # zvm_bindkey vicmd '^R' fzy-history-widget
+           # zvm_bindkey viins '^R' fzy-history-widget
         fi
         cd() {
         	if [ -z "$#" ]; then
@@ -345,7 +352,7 @@
         		ls -h -A --classify=auto --color=auto --group-directories-first
         	fi
         }
-        ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
+        # ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
       '';
     };
 
@@ -388,8 +395,9 @@
         }
       '';
       shellAliases = {
-        upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#eukaryotic --use-remote-sudo";
-        updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#eukaryotic --use-remote-sudo -v --show-trace";
+        upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --use-remote-sudo --log-format multiline-with-logs";
+        updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --use-remote-sudo -v --show-trace --log-format multiline-with-logs";
+        updf = "nh os switch -a";
         updflake = "nix flake update --commit-lock-file";
         listnixgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
         remoldgen = "nix-collect-garbage --delete-older-than 2d && sudo nix-collect-garbage --delete-older-than 2d && upd";
@@ -419,12 +427,10 @@
         tls = "tmux list-session";
         tat = "tmux attach -t";
         mm = "sudo mount -m -v -o rw,uid=1000,gid=1000";
-        mhd = "sudo mount -v -t ntfs -m -o rw,noexec,uid=1000,gid=1000 UUID=742455142454DAA6 /run/media/zenex/seagate";
-        umhd = "sudo umount -v /run/media/zenex/seagate && lsblk";
         sysdlist = "systemctl list-unit-files --type=service --state=enabled";
         rsy = "rsync -ahPzRcL --info=progress2 --stats --exclude=.ccls-cache --exclude=sessionData --exclude=elfeed --exclude=eln-cache --exclude=Signal --exclude=simplex --exclude=chromium --exclude=.mozilla --exclude=.local --exclude=.cache --exclude=.nix-defexpr --exclude=.nix-profile --exclude=.java --exclude=yyt --exclude=iso --exclude=Music --filter=':- .gitignore'";
-        del = "trash";
-        dele = "trash empty --all";
+        trp = "trash-put";
+        tre = "trash-empty";
         dow = "aria2c -c -s 16 -x 16 -k 1M -j 1";
         chkfstab = "sudo findmnt --verify";
         logs = "journalctl -S today -o verbose -r -x";
@@ -434,6 +440,9 @@
         hy = "Hyprland >> /tmp/hy";
         ns = "niri-session";
         bfs = "bfs -exclude -name .git -exclude -name .ccls-cache -exclude -name '*env*'";
+        locate = "locate -i -d /var/cache/locate/locatedb";
+        rbackup = "restic -r sftp:restic-backup-host:/home/ubuntu/data/Inc_Backup backup ~/Documents ~/.ssh ~/.gnupg";
+        dc = "docker compose";
       };
       sessionVariables = {
         XDG_CONFIG_HOME = "$HOME/.config";
@@ -464,6 +473,7 @@
       enable = true;
       mpdMusicDir = "/home/zenex/Music/Alt";
       settings = {
+        enable_window_title = "no";
         ncmpcpp_directory = "~/.config/ncmpcpp";
         mpd_crossfade_time = 1;
         header_visibility = "yes";
@@ -505,10 +515,45 @@
 
     htop = {
       enable = true;
-      settings = {
-        show_cpu_frequency = 1;
-        show_cpu_temperature = 1;
-      };
+      settings =
+        {
+          show_cpu_frequency = 1;
+          show_cpu_temperature = 1;
+          color_scheme = 6;
+          highlight_threads = 1;
+          delay = 10;
+          fields = with config.lib.htop.fields; [
+            PID
+            USER
+            PRIORITY
+            NICE
+            M_SIZE
+            M_RESIDENT
+            M_SHARE
+            STATE
+            PERCENT_CPU
+            PERCENT_MEM
+            TIME
+            ELAPSED
+            COMM
+            IO_RATE
+          ];
+        }
+        // (with config.lib.htop;
+          leftMeters [
+            (bar "CPU")
+            (bar "GPU")
+            (text "MemorySwap")
+          ])
+        // (with config.lib.htop;
+          rightMeters [
+            (text "PressureStallCPUSome")
+            (text "Tasks")
+            (text "Uptime")
+            (text "DiskIO")
+            (text "PressureStallIOFull")
+            (text "NetworkIO")
+          ]);
     };
 
     zathura = {
@@ -536,7 +581,7 @@
       terminal = "tmux-256color";
       extraConfig = ''
         set -g set-titles on
-        set -g status-keys emacs
+        set -g status-keys vi
         set -s set-clipboard external
         set -g status-style "fg=#bdae93,bg=#060606"
         setw -g monitor-activity on
@@ -568,7 +613,7 @@
       settings = {
         main = {
           term = "xterm-256color";
-          font = "Ttyp0:style=Regular:size=10";
+          font = "ttyp0:style=regular:size=10";
           dpi-aware = "no";
         };
         mouse = {
@@ -609,12 +654,12 @@
     username = "zenex";
     file = {
       ".local/bin" = {
-        source = ../../../../../.local/bin;
+        source = ../../../.local/bin;
         recursive = true;
         executable = true;
       };
       ".config/emacs" = {
-        source = ../../../../emacs;
+        source = ../../emacs;
         recursive = true;
       };
     };
@@ -629,14 +674,15 @@
         ".config/vesktop"
         ".config/zotero"
         ".config/zsh"
+        ".config/netbird"
         ".local/share/simplex"
         ".local/state/wireplumber"
         ".mozilla"
+        ".icons"
         "Dev"
         "Documents"
         "Downloads"
         "Music"
-        "Sync"
       ];
       files = [".local/share/.bash_history"];
       allowOther = true;
@@ -655,19 +701,21 @@
       # https://viric.name/soft/ts/
       # https://www.gnu.org/software/parallel
       # imhex
+      # mpvScripts.mpris
       # kismet
       # macchanger
-      # mpvScripts.mpris
-      # nodePackages.prettier
       # rlwrap # for the readline
       # sigrok-cli
       # android-tools
       # gojq
       # wl-color-picker
+      #ciscoPacketTracer8
+      #yewtube
       age
       alacritty
       alejandra
       alsa-utils
+      amdgpu_top
       anki-bin
       aria2
       astyle
@@ -678,7 +726,7 @@
       ccls
       cliphist
       cryptsetup
-      pciutils
+      cutter
       dig
       exfatprogs
       exif
@@ -688,7 +736,11 @@
       fuse3
       fzy
       gcc
+      gdb
       gh
+      gimp3-with-plugins
+      gns3-gui #an alternative to packettracer
+      gnumake
       grim
       html-tidy
       htop
@@ -696,6 +748,8 @@
       hunspellDicts.en-gb-large
       imagemagick
       imv
+      irssi
+      jq
       keepassxc
       libnotify
       libreoffice
@@ -703,37 +757,47 @@
       magic-wormhole
       man-pages
       man-pages-posix
+      moreutils
       mpc-cli
       mpv
       mupdf
+      nautilus
+      nitrokey-app2
       nixd
       nodePackages.bash-language-server
-      nodePackages.prettier
       p7zip
       pandoc
+      pciutils
+      pcsc-tools
+      pipenv
       pulsemixer
+      # pynitrokey
       python3Full
+      restic
       ripgrep
       ripgrep-all
       rsync
       ruff
+      samba4Full
       sbctl
-      nemo
       shellcheck
       shfmt
       signal-desktop
       slurp
       syncthing
+      tarsnap
+      tcpdump
+      texlab
       texliveFull
       traceroute
-      trashy
+      trash-cli
       tree
       unstable.simplex-chat-desktop
-      samba4Full
+      xwayland-satellite
       unzip
       usbutils
       vesktop
-      virt-manager
+      virt-viewer
       wdisplays
       wl-clip-persist
       wl-clipboard
@@ -741,7 +805,7 @@
       wlsunset
       xdg-utils
       xmlformat
-      xwayland-satellite
+      yamlfmt
       yt-dlp
       zip
       zotero

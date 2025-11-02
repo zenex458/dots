@@ -1,11 +1,4 @@
-{
-  inputs,
-  outputs,
-  lib,
-  config,
-  pkgs,
-  ...
-}: {
+{inputs, ...}: {
   nixpkgs = {
     # Configure your nixpkgs instance
     config = {
