@@ -10,7 +10,9 @@
     ./firefox.nix
     ./hyprland.nix
     ./niri.nix
+    ./stylix.nix
   ];
+
   dconf.settings = {
     "org/virt-manager/virt-manager/connections" = {
       autoconnect = ["qemu:///system"];
@@ -37,12 +39,12 @@
         "video/mp4" = "mpv.desktop";
         "audio/x-mpegurl" = "mpv.desktop";
         "application/pdf" = "org.pwmt.zathura.desktop";
-        "application/vnd.ms-powerpoint" = "libreoffice-impress.desktop;";
-        "application/vnd.ms-powerpoint.presentation" = "libreoffice-impress.desktop;";
-        "application/vnd.ms-powerpoint.template" = "libreoffice-impress.desktop;";
-        "application/vnd.ms-word" = "libreoffice-writer.desktop;";
-        "application/vnd.ms-word.document" = "libreoffice-writer.desktop;";
-        "application/vnd.ms-word.template" = "libreoffice-writer.desktop;";
+        "application/vnd.ms-powerpoint" = "libreoffice-impress.desktop";
+        "application/vnd.ms-powerpoint.presentation" = "libreoffice-impress.desktop";
+        "application/vnd.ms-powerpoint.template" = "libreoffice-impress.desktop";
+        "application/vnd.ms-word" = "libreoffice-writer.desktop";
+        "application/vnd.ms-word.document" = "libreoffice-writer.desktop";
+        "application/vnd.ms-word.template" = "libreoffice-writer.desktop";
         "x-scheme-handler/http" = "firefox.desktop";
         "x-scheme-handler/https" = "firefox.desktop";
         "x-scheme-handler/about" = "firefox.desktop";
