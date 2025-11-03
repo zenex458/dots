@@ -20,22 +20,22 @@
       workspaces."4" = {name = "mu";};
       spawn-at-startup = [
         {
-          command = ["foot -s"];
+          command = ["${lib.getExe pkgs.foot} -s"];
         }
         {
-          command = ["dunst"];
+          command = ["${lib.getExe pkgs.dunst}"];
         }
         {
           command = ["batt.sh"];
         }
         {
-          command = ["wlsunset" "-S" "07:00" "-s" "20:00" "-T" "4800" "-t" "2000"];
+          command = ["${lib.getExe pkgs.wlsunset}" "-S" "07:00" "-s" "20:00" "-T" "4800" "-t" "2000"];
         }
         {
           command = ["wl-paste" "--watch" "cliphist" "store"];
         }
         {
-          command = ["cliphist" "wipe"];
+          command = ["${lib.getExe pkgs.cliphist}" "wipe"];
         }
       ];
       environment = {
@@ -163,8 +163,8 @@
       ];
       binds = with config.lib.niri.actions; {
         "Mod+Tab".action = spawn "show.sh";
-        "Mod+Return".action = spawn "footclient" "tmux";
-        "Mod+P".action = spawn "bemenu-run";
+        "Mod+Return".action = spawn "${pkgs.foot}/bin/footclient" "${lib.getExe pkgs.tmux}";
+        "Mod+P".action = spawn "${pkgs.bemenu}/bin/bemenu-run";
         "Mod+Shift+Q".action = close-window;
         "Mod+H".action = focus-column-left;
         "Mod+J".action = focus-window-down;
@@ -182,15 +182,15 @@
         "Mod+E".action = focus-monitor-right;
         "Mod+Shift+W".action = move-column-to-monitor-left;
         "Mod+Shift+E".action = move-column-to-monitor-right;
-        "Mod+U".action = spawn "emacsclient" "-c" "-a" "emacs";
+        "Mod+U".action = spawn "${pkgs.emacs-pgtk}/bin/emacsclient" "-c" "-a" "emacs";
         "Mod+A".action = spawn "vol.sh";
-        "Mod+C".action = spawn "firejail" "firefox";
-        "Mod+Shift+C".action = spawn "firejail" "firefox" "-P" "work";
-        "Mod+Shift+O".action = spawn "mpc" "next";
-        "Mod+Shift+I".action = spawn "mpc" "prev";
-        "Mod+Shift+P".action = spawn "mpc" "toggle";
-        "Mod+Shift+Prior".action = spawn "light" "-A" "2";
-        "Mod+Shift+Next".action = spawn "light" "-U" "2";
+        "Mod+C".action = spawn "firejail" "${lib.getExe pkgs.firefox}";
+        "Mod+Shift+C".action = spawn "firejail" "${lib.getExe pkgs.firefox}" "-P" "work";
+        "Mod+Shift+O".action = spawn "${lib.getExe pkgs.mpc}" "next";
+        "Mod+Shift+I".action = spawn "${lib.getExe pkgs.mpc}" "prev";
+        "Mod+Shift+P".action = spawn "${lib.getExe pkgs.mpc}" "toggle";
+        "Mod+Shift+Prior".action = spawn "${lib.getExe pkgs.light}" "-A" "2";
+        "Mod+Shift+Next".action = spawn "${lib.getExe pkgs.light}" "-U" "2";
         "Mod+Shift+Home".action = spawn "light.sh";
         "Mod+M".action = spawn "Menu";
         "Mod+Y".action = spawn "clipshow.sh";
