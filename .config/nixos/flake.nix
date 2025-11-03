@@ -46,7 +46,11 @@
           inherit inputs;
         };
         system = "x86_64-linux";
-        modules = [./hosts/${hostname}/configuration.nix];
+        modules = [
+          ./hosts/${hostname}/.
+          ./home
+          inputs.home-manager.nixosModules.home-manager
+        ];
       };
   in {
     nixosConfigurations = nixpkgs.lib.genAttrs hosts mkSystem;

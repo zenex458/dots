@@ -58,12 +58,6 @@
   ];
 
   programs.fuse.userAllowOther = true;
-  home-manager = {
-    extraSpecialArgs = {
-      inherit inputs;
-    };
-    users.zenex = import ../home/home.nix;
-  };
 
   networking = {
     timeServers = [
