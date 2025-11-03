@@ -1,6 +1,7 @@
 {
   pkgs,
   inputs,
+  config,
   ...
 }: {
   imports = [
@@ -10,7 +11,8 @@
   stylix = {
     enable = true;
     autoEnable = false;
-    image = ./Dlowsat.png;
+    # image = ./Dlowsat.png;
+    # image = null;
     polarity = "dark";
     iconTheme = {
       enable = true;
@@ -50,10 +52,8 @@
       };
     };
     targets = {
-      firefox = {
-        enable = true;
-        profileNames = ["priv" "work"];
-      };
+      gtk.enable = true;
+      gnome.enable = true;
     };
 
     base16Scheme = {
