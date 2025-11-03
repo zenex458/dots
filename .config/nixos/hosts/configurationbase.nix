@@ -62,7 +62,7 @@
     extraSpecialArgs = {
       inherit inputs;
     };
-    users.zenex = import ../home/zenex.nix;
+    users.zenex = import ../home/home.nix;
   };
 
   networking = {
@@ -503,6 +503,7 @@
   nix = {
     package = pkgs.lix;
     nixPath = ["nixpkgs=${inputs.nixpkgs}"];
+    registry.nixpkgs.flake = inputs.nixpkgs;
     settings = {
       experimental-features = ["nix-command" "flakes"];
       auto-optimise-store = true;

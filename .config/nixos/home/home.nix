@@ -1,9 +1,11 @@
 {
+  inputs,
   config,
   pkgs,
   ...
 }: {
   imports = [
+    inputs.impermanence.nixosModules.home-manager.impermanence
     ../pkgs.nix
     ./firefox.nix
     ./hyprland.nix
