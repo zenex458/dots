@@ -5,6 +5,7 @@
   ...
 }: {
   imports = [
+    ../overlays
     inputs.home-manager.nixosModules.home-manager
     inputs.impermanence.nixosModules.impermanence
     inputs.disko.nixosModules.disko

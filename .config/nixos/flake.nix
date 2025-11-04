@@ -44,7 +44,6 @@
         };
         system = "x86_64-linux";
         modules = [
-          ./overlays
           ./hosts/${hostname}/.
           ./home
           inputs.home-manager.nixosModules.home-manager
