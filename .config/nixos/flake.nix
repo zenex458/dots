@@ -1,5 +1,5 @@
 {
-  description = "My flake";
+  description = "The pathogenesis for my diseases (nix) to my hosts (machines).";
 
   # Inputs
   # https://nixos.org/manual/nix/unstable/command-ref/new-cli/nix3-flake.html#flake-inputs
@@ -23,9 +23,6 @@
       url = "github:nix-community/lanzaboote/v0.4.2";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    stylix = {
-      url = "github:nix-community/stylix/release-25.05";
-    };
     niri = {
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -47,6 +44,7 @@
         };
         system = "x86_64-linux";
         modules = [
+          ./overlays
           ./hosts/${hostname}/.
           ./home
           inputs.home-manager.nixosModules.home-manager

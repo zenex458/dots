@@ -7,7 +7,7 @@
   imports = [
     ./disko-config.nix
     ./hardware-configuration.nix
-    ../configurationbase.nix
+    ../base.nix
   ];
   networking.hostName = "nidus";
   services = {
