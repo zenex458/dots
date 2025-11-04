@@ -18,7 +18,6 @@
         ./programs/shell.nix
         ./programs/terminal.nix
         ./services.nix
-        ./theming.nix
       ];
       nixpkgs = {
         # Configure your nixpkgs instance
@@ -29,12 +28,29 @@
         };
       };
       dconf.settings = {
+        "org/gnome/desktop/interface" = {
+          color-scheme = "prefer-dark";
+        };
         "org/virt-manager/virt-manager/connections" = {
           autoconnect = ["qemu:///system"];
           uris = ["qemu:///system"];
         };
       };
-
+      gtk = {
+        enable = true;
+        theme = {
+          name = "Adwaita-dark";
+          package = pkgs.gnome-themes-extra;
+        };
+        font = {
+          name = "Iosevka";
+          size = 10;
+        };
+      };
+      qt = {
+        enable = true;
+        style.name = "adwaita-dark";
+      };
       programs = {
         chromium = {
           enable = true;
