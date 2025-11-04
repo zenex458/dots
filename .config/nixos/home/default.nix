@@ -9,14 +9,16 @@
       imports = [
         inputs.impermanence.nixosModules.home-manager.impermanence
         ../overlays
+        ./mimeapps.nix
         ./pkgs.nix
+        ./programs/emacs.nix
         ./programs/firefox.nix
         ./programs/hyprland.nix
         ./programs/niri.nix
-        ./programs/emacs.nix
-        ./programs/terminal.nix
         ./programs/shell.nix
+        ./programs/terminal.nix
         ./services.nix
+        ./theming.nix
       ];
       nixpkgs = {
         # Configure your nixpkgs instance
@@ -33,62 +35,11 @@
         };
       };
 
-      gtk = {
-        enable = true;
-        theme = {
-          name = "Adwaita-dark";
-          package = pkgs.gnome-themes-extra;
-        };
-        font = {
-          name = "Iosevka";
-          size = 10;
-        };
-      };
-      qt = {
-        enable = true;
-        style.name = "adwaita-dark";
-      };
-
-      xdg = {
-        mime = {
-          enable = true;
-        };
-        mimeApps = {
-          enable = true;
-          associations.added = {
-            "text/markdown" = "emacs.desktop";
-            "image/png" = "imv.desktop";
-          };
-          defaultApplications = {
-            "text/plain" = "emacs.desktop";
-            "text/html" = "firefox.desktop";
-            "image/png" = "imv.desktop";
-            "image/jpeg" = "imv.desktop";
-            "image/gif" = "imv.desktop";
-            "video/mp4" = "mpv.desktop";
-            "audio/x-mpegurl" = "mpv.desktop";
-            "application/pdf" = "org.pwmt.zathura.desktop";
-            "application/vnd.ms-powerpoint" = "libreoffice-impress.desktop";
-            "application/vnd.ms-powerpoint.presentation" = "libreoffice-impress.desktop";
-            "application/vnd.ms-powerpoint.template" = "libreoffice-impress.desktop";
-            "application/vnd.ms-word" = "libreoffice-writer.desktop";
-            "application/vnd.ms-word.document" = "libreoffice-writer.desktop";
-            "application/vnd.ms-word.template" = "libreoffice-writer.desktop";
-            "x-scheme-handler/http" = "firefox.desktop";
-            "x-scheme-handler/https" = "firefox.desktop";
-            "x-scheme-handler/about" = "firefox.desktop";
-            "x-scheme-handler/unknown" = "firefox.desktop";
-            "inode/directory" = "nemo.desktop";
-          };
-        };
-      };
-
       programs = {
         chromium = {
           enable = true;
           package = pkgs.ungoogled-chromium.override {enableWideVine = true;};
         };
-
         zathura = {
           enable = true;
           mappings = {
@@ -99,7 +50,6 @@
             "<C-q>" = "quit";
           };
         };
-
         home-manager.enable = true;
       };
 

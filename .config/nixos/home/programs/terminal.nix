@@ -64,7 +64,7 @@
       baseIndex = 0;
       escapeTime = 0;
       historyLimit = 100000;
-      keyMode = "vi";
+      keyMode = "emacs";
       mouse = true;
       terminal = "tmux-256color";
       extraConfig = ''

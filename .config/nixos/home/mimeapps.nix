@@ -1,0 +1,32 @@
+{
+  xdg = {
+    mimeApps = {
+      enable = true;
+      associations.added = {
+        "text/markdown" = "emacs.desktop";
+        "image/png" = "imv.desktop";
+      };
+      defaultApplications = {
+        "text/plain" = "emacs.desktop";
+        "text/html" = "firefox.desktop";
+        "image/png" = "imv.desktop";
+        "image/jpeg" = "imv.desktop";
+        "image/gif" = "imv.desktop";
+        "video/mp4" = "mpv.desktop";
+        "audio/x-mpegurl" = "mpv.desktop";
+        "application/pdf" = "org.pwmt.zathura.desktop";
+        "application/vnd.ms-powerpoint" = "libreoffice-impress.desktop";
+        "application/vnd.ms-powerpoint.presentation" = "libreoffice-impress.desktop";
+        "application/vnd.ms-powerpoint.template" = "libreoffice-impress.desktop";
+        "application/vnd.ms-word" = "libreoffice-writer.desktop";
+        "application/vnd.ms-word.document" = "libreoffice-writer.desktop";
+        "application/vnd.ms-word.template" = "libreoffice-writer.desktop";
+        "x-scheme-handler/http" = "firefox.desktop";
+        "x-scheme-handler/https" = "firefox.desktop";
+        "x-scheme-handler/about" = "firefox.desktop";
+        "x-scheme-handler/unknown" = "firefox.desktop";
+        "inode/directory" = "nemo.desktop";
+      };
+    };
+  };
+}
