@@ -99,7 +99,7 @@
       mpdMusicDir = "${config.home.homeDirectory}" + "/Music/Alt";
       settings = {
         enable_window_title = "no";
-        ncmpcpp_directory = "${config.home.homeDirectory}" + ".config/ncmpcpp";
+        ncmpcpp_directory = "${config.home.homeDirectory}" + "/.config/ncmpcpp";
         mpd_crossfade_time = 1;
         header_visibility = "yes";
         lyrics_directory = "";
