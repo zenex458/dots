@@ -554,7 +554,7 @@
 (use-package zoxide
   :hook (find-file . zoxide-add)
   :bind
-  ("M-s z f" . zoxide-find-file))
+  ("M-s z" . zoxide-find-file))
 
 ;;(use-package golden-ratio
 ;;  :hook (after-init . golden-ratio-mode)
