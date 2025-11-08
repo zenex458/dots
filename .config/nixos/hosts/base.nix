@@ -15,7 +15,7 @@
   ];
   boot = {
     # kernel.sysctl."vm.swappiness" = 30;
-    supportedFilesystems = ["ntfs"];
+    # supportedFilesystems = ["ntfs"];
     kernelPackages = pkgs.linuxPackages_latest;
     #loader.systemd-boot.enable = true;
     loader.systemd-boot.enable = lib.mkForce false;
@@ -90,7 +90,6 @@
     graphics.enable = true;
     bluetooth = {
       enable = false;
-      powerOnBoot = false;
     };
   };
   time.timeZone = "Europe/London";
@@ -330,7 +329,7 @@
   environment = {
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
-      FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
+      # FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
     };
     etc = {
       "firejail/firefox.local".text = ''
@@ -434,6 +433,11 @@
       hinting.enable = true;
       hinting.style = "full";
       subpixel.rgba = "rgb";
+      defaultFonts = {
+        monospace = ["ttyp0"];
+        sansSerif = ["ttyp0"];
+        serif = ["ttyp0"];
+      };
     };
   };
 
