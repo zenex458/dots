@@ -92,6 +92,7 @@
     signal-desktop
     slurp
     syncthing
+    swaybg
     tarsnap
     tcpdump
     texlab

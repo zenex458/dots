@@ -37,6 +37,9 @@
         {
           command = ["${lib.getExe pkgs.cliphist}" "wipe"];
         }
+        {
+          command = ["${lib.getExe pkgs.swaybg}" "-i" "${config.home.homeDirectory}/Downloads/Images/Dlowsat.png"];
+        }
       ];
       environment = {
         DISPLAY = ":0";

@@ -154,8 +154,8 @@
       };
     };
     light.enable = true;
-    zsh.enable = true;
     dconf.enable = true;
+    fish.enable = true;
     bash.promptInit = ''
       if [ "$LOGNAME" = root ] || [ "$(id -u)" -eq 0 ]; then
       	PS1="\[\e[01;31m\]\[\u@\h:\w\n# \]\\[\e[00m\]"
@@ -171,7 +171,7 @@
       root.hashedPasswordFile = "/persistent/var/keys/rootP";
       zenex = {
         hashedPasswordFile = "/persistent/var/keys/zenexP";
-        shell = pkgs.zsh;
+        shell = pkgs.fish;
         isNormalUser = true;
         description = "zenex";
         extraGroups = [
@@ -355,7 +355,7 @@
     };
     defaultPackages = lib.mkForce [];
     systemPackages = with pkgs; [git vim emacs-nox tmux sbctl];
-    pathsToLink = ["/share/bash-completion" "/share/zsh" "/share/xdg-desktop-portal" "/share/applications"];
+    pathsToLink = ["/share/bash-completion" "/share/xdg-desktop-portal" "/share/applications"];
     persistence."/persistent" = {
       enable = true; # NB: Defaults to true, not needed
       hideMounts = true;
@@ -443,7 +443,7 @@
 
   security = {
     pam = {
-      services.hyprlock = {};
+      services.swaylock = {};
       u2f = {
         enable = true;
         settings = {

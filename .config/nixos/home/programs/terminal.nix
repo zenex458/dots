@@ -14,7 +14,7 @@
     nh = {
       enable = true;
       clean.enable = false;
-      flake = /home/zenex/Dev/dots/.config/nixos;
+      flake = "${config.home.homeDirectory}" + "/.config/nixos";
     };
     foot = {
       enable = true;
@@ -69,14 +69,13 @@
       terminal = "tmux-256color";
       extraConfig = ''
         set -g set-titles on
-        set -g status-keys vi
         set -s set-clipboard external
         set -g status-style "fg=#bdae93,bg=#060606"
         setw -g monitor-activity on
         set -g visual-activity on
         set -g status-right ""
         set -g status-left "#{session_group}"
-        set -g window-status-current-format "#[fg=#060606 bg=#060606]|#[fg=#bdae93 bg=#060606]#W#[fg=#060606 bg=#060606]|"
+        set -g window-status-current-format "#{?window_zoomed_flag,#W#(echo \"(Z)\"),#W}" #if zoomed then show (z), if not, then show the name of the window
         set -g window-status-last-style "fg=#a08a64 bg=#060606"
         bind-key -n M-"v" split-window -v
         bind-key -n M-"V" split-window -h
@@ -97,10 +96,10 @@
 
     ncmpcpp = {
       enable = true;
-      mpdMusicDir = "/home/zenex/Music/Alt";
+      mpdMusicDir = "${config.home.homeDirectory}" + "/Music/Alt";
       settings = {
         enable_window_title = "no";
-        ncmpcpp_directory = "~/.config/ncmpcpp";
+        ncmpcpp_directory = "${config.home.homeDirectory}" + ".config/ncmpcpp";
         mpd_crossfade_time = 1;
         header_visibility = "yes";
         lyrics_directory = "";

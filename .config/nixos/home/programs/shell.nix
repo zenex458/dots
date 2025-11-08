@@ -3,13 +3,32 @@
   pkgs,
   ...
 }: {
+  home.shell.enableFishIntegration = true;
   programs = {
     zoxide = {
       enable = true;
       enableBashIntegration = true;
-      enableZshIntegration = true;
+      enableFishIntegration = true;
     };
 
+    fish = {
+      enable = true;
+      interactiveShellInit = ''
+        set fish_greeting
+        set -g fish_autosuggestion_enabled 0
+        function fish_prompt --description 'prompt'
+             set -l suffix 'λ'
+             set -l uh (echo -n '['(prompt_pwd -D 10)']')
+
+             echo -n -s $uh\n$suffix " "
+         end
+        set fish_color_autosuggestion $fish_color_normal --underline
+        set fish_color_valid_path $fish_color_normal
+        set fish_color_param $fish_color_normal
+      '';
+
+      shellAbbrs = config.programs.bash.shellAliases;
+    };
     bash = {
       enable = true;
       enableCompletion = true;
@@ -98,121 +117,6 @@
         rbackup = "restic -r sftp:restic-backup-host:/home/ubuntu/data/Inc_Backup backup ~/Documents ~/.ssh ~/.gnupg";
         dc = "docker compose";
       };
-      sessionVariables = {
-        XDG_CONFIG_HOME = "$HOME/.config";
-        XDG_DATA_HOME = "$HOME/.local/share";
-        XDG_STATE_HOME = "$HOME/.local/state";
-        XDG_CACHE_HOME = "$HOME/.cache";
-        MUPDFHISTFILE = "/tmp/.mupdf.history";
-        DOTNET_CLI_TELEMETRY_OPTOUT = 1;
-        TERMINAL = "foot";
-        EDITOR = "emacsclient -c -a emacs";
-        VISUAL = "emacsclient -c -a emacs";
-        LESSHISTFILE = "/tmp/.lesshst";
-        MOZ_ENABLE_WAYLAND = 1;
-        QT_QPA_PLATFORM = "wayland;xcb";
-        GDK_BACKEND = "wayland";
-        _JAVA_AWT_WM_NONREPARENTING = 1;
-        SAL_USE_VCLPLUGIN = "gtk3";
-        XCURSOR_SIZE = 20;
-        BEMENU_OPTS = ''-i --fn 'Ttyp0' -B '1' -f -p '>' -n --tb '#bdae93' --tf '#060606' --fb '#060606' --ff '#bdae93' --nb '#060606' --nf '#bdae93' --ab '#060606' --af '#bdae93' --sb '#060606' --sf '#bdae93' --cb '#bdae93' --cf '#bdae93' --hb '#bdae93' --hf '#060606' --sb '#bdae93' --sf '#060606' --scb '#060606' --scf '#bdae93' --bdr '#bdae93' '';
-        MATHPATH = "/run/current-system/sw/share/man";
-      };
-      #initExtra = ''
-      #  PROMPT_COMMAND="''${PROMPT_COMMAND:+$PROMPT_COMMAND$'
-      #  '}history -a; history -c; history -r"'';
-    };
-    zsh = {
-      enable = true;
-      dotDir = ".config/zsh";
-      shellAliases = config.programs.bash.shellAliases;
-      completionInit = "autoload -Uz compinit";
-      enableCompletion = true;
-      autocd = true;
-      # defaultKeymap = "viins";
-      defaultKeymap = "emacs";
-      sessionVariables = config.programs.bash.sessionVariables;
-      history = {
-        ignoreAllDups = true;
-        path = "$ZDOTDIR/.zsh_history";
-      };
-      autosuggestion = {
-        enable = true;
-        highlight = "fg=#bdae93,bg=#060606,bold,underline";
-      };
-      syntaxHighlighting = {
-        enable = true;
-        styles = {
-          suffix-alias = "fg=#bdae93";
-          precommand = "fg=#bdae93";
-          arg0 = "fg=#bdae93";
-          alias = "fg=#bdae93";
-          path = "fg=#bdae93";
-          unknown-token = "fg=#bdae93,underline";
-          command_error = "fg=#bdae93,underline";
-        };
-      };
-      plugins = [
-        {
-          name = "zsh-command-time";
-          src = pkgs.zsh-command-time;
-          file = "share/zsh/plugins/command-time/command-time.plugin.zsh";
-        }
-        # {
-        #   name = "zsh-vi-mode";
-        #   src = pkgs.zsh-vi-mode;
-        #   file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
-        # }
-      ];
-      initContent = ''
-        PROMPT="[%~]''\nλ "
-        #https://scottspence.com/posts/speeding-up-my-zsh-shell
-        if [ "$(date +'%j')" != "''$(stat -f '%Sm' -t '%j' $HOME/.config/zsh/.zcompdump 2>/dev/null)" ]; then
-            compinit -d $HOME/.config/zsh/.zcompdump
-        else
-            compinit -C -d $HOME/.config/zsh/.zcompdump #i don't think -d is needed here
-        fi
-
-        zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate _aliases _functions
-        zstyle ':completion:*:*:*:*:descriptions' format '%F{#bdae93}[%d]%f'
-        zstyle ':completion:*' use-cache on
-        zstyle ':completion:*' cache-path "$HOME/.config/zsh/.zcompcache"
-        zstyle ':completion:*' group-name ' '
-        zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-        zstyle ':completion:*' list-colors "''${(s.:.)LS_COLORS}"
-        zstyle ':completion:*' verbose true
-        zstyle ':completion:*' menu select search
-        ZSH_AUTOSUGGEST_STRATEGY=(completion)
-        setopt AUTO_PUSHD PUSHD_IGNORE_DUPS PUSHD_MINUS COMPLETE_IN_WORD REC_EXACT LIST_PACKED LIST_ROWS_FIRST GLOBDOTS NOMATCH NOTIFY CORRECT LIST_PACKED HIST_FIND_NO_DUPS HIST_REDUCE_BLANKS HIST_SAVE_NO_DUPS INC_APPEND_HISTORY SHARE_HISTORY
-        _comp_options+=(globdots)
-        unsetopt beep
-        if [ -z "$INSIDE_EMACS" ]; then
-          fzy-history-widget() {
-            emulate -L zsh
-           	zle -I
-           	local S=$(history 0 | sort -rn | cut -c 8- | awk '!visited[''$0]++' | fzy -q "''${LBUFFER//$/\\$}")
-           	if [[ -n $S ]] ; then
-           		LBUFFER=$S
-           	fi
-           	zle reset-prompt
-           }
-           zle -N fzy-history-widget
-           bindkey '^R' fzy-history-widget
-           # zvm_bindkey vicmd '^R' fzy-history-widget
-           # zvm_bindkey viins '^R' fzy-history-widget
-        fi
-        cd() {
-        	if [ -z "$#" ]; then
-        		builtin cd
-        	else
-        		builtin cd "$@"
-        	fi
-        	if [ $? -eq 0 ]; then
-        		ls -h -A --classify=auto --color=auto --group-directories-first
-        	fi
-        }
-        # ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
-      '';
     };
   };
 }

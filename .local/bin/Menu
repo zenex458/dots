@@ -2,7 +2,7 @@
 
 if [ "$XDG_SESSION_TYPE" == "wayland" ]; then
     menu="bemenu -i --no-exec -p"
-    lock="hyprlock"
+    lock="swaylock"
 else
     menu="dmenu -i -p" ## rofi -dmenu -p
     lock="xsecurelock"
