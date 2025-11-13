@@ -27,9 +27,9 @@
 ;;(global-hl-line-mode 1)
 ;;(setq display-line-numbers-type 'relative)
 ;;(add-hook 'prog-mode-hook #'display-line-numbers-mode)
-(push '(font . "Ttyp0-10:style=Regular") default-frame-alist)
-(set-face-font 'default "Ttyp0-10:style=Regular")
-(set-face-font 'variable-pitch "Ttyp0-10:style=Regular")
+(push '(font . "Iosevka-11:style=Regular") default-frame-alist)
+(set-face-font 'default "Iosevka-11:style=Regular")
+(set-face-font 'variable-pitch "Iosevka-11:style=Regular")
 (copy-face 'default 'fixed-pitch)
 (global-visual-line-mode t)
 (advice-add #'x-apply-session-resources :override #'ignore)
@@ -54,7 +54,8 @@
         (package-refresh-contents))
 
       (eval-when-compile
-        (require 'use-package))))
+        (require 'use-package)))
+  (setq-default vterm-shell "/run/current-system/sw/bin/bash"))
 
 (provide 'early-init)
 ;;; early-init.el ends here
