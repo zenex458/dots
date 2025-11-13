@@ -88,7 +88,7 @@
           XDG_CACHE_HOME = "$HOME/.cache";
           MUPDFHISTFILE = "/tmp/.mupdf.history";
           DOTNET_CLI_TELEMETRY_OPTOUT = 1;
-          TERMINAL = "foot";
+          TERMINAL = "kitty";
           EDITOR = "emacsclient -c -a emacs";
           VISUAL = "emacsclient -c -a emacs";
           LESSHISTFILE = "/tmp/.lesshst";
@@ -98,8 +98,9 @@
           _JAVA_AWT_WM_NONREPARENTING = 1;
           SAL_USE_VCLPLUGIN = "gtk3";
           XCURSOR_SIZE = 20;
-          BEMENU_OPTS = ''-i --fn 'Ttyp0' -B '1' -f -p '>' -n --tb '#bdae93' --tf '#060606' --fb '#060606' --ff '#bdae93' --nb '#060606' --nf '#bdae93' --ab '#060606' --af '#bdae93' --sb '#060606' --sf '#bdae93' --cb '#bdae93' --cf '#bdae93' --hb '#bdae93' --hf '#060606' --sb '#bdae93' --sf '#060606' --scb '#060606' --scf '#bdae93' --bdr '#bdae93' '';
-          MATHPATH = "/run/current-system/sw/share/man";
+          BEMENU_OPTS = ''-i --fn 'Iosevka' -B '1' -f -p '>' -n --tb '#bdae93' --tf '#060606' --fb '#060606' --ff '#bdae93' --nb '#060606' --nf '#bdae93' --ab '#060606' --af '#bdae93' --sb '#060606' --sf '#bdae93' --cb '#bdae93' --cf '#bdae93' --hb '#bdae93' --hf '#060606' --sb '#bdae93' --sf '#060606' --scb '#060606' --scf '#bdae93' --bdr '#bdae93' '';
+          # MATHPATH = "/run/current-system/sw/share/man";
+          MANPAGER = "sh -c 'awk '\''{ gsub(/\x1B\[[0-9;]*m/, \"\", \$0); gsub(/.\x08/, \"\", \$0); print }'\'' | bat -p -lman'";
         };
         file = {
           ".local/bin" = {

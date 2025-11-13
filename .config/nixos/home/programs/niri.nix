@@ -20,9 +20,6 @@
       workspaces."4" = {name = "mu";};
       spawn-at-startup = [
         {
-          command = ["${lib.getExe pkgs.foot} -s"];
-        }
-        {
           command = ["${lib.getExe pkgs.dunst}"];
         }
         {
@@ -166,7 +163,7 @@
       ];
       binds = with config.lib.niri.actions; {
         "Mod+Tab".action = spawn "show.sh";
-        "Mod+Return".action = spawn "${pkgs.foot}/bin/footclient" "${lib.getExe pkgs.tmux}";
+        "Mod+Return".action = spawn "${lib.getExe pkgs.kitty}" "${lib.getExe pkgs.tmux}";
         "Mod+P".action = spawn "${pkgs.bemenu}/bin/bemenu-run";
         "Mod+Shift+Q".action = close-window;
         "Mod+H".action = focus-column-left;

@@ -54,6 +54,7 @@
         vlf
         yasnippet
         pipenv
+        magit-delta
       ];
     extraConfig = ''
       (use-package pdf-tools
