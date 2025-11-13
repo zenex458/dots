@@ -17,9 +17,9 @@
 
     mpd = {
       enable = true;
-      musicDirectory = "${config.home.homeDirectory}" + "/Music/Alt";
-      dataDir = "${config.home.homeDirectory}" + "/Music";
-      dbFile = "${config.home.homeDirectory}" + "/Music/mpd.db";
+      musicDirectory = "${config.home.homeDirectory}/Music/Alt";
+      dataDir = "${config.home.homeDirectory}/Music";
+      dbFile = "${config.home.homeDirectory}/Music/mpd.db";
       network.startWhenNeeded = true;
       extraConfig = ''
         audio_output {
