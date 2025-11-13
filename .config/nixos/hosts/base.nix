@@ -120,6 +120,13 @@
   niri-flake.cache.enable = false;
   programs = {
     ghidra.enable = true;
+    command-not-found.enable = false;
+    nix-index = {
+      enable = true;
+      enableBashIntegration = true;
+      enableFishIntegration = true;
+      enableZshIntegration = false;
+    };
     nix-ld = {
       enable = true;
       libraries = [pkgs.libpthread-stubs pkgs.ell pkgs.xorg.libxshmfence pkgs.xorg.libXScrnSaver pkgs.xprintidle-ng pkgs.libGL pkgs.pipewire];
@@ -134,12 +141,6 @@
     localsend.enable = true;
     ssh.startAgent = true;
     gnupg.agent.enable = true;
-    # xwayland.enable = true;
-    # hyprland = {
-    #   enable = true;
-    #   withUWSM = true;
-    #   xwayland.enable = true;
-    # };
     firejail = {
       enable = true;
       wrappedBinaries = {
@@ -192,8 +193,6 @@
 
   console = {
     useXkbConfig = true;
-    packages = [pkgs.uw-ttyp0];
-    font = "t0-16-uni";
   };
 
   services = {
@@ -329,7 +328,7 @@
   environment = {
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
-      # FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
+      FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
     };
     etc = {
       "firejail/firefox.local".text = ''
@@ -421,22 +420,17 @@
 
   fonts = {
     packages = with pkgs; [
-      iosevka-bin
+      iosevka
       vistafonts
-      uw-ttyp0
       noto-fonts
       noto-fonts-cjk-sans
       aileron
     ];
     fontconfig = {
-      antialias = true;
-      hinting.enable = true;
-      hinting.style = "full";
-      subpixel.rgba = "rgb";
       defaultFonts = {
-        monospace = ["ttyp0"];
-        sansSerif = ["ttyp0"];
-        serif = ["ttyp0"];
+        monospace = ["Iosevka"];
+        sansSerif = ["Iosevka"];
+        serif = ["Iosevka"];
       };
     };
   };

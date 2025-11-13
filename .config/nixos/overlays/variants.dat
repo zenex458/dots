@@ -1,5 +1,0 @@
-COPYTO AccStress PApostropheAscii
-COPYTO PAmComma AccGraveAscii
-COPYTO Digit0Slashed Digit0
-COPYTO MTilde AccTildeAscii
-COPYTO Space SpaceNoBreak
