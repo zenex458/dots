@@ -7,6 +7,19 @@
 }: {
   manual.manpages.enable = true;
   programs = {
+    git.delta = {
+      enable = true;
+      # enableGitIntegration = true; #enable this when 25.11 is released
+      options = {
+        syntax-theme = "base16";
+        line-numbers = "true";
+      };
+    };
+
+    bat = {
+      enable = true;
+      config.theme = "ansi";
+    };
     man = {
       enable = true;
       generateCaches = false;
@@ -14,47 +27,46 @@
     nh = {
       enable = true;
       clean.enable = false;
-      flake = "${config.home.homeDirectory}" + "/.config/nixos";
+      flake = "${config.home.homeDirectory}/Dev/dots/.config/nixos";
     };
-    foot = {
+    kitty = {
       enable = true;
-      server.enable = true;
       settings = {
-        main = {
-          term = "xterm-256color";
-          font = "ttyp0:style=regular:size=10";
-          dpi-aware = "no";
-        };
-        mouse = {
-          hide-when-typing = "yes";
-        };
-        cursor = {
-          style = "block";
-          blink = "yes";
-        };
-        colors = {
-          background = "060606";
-          foreground = "bdae93";
-          regular0 = "444444"; # black
-          regular1 = "B33929"; # red
-          regular2 = "75B329"; # green
-          regular3 = "c0c000"; # yellow
-          regular4 = "2874B2"; # blue
-          regular5 = "802caa"; # magenta
-          regular6 = "6cb2eb"; # cyan
-          regular7 = "a08a64"; # white
-
-          bright0 = "666666"; # black
-          bright1 = "f62b5a"; # red
-          bright2 = "47b413"; # green
-          bright3 = "e3c401"; # yellow
-          bright4 = "24acd4"; # blue
-          bright5 = "f2affd"; # magenta
-          bright6 = "13c299"; # cyan
-          bright7 = "bdae93"; # white
-        };
+        enable_audio_bell = "no";
+        cursor_shape = "block";
+        cursor_blink_interval = 1;
       };
+      font = {
+        name = "Iosevka";
+        size = 10;
+      };
+      extraConfig = ''
+        foreground #bdae93
+        background #060606
+        selection_foreground #060606
+        selection_background #bdae93
+        cursor #bdae93
+        color0 #444444
+        color1 #B33929
+        color2 #75B329
+        color3 #c0c000
+        color4 #2874B2
+        color5 #802caa
+        color6 #6cb2eb
+        color7 #a08a64
+        color8 #666666
+        color9 #f62b5a
+        color10 #47b413
+        color11 #e3c401
+        color12 #24acd4
+        color13 #f2affd
+        color14 #13c299
+        color15 #bdae93
+        url_color #6cb2eb
+        url_style single
+      '';
     };
+
     tmux = {
       # add new-window -c "#{pane_current_path}"
       # add splitp -c "#{pane_current_path}"
@@ -96,10 +108,10 @@
 
     ncmpcpp = {
       enable = true;
-      mpdMusicDir = "${config.home.homeDirectory}" + "/Music/Alt";
+      mpdMusicDir = "${config.home.homeDirectory}/Music/Alt";
       settings = {
         enable_window_title = "no";
-        ncmpcpp_directory = "${config.home.homeDirectory}" + "/.config/ncmpcpp";
+        ncmpcpp_directory = "${config.home.homeDirectory}/.config/ncmpcpp";
         mpd_crossfade_time = 1;
         header_visibility = "yes";
         lyrics_directory = "";
@@ -166,10 +178,18 @@
         status = {
           showUntrackedFiles = "all";
         };
+        delta = {
+          navigate = true;
+          dark = true;
+        };
+        merge = {
+          conflictStyle = "zdiff3";
+        };
         diff = {
-          algorithm = "histogram";
-          interHunkContext = 10;
-          colorMoved = "plain";
+          # external = "difft --display inline";
+          # algorithm = "histogram";
+          # interHunkContext = 10;
+          # colorMoved = "plain";
         };
         # commit = {
         #   verbose = "true"; #enable this if you don't use emacs

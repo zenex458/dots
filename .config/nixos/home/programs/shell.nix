@@ -15,7 +15,6 @@
       enable = true;
       interactiveShellInit = ''
         set fish_greeting
-        set -g fish_autosuggestion_enabled 0
         function fish_prompt --description 'prompt'
              set -l suffix 'λ'
              set -l uh (echo -n '['(prompt_pwd -D 10)']')
@@ -24,10 +23,20 @@
          end
         set fish_color_autosuggestion $fish_color_normal --underline
         set fish_color_valid_path $fish_color_normal
-        set fish_color_param $fish_color_normal
+        set fish_color_param $fish_color_normal --bold
+        set fish_color_error $fish_color_normal --reverse --underline
       '';
-
       shellAbbrs = config.programs.bash.shellAliases;
+      plugins = [
+        {
+          name = "grc";
+          src = pkgs.fishPlugins.grc.src;
+        }
+        {
+          name = "done";
+          src = pkgs.fishPlugins.done;
+        }
+      ];
     };
     bash = {
       enable = true;
