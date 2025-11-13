@@ -19,7 +19,6 @@
     #ciscoPacketTracer8
     #yewtube
     age
-    alacritty
     alejandra
     alsa-utils
     amdgpu_top
@@ -45,6 +44,7 @@
     gcc
     gdb
     gh
+    grc
     gimp3-with-plugins
     gns3-gui #an alternative to packettracer
     gnumake
@@ -101,6 +101,7 @@
     trash-cli
     tree
     unstable.simplex-chat-desktop
+    nodePackages_latest.prettier
     xwayland-satellite
     unzip
     usbutils
