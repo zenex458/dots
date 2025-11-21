@@ -153,7 +153,7 @@
    (after-init . global-subword-mode)
    (after-init . pending-delete-mode)
    (compilation-filter . ansi-color-compilation-filter)
-   (prog-mode-hook . (lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
+   ;; (prog-mode-hook . (lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
    (prog-mode . (lambda ()(setq show-trailing-whitespace t)))
    (prog-mode . electric-pair-mode))
   :bind (("C-x C-c" . close-or-kill-emacs)
@@ -376,7 +376,8 @@
 
 (use-package nix-ts-mode
   :mode "\\.nix\\'"
-  :hook ((nix-ts-mode . (lambda ()(electric-pair-mode -1)))));;surely theres a better way?
+  ;; :hook ((nix-ts-mode . (lambda ()(electric-pair-mode -1))));;surely theres a better way?
+  )
 
 
 (use-package yaml-ts-mode
@@ -385,8 +386,6 @@
 
 (use-package pipenv
   :hook (python-ts-mode . pipenv-mode))
-
-
 
 ;; https://github.com/promethial/.emacs.d/blob/c71732112300f1dc294769821533a8627440b282/init.el#L326
 (use-package haskell-mode)
@@ -554,7 +553,6 @@
 
 (use-package indent-guide
   :hook (python-ts-mode . indent-guide-mode))
-
 
 (use-package zoxide
   :hook (find-file . zoxide-add)
