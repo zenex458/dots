@@ -1,22 +1,21 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
+    # android-tools
     # bsdgames
     # entr # run a command when files change
-    # ffmpegthumbnailer
     # fq # jq for binary formats
+    # gojq
     # gron # json grepper
     # https://viric.name/soft/ts/
     # https://www.gnu.org/software/parallel
     # imhex
-    # mpvScripts.mpris
     # kismet
     # macchanger
+    # mpvScripts.mpris
+    # pynitrokey
     # rlwrap # for the readline
     # sigrok-cli
-    # android-tools
-    # gojq
     # wl-color-picker
-    #ciscoPacketTracer8
     #yewtube
     age
     alejandra
@@ -38,16 +37,16 @@
     exif
     feather
     ffmpeg-full
+    ffmpegthumbnailer
     file
     fuse3
     fzy
     gcc
     gdb
     gh
-    grc
     gimp3-with-plugins
-    gns3-gui #an alternative to packettracer
     gnumake
+    grc
     grim
     html-tidy
     htop
@@ -68,17 +67,16 @@
     mpc-cli
     mpv
     mupdf
-    nautilus
+    nemo-with-extensions
     nitrokey-app2
     nixd
     nodePackages.bash-language-server
+    nodePackages_latest.prettier
     p7zip
     pandoc
     pciutils
     pcsc-tools
-    pipenv
     pulsemixer
-    # pynitrokey
     python3Full
     restic
     ripgrep
@@ -91,8 +89,8 @@
     shfmt
     signal-desktop
     slurp
-    syncthing
     swaybg
+    syncthing
     tarsnap
     tcpdump
     texlab
@@ -101,8 +99,6 @@
     trash-cli
     tree
     unstable.simplex-chat-desktop
-    nodePackages_latest.prettier
-    xwayland-satellite
     unzip
     usbutils
     vesktop
@@ -114,6 +110,7 @@
     wlsunset
     xdg-utils
     xmlformat
+    xwayland-satellite
     yamlfmt
     yt-dlp
     zip
