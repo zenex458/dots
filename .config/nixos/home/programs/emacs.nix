@@ -10,21 +10,18 @@
     #package = pkgs.emacs;
     extraPackages = epkgs:
       with pkgs.unstable.emacs.pkgs; [
-        vterm
-        pdf-tools
-        multi-vterm
         ace-window
         apheleia
-        edwina
-        evil
         async
         auctex
+        bongo
+        mingus
         cape
         consult
         corfu
         diminish
-        golden-ratio
         dired-subtree
+        edwina
         eglot
         elfeed
         elfeed-org
@@ -33,28 +30,31 @@
         expreg
         flymake
         gcmh
-        hungry-delete
+        golden-ratio
         haskell-mode
-        key-chord
+        hungry-delete
         indent-guide
+        key-chord
         magit
+        magit-delta
         markdown-mode
+        multi-vterm
         multiple-cursors
         nix-ts-mode
         orderless
         org-bullets
         org-make-toc
+        pdf-tools
         rainbow-delimiters
         rainbow-mode
         sudo-edit
         undo-fu
         undo-fu-session
         vertico
-        zoxide
         vlf
+        vterm
         yasnippet
-        pipenv
-        magit-delta
+        zoxide
       ];
     extraConfig = ''
       (use-package pdf-tools
