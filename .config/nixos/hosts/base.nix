@@ -196,6 +196,15 @@
   };
 
   services = {
+    #kmscon = {
+    #  enable = true;
+    #  fonts = [
+    #    {
+    #      name = "Iosevka";
+    #      package = pkgs.iosevka;
+    #    }
+    #  ];
+    #};
     pcscd = {enable = true;};
     netbird = {
       enable = false;
