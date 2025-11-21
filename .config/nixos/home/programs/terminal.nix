@@ -7,6 +7,11 @@
 }: {
   manual.manpages.enable = true;
   programs = {
+    nix-index = {
+      enable = true;
+      enableFishIntegration = true;
+    };
+
     git.delta = {
       enable = true;
       # enableGitIntegration = true; #enable this when 25.11 is released
