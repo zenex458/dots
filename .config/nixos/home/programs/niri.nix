@@ -102,6 +102,16 @@
         focus-ring.enable = false;
         gaps = 0;
       };
+      layer-rules = [
+        {
+          matches = [
+            {
+              namespace = "^notifications$";
+            }
+          ];
+          block-out-from = "screen-capture";
+        }
+      ];
       window-rules = [
         {
           matches = [
@@ -161,75 +171,77 @@
           block-out-from = "screen-capture";
         }
       ];
-      binds = with config.lib.niri.actions; {
-        "Mod+Tab".action = spawn "show.sh";
-        "Mod+Return".action = spawn "${lib.getExe pkgs.kitty}" "${lib.getExe pkgs.tmux}";
-        "Mod+P".action = spawn "${pkgs.bemenu}/bin/bemenu-run";
-        "Mod+Shift+Q".action = close-window;
-        "Mod+H".action = focus-column-left;
-        "Mod+J".action = focus-window-down;
-        "Mod+K".action = focus-window-up;
-        "Mod+L".action = focus-column-right;
-        "Mod+Ctrl+H".action = move-column-left;
-        "Mod+Ctrl+J".action = move-window-down;
-        "Mod+Ctrl+K".action = move-window-up;
-        "Mod+Ctrl+L".action = move-column-right;
-        "Mod+Home".action = focus-column-first;
-        "Mod+End".action = focus-column-last;
-        "Mod+Ctrl+Home".action = move-column-to-first;
-        "Mod+Ctrl+End".action = move-column-to-last;
-        "Mod+W".action = focus-monitor-left;
-        "Mod+E".action = focus-monitor-right;
-        "Mod+Shift+W".action = move-column-to-monitor-left;
-        "Mod+Shift+E".action = move-column-to-monitor-right;
-        "Mod+U".action = spawn "${pkgs.emacs-pgtk}/bin/emacsclient" "-c" "-a" "emacs";
-        "Mod+A".action = spawn "vol.sh";
-        "Mod+C".action = spawn "firejail" "${lib.getExe pkgs.firefox}";
-        "Mod+Shift+C".action = spawn "firejail" "${lib.getExe pkgs.firefox}" "-P" "work";
-        "Mod+Shift+O".action = spawn "${lib.getExe pkgs.mpc}" "next";
-        "Mod+Shift+I".action = spawn "${lib.getExe pkgs.mpc}" "prev";
-        "Mod+Shift+P".action = spawn "${lib.getExe pkgs.mpc}" "toggle";
-        "Mod+Shift+Prior".action = spawn "${lib.getExe pkgs.light}" "-A" "2";
-        "Mod+Shift+Next".action = spawn "${lib.getExe pkgs.light}" "-U" "2";
-        "Mod+Shift+Home".action = spawn "light.sh";
-        "Mod+M".action = spawn "Menu";
-        "Mod+Y".action = spawn "clipshow.sh";
-        "Mod+1".action = focus-workspace 1;
-        "Mod+2".action = focus-workspace 2;
-        "Mod+3".action = focus-workspace 3;
-        "Mod+4".action = focus-workspace 4;
-        "Mod+5".action = focus-workspace 5;
-        "Mod+6".action = focus-workspace 6;
-        "Mod+7".action = focus-workspace 7;
-        "Mod+8".action = focus-workspace 8;
-        "Mod+9".action = focus-workspace 9;
-        "Mod+Shift+1".action.move-window-to-workspace = 1;
-        "Mod+Shift+2".action.move-window-to-workspace = 2;
-        "Mod+Shift+3".action.move-window-to-workspace = 3;
-        "Mod+Shift+4".action.move-window-to-workspace = 4;
-        "Mod+Shift+5".action.move-window-to-workspace = 5;
-        "Mod+Shift+6".action.move-window-to-workspace = 6;
-        "Mod+Shift+7".action.move-window-to-workspace = 7;
-        "Mod+Shift+8".action.move-window-to-workspace = 8;
-        "Mod+Shift+9".action.move-window-to-workspace = 9;
-        "Mod+BracketLeft".action = consume-or-expel-window-left;
-        "Mod+BracketRight".action = consume-or-expel-window-right;
-        "Mod+Comma".action = consume-window-into-column;
-        "Mod+Period".action = expel-window-from-column;
-        "Mod+R".action = switch-preset-column-width;
-        "Mod+Shift+R".action = switch-preset-window-height;
-        "Mod+Ctrl+R".action = reset-window-height;
-        "Mod+F".action = maximize-column;
-        "Mod+Shift+F".action = fullscreen-window;
-        "Mod+Ctrl+F".action = expand-column-to-available-width;
-        "Mod+Minus".action = set-column-width "-1%";
-        "Mod+Equal".action = set-column-width "+1%";
-        "Mod+Shift+Minus".action = set-window-height "-1%";
-        "Mod+Shift+Equal".action = set-window-height "+1%";
-        "Mod+V".action = toggle-window-floating;
-        "Mod+Shift+V".action = switch-focus-between-floating-and-tiling;
-        "Mod+Shift+Z".action = quit;
-      };
+
+      binds = with config.lib.niri.actions; let
+        sh = spawn "sh" "-c";
+      in
+        {
+          "Mod+Tab".action = spawn "show.sh";
+          "Mod+Return".action = spawn "${lib.getExe pkgs.kitty}" "${lib.getExe pkgs.tmux}";
+          "Mod+P".action = sh ''com="$(${pkgs.bemenu}/bin/bemenu-run)"; niri msg action spawn -- "$com"''; # this opens new programs in its own namespace
+          "Mod+Shift+Q".action = close-window;
+          "Mod+H".action = focus-column-left;
+          "Mod+J".action = focus-window-down;
+          "Mod+K".action = focus-window-up;
+          "Mod+L".action = focus-column-right;
+          "Mod+Ctrl+H".action = move-column-left;
+          "Mod+Ctrl+J".action = move-window-down;
+          "Mod+Ctrl+K".action = move-window-up;
+          "Mod+Ctrl+L".action = move-column-right;
+          "Mod+Home".action = focus-column-first;
+          "Mod+End".action = focus-column-last;
+          "Mod+Ctrl+Home".action = move-column-to-first;
+          "Mod+Ctrl+End".action = move-column-to-last;
+          "Mod+W".action = focus-monitor-left;
+          "Mod+E".action = focus-monitor-right;
+          "Mod+Shift+W".action = move-column-to-monitor-left;
+          "Mod+Shift+E".action = move-column-to-monitor-right;
+          "Mod+U".action = spawn "${pkgs.emacs-pgtk}/bin/emacsclient" "-c" "-a" "emacs";
+          "Mod+A".action = spawn "vol.sh";
+          "Mod+C".action = spawn "firejail" "${lib.getExe pkgs.firefox}";
+          "Mod+Shift+C".action = spawn "firejail" "${lib.getExe pkgs.firefox}" "-P" "work";
+          "Mod+Shift+O".action = spawn "${lib.getExe pkgs.mpc}" "next";
+          "Mod+Shift+I".action = spawn "${lib.getExe pkgs.mpc}" "prev";
+          "Mod+Shift+P".action = spawn "${lib.getExe pkgs.mpc}" "toggle";
+          "Mod+Shift+Prior".action = spawn "${lib.getExe pkgs.light}" "-A" "2";
+          "Mod+Shift+Next".action = spawn "${lib.getExe pkgs.light}" "-U" "2";
+          "Mod+Shift+Home".action = spawn "light.sh";
+          "Mod+M".action = spawn "Menu";
+          "Mod+Y".action = spawn "clipshow.sh";
+          "Mod+BracketLeft".action = consume-or-expel-window-left;
+          "Mod+BracketRight".action = consume-or-expel-window-right;
+          "Mod+Comma".action = consume-window-into-column;
+          "Mod+Period".action = expel-window-from-column;
+          "Mod+R".action = switch-preset-column-width;
+          "Mod+Shift+R".action = switch-preset-window-height;
+          "Mod+Ctrl+R".action = reset-window-height;
+          "Mod+F".action = maximize-column;
+          "Mod+Shift+F".action = fullscreen-window;
+          "Mod+Ctrl+F".action = expand-column-to-available-width;
+          "Mod+Minus".action = set-column-width "-1%";
+          "Mod+Equal".action = set-column-width "+1%";
+          "Mod+Shift+Minus".action = set-window-height "-1%";
+          "Mod+Shift+Equal".action = set-window-height "+1%";
+          "Mod+V".action = toggle-window-floating;
+          "Mod+Shift+V".action = switch-focus-between-floating-and-tiling;
+          "Mod+Shift+Z".action = quit;
+        }
+        # These two functions return a AttrsList in this format keybind+$NUM = $NUM
+        # `//' merges the AttrsLists together
+        // (
+          lib.genAttrs
+          (map (n: "Mod+${toString n}") (lib.range 1 9))
+          (key: {
+            action = focus-workspace (lib.toInt (lib.removePrefix "Mod+" key));
+          })
+        )
+        // (
+          lib.genAttrs
+          (map (n: "Mod+Shift+${toString n}") (lib.range 1 9))
+          (key: {
+            action.move-window-to-workspace = lib.toInt (lib.removePrefix "Mod+Shift+" key);
+          })
+        );
     };
   };
 }
