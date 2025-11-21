@@ -24,7 +24,8 @@
       extraConfig = ''
         audio_output {
            	type "pipewire"
-            	name "pipewire"
+            name "pipewire"
+            format "48000:16:2"
         }
       '';
     };
