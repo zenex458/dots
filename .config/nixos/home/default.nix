@@ -111,6 +111,9 @@
             source = ../../emacs;
             recursive = true;
           };
+          ".config/vesktop/themes/theme.css" = {
+            source = ../../vesktop/themes/theme.css;
+          };
         };
         persistence."/persistent/home/zenex" = {
           directories = [
