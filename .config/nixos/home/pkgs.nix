@@ -21,17 +21,13 @@
     alejandra
     alsa-utils
     amdgpu_top
-    anki-bin
     aria2
-    astyle
-    basedpyright
+    nautilus
     bc
     bemenu
     bfs
-    ccls
     cliphist
     cryptsetup
-    cutter
     dig
     exfatprogs
     exif
@@ -41,11 +37,8 @@
     file
     fuse3
     fzy
-    gcc
-    gdb
     gh
     gimp3-with-plugins
-    gnumake
     grc
     grim
     html-tidy
@@ -77,12 +70,10 @@
     pciutils
     pcsc-tools
     pulsemixer
-    python3Full
     restic
     ripgrep
     ripgrep-all
     rsync
-    ruff
     samba4Full
     sbctl
     shellcheck
@@ -92,9 +83,9 @@
     swaybg
     syncthing
     tarsnap
-    tcpdump
     texlab
     texliveFull
+    bibtex-tidy
     traceroute
     trash-cli
     tree
