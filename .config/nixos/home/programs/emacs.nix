@@ -15,7 +15,6 @@
         async
         auctex
         bongo
-        mingus
         cape
         consult
         corfu
@@ -27,6 +26,7 @@
         elfeed-org
         embark
         embark-consult
+        envrc
         expreg
         flymake
         gcmh
@@ -38,6 +38,7 @@
         magit
         magit-delta
         markdown-mode
+        mingus
         multi-vterm
         multiple-cursors
         nix-ts-mode
@@ -55,6 +56,20 @@
         vterm
         yasnippet
         zoxide
+        pretty-sha-path
+        (treesit-grammars.with-grammars (grammars:
+          with grammars; [
+            tree-sitter-cpp
+            tree-sitter-css
+            tree-sitter-haskell
+            tree-sitter-javascript
+            tree-sitter-json
+            tree-sitter-nix
+            tree-sitter-python
+            tree-sitter-rust
+            tree-sitter-yaml
+            tree-sitter-bash
+          ]))
       ];
     extraConfig = ''
       (use-package pdf-tools

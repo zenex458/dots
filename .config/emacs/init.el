@@ -45,6 +45,7 @@
 	        (markdown "https://github.com/ikatyang/tree-sitter-markdown")
 	        (nix "https://github.com/nix-community/tree-sitter-nix")
 	        (python "https://github.com/tree-sitter/tree-sitter-python")
+          (rust "https://github.com/tree-sitter/tree-sitter-rust")
 	        (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
   (setq major-mode-remap-alist
         '((yaml-mode . yaml-ts-mode)
@@ -68,9 +69,9 @@
   ;; (custom-file (make-temp-file "emacs-custom-"))
   (auth-sources (expand-file-name (format "%s%s" user-emacs-directory ".authinfo.gpg")))
   (backup-directory-alist
-	 `((".*" . ,(expand-file-name (format "%s%s" user-emacs-directory "saves/")))t))
+   `((".*" . ,(expand-file-name (format "%s%s" user-emacs-directory "saves/")))t))
   (auto-save-file-name-transforms
-	 `((".*" ,(expand-file-name (format "%s%s" user-emacs-directory "saves/"))t)))
+   `((".*" ,(expand-file-name (format "%s%s" user-emacs-directory "saves/"))t)))
 
   (shr-use-fonts  nil); No special fonts
   (shr-use-colors nil); No colours
@@ -153,8 +154,9 @@
    (after-init . global-subword-mode)
    (after-init . pending-delete-mode)
    (compilation-filter . ansi-color-compilation-filter)
-   ;; (prog-mode-hook . (lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
+   (prog-mode-hook . (lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
    (prog-mode . (lambda ()(setq show-trailing-whitespace t)))
+   (subword-mode . (lambda ()(diminish 'subword-mode)))
    (prog-mode . electric-pair-mode))
   :bind (("C-x C-c" . close-or-kill-emacs)
          ("<f5>" . recompile)
@@ -194,7 +196,6 @@
 
 (use-package diminish
   :init)
-(diminish 'subword-mode)
 (diminish 'visual-line-mode)
 (diminish 'eldoc-mode)
 
@@ -320,7 +321,8 @@
 
 (use-package apheleia
   :hook ((prog-mode . apheleia-mode)
-	       (LaTeX-mode . apheleia-mode))
+	       (LaTeX-mode . apheleia-mode)
+         (bibtex-mode . apheleia-mode))
   :config
   (setq apheleia-remote-algorithm 'local)
   (setf (alist-get 'astyle apheleia-formatters)
@@ -338,6 +340,9 @@
   (setf (alist-get 'nixfmt apheleia-formatters)
 	      '("alejandra"))
   (add-to-list 'apheleia-mode-alist '(nix-ts-mode . nixfmt))
+  (setf (alist-get 'bibfmt apheleia-formatters)
+	      '("bibtex-tidy"))
+  (add-to-list 'apheleia-mode-alist '(bibtex-mode . bibfmt))
   (setf (alist-get 'xmlformat apheleia-formatters)
 	      '("xmlformat"))
   (add-to-list 'apheleia-mode-alist '(nxml-mode . xmlformat))
@@ -350,10 +355,11 @@
   (add-to-list 'apheleia-mode-alist '(haskell-mode . ormolu)))
 
 
-(if (file-directory-p (expand-file-name (format "%s%s" user-emacs-directory "tree-sitter/")))
-    (message "")
-  (message "Downloading treesiter grammers")
-  (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist)))
+(if (and (eq (file-directory-p (expand-file-name (format "%s%s" user-emacs-directory "tree-sitter/"))) 'nil) (not(string= system-name '"nidus")))
+    (progn
+      (message "Downloading treesiter grammers")
+      (make-directory (expand-file-name (format "%s%s" user-emacs-directory "tree-sitter/")))
+      (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))))
 
 (use-package rainbow-mode
   :hook (prog-mode . rainbow-mode)
@@ -379,13 +385,18 @@
   ;; :hook ((nix-ts-mode . (lambda ()(electric-pair-mode -1))));;surely theres a better way?
   )
 
+(use-package rust-ts-mode
+  :mode "\\.rs\\'")
+
+(use-package envrc
+  :hook (rust-ts-mode . envrc-mode))
+
+(use-package pretty-sha-path
+  :diminish pretty-sha-path-mode
+  :hook (after-init . pretty-sha-path-mode))
 
 (use-package yaml-ts-mode
   :mode "\\.yml\\'")
-
-
-(use-package pipenv
-  :hook (python-ts-mode . pipenv-mode))
 
 ;; https://github.com/promethial/.emacs.d/blob/c71732112300f1dc294769821533a8627440b282/init.el#L326
 (use-package haskell-mode)
@@ -394,7 +405,6 @@
   :hook ((after-init . global-corfu-mode)
          (after-init . corfu-history-mode)
          (after-init . corfu-popupinfo-mode))
-
   :custom
   ;;(corfu-auto t)
   ;;(corfu-quit-no-match t)
@@ -403,14 +413,16 @@
   (global-corfu-minibuffer
    (lambda ()
      (not (or (bound-and-true-p mct--active)
-              (bound-and-true-p vertico--input)
-              (eq (current-local-map) read-passwd-map)))))
+	            (bound-and-true-p vertico--input)
+	            (eq (current-local-map) read-passwd-map)))))
   :bind
   (:map corfu-map
         ("TAB" . corfu-next)
         ([tab] . corfu-next)
         ("S-TAB" . corfu-previous)
-        ([backtab] . corfu-previous)))
+        ([backtab] . corfu-previous)
+        ("M-p" . corfu-popupinfo-scroll-down)
+        ("M-n" . corfu-popupinfo-scroll-up)))
 
 (use-package cape
   :custom
@@ -422,8 +434,8 @@
   (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-tex)
   (completion-at-point-functions
-	 (mapcar #'cape-company-to-capf
-		       (list #'company-files #'company-keywords #'company-dabbrev))))
+   (mapcar #'cape-company-to-capf
+	         (list #'company-files #'company-keywords #'company-dabbrev))))
 
 (use-package eglot
   :hook ((haskell-mode . eglot-ensure)
@@ -435,24 +447,21 @@
  	       (csharp-ts-mode . eglot-ensure)
 	       (python-ts-mode . eglot-ensure)
 	       (LaTeX-mode . eglot-ensure)
-	       (nix-ts-mode . eglot-ensure))
+	       (nix-ts-mode . eglot-ensure)
+         (rust-ts-mode . eglot-ensure))
   :custom
   (eglot-autoshutdown t)
   :config
   (add-to-list 'eglot-server-programs
     	         `(nix-ts-mode  . ("nixd")))
   (add-to-list 'eglot-server-programs
-               `(LaTeX-mode  . ("texlab")))
-  )
-
-
+	             `(LaTeX-mode  . ("texlab"))))
 
 (use-package flymake
   :hook ((emacs-lisp-mode . flymake-mode)
 	       (LaTeX-mode . flymake-mode))
   :custom
   (flymake-indicator-type 'fringes))
-
 
 (use-package yasnippet
   :hook ((prog-mode . yas-minor-mode)
@@ -559,6 +568,7 @@
   :bind
   ("M-s z" . zoxide-find-file))
 
+
 ;;(use-package golden-ratio
 ;;  :hook (after-init . golden-ratio-mode)
 ;;  :custom
@@ -599,6 +609,5 @@
 				                         (vc-mode vc-mode) mode-line-modes mode-line-misc-info mode-line-end-spaces))
 
 ;;(server-start)
-
 (provide 'init)
 ;;; init.el ends here
