@@ -151,6 +151,7 @@
         player_state_color = "default:b";
         message_delay_time = 1;
         default_find_mode = "wrapped";
+        display_bitrate = "yes";
       };
       bindings = [];
     };

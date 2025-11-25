@@ -127,6 +127,7 @@
             ".config/vesktop"
             ".config/zotero"
             ".config/zsh"
+            ".cargo"
             ".icons"
             ".local/share/fish"
             ".local/share/simplex"

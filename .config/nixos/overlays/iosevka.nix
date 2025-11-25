@@ -10,7 +10,7 @@
             spacing = "normal"
             serifs = "sans"
             noCvSs = true
-            exportGlyphNames = true
+            exportGlyphNames = false
 
             [buildPlans.Iosevka.variants.design]
             one = "base"

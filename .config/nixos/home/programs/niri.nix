@@ -11,7 +11,7 @@
         path = lib.getExe pkgs.xwayland-satellite;
       };
       gestures.hot-corners.enable = false;
-      screenshot-path = null;
+      screenshot-path = "~/Downloads/Images/ss/%Y-%m-%d--%H-%M-%S.png";
       hotkey-overlay.skip-at-startup = true;
       prefer-no-csd = true;
       workspaces."1" = {name = "browser";};
@@ -225,6 +225,7 @@
           "Mod+V".action = toggle-window-floating;
           "Mod+Shift+V".action = switch-focus-between-floating-and-tiling;
           "Mod+Shift+Z".action = quit;
+          "Print".action.screenshot = {show-pointer = false;};
         }
         # These two functions return a AttrsList in this format keybind+$NUM = $NUM
         # `//' merges the AttrsLists together
