@@ -5,6 +5,12 @@
 }: {
   home.shell.enableFishIntegration = true;
   programs = {
+    direnv = {
+      enable = true;
+      enableBashIntegration = true;
+      silent = true;
+      config = {whitelist = {prefix = ["~/Dev"];};};
+    };
     zoxide = {
       enable = true;
       enableBashIntegration = true;
@@ -21,10 +27,13 @@
 
              echo -n -s $uh\n$suffix " "
          end
-        set fish_color_autosuggestion $fish_color_normal --underline
-        set fish_color_valid_path $fish_color_normal
-        set fish_color_param $fish_color_normal --bold
-        set fish_color_error $fish_color_normal --reverse --underline
+         function ignorehistory --on-event fish_prompt
+             history --delete fg bg wormhole
+         end
+         set fish_color_autosuggestion $fish_color_normal --underline
+         set fish_color_valid_path $fish_color_normal
+         set fish_color_param $fish_color_normal --bold
+         set fish_color_error $fish_color_normal --reverse --underline
       '';
       shellAbbrs = config.programs.bash.shellAliases;
       plugins = [
