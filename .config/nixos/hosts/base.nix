@@ -14,7 +14,7 @@
     #    ./hardened.nix
   ];
   boot = {
-    # kernel.sysctl."vm.swappiness" = 30;
+    kernel.sysctl."vm.swappiness" = 10;
     # supportedFilesystems = ["ntfs"];
     kernelPackages = pkgs.linuxPackages_latest;
     #loader.systemd-boot.enable = true;
@@ -108,7 +108,6 @@
       LC_TIME = "en_GB.UTF-8";
     };
   };
-
   virtualisation = {
     libvirtd.enable = true;
     docker = {
@@ -363,7 +362,7 @@
     };
     defaultPackages = lib.mkForce [];
     systemPackages = with pkgs; [git vim emacs-nox tmux sbctl];
-    pathsToLink = ["/share/bash-completion" "/share/xdg-desktop-portal" "/share/applications"];
+    pathsToLink = ["/share/bash-completion" "/share/xdg-desktop-portal" "/share/applications" "/share/fish"];
     persistence."/persistent" = {
       enable = true; # NB: Defaults to true, not needed
       hideMounts = true;
@@ -521,8 +520,7 @@
     };
     gc = {
       automatic = true;
-      # runs twice a month on the 7th and the 21st
-      dates = "weekly";
+      dates = "monthly";
       options = "--delete-older-than 2d";
     };
   };
