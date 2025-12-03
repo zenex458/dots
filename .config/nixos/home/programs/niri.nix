@@ -18,6 +18,7 @@
       workspaces."2" = {name = "emacs";};
       workspaces."3" = {name = "vid";};
       workspaces."4" = {name = "mu";};
+      workspaces."5" = {name = "comms";};
       spawn-at-startup = [
         {
           command = ["${lib.getExe pkgs.dunst}"];
@@ -153,6 +154,7 @@
             }
           ];
           block-out-from = "screen-capture";
+          open-on-workspace = "comms";
         }
         {
           matches = [
@@ -169,6 +171,16 @@
             }
           ];
           block-out-from = "screen-capture";
+          open-on-workspace = "comms";
+        }
+        {
+          matches = [
+            {
+              app-id = "^vesktop$";
+            }
+          ];
+          block-out-from = "screen-capture";
+          open-on-workspace = "comms";
         }
       ];
 
