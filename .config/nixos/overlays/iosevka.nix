@@ -11,6 +11,7 @@
             serifs = "sans"
             noCvSs = true
             exportGlyphNames = false
+            noLigation = true
 
             [buildPlans.Iosevka.variants.design]
             one = "base"

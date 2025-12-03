@@ -40,6 +40,7 @@
         enable_audio_bell = "no";
         cursor_shape = "block";
         cursor_blink_interval = 1;
+        disable_ligatures = "all always";
       };
       font = {
         name = "Iosevka";
