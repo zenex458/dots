@@ -83,6 +83,9 @@
     swaybg
     syncthing
     tarsnap
+    typst
+    typstyle
+    typst-live
     texlab
     texliveFull
     bibtex-tidy
@@ -101,6 +104,7 @@
     wlsunset
     xdg-utils
     xmlformat
+    tinymist
     xwayland-satellite
     yamlfmt
     yt-dlp
