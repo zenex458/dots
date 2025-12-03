@@ -23,17 +23,21 @@
         set fish_greeting
         function fish_prompt --description 'prompt'
              set -l suffix 'λ'
-             set -l uh (echo -n '['(prompt_pwd -D 10)']')
+             set -l prompt (echo -n '['(prompt_pwd -D 10)']')
 
-             echo -n -s $uh\n$suffix " "
-         end
-         function ignorehistory --on-event fish_prompt
+             echo -n -s $prompt\n$suffix " "
+        end
+        function ignorehistory --on-event fish_prompt
              history --delete fg bg wormhole
-         end
-         set fish_color_autosuggestion $fish_color_normal --underline
-         set fish_color_valid_path $fish_color_normal
-         set fish_color_param $fish_color_normal --bold
-         set fish_color_error $fish_color_normal --reverse --underline
+        end
+        function cd
+             builtin cd $argv[1] && ls -A -h --classify=auto --group-directories-first --color=auto
+        end
+
+        set fish_color_autosuggestion $fish_color_normal --underline
+        set fish_color_valid_path $fish_color_normal
+        set fish_color_param $fish_color_normal --bold
+        set fish_color_error $fish_color_normal --reverse --underline
       '';
       shellAbbrs = config.programs.bash.shellAliases;
       plugins = [
@@ -88,18 +92,16 @@
       shellAliases = {
         upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --use-remote-sudo --log-format multiline-with-logs";
         updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --use-remote-sudo -v --show-trace --log-format multiline-with-logs";
-        updf = "nh os switch -a";
+        updf = "nh os switch";
         updflake = "nix flake update --commit-lock-file";
         listnixgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
         remoldgen = "nix-collect-garbage --delete-older-than 2d && sudo nix-collect-garbage --delete-older-than 2d && upd";
-        re = "systemctl reboot";
-        off = "systemctl poweroff";
         nv = "nvim";
         ls = "ls -A -h --classify=auto --group-directories-first --color=auto";
         ga = "git add";
         gc = "git commit -m";
-        updoff = "upd && sleep 2 && off";
-        updr = "upd && sleep 2 && re";
+        updoff = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --use-remote-sudo --log-format multiline-with-logs && sleep 2 && systemctl poweroff";
+        updr = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --use-remote-sudo --log-format multiline-with-logs && sleep 2 && systemctl reboot";
         grep = "grep -i --colour=auto";
         mkdir = "mkdir -pv";
         mv = "mv -iv";
@@ -127,8 +129,7 @@
         logs = "journalctl -S today -o verbose -r -x";
         log = "journalctl -S today -r -x";
         e = "emacsclient -a emacs -t";
-        upded = "systemctl --user restart emacs.service  &&  systemctl --user status emacs.service";
-        hy = "Hyprland >> /tmp/hy";
+        upded = "systemctl --user restart emacs.service && systemctl --user status emacs.service";
         ns = "niri-session";
         bfs = "bfs -exclude -name .git -exclude -name .ccls-cache -exclude -name '*env*'";
         locate = "locate -i -d /var/cache/locate/locatedb";
