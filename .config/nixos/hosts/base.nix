@@ -86,6 +86,8 @@
   };
 
   hardware = {
+    # amdgpu.initrd.enable = true;
+    amdgpu.opencl.enable = true;
     nitrokey.enable = true;
     graphics.enable = true;
     bluetooth = {
@@ -222,7 +224,7 @@
       pruneNames = [".bzr" ".cache" ".git" ".hg" ".svn" ".ccls-cache" "*env*"];
     };
     udev.packages = [
-      #  pkgs.android-udev-rules
+      pkgs.android-udev-rules
       pkgs.nitrokey-udev-rules
     ];
     seatd = {
@@ -327,7 +329,7 @@
       pulse.enable = true;
       wireplumber.enable = true;
     };
-    gvfs.enable = false;
+    gvfs.enable = true;
   };
 
   # List packages installed in system profile. To search, run:
