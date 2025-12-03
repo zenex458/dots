@@ -48,6 +48,7 @@
         pdf-tools
         rainbow-delimiters
         rainbow-mode
+        typst-ts-mode
         sudo-edit
         undo-fu
         undo-fu-session
@@ -60,6 +61,7 @@
         (treesit-grammars.with-grammars (grammars:
           with grammars; [
             tree-sitter-cpp
+            tree-sitter-c
             tree-sitter-css
             tree-sitter-haskell
             tree-sitter-javascript
@@ -69,6 +71,7 @@
             tree-sitter-rust
             tree-sitter-yaml
             tree-sitter-bash
+            tree-sitter-typst
           ]))
       ];
     extraConfig = ''

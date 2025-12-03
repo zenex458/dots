@@ -54,7 +54,7 @@
 	        (typescript-mode . typescript-ts-mode)
 	        (json-mode . json-ts-mode)
 	        (c-mode . c-ts-mode)
-	        ("c++-mode" . "c++-ts-mode")
+	        (c++-mode . c++-ts-mode)
 	        (csharp-mode . csharp-ts-mode)
 	        (css-mode . css-ts-mode)
 	        (python-mode . python-ts-mode)))
@@ -155,11 +155,11 @@
    (after-init . pending-delete-mode)
    (compilation-filter . ansi-color-compilation-filter)
    (prog-mode-hook . (lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
+   (prog-mode-hook . (lambda () (local-set-key (kbd "C-c C-c") 'recompile)))
    (prog-mode . (lambda ()(setq show-trailing-whitespace t)))
    (subword-mode . (lambda ()(diminish 'subword-mode)))
    (prog-mode . electric-pair-mode))
   :bind (("C-x C-c" . close-or-kill-emacs)
-         ("<f5>" . recompile)
          ("C-x v" . vterm-n-map)
          ("C-x v v" . multi-vterm)
          ("C-x v n" . multi-vterm-next)
@@ -328,6 +328,7 @@
   (setf (alist-get 'astyle apheleia-formatters)
 	      '("astyle" "--mode=c" "--style=google" "-s2"))
   (add-to-list 'apheleia-mode-alist '(c-ts-mode . astyle))
+  (add-to-list 'apheleia-mode-alist '(c++-ts-mode . astyle))
   (setf (alist-get 'shfmt apheleia-formatters)
 	      '("shfmt"))
   (add-to-list 'apheleia-mode-alist '(bash-ts-mode . shfmt))
@@ -340,6 +341,9 @@
   (setf (alist-get 'nixfmt apheleia-formatters)
 	      '("alejandra"))
   (add-to-list 'apheleia-mode-alist '(nix-ts-mode . nixfmt))
+  (setf (alist-get 'typstyle apheleia-formatters)
+	      '("typstyle"))
+  (add-to-list 'apheleia-mode-alist '(typst-ts-mode . typstyle))
   (setf (alist-get 'bibfmt apheleia-formatters)
 	      '("bibtex-tidy"))
   (add-to-list 'apheleia-mode-alist '(bibtex-mode . bibfmt))
@@ -353,7 +357,6 @@
   (setf (alist-get 'ormolu apheleia-formatters)
 	      '("ormolu" "--stdin-input-file" "--"))
   (add-to-list 'apheleia-mode-alist '(haskell-mode . ormolu)))
-
 
 (if (and (eq (file-directory-p (expand-file-name (format "%s%s" user-emacs-directory "tree-sitter/"))) 'nil) (not(string= system-name '"nidus")))
     (progn
@@ -389,7 +392,9 @@
   :mode "\\.rs\\'")
 
 (use-package envrc
-  :hook (rust-ts-mode . envrc-mode))
+  :hook ((rust-ts-mode . envrc-mode)
+         (compilation-mode . envrc-mode)
+         (c++-ts-mode . envrc-mode)))
 
 (use-package pretty-sha-path
   :diminish pretty-sha-path-mode
@@ -448,6 +453,8 @@
 	       (python-ts-mode . eglot-ensure)
 	       (LaTeX-mode . eglot-ensure)
 	       (nix-ts-mode . eglot-ensure)
+         (typst-ts-mode . eglot-ensure)
+         (c++-ts-mode . eglot-ensure)
          (rust-ts-mode . eglot-ensure))
   :custom
   (eglot-autoshutdown t)
@@ -455,7 +462,9 @@
   (add-to-list 'eglot-server-programs
     	         `(nix-ts-mode  . ("nixd")))
   (add-to-list 'eglot-server-programs
-	             `(LaTeX-mode  . ("texlab"))))
+	             `(LaTeX-mode  . ("texlab")))
+  (add-to-list 'eglot-server-programs
+	             `(typst-ts-mode  . ("tinymist"))))
 
 (use-package flymake
   :hook ((emacs-lisp-mode . flymake-mode)
