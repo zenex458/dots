@@ -57,7 +57,7 @@
     man-pages
     man-pages-posix
     moreutils
-    mpc-cli
+    mpc
     mpv
     mupdf
     nemo-with-extensions

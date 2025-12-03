@@ -372,16 +372,16 @@
 (use-package rainbow-delimiters
   :hook (emacs-lisp-mode . rainbow-delimiters-mode))
 
-(use-package elfeed
-  :custom
-  (setq elfeed-search-title-max-width '130)
-  (elfeed-search-filter "@3-days-ago +unread")
-  (elfeed-db-directory (expand-file-name (format "%s%s" user-emacs-directory "elfeed/"))))
+;; (use-package elfeed
+;;   :custom
+;;   (setq elfeed-search-title-max-width '130)
+;;   (elfeed-search-filter "@3-days-ago +unread")
+;;   (elfeed-db-directory (expand-file-name (format "%s%s" user-emacs-directory "elfeed/"))))
 
-(use-package elfeed-org
-  :hook (after-init . elfeed-org)
-  :custom
-  (rmh-elfeed-org-files (list (expand-file-name (format "%s%s" user-emacs-directory "elfeed.org")))))
+;; (use-package elfeed-org
+;;   :hook (after-init . elfeed-org)
+;;   :custom
+;;   (rmh-elfeed-org-files (list (expand-file-name (format "%s%s" user-emacs-directory "elfeed.org")))))
 
 (use-package nix-ts-mode
   :mode "\\.nix\\'"
@@ -483,12 +483,12 @@
   :custom
   (dired-async-mode t))
 
-(use-package org-bullets
-  :hook (org-mode . org-bullets-mode)
-  :custom
-  (org-bullets-bullet-list '("*" "+")))
+;; (use-package org-bullets
+;;   :hook (org-mode . org-bullets-mode)
+;;   :custom
+;;   (org-bullets-bullet-list '("*" "+")))
 
-(use-package org-make-toc)
+;; (use-package org-make-toc)
 
 (use-package markdown-mode
   :magic ("%md" . markdown-mode)

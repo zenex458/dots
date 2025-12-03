@@ -9,7 +9,7 @@
     package = pkgs.emacs-pgtk; #use just `emacs' if you want it the daemon to survive after the gui terminates
     #package = pkgs.emacs;
     extraPackages = epkgs:
-      with pkgs.unstable.emacs.pkgs; [
+      with pkgs.unstable.emacs.pkgs; [ #org is broken as of 3/10/25
         ace-window
         apheleia
         async
@@ -23,7 +23,7 @@
         edwina
         eglot
         elfeed
-        elfeed-org
+        #elfeed-org
         embark
         embark-consult
         envrc
@@ -43,8 +43,8 @@
         multiple-cursors
         nix-ts-mode
         orderless
-        org-bullets
-        org-make-toc
+        #org-bullets
+        #org-make-toc
         pdf-tools
         rainbow-delimiters
         rainbow-mode

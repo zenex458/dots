@@ -140,7 +140,7 @@
     };
     # adb.enable = true;
     localsend.enable = true;
-    ssh.startAgent = true;
+    # ssh.startAgent = true;
     gnupg.agent.enable = true;
     firejail = {
       enable = true;
@@ -224,7 +224,7 @@
       pruneNames = [".bzr" ".cache" ".git" ".hg" ".svn" ".ccls-cache" "*env*"];
     };
     udev.packages = [
-      pkgs.android-udev-rules
+      # pkgs.android-udev-rules
       pkgs.nitrokey-udev-rules
     ];
     seatd = {
@@ -431,7 +431,7 @@
   fonts = {
     packages = with pkgs; [
       iosevka
-      vistafonts
+      vista-fonts
       noto-fonts
       noto-fonts-cjk-sans
       aileron
