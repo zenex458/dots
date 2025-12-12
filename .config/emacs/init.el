@@ -7,6 +7,8 @@
   (define-prefix-command 'vterm-n-map)
   (define-prefix-command 'avy-n-map);; add this? http://yummymelon.com/devnull/announcing-casual-avy.html
   (define-key isearch-mode-map (kbd "<backspace>") 'isearch-del-char)
+  ;; (setq auth-sources (format "%s%s" user-emacs-directory ".authinfo.gpg"))
+  (setq auth-sources '("~/.config/emacs/.authinfo.gpg"))
   (defun close-or-kill-emacs ()
     "Close the current frame if there are multiple visible frames otherwise kill Emacs."
     (interactive)
@@ -67,7 +69,7 @@
   :custom
   (custom-file (expand-file-name (format "%s%s" user-emacs-directory "emacs-custom.el")))
   ;; (custom-file (make-temp-file "emacs-custom-"))
-  (auth-sources (expand-file-name (format "%s%s" user-emacs-directory ".authinfo.gpg")))
+  
   (backup-directory-alist
    `((".*" . ,(expand-file-name (format "%s%s" user-emacs-directory "saves/")))t))
   (auto-save-file-name-transforms
@@ -394,6 +396,7 @@
 (use-package envrc
   :hook ((rust-ts-mode . envrc-mode)
          (compilation-mode . envrc-mode)
+         (python-ts-mode . envrc-mode)
          (c++-ts-mode . envrc-mode)))
 
 (use-package pretty-sha-path
@@ -401,7 +404,7 @@
   :hook (after-init . pretty-sha-path-mode))
 
 (use-package yaml-ts-mode
-  :mode "\\.yml\\'")
+  :mode "\\.yaml\\'")
 
 ;; https://github.com/promethial/.emacs.d/blob/c71732112300f1dc294769821533a8627440b282/init.el#L326
 (use-package haskell-mode)
@@ -568,9 +571,14 @@
   :hook (magit-mode . magit-delta-mode)
   :config
   (setq magit-delta-delta-args '("--max-line-distance" "0.6" "--true-color" "always" "--color-only" "--syntax-theme" "base16" "-n")))
+(use-package forge
+  :after magit)
 
 (use-package indent-guide
   :hook (python-ts-mode . indent-guide-mode))
+
+;; (use-package uv-mode
+;;   :hook (python-ts-mode . uv-mode-auto-activate-hook))
 
 (use-package zoxide
   :hook (find-file . zoxide-add)
