@@ -12,9 +12,9 @@
       enableFishIntegration = true;
     };
 
-    git.delta = {
+    delta = {
       enable = true;
-      # enableGitIntegration = true; #enable this when 25.11 is released
+      enableGitIntegration = true;
       options = {
         syntax-theme = "base16";
         line-numbers = "true";
@@ -175,7 +175,7 @@
     };
     git = {
       enable = true;
-      extraConfig = {
+      settings = {
         core = {
           compression = 9;
         };

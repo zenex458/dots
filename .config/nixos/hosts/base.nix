@@ -14,7 +14,7 @@
     #    ./hardened.nix
   ];
   boot = {
-    kernel.sysctl."vm.swappiness" = 10;
+    kernel.sysctl."vm.swappiness" = 0;
     # supportedFilesystems = ["ntfs"];
     kernelPackages = pkgs.linuxPackages_latest;
     #loader.systemd-boot.enable = true;
@@ -86,7 +86,6 @@
   };
 
   hardware = {
-    # amdgpu.initrd.enable = true;
     amdgpu.opencl.enable = true;
     nitrokey.enable = true;
     graphics.enable = true;
@@ -240,7 +239,6 @@
     #  # SystemMaxUse=250M
     #  MaxRetentionSec=1month
     #'';
-    logind = {lidSwitch = "suspend";};
     #with hardened profile this is needed otherwise nix will not build
     #    logrotate.checkConfig = false;
     fstrim.enable = true;

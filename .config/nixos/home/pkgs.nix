@@ -110,6 +110,8 @@
     yt-dlp
     zip
     zotero
+    seclists
+    cutter
     (aspellWithDicts (
       dicts:
         with dicts; [

@@ -42,7 +42,7 @@
         specialArgs = {
           inherit inputs;
         };
-        system = "x86_64-linux";
+        # system = "x86_64-linux";
         modules = [
           ./hosts/${hostname}/.
           ./home
