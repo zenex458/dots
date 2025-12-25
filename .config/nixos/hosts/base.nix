@@ -142,7 +142,7 @@
     # ssh.startAgent = true;
     gnupg.agent.enable = true;
     firejail = {
-      enable = true;
+      enable = false;
       wrappedBinaries = {
         firefox = {
           executable = "${pkgs.firefox}/bin/firefox";
@@ -169,7 +169,10 @@
   users = {
     mutableUsers = false;
     users = {
-      root.hashedPasswordFile = "/persistent/var/keys/rootP";
+      root = {
+        hashedPasswordFile = "/persistent/var/keys/rootP";
+        shell = pkgs.bash;
+      };
       zenex = {
         hashedPasswordFile = "/persistent/var/keys/zenexP";
         shell = pkgs.fish;
@@ -327,7 +330,7 @@
       pulse.enable = true;
       wireplumber.enable = true;
     };
-    gvfs.enable = true;
+    gvfs.enable = false;
   };
 
   # List packages installed in system profile. To search, run:

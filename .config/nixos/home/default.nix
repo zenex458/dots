@@ -61,6 +61,21 @@
         style.name = "bb10dark";
       };
       programs = {
+        keepassxc = {
+          enable = true;
+          settings = {
+            Browser = {
+              Enabled = true;
+              UpdateBinaryPath = false;
+            };
+            GUI = {
+              AdvancedSettings = true;
+              ApplicationTheme = "dark";
+              CompactMode = true;
+              HidePasswords = true;
+            };
+          };
+        };
         chromium = {
           enable = true;
           package = pkgs.ungoogled-chromium.override {enableWideVine = true;};

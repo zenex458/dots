@@ -16,7 +16,7 @@
     # rlwrap # for the readline
     # sigrok-cli
     # wl-color-picker
-    #yewtube
+    # yewtube
     age
     alejandra
     alsa-utils
@@ -47,9 +47,9 @@
     hunspellDicts.en-gb-large
     imagemagick
     imv
+    jmtpfs
     irssi
     jq
-    keepassxc
     libnotify
     libreoffice
     lsof
