@@ -90,8 +90,8 @@
         }
       '';
       shellAliases = {
-        upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --use-remote-sudo --log-format multiline-with-logs";
-        updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --use-remote-sudo -v --show-trace --log-format multiline-with-logs";
+        upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --sudo --log-format multiline-with-logs";
+        updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --sudo -v --show-trace --log-format multiline-with-logs";
         updf = "nh os switch";
         updflake = "nix flake update --commit-lock-file";
         listnixgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
@@ -121,7 +121,7 @@
         tat = "tmux attach -t";
         mm = "sudo mount -m -v -o rw,uid=1000,gid=1000";
         sysdlist = "systemctl list-unit-files --type=service --state=enabled";
-        rsy = "rsync -ahPzRcL --info=progress2 --stats --exclude=.ccls-cache --exclude=sessionData --exclude=elfeed --exclude=eln-cache --exclude=Signal --exclude=simplex --exclude=chromium --exclude=.mozilla --exclude=.local --exclude=.cache --exclude=.nix-defexpr --exclude=.nix-profile --exclude=.java --exclude=yyt --exclude=iso --exclude=Music --filter=':- .gitignore'";
+        rsy = "rsync -ahPzRcL --info=progress2 --stats --filter=':- .gitignore'";
         trp = "trash-put";
         tre = "trash-empty";
         dow = "aria2c -c -s 16 -x 16 -k 1M -j 1";

@@ -68,9 +68,11 @@
             width = 1080;
           };
           position = {
-            x = 1280;
+            # x = 1280;
+            x = 0;
             y = 0;
           };
+          focus-at-startup = true;
         };
         "HDMI-A-1" = {
           scale = 1;
@@ -79,10 +81,10 @@
             width = 1024;
           };
           position = {
-            x = 0;
+            # x = 0;
+            x = 1920;
             y = 0;
           };
-          focus-at-startup = true;
         };
       };
       animations.enable = false;
@@ -211,7 +213,8 @@
           "Mod+U".action = spawn "${pkgs.emacs-pgtk}/bin/emacsclient" "-c" "-a" "emacs";
           "Mod+A".action = spawn "vol.sh";
           "Mod+C".action = spawn "firejail" "${lib.getExe pkgs.firefox}";
-          "Mod+Shift+C".action = spawn "firejail" "${lib.getExe pkgs.firefox}" "-P" "work";
+          # "Mod+Shift+C".action = spawn "firejail" "${lib.getExe pkgs.firefox}" "-P" "work";
+          "Mod+Shift+C".action = spawn "${lib.getExe pkgs.firefox}" "-P" "work";
           "Mod+Shift+O".action = spawn "${lib.getExe pkgs.mpc}" "next";
           "Mod+Shift+I".action = spawn "${lib.getExe pkgs.mpc}" "prev";
           "Mod+Shift+P".action = spawn "${lib.getExe pkgs.mpc}" "toggle";

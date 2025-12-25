@@ -86,25 +86,25 @@ in {
               subvolumes = {
                 "/root" = {
                   mountpoint = "/";
-                  #mountOptions = ["compress=zstd" "noatime"];
-                  mountOptions = ["noatime"];
+                  mountOptions = ["compress=zstd" "noatime"];
+                  # mountOptions = ["noatime"];
                 };
                 "/persistent" = {
-                  #mountOptions = ["subvol=persistent" "compress=zstd" "noatime"];
-                  mountOptions = ["subvol=persistent" "noatime"];
+                  mountOptions = ["subvol=persistent" "compress=zstd" "noatime"];
+                  # mountOptions = ["subvol=persistent" "noatime"];
                   mountpoint = "/persistent";
                 };
                 "/nix" = {
                   mountOptions = [
-                    #"compress=zstd"
+                    "compress=zstd"
                     "noatime"
                     "subvol=nix"
                   ];
                   mountpoint = "/nix";
                 };
                 "/tmp" = {
-                  #mountOptions = ["compress=zstd" "noatime"];
-                  mountOptions = ["noatime"];
+                  mountOptions = ["compress=zstd" "noatime"];
+                  # mountOptions = ["noatime"];
                   mountpoint = "/tmp";
                 };
               };
