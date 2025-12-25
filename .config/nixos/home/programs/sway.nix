@@ -1,24 +1,40 @@
 {pkgs, ...}: {
-  services.swayidle = {
+  services.swayidle = let
+    lock = "${pkgs.swaylock}/bin/swaylock --daemonize";
+    display = status: "${pkgs.niri}/bin/niri msg action power-${status}-monitors";
+  in {
     enable = true;
-    events = [
-      {
-        event = "before-sleep";
-        command = "${pkgs.swaylock}/bin/swaylock -f";
-      }
-    ];
     timeouts = [
       {
         timeout = 1800;
-        command = "${pkgs.swaylock}/bin/swaylock -f";
+        command = lock;
       }
       {
         timeout = 2100;
-        command = "niri msg action power-off-monitors";
-        resumeCommand = "niri msg action power-on-monitors";
+        command = display "off";
+        resumeCommand = display "on";
+      }
+    ];
+    events = [
+      {
+        event = "before-sleep";
+        command = (display "off") + "; " + lock;
+      }
+      {
+        event = "after-resume";
+        command = display "on";
+      }
+      {
+        event = "lock";
+        command = (display "off") + "; " + lock;
+      }
+      {
+        event = "unlock";
+        command = display "on";
       }
     ];
   };
+
   programs.swaylock = {
     enable = true;
     settings = {
