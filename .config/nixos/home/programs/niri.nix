@@ -165,6 +165,7 @@
             }
           ];
           block-out-from = "screen-capture";
+          open-on-workspace = "comms";
         }
         {
           matches = [
@@ -212,7 +213,8 @@
           "Mod+Shift+E".action = move-column-to-monitor-right;
           "Mod+U".action = spawn "${pkgs.emacs-pgtk}/bin/emacsclient" "-c" "-a" "emacs";
           "Mod+A".action = spawn "vol.sh";
-          "Mod+C".action = spawn "firejail" "${lib.getExe pkgs.firefox}";
+          # "Mod+C".action = spawn "firejail" "${lib.getExe pkgs.firefox}";
+          "Mod+C".action = spawn "${lib.getExe pkgs.firefox}";
           # "Mod+Shift+C".action = spawn "firejail" "${lib.getExe pkgs.firefox}" "-P" "work";
           "Mod+Shift+C".action = spawn "${lib.getExe pkgs.firefox}" "-P" "work";
           "Mod+Shift+O".action = spawn "${lib.getExe pkgs.mpc}" "next";

@@ -18,6 +18,7 @@
     # wl-color-picker
     # yewtube
     age
+    anki
     alejandra
     alsa-utils
     amdgpu_top
@@ -55,10 +56,10 @@
     lsof
     magic-wormhole
     man-pages
+    wakeonlan
     man-pages-posix
     moreutils
     mpc
-    mpv
     mupdf
     nemo-with-extensions
     nitrokey-app2
@@ -109,6 +110,7 @@
     yamlfmt
     yt-dlp
     zip
+    hujsonfmt
     zotero
     seclists
     cutter

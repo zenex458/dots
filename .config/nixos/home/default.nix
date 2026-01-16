@@ -61,6 +61,10 @@
         style.name = "bb10dark";
       };
       programs = {
+        mpv = {
+          enable = true;
+          config = {screenshot-directory = "~/Downloads/Images/ss/mpv";};
+        };
         keepassxc = {
           enable = true;
           settings = {

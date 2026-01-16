@@ -5,6 +5,9 @@
 }: {
   home.shell.enableFishIntegration = true;
   programs = {
+    dircolors = {
+      enable = true;
+    };
     direnv = {
       enable = true;
       enableBashIntegration = true;
