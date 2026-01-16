@@ -88,7 +88,6 @@
   hardware = {
     amdgpu.opencl.enable = true;
     nitrokey.enable = true;
-    graphics.enable = true;
     bluetooth = {
       enable = false;
     };
@@ -197,7 +196,7 @@
   console = {
     useXkbConfig = true;
   };
-
+  powerManagement.powertop.enable = true;
   services = {
     #kmscon = {
     #  enable = true;
@@ -247,7 +246,7 @@
     fstrim.enable = true;
     openssh = {
       enable = true;
-      settings.PasswordAuthentication = true;
+      settings.PasswordAuthentication = false;
       settings.KbdInteractiveAuthentication = true;
       settings.PermitRootLogin = "no";
       allowSFTP = false;
