@@ -69,12 +69,12 @@
   :custom
   (custom-file (expand-file-name (format "%s%s" user-emacs-directory "emacs-custom.el")))
   ;; (custom-file (make-temp-file "emacs-custom-"))
-  
+
   (backup-directory-alist
    `((".*" . ,(expand-file-name (format "%s%s" user-emacs-directory "saves/")))t))
   (auto-save-file-name-transforms
    `((".*" ,(expand-file-name (format "%s%s" user-emacs-directory "saves/"))t)))
-
+  (inferior-lisp-program "sbcl")
   (shr-use-fonts  nil); No special fonts
   (shr-use-colors nil); No colours
   (eww-search-prefix "https://html.duckduckgo.com/?q="); Use another engine for searching
@@ -85,6 +85,7 @@
   (TeX-view-program-selection '((output-pdf "PDF Tools")))
   (ring-bell-function 'ignore)
   (visible-bell nil)
+  (vterm-max-scrollback 10000)
   (defvar ispell-dictionary "british")
   (auto-save-default t)
   (sort-fold-case t)
@@ -343,6 +344,9 @@
   (setf (alist-get 'nixfmt apheleia-formatters)
 	      '("alejandra"))
   (add-to-list 'apheleia-mode-alist '(nix-ts-mode . nixfmt))
+  (setf (alist-get 'hujson apheleia-formatters)
+	      '("hujsonfmt"))
+  (add-to-list 'apheleia-mode-alist '(json-ts-mode . nixfmt))
   (setf (alist-get 'typstyle apheleia-formatters)
 	      '("typstyle"))
   (add-to-list 'apheleia-mode-alist '(typst-ts-mode . typstyle))

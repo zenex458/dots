@@ -63,11 +63,13 @@
         yasnippet
         zoxide
         pretty-sha-path
+        slime
         (treesit-grammars.with-grammars (grammars:
           with grammars; [
             tree-sitter-cpp
             tree-sitter-c
             tree-sitter-css
+            tree-sitter-commonlisp
             tree-sitter-haskell
             tree-sitter-javascript
             tree-sitter-json
