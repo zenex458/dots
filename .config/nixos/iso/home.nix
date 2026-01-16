@@ -6,8 +6,8 @@
   pkgs,
   ...
 }: {
-  imports = [../home/firefox.nix];
-  home.stateVersion = "24.05";
+  imports = [../home/programs/firefox.nix];
+  home.stateVersion = "25.11";
   home.file.".xinitrc" = {
     enable = true;
     text = ''

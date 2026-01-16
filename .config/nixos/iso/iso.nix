@@ -10,8 +10,11 @@
   imports = [(modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix") inputs.home-manager.nixosModules.home-manager];
 
   # isoImage.isoName = lib.mkForce "nixos.iso";
-  networking.wireless.enable = false;
-  networking.networkmanager = {enable = true;};
+  networking = {
+    wireless.enable = false;
+    hostName = "nixiso";
+    networkmanager = {enable = true;};
+  };
 
   console = {
     useXkbConfig = true;
@@ -28,7 +31,8 @@
       };
     };
   };
-
+  users.users.nixos.openssh.authorizedKeys.keys = [
+  ];
   home-manager.users.nixos = import ./home.nix;
 
   systemd = {
@@ -49,8 +53,10 @@
     dmenu
     redshift
     disko
-    # (writeScriptBin "install.sh"'''')
     xclip
+    htop
+    lynx
+    (writeScriptBin "install.sh" ../../../setup.sh)
   ];
 
   fonts = {
