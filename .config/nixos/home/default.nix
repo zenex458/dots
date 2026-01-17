@@ -7,7 +7,7 @@
     extraSpecialArgs = {inherit inputs;};
     users.zenex = {
       imports = [
-        inputs.impermanence.nixosModules.home-manager.impermanence
+        # inputs.impermanence.nixosModules.home-manager.impermanence
         ../overlays
         ./mimeapps.nix
         ./pkgs.nix
@@ -134,7 +134,7 @@
             source = ../../vesktop/themes/theme.css;
           };
         };
-        persistence."/persistent/home/zenex" = {
+        persistence."/persistent" = {
           directories = [
             ".config/emacs"
             ".config/feather"
@@ -158,7 +158,6 @@
             "Music"
           ];
           files = [".local/share/.bash_history" ".cache/nix-index/files"];
-          allowOther = true;
         };
         sessionPath = [
           "$HOME/.local/bin"
