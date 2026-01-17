@@ -44,12 +44,6 @@
         "ddg".metaData.hidden = true;
         "perplexity".metaData.hidden = true;
         "ebay.co.uk".metaData.hidden = true;
-        "Leta" = {
-          name = "Leta";
-          urls = [{template = "https://leta.mullvad.net/search?q={searchTerms}&engine=google";}];
-          iconMapObj."16" = "https://leta.mullvad.net/favicon.ico";
-          definedAliases = ["@l"];
-        };
         "Duckduckgohtml" = {
           name = "Duckduckgohtml";
           urls = [{template = "https://html.duckduckgo.com/html?q={searchTerms}";}];
@@ -62,7 +56,7 @@
           iconMapObj."16" = "https://noai.duckduckgo.com/favicon.ico";
           definedAliases = ["@ddg"];
         };
-        "searx" = {
+        "esearx" = {
           urls = [
             {
               template = "https://searx.tiekoetter.com/search";
@@ -76,12 +70,28 @@
           ];
           iconMapObj."16" = "https://searx.tiekoetter.com/static/themes/simple/img/favicon.png";
           updateInterval = 24 * 60 * 60 * 1000; # every day
-          definedAliases = ["@pv"];
+          definedAliases = ["@es"];
+        };
+        "searx" = {
+          urls = [
+            {
+              template = "https://searx.local/search";
+              params = [
+                {
+                  name = "q";
+                  value = "{searchTerms}";
+                }
+              ];
+            }
+          ];
+          iconMapObj."16" = "https://searx.local/static/themes/simple/img/favicon.png";
+          updateInterval = 24 * 60 * 60 * 1000; # every day
+          definedAliases = ["@s"];
         };
         "NixosPackage" = {
           urls = [
             {
-              template = "https://search.nixos.org/packages?channel=25.05&from=0&size=50&sort=relevance&type=packages";
+              template = "https://search.nixos.org/packages?channel=25.11&from=0&size=50&sort=relevance&type=packages";
               params = [
                 {
                   name = "query";
@@ -99,7 +109,7 @@
         "NixosOption" = {
           urls = [
             {
-              template = "https://search.nixos.org/options?channel=25.05&from=0&size=50&sort=relevance&type=packages";
+              template = "https://search.nixos.org/options?channel=25.11&from=0&size=50&sort=relevance&type=packages";
               params = [
                 {
                   name = "query";
@@ -125,7 +135,7 @@
         "HomemanagerSearch" = {
           urls = [
             {
-              template = "https://home-manager-options.extranix.com/?query={searchTerms}&release=release-25.05";
+              template = "https://home-manager-options.extranix.com/?query={searchTerms}&release=release-25.11";
             }
           ];
           # iconUpdateURL = "https://home-manager-options.extranix.com/images/favicon.png";
@@ -138,9 +148,9 @@
       search.default = "searx";
       search.order = [
         "searx"
-        "Leta"
-        "DuckDuckgo"
+        "esearx"
         "Duckduckgohtml"
+        "noaiduckduckgo"
         "NixosPackage"
         "NixosOption"
         "HomemanagerSearch"
@@ -1440,20 +1450,32 @@
         "amazondotcom-us".metaData.hidden = true;
         "ddg".metaData.hidden = true;
         "ebay".metaData.hidden = true;
+        "searx" = {
+          urls = [
+            {
+              template = "https://searx.local/search";
+              params = [
+                {
+                  name = "q";
+                  value = "{searchTerms}";
+                }
+              ];
+            }
+          ];
+          iconMapObj."16" = "https://searx.local/static/themes/simple/img/favicon.png";
+          updateInterval = 24 * 60 * 60 * 1000; # every day
+          definedAliases = ["@s"];
+        };
         "noaiduckduckgo" = {
           name = "noaiduckduckgo";
           urls = [{template = "https://noai.duckduckgo.com/?q={searchTerms}&noai=1";}];
           iconMapObj."16" = "https://noai.duckduckgo.com/favicon.ico";
           definedAliases = ["@ddg"];
         };
-        "Leta" = {
-          name = "Leta";
-          urls = [{template = "https://leta.mullvad.net/search?q={searchTerms}&engine=google";}];
-          iconMapObj."16" = "https://leta.mullvad.net/favicon.ico";
-        };
       };
       search.force = true;
-      search.default = "noaiduckduckgo";
+      # search.default = "noaiduckduckgo";
+      search.default = "searx";
       userChrome = ''
         /* https://gist.github.com/chris-vecchio/d6a47fc733559752cc3a09937381d7ae */
         /* Firefox userChrome.css */
