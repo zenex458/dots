@@ -26,7 +26,7 @@
         edwina
         eglot
         elfeed
-        #elfeed-org
+        elfeed-org
         embark
         embark-consult
         envrc
@@ -48,8 +48,8 @@
         multiple-cursors
         nix-ts-mode
         orderless
-        #org-bullets
-        #org-make-toc
+        org-bullets
+        org-make-toc
         pdf-tools
         rainbow-delimiters
         rainbow-mode
@@ -64,6 +64,7 @@
         zoxide
         pretty-sha-path
         slime
+        tree-sitter-langs
         (treesit-grammars.with-grammars (grammars:
           with grammars; [
             tree-sitter-cpp
