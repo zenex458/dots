@@ -7,7 +7,6 @@
     extraSpecialArgs = {inherit inputs;};
     users.zenex = {
       imports = [
-        # inputs.impermanence.nixosModules.home-manager.impermanence
         ../overlays
         ./mimeapps.nix
         ./pkgs.nix
