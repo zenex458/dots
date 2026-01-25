@@ -27,10 +27,16 @@
           command = ["batt.sh"];
         }
         {
+          command = ["tailscale-health.sh"];
+        }
+        {
           command = ["${lib.getExe pkgs.wlsunset}" "-S" "07:00" "-s" "20:00" "-T" "4800" "-t" "2000"];
         }
         {
           command = ["wl-paste" "--watch" "cliphist" "store"];
+        }
+        {
+          command = ["${lib.getExe pkgs.light}" "-S" "50"];
         }
         {
           command = ["${lib.getExe pkgs.cliphist}" "wipe"];
@@ -182,7 +188,7 @@
               app-id = "^vesktop$";
             }
           ];
-          block-out-from = "screen-capture";
+          # block-out-from = "screen-capture";
           open-on-workspace = "comms";
         }
       ];
