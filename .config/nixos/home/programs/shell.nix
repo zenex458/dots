@@ -30,9 +30,9 @@
 
              echo -n -s $prompt\n$suffix " "
         end
-        function ignorehistory --on-event fish_prompt
-             history --delete fg bg wormhole
-        end
+        # function ignorehistory --on-event fish_prompt
+        #      history --delete fg bg wormhole
+        # end
         function cd
              builtin cd $argv[1] && ls -A -h --classify=auto --group-directories-first --color=auto
         end
@@ -42,7 +42,15 @@
         set fish_color_param $fish_color_normal --bold
         set fish_color_error $fish_color_normal --reverse --underline
       '';
-      shellAbbrs = config.programs.bash.shellAliases;
+      shellAbbrs =
+        config.programs.bash.shellAliases
+        // {
+          # a space before a command means fish will not show up in history
+          fg = " fg";
+          bg = " bg";
+          wormhole = " wormhole";
+          curl = " curl";
+        };
       plugins = [
         {
           name = "grc";
@@ -138,6 +146,7 @@
         locate = "locate -i -d /var/cache/locate/locatedb";
         rbackup = "restic -r sftp:restic-backup-host:/home/ubuntu/data/Inc_Backup backup ~/Documents ~/.ssh ~/.gnupg ~/Dev";
         dc = "docker compose";
+        ts = "tailscale status";
       };
     };
   };
