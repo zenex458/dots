@@ -3,6 +3,7 @@
 (use-package emacs
   :init
   (setq-default org-time-stamp-custom-formats '("<%A %d/%m/%Y>" . "<%A %d/%m/%Y %H:%M>"))
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
   (defalias 'yes-or-no-p 'y-or-n-p)
   (define-prefix-command 'vterm-n-map)
   (define-prefix-command 'avy-n-map);; add this? http://yummymelon.com/devnull/announcing-casual-avy.html
