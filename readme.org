@@ -87,4 +87,7 @@ For Debian and Fedora the script will install packages, prompt for some program 
 - [[https://github.com/Misterio77/nix-starter-configs][Misterio77]] for the template
 - [[https://github.com/TLATER/dotfiles][TLATER]] for the structure setup
 - [[https://forgejo.quinzx.com/quinzx/nixOS/src/commit/6400a431a4dc772d673ec124645c25669a8e0d66/flake.nix][quinzx]] for flake optimisation
-- [[https://github.com/gvolpe/nix-config][gvolpe]] for some parts of the flake 
+- [[https://github.com/gvolpe/nix-config][gvolpe]] for some parts of the flake
+- [[https://mt-caret.github.io/blog/posts/2020-06-29-optin-state.html][mt-caret]] for impermanence setup
+- [[https://guekka.github.io/nixos-server-1][guekka]] for impermanence setup
+- [[https://notashelf.dev/posts/impermanence][notashelf]] for impermanence setup
