@@ -183,3 +183,20 @@ body {
     --purple-4: oklch(60% 0.11 310);
     --purple-5: oklch(55% 0.11 310);
 }
+[data-list-item-id*="__nitro"] {
+    display: none;
+}
+[data-list-item-id*="__shop"] {
+    display: none;
+}
+[aria-label="Send a gift"] {
+    display: none;
+}
+
+[data-list-item-id*="__quests"] {
+    display: none;
+}
+
+*[class^="nowPlayingColumn"] {
+    display: none;
+}
