@@ -63,7 +63,9 @@
         yasnippet
         zoxide
         pretty-sha-path
+        writeroom-mode
         slime
+        cmake-mode
         tree-sitter-langs
         (treesit-grammars.with-grammars (grammars:
           with grammars; [

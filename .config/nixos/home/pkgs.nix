@@ -79,7 +79,7 @@
     sbctl
     shellcheck
     shfmt
-    signal-desktop
+    unstable.signal-desktop
     slurp
     swaybg
     syncthing
@@ -114,6 +114,10 @@
     zotero
     seclists
     cutter
+    jetbrains.clion
+    cmake-format
+    wl-color-picker
+    picard
     (aspellWithDicts (
       dicts:
         with dicts; [
