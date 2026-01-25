@@ -212,8 +212,8 @@
         "app.update.service.enabled" = false;
         "app.update.silent" = false;
         "app.update.staging.enabled" = false;
-        "browser.cache.memory.capacity" = 0;
-        "browser.cache.memory.enable" = false; # enable if too slow
+        "browser.cache.memory.capacity" = -1;
+        "browser.cache.memory.enable" = true; # enable if too slow
         "browser.compactmode.show" = true;
         "browser.contentanalysis.default_result" = 0;
         "browser.contentanalysis.enabled" = false;
@@ -1228,7 +1228,7 @@
 
         # PREF: Disable disk cache
         # https://kb.mozillazine.org/Browser.cache.disk.enable
-        "browser.cache.disk.enable" = false; ## enable if too slow
+        "browser.cache.disk.enable" = false;
 
         # PREF: Disable memory cache (disabled)
         # https://kb.mozillazine.org/Browser.cache.memory.enable
@@ -1550,8 +1550,8 @@
         "app.shield.optoutstudies.enabled" = false;
         "beacon.enabled" = false;
         "breakpad.reportURL" = "";
-        "browser.cache.memory.capacity" = 0;
-        "browser.cache.memory.enable" = false;
+        "browser.cache.memory.capacity" = -1;
+        "browser.cache.memory.enable" = true;
         "browser.compactmode.show" = true;
         "browser.crashReports.unsubmittedCheck.autoSubmit2" = false;
         "browser.discovery.enabled" = false;
@@ -1682,6 +1682,7 @@
         "sidebar.revamp.round-content-area" = false;
         "sidebar.verticalTabs" = true;
         "sidebar.visibility" = "always-show";
+        "brower.cache.disk.enable" = false;
       };
     };
   };
