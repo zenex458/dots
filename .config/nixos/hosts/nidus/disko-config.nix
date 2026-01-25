@@ -70,10 +70,11 @@ in {
 
     lvm_vg = {
       pool = {
+        # TODO: add /tmp on tmpfs
         type = "lvm_vg";
         lvs = {
           swap = {
-            size = "32G";
+            size = "32G"; # TODO: reduce swap size
             content = {
               type = "swap";
             };
