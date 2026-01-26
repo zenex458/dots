@@ -3,8 +3,19 @@
 (use-package emacs
   :init
   (setq-default org-time-stamp-custom-formats '("<%A %d/%m/%Y>" . "<%A %d/%m/%Y %H:%M>"))
-  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
   (defalias 'yes-or-no-p 'y-or-n-p)
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+  (setq remote-file-name-inhibit-locks t
+        tramp-use-scp-direct-remote-copying t
+        remote-file-name-inhibit-auto-save-visited t)
+  (setq tramp-copy-size-limit (* 1024 1024)) ;; 1MB
+  (connection-local-set-profile-variables
+   'remote-direct-async-process
+   '((tramp-direct-async-process . t)))
+  (connection-local-set-profiles
+   '(:application tramp :protocol "scp")
+   'remote-direct-async-process)
+  (setq magit-tramp-pipe-stty-settings 'pty)
   (define-prefix-command 'vterm-n-map)
   (define-prefix-command 'avy-n-map);; add this? http://yummymelon.com/devnull/announcing-casual-avy.html
   (define-key isearch-mode-map (kbd "<backspace>") 'isearch-del-char)
@@ -134,8 +145,6 @@
   (display-time-default-load-average nil)
   (display-time-format "%H:%M")
   (savehist-mode 1)
-  (recentf-mode)
-  (recentf-max-saved-items 5)
   (org-startup-indented t)
   (org-pretty-entities t)
   ;;(org-hide-emphasis-markers t)
@@ -157,6 +166,7 @@
    (after-init . display-battery-mode)
    (after-init . global-subword-mode)
    (after-init . pending-delete-mode)
+   (after-init . recentf-mode)
    (compilation-filter . ansi-color-compilation-filter)
    (prog-mode-hook . (lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
    (prog-mode-hook . (lambda () (local-set-key (kbd "C-c C-c") 'recompile)))

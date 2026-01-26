@@ -2,6 +2,7 @@
   inputs,
   pkgs,
   lib,
+  config,
   ...
 }: {
   imports = [
@@ -198,15 +199,15 @@
   };
   powerManagement.powertop.enable = true;
   services = {
-    #kmscon = {
-    #  enable = true;
-    #  fonts = [
-    #    {
-    #      name = "Iosevka";
-    #      package = pkgs.iosevka;
-    #    }
-    #  ];
-    #};
+    # kmscon = { # broken doesn't launch guis
+    #   enable = true;
+    #   fonts = [
+    #     {
+    #       name = "Iosevka";
+    #       package = pkgs.iosevka;
+    #     }
+    #   ];
+    # };
     pcscd = {enable = true;};
     netbird = {
       enable = false;
@@ -518,6 +519,7 @@
       experimental-features = ["nix-command" "flakes"];
       auto-optimise-store = true;
       allowed-users = ["@wheel"];
+      trusted-users = config.nix.settings.allowed-users;
       # download-buffer-size = 524288000;
     };
     gc = {

@@ -55,7 +55,9 @@
 
       (eval-when-compile
         (require 'use-package)))
-  (setq-default vterm-shell "/run/current-system/sw/bin/bash"))
+  (progn
+    (setq-default vterm-shell "/run/current-system/sw/bin/bash")
+    (add-to-list 'tramp-remote-path "/home/zenex/.nix-profile/bin")))
 
 (provide 'early-init)
 ;;; early-init.el ends here
