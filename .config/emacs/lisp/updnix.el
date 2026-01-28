@@ -19,7 +19,7 @@
 (defun updnix ()
   "Update nixos."
   (interactive)
-  (zenex/sudo-shell-command "nixos-rebuild --use-remote-sudo switch --flake /home/zenex/Dev/dots/.config/nixos/#nidus"))
+  (zenex/sudo-shell-command "nixos-rebuild --sudo switch --flake /home/zenex/Dev/dots/.config/nixos/#nidus"))
 
 (provide 'updnix)
 ;;; updnix.el ends here
