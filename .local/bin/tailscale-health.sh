@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 
+status=$(tailscale status)
+
 while true; do
-  sleep 3
+  sleep 1m
   if ! tailscale status > /dev/null; then
-      notify-send "tailscale error"
+      if [ ! "$status" == "Tailscale is stopped." ]; then
+	        notify-send "tailscale error"
+      fi
   fi
 done
