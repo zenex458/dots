@@ -118,6 +118,7 @@
     cmake-format
     wl-color-picker
     picard
+    profanity
     (aspellWithDicts (
       dicts:
         with dicts; [
