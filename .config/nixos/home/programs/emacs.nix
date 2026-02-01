@@ -10,7 +10,6 @@
     #package = pkgs.emacs;
     extraPackages = epkgs:
       with pkgs.unstable.emacs.pkgs; [
-        #org is broken as of 3/10/25
         ace-window
         apheleia
         async

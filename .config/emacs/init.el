@@ -298,18 +298,18 @@
   (register-preview-delay 0.5)
   (xref-show-xrefs-function #'consult-xref)
   (xref-show-definitions-function #'consult-xref)
-  (consult-buffer-sources '(consult--source-hidden-buffer consult--source-modified-buffer
-							                                            consult--source-buffer
-							                                            consult--source-file-register
-							                                            consult--source-bookmark
-							                                            consult--source-project-buffer-hidden
-							                                            consult--source-project-root-hidden))
+  ;; (consult-buffer-sources '(consult--source-hidden-buffer consult--source-modified-buffer
+	;; 						                                            consult--source-buffer
+	;; 						                                            consult--source-file-register
+	;; 						                                            consult--source-bookmark
+	;; 						                                            consult--source-project-buffer-hidden
+	;; 						                                            consult--source-project-root-hidden))
   :config
   (consult-customize
    consult-theme :preview-key '(:debounce 0.2 any)
    consult-ripgrep consult-git-grep consult-grep
    consult-bookmark consult-recent-file consult-xref
-   consult--source-bookmark consult--source-file-register
+   ;; consult--source-bookmark consult--source-file-register
    :preview-key '(:debounce 0.4 any))
   (setq consult-narrow-key "<"))
 
@@ -396,16 +396,16 @@
 (use-package rainbow-delimiters
   :hook (emacs-lisp-mode . rainbow-delimiters-mode))
 
-;; (use-package elfeed
-;;   :custom
-;;   (setq elfeed-search-title-max-width '130)
-;;   (elfeed-search-filter "@3-days-ago +unread")
-;;   (elfeed-db-directory (expand-file-name (format "%s%s" user-emacs-directory "elfeed/"))))
+(use-package elfeed
+  :custom
+  (setq elfeed-search-title-max-width '130)
+  (elfeed-search-filter "@3-days-ago +unread")
+  (elfeed-db-directory (expand-file-name (format "%s%s" user-emacs-directory "elfeed/"))))
 
-;; (use-package elfeed-org
-;;   :hook (after-init . elfeed-org)
-;;   :custom
-;;   (rmh-elfeed-org-files (list (expand-file-name (format "%s%s" user-emacs-directory "elfeed.org")))))
+(use-package elfeed-org
+  :hook (after-init . elfeed-org)
+  :custom
+  (rmh-elfeed-org-files (list (expand-file-name (format "%s%s" user-emacs-directory "elfeed.org")))))
 
 (use-package nix-ts-mode
   :mode "\\.nix\\'"
@@ -419,7 +419,8 @@
   :hook ((rust-ts-mode . envrc-mode)
          (compilation-mode . envrc-mode)
          (python-ts-mode . envrc-mode)
-         (c++-ts-mode . envrc-mode)))
+         (c++-ts-mode . envrc-mode)
+         (c-ts-mode . envrc-mode)))
 
 (use-package pretty-sha-path
   :diminish pretty-sha-path-mode
@@ -508,12 +509,12 @@
   :custom
   (dired-async-mode t))
 
-;; (use-package org-bullets
-;;   :hook (org-mode . org-bullets-mode)
-;;   :custom
-;;   (org-bullets-bullet-list '("*" "+")))
+(use-package org-bullets
+  :hook (org-mode . org-bullets-mode)
+  :custom
+  (org-bullets-bullet-list '("*" "+")))
 
-;; (use-package org-make-toc)
+(use-package org-make-toc)
 
 (use-package markdown-mode
   :magic ("%md" . markdown-mode)
