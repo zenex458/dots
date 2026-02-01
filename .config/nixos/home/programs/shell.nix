@@ -30,13 +30,10 @@
 
              echo -n -s $prompt\n$suffix " "
         end
-        # function ignorehistory --on-event fish_prompt
-        #      history --delete fg bg wormhole
-        # end
+
         function cd
              builtin cd $argv[1] && ls -A -h --classify=auto --group-directories-first --color=auto
         end
-
         set fish_color_autosuggestion $fish_color_normal --underline
         set fish_color_valid_path $fish_color_normal
         set fish_color_param $fish_color_normal --bold
@@ -102,6 +99,7 @@
       '';
       shellAliases = {
         upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --sudo --log-format multiline-with-logs";
+        updb = "sudo nixos-rebuild boot --flake ~/Dev/dots/.config/nixos#nidus --sudo --log-format multiline-with-logs";
         updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --sudo -v --show-trace --log-format multiline-with-logs";
         updf = "nh os switch";
         updflake = "nix flake update --commit-lock-file";
@@ -146,7 +144,10 @@
         locate = "locate -i -d /var/cache/locate/locatedb";
         rbackup = "restic -r sftp:restic-backup-host:/home/ubuntu/data/Inc_Backup backup ~/Documents ~/.ssh ~/.gnupg ~/Dev";
         dc = "docker compose";
-        ts = "tailscale status";
+        tss = "tailscale status";
+        tsu = "tailscale up";
+        tsd = "tailscale down";
+        ts = "tailscale";
       };
     };
   };

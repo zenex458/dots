@@ -19,7 +19,8 @@ mu() {
 		echo "Starting mpd and ncmpcpp"
 	fi
 	$mpdstartcmd
-  kitty -T ncmpcpp ncmpcpp >/dev/null &
+  # kitty -T ncmpcpp ncmpcpp >/dev/null &
+  footclient -T ncmpcpp ncmpcpp >/dev/null &
 }
 
 _help() {

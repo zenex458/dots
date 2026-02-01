@@ -149,6 +149,8 @@
             ".icons"
             ".local/share/fish"
             ".local/share/simplex"
+            ".local/share/Steam"
+            ".steam"
             ".local/state/wireplumber"
             ".mozilla"
             "Dev"

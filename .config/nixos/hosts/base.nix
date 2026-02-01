@@ -25,7 +25,7 @@
       pkiBundle = "/etc/secureboot";
     };
     loader.efi.canTouchEfiVariables = true;
-    tmp.cleanOnBoot = true;
+    # tmp.cleanOnBoot = true;
 
     initrd.postDeviceCommands = lib.mkAfter ''
       mkdir /btrfs_tmp
@@ -119,6 +119,7 @@
   };
   niri-flake.cache.enable = false;
   programs = {
+    steam = {enable = true;};
     ghidra.enable = true;
     command-not-found.enable = false;
     nix-index = {
@@ -175,7 +176,7 @@
       };
       zenex = {
         hashedPasswordFile = "/persistent/var/keys/zenexP";
-        shell = pkgs.fish;
+        shell = pkgs.bash;
         isNormalUser = true;
         description = "zenex";
         extraGroups = [
@@ -232,16 +233,12 @@
     seatd = {
       enable = true;
     };
-    mullvad-vpn = {
-      enable = false;
-      package = pkgs.unstable.mullvad;
-    };
     nscd.enableNsncd = true;
     gnome.gnome-keyring.enable = true;
-    #journald.extraConfig = ''
-    #  # SystemMaxUse=250M
-    #  MaxRetentionSec=1month
-    #'';
+    journald.extraConfig = ''
+      #SystemMaxUse=250M
+      MaxRetentionSec=1month
+    '';
     #with hardened profile this is needed otherwise nix will not build
     #    logrotate.checkConfig = false;
     fstrim.enable = true;
@@ -372,6 +369,7 @@
       directories = [
         "/etc/nixos"
         "/var/log"
+        "/var/tmp"
         "/etc/secureboot"
         "/var/lib/nixos"
         "/var/lib/systemd/coredump"

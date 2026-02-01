@@ -79,6 +79,45 @@
       clean.enable = false;
       flake = "${config.home.homeDirectory}/Dev/dots/.config/nixos";
     };
+    foot = {
+      enable = true;
+      server.enable = true;
+      settings = {
+        main = {
+          term = "xterm-256color";
+          font = "Iosevka:style=regular:size=10";
+          dpi-aware = "no";
+        };
+        mouse = {
+          hide-when-typing = "yes";
+        };
+        cursor = {
+          style = "block";
+          blink = "yes";
+        };
+        colors = {
+          background = "060606";
+          foreground = "bdae93";
+          regular0 = "444444"; # black
+          regular1 = "B33929"; # red
+          regular2 = "75B329"; # green
+          regular3 = "c0c000"; # yellow
+          regular4 = "2874B2"; # blue
+          regular5 = "802caa"; # magenta
+          regular6 = "6cb2eb"; # cyan
+          regular7 = "a08a64"; # white
+
+          bright0 = "666666"; # black
+          bright1 = "f62b5a"; # red
+          bright2 = "47b413"; # green
+          bright3 = "e3c401"; # yellow
+          bright4 = "24acd4"; # blue
+          bright5 = "f2affd"; # magenta
+          bright6 = "13c299"; # cyan
+          bright7 = "bdae93"; # white
+        };
+      };
+    };
     kitty = {
       enable = true;
       settings = {
