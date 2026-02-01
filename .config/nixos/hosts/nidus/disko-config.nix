@@ -70,7 +70,6 @@ in {
 
     lvm_vg = {
       pool = {
-        # TODO: add /tmp on tmpfs
         type = "lvm_vg";
         lvs = {
           swap = {
@@ -103,15 +102,26 @@ in {
                   ];
                   mountpoint = "/nix";
                 };
-                "/tmp" = {
-                  mountOptions = ["compress=zstd" "noatime"];
-                  # mountOptions = ["noatime"];
-                  mountpoint = "/tmp";
-                };
               };
             };
           };
         };
+      };
+    };
+    nodev = {
+      "/tmp" = {
+        fsType = "tmpfs";
+        mountOptions = [
+          "noatime"
+          "size=2G"
+        ];
+      };
+      "/home/zenex/.config/chromium" = {
+        fsType = "tmpfs";
+        mountOptions = [
+          "noatime"
+          "size=1G"
+        ];
       };
     };
   };
