@@ -1,12 +1,56 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }: {
-  home.shell.enableFishIntegration = true;
+  home.shell.enableFishIntegration = false;
+  home.shell.enableZshIntegration = true;
+
   programs = {
+    starship = {
+      enable = true;
+      enableZshIntegration = true;
+      enableBashIntegration = false;
+      settings = {
+        add_newline = false;
+        format = lib.concatStrings [
+          "\\["
+          "$directory"
+          "\\]"
+          "$status"
+          "$line_break"
+          "$character"
+        ];
+        scan_timeout = 10;
+        character = {
+          success_symbol = "λ";
+          error_symbol = "λ";
+        };
+        directory = {
+          style = "fg:#bdae93";
+          truncation_length = 10;
+          format = "[$path]($style)";
+          truncate_to_repo = false;
+          repo_root_format = "[$path]($style)";
+        };
+        status = {
+          disabled = false;
+          symbol = "";
+          not_executable_symbol = "";
+          not_found_symbol = "";
+          sigint_symbol = "";
+          signal_symbol = "";
+          format = "[\\[$common_meaning$signal_name$maybe_int\\]]($style)";
+          map_symbol = false;
+          recognize_signal_code = false;
+          pipestatus = true;
+        };
+      };
+    };
     dircolors = {
       enable = true;
+      enableZshIntegration = true;
     };
     direnv = {
       enable = true;
@@ -18,10 +62,95 @@
       enable = true;
       enableBashIntegration = true;
       enableFishIntegration = true;
+      enableZshIntegration = true;
+    };
+    zsh = {
+      enable = true;
+      dotDir = "${config.xdg.configHome}/zsh";
+      shellAliases = config.programs.bash.shellAliases;
+      sessionVariables = config.home.sessionVariables;
+      completionInit = "autoload -Uz compinit";
+      enableCompletion = true;
+      autocd = true;
+      # defaultKeymap = "viins";
+      defaultKeymap = "emacs";
+      history = {
+        ignoreAllDups = true;
+        ignorePatterns = ["fg *" "bg *" "wormhole *" "curl *"];
+        path = "$ZDOTDIR/.zsh_history";
+      };
+      autosuggestion = {
+        enable = true;
+        highlight = "fg=#bdae93,bg=#060606,bold,underline";
+      };
+      syntaxHighlighting = {
+        enable = true;
+        styles = {
+          suffix-alias = "fg=#bdae93";
+          precommand = "fg=#bdae93";
+          arg0 = "fg=#bdae93";
+          alias = "fg=#bdae93";
+          path = "fg=#bdae93";
+          unknown-token = "fg=#bdae93,underline";
+          command_error = "fg=#bdae93,underline";
+        };
+      };
+      plugins = [
+        {
+          name = "zsh-command-time";
+          src = pkgs.zsh-command-time;
+          file = "share/zsh/plugins/command-time/command-time.plugin.zsh";
+        }
+      ];
+      initContent = ''
+        #https://scottspence.com/posts/speeding-up-my-zsh-shell
+        if [ "$(date +'%j')" != "''$(stat -f '%Sm' -t '%j' $HOME/.config/zsh/.zcompdump 2>/dev/null)" ]; then
+            compinit -d $HOME/.config/zsh/.zcompdump
+        else
+            compinit -C -d $HOME/.config/zsh/.zcompdump #i don't think -d is needed here
+        fi
+
+        zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate _aliases _functions
+        zstyle ':completion:*:*:*:*:descriptions' format '%F{#bdae93}[%d]%f'
+        zstyle ':completion:*' use-cache on
+        zstyle ':completion:*' cache-path "$HOME/.config/zsh/.zcompcache"
+        zstyle ':completion:*' group-name ' '
+        zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+        zstyle ':completion:*' list-colors "''${(s.:.)LS_COLORS}"
+        zstyle ':completion:*' verbose true
+        zstyle ':completion:*' menu select search
+        # ZSH_AUTOSUGGEST_STRATEGY=(completion)
+        setopt AUTO_PUSHD PUSHD_IGNORE_DUPS PUSHD_MINUS COMPLETE_IN_WORD REC_EXACT LIST_PACKED LIST_ROWS_FIRST GLOBDOTS NOMATCH NOTIFY CORRECT LIST_PACKED HIST_FIND_NO_DUPS HIST_REDUCE_BLANKS HIST_SAVE_NO_DUPS INC_APPEND_HISTORY SHARE_HISTORY
+        _comp_options+=(globdots)
+        unsetopt beep
+        if [ -z "$INSIDE_EMACS" ]; then
+          fzy-history-widget() {
+            emulate -L zsh
+           	zle -I
+           	local S=$(history 0 | sort -rn | cut -c 8- | awk '!visited[''$0]++' | fzy -q "''${LBUFFER//$/\\$}")
+           	if [[ -n $S ]] ; then
+           		LBUFFER=$S
+           	fi
+           	zle reset-prompt
+           }
+           zle -N fzy-history-widget
+           bindkey '^R' fzy-history-widget
+        fi
+        cd() {
+        	if [ -z "$#" ]; then
+        		builtin cd
+        	else
+        		builtin cd "$@"
+        	fi
+        	if [ $? -eq 0 ]; then
+        		ls -h -A --classify=auto --color=auto --group-directories-first
+        	fi
+        }
+      '';
     };
 
     fish = {
-      enable = true;
+      enable = false;
       interactiveShellInit = ''
         set fish_greeting
         function fish_prompt --description 'prompt'
@@ -109,8 +238,9 @@
         ls = "ls -A -h --classify=auto --group-directories-first --color=auto";
         ga = "git add";
         gc = "git commit -m";
-        updoff = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --use-remote-sudo --log-format multiline-with-logs && sleep 2 && systemctl poweroff";
-        updr = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --use-remote-sudo --log-format multiline-with-logs && sleep 2 && systemctl reboot";
+        gs = "git status";
+        updoff = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --sudo --log-format multiline-with-logs && sleep 2 && systemctl poweroff";
+        updr = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --sudo --log-format multiline-with-logs && sleep 2 && systemctl reboot";
         grep = "grep -i --colour=auto";
         mkdir = "mkdir -pv";
         mv = "mv -iv";

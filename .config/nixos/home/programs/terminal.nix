@@ -161,6 +161,7 @@
       # add new-window -c "#{pane_current_path}"
       # add splitp -c "#{pane_current_path}"
       enable = true;
+      shell = "${pkgs.zsh}/bin/zsh";
       aggressiveResize = true;
       prefix = "C-q";
       baseIndex = 0;
@@ -168,7 +169,7 @@
       historyLimit = 100000;
       keyMode = "emacs";
       mouse = true;
-      terminal = "tmux-256color";
+      # terminal = "tmux-256color";
       extraConfig = ''
         set -g set-titles on
         set -s set-clipboard external

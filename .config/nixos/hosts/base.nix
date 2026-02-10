@@ -6,7 +6,6 @@
   ...
 }: {
   imports = [
-    ../overlays
     inputs.home-manager.nixosModules.home-manager
     inputs.impermanence.nixosModules.impermanence
     inputs.disko.nixosModules.disko
@@ -119,13 +118,20 @@
   };
   niri-flake.cache.enable = false;
   programs = {
-    steam = {enable = true;};
+    noisetorch.enable = true;
+    gamemode.enable = true;
+    gamescope.enable = true;
+    steam = {
+      enable = true;
+      remotePlay.openFirewall = true;
+    };
     ghidra.enable = true;
+    wireshark.enable = true;
     command-not-found.enable = false;
     nix-index = {
       enable = true;
       enableBashIntegration = true;
-      enableFishIntegration = true;
+      # enableFishIntegration = true;
       enableZshIntegration = false;
     };
     nix-ld = {
@@ -157,7 +163,8 @@
     };
     light.enable = true;
     dconf.enable = true;
-    fish.enable = true;
+    # fish.enable = true;
+    zsh.enable = true;
     bash.promptInit = ''
       if [ "$LOGNAME" = root ] || [ "$(id -u)" -eq 0 ]; then
       	PS1="\[\e[01;31m\]\[\u@\h:\w\n# \]\\[\e[00m\]"
@@ -362,7 +369,7 @@
     };
     defaultPackages = lib.mkForce [];
     systemPackages = with pkgs; [git vim emacs-nox tmux sbctl];
-    pathsToLink = ["/share/bash-completion" "/share/xdg-desktop-portal" "/share/applications" "/share/fish"];
+    pathsToLink = ["/share/bash-completion" "/share/xdg-desktop-portal" "/share/applications" "/share/zsh"];
     persistence."/persistent" = {
       enable = true; # NB: Defaults to true, not needed
       hideMounts = true;
@@ -483,8 +490,8 @@
     # allowedTCPPorts = [631 5353]; # printing
     # allowedUDPPorts = [631 5353]; # printing
 
-    allowedTCPPorts = [33573];
-    allowedUDPPorts = [33573];
+    allowedTCPPorts = [33573 6969];
+    allowedUDPPorts = [33573 6969];
 
     #allowedTCPPortRanges = [
     #  {
