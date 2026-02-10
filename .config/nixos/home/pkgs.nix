@@ -113,12 +113,27 @@
     hujsonfmt
     zotero
     seclists
+    nmap
     cutter
     jetbrains.clion
     cmake-format
     wl-color-picker
     picard
     profanity
+    inetutils
+    netcat-gnu
+    nmap
+    ffuf
+    python313
+    burpsuite
+    openvpn
+    binwalk
+    (pkgs.wordlists.override {lists = with pkgs; [rockyou seclists];})
+    john
+    python313Packages.dirsearch
+    hashcat
+    gdb
+    gef
     (aspellWithDicts (
       dicts:
         with dicts; [
