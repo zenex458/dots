@@ -3,6 +3,10 @@
     ./disko-config.nix
     ./hardware-configuration.nix
     ../base.nix
+    ../../overlays/keepassxc.nix
+    ../../overlays/lix.nix
+    ../../overlays/niri.nix
+    ../../overlays/unstable.nix
   ];
   networking.hostName = "tetanus";
 

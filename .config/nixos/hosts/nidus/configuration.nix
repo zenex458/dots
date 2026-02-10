@@ -8,6 +8,7 @@
     ./disko-config.nix
     ./hardware-configuration.nix
     ../base.nix
+    ../../overlays
   ];
   networking.hostName = "nidus";
   services = {
