@@ -36,7 +36,7 @@
   outputs = inputs @ {nixpkgs, ...}: let
     # Used with `nixos-rebuild --flake .#<hosts>`
     # nixosConfigurations."<hosts>".config.system.build.toplevel must be a derivation
-    hosts = ["nidus" "tetatnus"];
+    hosts = ["nidus" "tetanus"];
     mkSystem = hostname:
       nixpkgs.lib.nixosSystem {
         specialArgs = {
