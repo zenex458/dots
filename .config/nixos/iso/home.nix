@@ -8,14 +8,21 @@
 }: {
   imports = [../home/programs/firefox.nix];
   home.stateVersion = "25.11";
-  home.file.".xinitrc" = {
-    enable = true;
-    text = ''
-      xsetroot -cursor_name left_ptr &
-      redshift -o -O 2000 &
-      xrdb ~/.Xresources &
-      exec xmonad
-    '';
+  home.file = {
+    "dots" = {
+      source = ../../..;
+      executable = true;
+      recursive = true;
+    };
+    ".xinitrc" = {
+      enable = true;
+      text = ''
+        xsetroot -cursor_name left_ptr &
+        redshift -o -O 2000 &
+        xrdb ~/.Xresources &
+        exec xmonad
+      '';
+    };
   };
 
   programs.tmux = {
