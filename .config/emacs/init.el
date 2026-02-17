@@ -5,6 +5,7 @@
   (setq-default org-time-stamp-custom-formats '("<%A %d/%m/%Y>" . "<%A %d/%m/%Y %H:%M>"))
   (defalias 'yes-or-no-p 'y-or-n-p)
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+  (setq treesit-font-lock-level 4)
   (setq remote-file-name-inhibit-locks t
         tramp-use-scp-direct-remote-copying t
         remote-file-name-inhibit-auto-save-visited t)
@@ -368,6 +369,9 @@
   (setf (alist-get 'typstyle apheleia-formatters)
 	      '("typstyle"))
   (add-to-list 'apheleia-mode-alist '(typst-ts-mode . typstyle))
+  (setf (alist-get 'gofmt apheleia-formatters)
+	      '("gofmt"))
+  (add-to-list 'apheleia-mode-alist '(go-ts-mode . gofmt))
   (setf (alist-get 'bibfmt apheleia-formatters)
 	      '("bibtex-tidy"))
   (add-to-list 'apheleia-mode-alist '(bibtex-mode . bibfmt))
@@ -412,6 +416,9 @@
   ;; :hook ((nix-ts-mode . (lambda ()(electric-pair-mode -1))));;surely theres a better way?
   )
 
+(use-package go-ts-mode
+  :mode "\\.go\\'")
+
 (use-package rust-ts-mode
   :mode "\\.rs\\'")
 
@@ -420,6 +427,7 @@
          (compilation-mode . envrc-mode)
          (python-ts-mode . envrc-mode)
          (c++-ts-mode . envrc-mode)
+         (go-ts-mode . envrc-mode)
          (c-ts-mode . envrc-mode)))
 
 (use-package pretty-sha-path
@@ -481,6 +489,7 @@
 	       (nix-ts-mode . eglot-ensure)
          (typst-ts-mode . eglot-ensure)
          (c++-ts-mode . eglot-ensure)
+         (go-ts-mode . eglot-ensure)
          (rust-ts-mode . eglot-ensure))
   :custom
   (eglot-autoshutdown t)

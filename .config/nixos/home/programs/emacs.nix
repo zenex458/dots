@@ -23,6 +23,7 @@
         dockerfile-mode
         docker
         edwina
+        ocaml-ts-mode
         eglot
         elfeed
         elfeed-org
@@ -65,7 +66,7 @@
         writeroom-mode
         slime
         cmake-mode
-        tree-sitter-langs
+        # tree-sitter-langs
         (treesit-grammars.with-grammars (grammars:
           with grammars; [
             tree-sitter-cpp
@@ -81,6 +82,8 @@
             tree-sitter-yaml
             tree-sitter-bash
             tree-sitter-typst
+            tree-sitter-ocaml
+            tree-sitter-go
           ]))
       ];
     extraConfig = ''
