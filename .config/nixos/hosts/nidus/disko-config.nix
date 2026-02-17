@@ -72,12 +72,12 @@ in {
       pool = {
         type = "lvm_vg";
         lvs = {
-          swap = {
-            size = "32G"; # TODO: reduce swap size
-            content = {
-              type = "swap";
-            };
-          };
+          # swap = {
+          #   size = "16G";
+          #   content = {
+          #     type = "swap";
+          #   };
+          # };
           root = {
             size = "100%";
             content = {

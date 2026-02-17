@@ -13,8 +13,9 @@
     inputs.niri.nixosModules.niri
     #    ./hardened.nix
   ];
+  zramSwap.enable = true;
   boot = {
-    kernel.sysctl."vm.swappiness" = 0;
+    kernel.sysctl."vm.swappiness" = 1;
     # supportedFilesystems = ["ntfs"];
     kernelPackages = pkgs.linuxPackages_latest;
     #loader.systemd-boot.enable = true;
@@ -125,7 +126,10 @@
       enable = true;
       remotePlay.openFirewall = true;
     };
-    ghidra.enable = true;
+    ghidra = {
+      enable = true;
+      package = pkgs.unstable.ghidra;
+    };
     wireshark.enable = true;
     command-not-found.enable = false;
     nix-index = {
