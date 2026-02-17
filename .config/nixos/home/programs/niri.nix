@@ -16,7 +16,7 @@
       prefer-no-csd = true;
       workspaces."1" = {name = "browser";};
       workspaces."2" = {name = "emacs";};
-      workspaces."3" = {name = "vid";};
+      workspaces."3" = {name = "misc";};
       workspaces."4" = {name = "mu";};
       workspaces."5" = {name = "comms";};
       spawn-at-startup = [
@@ -153,7 +153,15 @@
               app-id = "^mpv$";
             }
           ];
-          open-on-workspace = "vid";
+          open-on-workspace = "misc";
+        }
+        {
+          matches = [
+            {
+              app-id = "^ghidra-Ghidra$";
+            }
+          ];
+          open-on-workspace = "misc";
         }
         {
           matches = [
@@ -171,7 +179,7 @@
             }
           ];
           block-out-from = "screen-capture";
-          open-on-workspace = "comms";
+          open-on-workspace = "misc";
         }
         {
           matches = [
