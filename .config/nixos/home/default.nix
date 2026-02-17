@@ -55,10 +55,10 @@
           size = 10;
         };
       };
-      qt = {
-        enable = true;
-        style.name = "bb10dark";
-      };
+      # qt = {
+      #   enable = true;
+      #   style.name = "bb10dark";
+      # };
       programs = {
         mpv = {
           enable = true;
@@ -135,9 +135,11 @@
         };
         persistence."/persistent" = {
           directories = [
+            ".cargo"
             ".config/emacs"
             ".config/feather"
             ".config/gh"
+            ".config/ghidra"
             ".config/netbird"
             ".config/opensnitch"
             ".config/Signal"
@@ -145,14 +147,13 @@
             ".config/vesktop"
             ".config/zotero"
             ".config/zsh"
-            ".cargo"
             ".icons"
             ".local/share/fish"
             ".local/share/simplex"
             ".local/share/Steam"
-            ".steam"
             ".local/state/wireplumber"
             ".mozilla"
+            ".steam"
             "Dev"
             "Documents"
             "Downloads"
