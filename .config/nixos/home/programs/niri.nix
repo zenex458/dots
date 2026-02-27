@@ -33,7 +33,7 @@
           command = ["${lib.getExe pkgs.wlsunset}" "-S" "07:00" "-s" "20:00" "-T" "4800" "-t" "2000"];
         }
         {
-          command = ["wl-paste" "--watch" "cliphist" "store"];
+          command = ["${pkgs.wl-clipboard}/bin/wl-paste" "--watch" "cliphist" "store"];
         }
         {
           command = ["${lib.getExe pkgs.light}" "-S" "50"];
@@ -51,8 +51,8 @@
 
       input = {
         keyboard = {
-          repeat-delay = 300;
-          repeat-rate = 50;
+          # repeat-delay = 300;
+          # repeat-rate = 50;
           xkb = {
             layout = "gb";
             options = "altwin:ctrl_alt_win,caps:shift_nocancel,caps:backspace";
@@ -187,6 +187,7 @@
               app-id = "^chat-simplex-desktop-MainKt$";
             }
           ];
+          open-fullscreen = true;
           block-out-from = "screen-capture";
           open-on-workspace = "comms";
         }
