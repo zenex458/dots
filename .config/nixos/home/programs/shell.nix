@@ -57,6 +57,21 @@
       enableBashIntegration = true;
       silent = true;
       config = {whitelist = {prefix = ["~/Dev"];};};
+      nix-direnv.enable = true;
+      # SEE https://github.com/direnv/direnv/wiki/Customizing-cache-location
+      # NOTE use this to better integrate with tools that poorly recurse the filesystem
+      stdlib = ''
+        : "''${XDG_CACHE_HOME:="''${HOME}/.cache"}"
+        declare -A direnv_layout_dirs
+        direnv_layout_dir() {
+            local hash path
+            echo "''${direnv_layout_dirs[$PWD]:=$(
+                hash="''$(sha1sum - <<< "$PWD" | head -c40)"
+                path="''${PWD//[^a-zA-Z0-9]/-}"
+                echo "''${XDG_CACHE_HOME}/direnv/layouts/''${hash}''${path}"
+            )}"
+        }
+      '';
     };
     zoxide = {
       enable = true;
@@ -269,15 +284,16 @@
         log = "journalctl -S today -r -x";
         e = "emacsclient -a emacs -t";
         upded = "systemctl --user restart emacs.service && systemctl --user status emacs.service";
-        ns = "niri-session";
+        ns = "kmscon-launch-gui niri-session";
         bfs = "bfs -exclude -name .git -exclude -name .ccls-cache -exclude -name '*env*'";
         locate = "locate -i -d /var/cache/locate/locatedb";
         rbackup = "restic -r sftp:restic-backup-host:/home/ubuntu/data/Inc_Backup backup ~/Documents ~/.ssh ~/.gnupg ~/Dev";
         dc = "docker compose";
+        ts = "tailscale";
         tss = "tailscale status";
         tsu = "tailscale up";
         tsd = "tailscale down";
-        ts = "tailscale";
+        tsr = "sudo systemctl restart tailscaled.service";
       };
     };
   };

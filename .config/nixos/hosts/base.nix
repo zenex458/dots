@@ -136,7 +136,7 @@
       enable = true;
       enableBashIntegration = true;
       # enableFishIntegration = true;
-      enableZshIntegration = false;
+      enableZshIntegration = true;
     };
     nix-ld = {
       enable = true;
@@ -206,21 +206,29 @@
     };
   };
 
-  console = {
-    useXkbConfig = true;
-  };
   powerManagement.powertop.enable = true;
   services = {
-    # kmscon = { # broken doesn't launch guis
-    #   enable = true;
-    #   fonts = [
-    #     {
-    #       name = "Iosevka";
-    #       package = pkgs.iosevka;
-    #     }
-    #   ];
-    # };
-    pcscd = {enable = true;};
+    smartd.enable = true;
+    kmscon = {
+      # broken doesn't launch guis https://github.com/NixOS/nixpkgs/issues/385497, unless the service is unstable(as of 02/26), as well as having the unstable package installed
+      enable = true;
+      hwRender = true;
+      package = pkgs.unstable.kmscon;
+      extraConfig = ''
+        xkb-layout=gb
+        xkb-options=altwin:ctrl_alt_win
+        palette=custom
+        palette-foreground=189,174,147
+        palette-background=6,6,6
+      '';
+      fonts = [
+        {
+          name = "Iosevka";
+          package = pkgs.iosevka;
+        }
+      ];
+    };
+    pcscd.enable = true;
     netbird = {
       enable = false;
       package = pkgs.unstable.netbird;
@@ -241,9 +249,7 @@
       # pkgs.android-udev-rules
       pkgs.nitrokey-udev-rules
     ];
-    seatd = {
-      enable = true;
-    };
+    seatd.enable = true;
     nscd.enableNsncd = true;
     gnome.gnome-keyring.enable = true;
     journald.extraConfig = ''
@@ -283,22 +289,8 @@
     #};
     dbus.enable = true;
     libinput.enable = true;
-    xserver = {
-      enable = true;
-      windowManager.xmonad = {
-        enable = false;
-        enableContribAndExtras = false;
-      };
-      displayManager.startx.enable = true;
-      xkb = {
-        layout = "gb";
-        variant = "";
-        options = "altwin:ctrl_alt_win";
-      };
-    };
-
     opensnitch.enable = false;
-    ntp.enable = false; # #disable the systemd-timesyncd
+    ntp.enable = false; #disable the systemd-timesyncd
     chrony = {
       enable = true;
       initstepslew.enabled = true;
