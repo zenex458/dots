@@ -8,7 +8,6 @@
     # gron # json grepper
     # https://viric.name/soft/ts/
     # https://www.gnu.org/software/parallel
-    # imhex
     # kismet
     # macchanger
     # mpvScripts.mpris
@@ -16,6 +15,7 @@
     # rlwrap # for the readline
     # sigrok-cli
     # yewtube
+    # moreutils
     age
     alejandra
     alsa-utils
@@ -31,7 +31,6 @@
     cliphist
     cmake-format
     cryptsetup
-    cutter
     dig
     exfatprogs
     exif
@@ -40,6 +39,7 @@
     ffmpegthumbnailer
     ffuf
     file
+    fq
     fuse3
     fzy
     gcc
@@ -59,6 +59,7 @@
     hunspell
     hunspellDicts.en-gb-large
     imagemagick
+    imhex
     imv
     inetutils
     irssi
@@ -72,7 +73,6 @@
     magic-wormhole
     man-pages
     man-pages-posix
-    moreutils
     mpc
     multimon-ng
     mupdf
@@ -81,7 +81,6 @@
     netcat-gnu
     nitrokey-app2
     nixd
-    nmap
     nmap
     nodePackages.bash-language-server
     nodePackages_latest.prettier
@@ -93,7 +92,9 @@
     picard
     profanity
     pulsemixer
+    pwntools
     python313
+    python313Packages.ipython
     python313Packages.numpy
     python313Packages.requests
     python313Packages.z3-solver
@@ -107,6 +108,7 @@
     shellcheck
     shfmt
     slurp
+    smartmontools
     sonic-visualiser
     spek
     steghide
@@ -126,6 +128,7 @@
     typstyle
     unstable.signal-desktop
     unstable.simplex-chat-desktop
+    unstable.kmscon
     unzip
     usbutils
     vesktop
@@ -144,6 +147,7 @@
     yt-dlp
     zip
     zotero
+    (cutter.withPlugins (p: with p; [rz-ghidra jsdec sigdb]))
     (pkgs.wordlists.override {lists = with pkgs; [rockyou seclists];})
     (aspellWithDicts (
       dicts:
