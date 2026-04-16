@@ -428,6 +428,7 @@
          (python-ts-mode . envrc-mode)
          (c++-ts-mode . envrc-mode)
          (go-ts-mode . envrc-mode)
+         (java-ts-mode . envrc-mode)
          (c-ts-mode . envrc-mode)))
 
 (use-package pretty-sha-path
@@ -439,6 +440,20 @@
 
 ;; https://github.com/promethial/.emacs.d/blob/c71732112300f1dc294769821533a8627440b282/init.el#L326
 (use-package haskell-mode)
+
+(use-package slime
+  :ensure t
+  :config
+  (setq inferior-lisp-program "/home/zenex/.nix-profile/bin/sbcl")
+  (setq slime-contribs '(slime-fancy)))
+
+(use-package slime-company
+  :ensure t
+  :init
+  (require 'company)
+  (slime-setup '(slime-fancy slime-company)))
+
+
 
 (use-package corfu
   :hook ((after-init . global-corfu-mode)

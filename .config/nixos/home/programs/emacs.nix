@@ -66,6 +66,8 @@
         writeroom-mode
         slime
         cmake-mode
+        slime
+        slime-company
         # tree-sitter-langs
         (treesit-grammars.with-grammars (grammars:
           with grammars; [
@@ -84,6 +86,7 @@
             tree-sitter-typst
             tree-sitter-ocaml
             tree-sitter-go
+            tree-sitter-java
           ]))
       ];
     extraConfig = ''
