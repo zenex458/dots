@@ -15,9 +15,9 @@
   ];
   zramSwap.enable = true;
   boot = {
-    kernel.sysctl."vm.swappiness" = 1;
+    kernel.sysctl."vm.swappiness" = 0;
     # supportedFilesystems = ["ntfs"];
-    kernelPackages = pkgs.linuxPackages_latest;
+    # kernelPackages = pkgs.linuxPackages_latest;
     #loader.systemd-boot.enable = true;
     loader.systemd-boot.enable = lib.mkForce false;
     lanzaboote = {
@@ -58,34 +58,6 @@
     "d /persistent/etc/nixos/ 0700 root root"
   ];
 
-  programs.fuse.userAllowOther = true;
-
-  networking = {
-    timeServers = [
-      "time.cloudflare.com"
-      "ntppool1.time.nl"
-      "nts.netnod.se"
-      "ptbtime1.ptb.de"
-    ];
-    wireless.iwd = {
-      enable = true;
-      settings = {
-        General = {
-          "EnableNetworkConfiguration" = true;
-          "AddressRandomization" = "once";
-          "AddressRandomizationRange" = "nic";
-        };
-        Settings = {
-          AutoConnect = true;
-        };
-        Network = {
-          NameResolvingService = "resolvconf";
-        };
-      };
-    };
-    enableIPv6 = false;
-  };
-
   hardware = {
     amdgpu.opencl.enable = true;
     nitrokey.enable = true;
@@ -109,8 +81,12 @@
       LC_TIME = "en_GB.UTF-8";
     };
   };
+  users.extraGroups.vboxusers.members = ["zenex"];
   virtualisation = {
-    libvirtd.enable = true;
+    libvirtd.enable = false;
+    virtualbox.host.enable = true;
+    virtualbox.host.enableHardening = false;
+    # virtualbox.host.package = pkgs.unstable.virtualbox;
     docker = {
       enable = true;
       storageDriver = "btrfs";
@@ -119,6 +95,7 @@
   };
   niri-flake.cache.enable = false;
   programs = {
+    fuse.userAllowOther = true;
     noisetorch.enable = true;
     gamemode.enable = true;
     gamescope.enable = true;
@@ -235,7 +212,7 @@
     };
 
     tailscale = {
-      enable = true;
+      enable = false;
       useRoutingFeatures = "both";
     };
     locate = {
@@ -261,9 +238,11 @@
     fstrim.enable = true;
     openssh = {
       enable = true;
-      settings.PasswordAuthentication = false;
-      settings.KbdInteractiveAuthentication = true;
-      settings.PermitRootLogin = "no";
+      settings = {
+        PasswordAuthentication = false;
+        KbdInteractiveAuthentication = true;
+        PermitRootLogin = "no";
+      };
       allowSFTP = false;
       extraConfig = ''
         AllowTcpForwarding yes
@@ -479,30 +458,62 @@
     };
   };
 
-  networking.firewall = {
-    #    nftables.enable = true;
-    enable = true;
-    #    pingLimit = "--limit 1/minute --limit-burst 5";
-    # allowedTCPPorts = [631 5353]; # printing
-    # allowedUDPPorts = [631 5353]; # printing
+  networking = {
+    # nameservers = [
+    #   "9.9.9.9"
+    #   "149.112.112.112"
+    #   "2620:fe::fe"
+    #   "2620:fe::9"
+    #   "1.1.1.1"
+    # ];
+    timeServers = [
+      "time.cloudflare.com"
+      "ntppool1.time.nl"
+      "nts.netnod.se"
+      "ptbtime1.ptb.de"
+    ];
+    wireless.iwd = {
+      enable = true;
+      settings = {
+        General = {
+          "EnableNetworkConfiguration" = true;
+          "AddressRandomization" = "once";
+          "AddressRandomizationRange" = "nic";
+        };
+        Settings = {
+          AutoConnect = true;
+        };
+        Network = {
+          NameResolvingService = "resolvconf";
+          # NameResolvingService = "none";
+        };
+      };
+    };
+    firewall = {
+      #    nftables.enable = true;
+      enable = false;
+      #    pingLimit = "--limit 1/minute --limit-burst 5";
+      # allowedTCPPorts = [631 5353]; # printing
+      # allowedUDPPorts = [631 5353]; # printing
 
-    allowedTCPPorts = [33573 6969];
-    allowedUDPPorts = [33573 6969];
+      allowedTCPPorts = [33573 6969];
+      allowedUDPPorts = [33573 6969];
 
-    #allowedTCPPortRanges = [
-    #  {
-    #    from = 1714;
-    #    to = 1764;
-    #  }
-    #  # kdeconnect
-    #];
-    #allowedUDPPortRanges = [
-    #  {
-    #    from = 1714;
-    #    to = 1764;
-    #  }
-    #  # kdeconnect
-    #];
+      #allowedTCPPortRanges = [
+      #  {
+      #    from = 1714;
+      #    to = 1764;
+      #  }
+      #  # kdeconnect
+      #];
+      #allowedUDPPortRanges = [
+      #  {
+      #    from = 1714;
+      #    to = 1764;
+      #  }
+      #  # kdeconnect
+      #];
+    };
   };
   nixpkgs = {
     # Configure your nixpkgs instance
