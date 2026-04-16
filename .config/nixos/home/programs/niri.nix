@@ -26,9 +26,9 @@
         {
           command = ["batt.sh"];
         }
-        {
-          command = ["tailscale-health.sh"];
-        }
+        # {
+        #   command = ["tailscale-health.sh"];
+        # }
         {
           command = ["${lib.getExe pkgs.wlsunset}" "-S" "07:00" "-s" "20:00" "-T" "4800" "-t" "2000"];
         }
@@ -45,20 +45,19 @@
           command = ["${lib.getExe pkgs.swaybg}" "-i" "${config.home.homeDirectory}/Downloads/Images/Dlowsat.png"];
         }
       ];
-      environment = {
-        DISPLAY = ":0";
-      };
-
+      environment.DISPLAY = ":0";
       input = {
         keyboard = {
           # repeat-delay = 300;
           # repeat-rate = 50;
           xkb = {
             layout = "gb";
-            options = "altwin:ctrl_alt_win,caps:shift_nocancel,caps:backspace";
+            # options = "altwin:ctrl_alt_win,caps:shift_nocancel,caps:backspace";
           };
         };
         touchpad.dwt = true;
+        # trackpoint.enable = false;
+        # touchpad.enable = false;
         warp-mouse-to-focus.enable = true;
         focus-follows-mouse.enable = true;
       };
