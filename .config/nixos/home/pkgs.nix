@@ -32,6 +32,7 @@
     cmake-format
     cryptsetup
     dig
+    desmume
     exfatprogs
     exif
     feather
@@ -46,9 +47,9 @@
     gdb
     gef
     gh
-    ghidra-extensions.findcrypt
-    ghidra-extensions.ghidra-golanganalyzerextension
-    ghidra-extensions.ghidraninja-ghidra-scripts
+    unstable.ghidra-extensions.findcrypt
+    unstable.ghidra-extensions.ghidra-golanganalyzerextension
+    unstable.ghidra-extensions.ghidraninja-ghidra-scripts
     gimp3-with-plugins
     grc
     grim
@@ -68,7 +69,7 @@
     john
     jq
     libnotify
-    libreoffice
+    libreoffice-fresh
     lsof
     magic-wormhole
     man-pages
@@ -93,11 +94,11 @@
     profanity
     pulsemixer
     pwntools
+    unstable.binaryninja-free
     python313
     python313Packages.ipython
-    python313Packages.numpy
-    python313Packages.requests
     python313Packages.z3-solver
+    python313Packages.pygments
     restic
     ripgrep
     ripgrep-all
@@ -147,7 +148,7 @@
     yt-dlp
     zip
     zotero
-    (cutter.withPlugins (p: with p; [rz-ghidra jsdec sigdb]))
+    (unstable.cutter.withPlugins (p: with p; [rz-ghidra jsdec sigdb]))
     (pkgs.wordlists.override {lists = with pkgs; [rockyou seclists];})
     (aspellWithDicts (
       dicts:
