@@ -91,7 +91,7 @@
       defaultKeymap = "emacs";
       history = {
         ignoreAllDups = true;
-        ignorePatterns = ["fg *" "bg *" "wormhole *" "curl *"];
+        ignorePatterns = ["fg *" "bg *" "wormhole *" "curl *" "git commit *"];
         path = "$ZDOTDIR/.zsh_history";
       };
       autosuggestion = {
