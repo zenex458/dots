@@ -1,4 +1,4 @@
-{
+{lib, ...}: {
   programs.firefox = {
     enable = true;
     policies = {
@@ -23,6 +23,87 @@
         Chatbot = false;
         LinkPreviews = false;
         TabGroups = false;
+      };
+
+      ExtensionSettings = let
+        moz = short: "https://addons.mozilla.org/firefox/downloads/latest/${short}/latest.xpi";
+      in {
+        "*".installation_mode = "blocked";
+
+        "vimium-c@gdh1995.cn.xpi" = {
+          install_url = moz "vimium-c";
+          installation_mode = "force_installed";
+          updates_disabled = true;
+        };
+
+        "addon@darkreader.org" = {
+          install_url = moz "darkreader";
+          installation_mode = "force_installed";
+          updates_disabled = true;
+        };
+
+        "uBlock0@raymondhill.net" = {
+          install_url = moz "ublock-origin";
+          installation_mode = "force_installed";
+          updates_disabled = true;
+        };
+      };
+
+      "3rdparty".Extensions = {
+        "uBlock0@raymondhill.net".adminSettings = {
+          userSettings = rec {
+            uiTheme = "dark";
+            uiAccentCustom = true;
+            advancedUserEnabled = true;
+            uiAccentCustom0 = "#bdae93";
+            cloudStorageEnabled = lib.mkForce false;
+            popupPanelSections = 31;
+            importedLists = [
+              "https://filters.adtidy.org/extension/ublock/filters/3.txt"
+              "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt"
+              "https://raw.githubusercontent.com/celenityy/BadBlock/pages/abp/badblock_plus.txt"
+              "https://raw.githubusercontent.com/celenityy/BadBlock/pages/hardened/block-page-visibility.txt"
+            ];
+
+            externalLists = lib.concatStringsSep "\n" importedLists;
+          };
+
+          selectedFilterLists = [
+            "user-filters"
+            "ublock-filters"
+            "ublock-badware"
+            "ublock-privacy"
+            "ublock-quick-fixes"
+            "ublock-unbreak"
+            "easylist"
+            "adguard-generic"
+            "easyprivacy"
+            "adguard-spyware-url"
+            "block-lan"
+            "urlhaus-1"
+            "curben-phishing"
+            "plowe-0"
+            "dpollock-0"
+            "fanboy-cookiemonster"
+            "ublock-cookies-easylist"
+            "fanboy-social"
+            "fanboy-thirdparty_social"
+            "fanboy-ai-suggestions"
+            "easylist-chat"
+            "easylist-newsletters"
+            "easylist-notifications"
+            "easylist-annoyances"
+            "adguard-mobile-app-banners"
+            "adguard-other-annoyances"
+            "adguard-popup-overlays"
+            "adguard-widgets"
+            "ublock-annoyances"
+            "https://filters.adtidy.org/extension/ublock/filters/3.txt"
+            "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt"
+            "https://raw.githubusercontent.com/celenityy/BadBlock/pages/abp/badblock_plus.txt"
+            "https://raw.githubusercontent.com/celenityy/BadBlock/pages/hardened/block-page-visibility.txt"
+          ];
+        };
       };
     };
     profiles."test" = {
