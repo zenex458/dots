@@ -1474,8 +1474,8 @@
         };
       };
       search.force = true;
-      # search.default = "noaiduckduckgo";
-      search.default = "searx";
+      search.default = "noaiduckduckgo";
+      # search.default = "searx";
       userChrome = ''
         /* https://gist.github.com/chris-vecchio/d6a47fc733559752cc3a09937381d7ae */
         /* Firefox userChrome.css */
