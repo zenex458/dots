@@ -174,6 +174,7 @@
         set -g set-titles on
         set -s set-clipboard external
         set -g status-style "fg=#bdae93,bg=#060606"
+        set-option -g allow-passthrough on
         setw -g monitor-activity on
         set -g visual-activity on
         set -g status-right ""
