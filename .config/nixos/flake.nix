@@ -36,13 +36,13 @@
   outputs = inputs @ {nixpkgs, ...}: let
     # Used with `nixos-rebuild --flake .#<hosts>`
     # nixosConfigurations."<hosts>".config.system.build.toplevel must be a derivation
-    hosts = ["nidus" "tetanus"];
+    hosts = ["nidus" "tetanus" "fowleri"];
     mkSystem = hostname:
       nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs;
         };
-        # system = "x86_64-linux";
+        #hostPlatform.system = "x86_64-linux";
         modules = [
           ./hosts/${hostname}/.
           ./home
