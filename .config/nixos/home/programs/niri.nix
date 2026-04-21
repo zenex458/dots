@@ -52,7 +52,7 @@
           # repeat-rate = 50;
           xkb = {
             layout = "gb";
-            # options = "altwin:ctrl_alt_win,caps:shift_nocancel,caps:backspace";
+            options = "altwin:ctrl_alt_win,caps:shift_nocancel,caps:backspace";
           };
         };
         touchpad.dwt = true;

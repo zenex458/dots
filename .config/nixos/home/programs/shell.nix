@@ -96,6 +96,7 @@
       };
       autosuggestion = {
         enable = true;
+        strategy = ["completion"];
         highlight = "fg=#bdae93,bg=#060606,bold,underline";
       };
       syntaxHighlighting = {
