@@ -64,7 +64,6 @@
     imv
     inetutils
     irssi
-    jetbrains.clion
     jmtpfs
     john
     jq
@@ -148,6 +147,8 @@
     yt-dlp
     zip
     zotero
+    wayscriber
+    kdePackages.polkit-kde-agent-1
     (unstable.cutter.withPlugins (p: with p; [rz-ghidra jsdec sigdb]))
     (pkgs.wordlists.override {lists = with pkgs; [rockyou seclists];})
     (aspellWithDicts (
