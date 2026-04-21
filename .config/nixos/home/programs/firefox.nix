@@ -30,7 +30,13 @@
       in {
         "*".installation_mode = "blocked";
 
-        "vimium-c@gdh1995.cn.xpi" = {
+        "{9b84b6b4-07c4-4b4b-ba21-394d86f6e9ee}" = {
+          install_url = moz "black21";
+          installation_mode = "force_installed";
+          updates_disabled = true;
+        };
+
+        "vimium-c@gdh1995.cn" = {
           install_url = moz "vimium-c";
           installation_mode = "force_installed";
           updates_disabled = true;
@@ -226,7 +232,7 @@
         };
       };
       search.force = true;
-      search.default = "searx";
+      search.default = "Duckduckgohtml";
       search.order = [
         "searx"
         "esearx"
@@ -238,39 +244,72 @@
         "NixosWiki"
       ];
       userChrome = ''
-        #   /* hides the native tabs */
-        #   #TabsToolbar {
-        #     visibility: collapse;
-        #   }
+        /* https://gist.github.com/chris-vecchio/d6a47fc733559752cc3a09937381d7ae */
+        /* Firefox userChrome.css */
 
-           # /* hides that annoying extension button */
-           # #unified-extensions-button {
-           #    display: none !important;
-           # }
+        /*** PROTON TABS TWEAKS ***/
+        /* SOURCE: modified version of https://www.userchrome.org/firefox-89-styling-proton-ui.html#tabstyler */
+        /* Make tab shape square */
+        #tabbrowser-tabs {
+          --user-tab-rounding: 0px;
+        }
 
-          /* https://gist.github.com/chris-vecchio/d6a47fc733559752cc3a09937381d7ae */
-          /* Firefox userChrome.css */
+        .tab-background {
+          border-radius: var(--user-tab-rounding) var(--user-tab-rounding) 0px 0px !important;
+          margin-block: 1px 0 !important;
+        }
 
-          /* Borders on tab scroll right and left buttons */
-          #scrollbutton-up, #scrollbutton-down { /* 6/10/2021 */
-            border-top-width: 1px !important;
-            border-bottom-width: 0 !important;
-          }
+        /* https://gist.github.com/chris-vecchio/d6a47fc733559752cc3a09937381d7ae */
+        /* Firefox userChrome.css */
 
-          /*** TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
-          /* SOURCE: https://www.userchrome.org/firefox-89-styling-proton-ui.html#menuspacing */
-          menupopup > menuitem, menupopup > menu {
-            padding-block: 4px !important;
-          }
+        /* Borders on tab scroll right and left buttons */
+        #scrollbutton-up, #scrollbutton-down { /* 6/10/2021 */
+          border-top-width: 1px !important;
+          border-bottom-width: 0 !important;
+        }
 
-          /* Tighten up hamburger menu spacing and square the edges */
-          :root {
-            --arrowpanel-menuitem-padding: 2px !important;
+        /* Inactive tabs: Separator line style */
+        /* For light backgrounds */
+        .tabbrowser-tab:not([selected=true]):not([multiselected=true]):not([beforeselected-visible="true"]) .tab-background {
+          border-right: 1px solid var(--lwt-background-tab-separator-color, rgba(0, 0, 0, .20)) !important;
+        }
 
-            --arrowpanel-border-radius: 0px !important;
-            --arrowpanel-menuitem-border-radius: 0px !important;
-          }
-          /*** END TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
+        /* For dark backgrounds */
+        [brighttext="true"] .tabbrowser-tab:not([selected=true]):not([multiselected=true]):not([beforeselected-visible="true"]) .tab-background {
+          border-right: 1px solid var(--lwt-background-tab-separator-color, var(--lwt-selected-tab-background-color, rgba(255, 255, 255, .20))) !important;
+        }
+
+        .tabbrowser-tab:not([selected=true]):not([multiselected=true]) .tab-background {
+          border-radius: 0 !important;
+        }
+
+        /* Remove padding between tabs */
+        .tabbrowser-tab {
+          padding-left: 0 !important;
+          padding-right: 0 !important;
+        }
+
+        /* Set tab fill color and text color */
+        #TabsToolbar {
+          background-color: #202340;
+          color: #F9F9FA;
+        }
+        /*** END PROTON TABS TWEAKS ***/
+
+        /*** TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
+        /* SOURCE: https://www.userchrome.org/firefox-89-styling-proton-ui.html#menuspacing */
+        menupopup > menuitem, menupopup > menu {
+          padding-block: 4px !important;
+        }
+
+        /* Tighten up hamburger menu spacing and square the edges */
+        :root {
+          --arrowpanel-menuitem-padding: 2px !important;
+
+          --arrowpanel-border-radius: 0px !important;
+          --arrowpanel-menuitem-border-radius: 0px !important;
+        }
+        /*** END TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
 
       '';
       settings = {
@@ -1557,71 +1596,6 @@
       search.force = true;
       search.default = "noaiduckduckgo";
       # search.default = "searx";
-      userChrome = ''
-        /* https://gist.github.com/chris-vecchio/d6a47fc733559752cc3a09937381d7ae */
-        /* Firefox userChrome.css */
-
-        /*** PROTON TABS TWEAKS ***/
-        /* SOURCE: modified version of https://www.userchrome.org/firefox-89-styling-proton-ui.html#tabstyler */
-        /* Make tab shape square */
-        #tabbrowser-tabs {
-          --user-tab-rounding: 0px;
-        }
-
-        .tab-background {
-          border-radius: var(--user-tab-rounding) var(--user-tab-rounding) 0px 0px !important;
-          margin-block: 1px 0 !important;
-        }
-
-        /* Borders on tab scroll right and left buttons */
-        #scrollbutton-up, #scrollbutton-down { /* 6/10/2021 */
-          border-top-width: 1px !important;
-          border-bottom-width: 0 !important;
-        }
-
-        /* Inactive tabs: Separator line style */
-        /* For light backgrounds */
-        .tabbrowser-tab:not([selected=true]):not([multiselected=true]):not([beforeselected-visible="true"]) .tab-background {
-          border-right: 1px solid var(--lwt-background-tab-separator-color, rgba(0, 0, 0, .20)) !important;
-        }
-
-        /* For dark backgrounds */
-        [brighttext="true"] .tabbrowser-tab:not([selected=true]):not([multiselected=true]):not([beforeselected-visible="true"]) .tab-background {
-          border-right: 1px solid var(--lwt-background-tab-separator-color, var(--lwt-selected-tab-background-color, rgba(255, 255, 255, .20))) !important;
-        }
-
-        .tabbrowser-tab:not([selected=true]):not([multiselected=true]) .tab-background {
-          border-radius: 0 !important;
-        }
-
-        /* Remove padding between tabs */
-        .tabbrowser-tab {
-          padding-left: 0 !important;
-          padding-right: 0 !important;
-        }
-
-        /* Set tab fill color and text color */
-        #TabsToolbar {
-          background-color: #202340;
-          color: #F9F9FA;
-        }
-        /*** END PROTON TABS TWEAKS ***/
-
-        /*** TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
-        /* SOURCE: https://www.userchrome.org/firefox-89-styling-proton-ui.html#menuspacing */
-        menupopup > menuitem, menupopup > menu {
-          padding-block: 4px !important;
-        }
-
-        /* Tighten up hamburger menu spacing and square the edges */
-        :root {
-          --arrowpanel-menuitem-padding: 2px !important;
-          --arrowpanel-border-radius: 0px !important;
-          --arrowpanel-menuitem-border-radius: 0px !important;
-        }
-        /*** END TIGHTEN UP DROP-DOWN/CONTEXT/POPUP MENU SPACING ***/
-
-      '';
       settings = {
         # "network.trr.mode" = 3;
         # "network.trr.uri" = "https://all.dns.mullvad.net/dns-query";
