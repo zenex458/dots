@@ -185,6 +185,7 @@
 
   powerManagement.powertop.enable = true;
   services = {
+    upower.enable = true;
     smartd.enable = true;
     kmscon = {
       # broken doesn't launch guis https://github.com/NixOS/nixpkgs/issues/385497, unless the service is unstable(as of 02/26), as well as having the unstable package installed
