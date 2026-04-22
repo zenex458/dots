@@ -7,10 +7,8 @@
 }: {
   imports = [
     inputs.home-manager.nixosModules.home-manager
-    inputs.impermanence.nixosModules.impermanence
     inputs.disko.nixosModules.disko
     inputs.lanzaboote.nixosModules.lanzaboote
-    inputs.niri.nixosModules.niri
     #    ./hardened.nix
   ];
   zramSwap.enable = true;
@@ -26,37 +24,7 @@
     };
     loader.efi.canTouchEfiVariables = true;
     # tmp.cleanOnBoot = true;
-
-    initrd.postDeviceCommands = lib.mkAfter ''
-      mkdir /btrfs_tmp
-      mount /dev/pool/root /btrfs_tmp
-      if [[ -e /btrfs_tmp/root ]]; then
-          mkdir -p /btrfs_tmp/old_roots
-          timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/root)" "+%Y-%m-%-d_%H:%M:%S")
-          mv /btrfs_tmp/root "/btrfs_tmp/old_roots/$timestamp"
-      fi
-
-      delete_subvolume_recursively() {
-          IFS=$'\n'
-          for i in $(btrfs subvolume list -o "$1" | cut -f 9- -d ' '); do
-              delete_subvolume_recursively "/btrfs_tmp/$i"
-          done
-          btrfs subvolume delete "$1"
-      }
-
-      for i in $(find /btrfs_tmp/old_roots/ -maxdepth 1 -mtime +30); do
-          delete_subvolume_recursively "$i"
-      done
-
-      btrfs subvolume create /btrfs_tmp/root
-      umount /btrfs_tmp
-    '';
   };
-
-  systemd.tmpfiles.rules = [
-    "d /persistent/var/keys/ 0700 root root"
-    "d /persistent/etc/nixos/ 0700 root root"
-  ];
 
   hardware = {
     amdgpu.opencl.enable = true;
@@ -93,77 +61,13 @@
       rootless.setSocketVariable = true;
     };
   };
-  niri-flake.cache.enable = false;
-  programs = {
-    fuse.userAllowOther = true;
-    noisetorch.enable = true;
-    gamemode.enable = true;
-    gamescope.enable = true;
-    steam = {
-      enable = true;
-      remotePlay.openFirewall = true;
-    };
-    ghidra = {
-      enable = true;
-      package = pkgs.unstable.ghidra;
-    };
-    wireshark.enable = true;
-    command-not-found.enable = false;
-    nix-index = {
-      enable = true;
-      enableBashIntegration = true;
-      # enableFishIntegration = true;
-      enableZshIntegration = true;
-    };
-    nix-ld = {
-      enable = true;
-      libraries = [pkgs.libpthread-stubs pkgs.ell pkgs.xorg.libxshmfence pkgs.xorg.libXScrnSaver pkgs.xprintidle-ng pkgs.libGL pkgs.pipewire];
-    };
-    obs-studio.enable = true;
-    virt-manager.enable = true;
-    niri = {
-      enable = true;
-      package = pkgs.niri;
-    };
-    # adb.enable = true;
-    localsend.enable = true;
-    # ssh.startAgent = true;
-    gnupg.agent.enable = true;
-    firejail = {
-      enable = false;
-      wrappedBinaries = {
-        firefox = {
-          executable = "${pkgs.firefox}/bin/firefox";
-          profile = "${pkgs.firejail}/etc/firejail/firefox.profile";
-          extraArgs = [
-            # Enforce dark mode
-            "--env=GTK_THEME=Adwaita:dark"
-          ];
-        };
-      };
-    };
-    light.enable = true;
-    dconf.enable = true;
-    # fish.enable = true;
-    zsh.enable = true;
-    bash.promptInit = ''
-      if [ "$LOGNAME" = root ] || [ "$(id -u)" -eq 0 ]; then
-      	PS1="\[\e[01;31m\]\[\u@\h:\w\n# \]\\[\e[00m\]"
-      else
-      	PS1="[\w]\n$ "
-      fi
-    '';
-  };
 
   users = {
-    mutableUsers = false;
     users = {
       root = {
-        hashedPasswordFile = "/persistent/var/keys/rootP";
         shell = pkgs.bash;
       };
       zenex = {
-        hashedPasswordFile = "/persistent/var/keys/zenexP";
         shell = pkgs.bash;
         isNormalUser = true;
         description = "zenex";
@@ -185,7 +89,6 @@
 
   powerManagement.powertop.enable = true;
   services = {
-    upower.enable = true;
     smartd.enable = true;
     kmscon = {
       # broken doesn't launch guis https://github.com/NixOS/nixpkgs/issues/385497, unless the service is unstable(as of 02/26), as well as having the unstable package installed
@@ -215,13 +118,6 @@
     tailscale = {
       enable = false;
       useRoutingFeatures = "both";
-    };
-    locate = {
-      enable = true;
-      package = pkgs.plocate;
-      output = /var/cache/locate/locatedb;
-      interval = "hourly";
-      pruneNames = [".bzr" ".cache" ".git" ".hg" ".svn" ".ccls-cache" "*env*"];
     };
     udev.packages = [
       # pkgs.android-udev-rules
@@ -292,140 +188,11 @@
     };
 
     thermald.enable = false;
-    tlp = {
-      enable = true;
-      settings = {
-        CPU_SCALING_GOVERNOR_ON_AC = "performance";
-        CPU_SCALING_GOVERNOR_ON_BAT = "schedutil";
-        PLATFORM_PROFILE_ON_AC = "performance";
-        PLATFORM_PROFILE_ON_BAT = "low-power";
-        START_CHARGE_THRESH_BAT0 = 75;
-        STOP_CHARGE_THRESH_BAT0 = 80;
-      };
-    };
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-      wireplumber.enable = true;
-    };
     gvfs.enable = false;
   };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  fileSystems."/persistent".neededForBoot = true;
-  environment = {
-    sessionVariables = {
-      NIXOS_OZONE_WL = "1";
-      FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
-    };
-    etc = {
-      "firejail/firefox.local".text = ''
-        # Enable native notifications.
-        dbus-user.talk org.freedesktop.Notifications
-        # Allow inhibiting screensavers.
-        dbus-user.talk org.freedesktop.ScreenSaver
-        # Allow screensharing under Wayland.
-        dbus-user.talk org.freedesktop.portal.Desktop
-        disable-mnt
-        #private-bin dbus-launch,dbus-send,firefox,which
-        #private-bin dbus-launch,dbus-send,firefox,which
-      '';
-      "firejail/firefox-common.local".text = ''
-        # private-etc fonts,group,hosts,localtime,nsswitch.conf,pki,pulse,resolv.conf,ssl
-        #private-etc fonts,group,hosts,localtime,pulse
-        private-tmp
-      '';
-      # "firejail/nolocal.net" = {
-      #   source = "${pkgs.firejail}/etc/firejail/nolocal.net";
-      #   mode = "0644";
-      # };
-    };
-    defaultPackages = lib.mkForce [];
-    systemPackages = with pkgs; [git vim emacs-nox tmux sbctl];
-    pathsToLink = ["/share/bash-completion" "/share/xdg-desktop-portal" "/share/applications" "/share/zsh"];
-    persistence."/persistent" = {
-      enable = true; # NB: Defaults to true, not needed
-      hideMounts = true;
-      directories = [
-        "/etc/nixos"
-        "/var/log"
-        "/var/tmp"
-        "/etc/secureboot"
-        "/var/lib/nixos"
-        "/var/lib/systemd/coredump"
-        "/var/lib/iwd/"
-        "/etc/docker/key.json"
-        "/var/lib/docker/"
-        "/var/lib/lxd/"
-        "/var/lib/libvirt/"
-        "/var/cache/locate/"
-
-        {
-          directory = "/var/lib/tailscale";
-          user = "root";
-          group = "root";
-          mode = "0700";
-        }
-        {
-          directory = "/var/lib/netbird";
-          user = "root";
-          group = "root";
-          mode = "0700";
-        }
-        {
-          directory = "/var/keys";
-          user = "root";
-          group = "root";
-          mode = "0700";
-        }
-      ];
-
-      files = [
-        "/etc/machine-id"
-      ];
-
-      users.zenex = {
-        directories = [
-          {
-            directory = ".gnupg";
-            mode = "0700";
-          }
-          {
-            directory = ".ssh";
-            mode = "0700";
-          }
-          {
-            directory = ".local/state/syncthing";
-            mode = "0700";
-          }
-          {
-            directory = ".local/share/zoxide/";
-            mode = "0700";
-          }
-        ];
-      };
-    };
-  };
-
-  fonts = {
-    packages = with pkgs; [
-      iosevka
-      vista-fonts
-      noto-fonts
-      noto-fonts-cjk-sans
-      aileron
-    ];
-    fontconfig = {
-      defaultFonts = {
-        monospace = ["Iosevka"];
-        sansSerif = ["Iosevka"];
-        serif = ["Iosevka"];
-      };
-    };
-  };
 
   security = {
     pam = {

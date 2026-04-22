@@ -9,6 +9,8 @@
     ./hardware-configuration.nix
     ../base.nix
     ../../overlays
+    ../impermance.nix
+    ../common-desktop.nix
   ];
   networking.hostName = "nidus";
   services = {

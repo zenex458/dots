@@ -3,6 +3,8 @@
     ./disko-config.nix
     ./hardware-configuration.nix
     ../base.nix
+    ../impermance.nix
+    ../common-desktop.nix
     ../../overlays/keepassxc.nix
     ../../overlays/lix.nix
     ../../overlays/niri.nix

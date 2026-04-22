@@ -33,23 +33,42 @@
   # For more information about well-known outputs checked by `nix flake check`:
   # https://nixos.org/manual/nix/unstable/command-ref/new-cli/nix3-flake-check.html#evaluation-checks
 
-  outputs = inputs @ {nixpkgs, ...}: let
+  outputs = {nixpkgs, ...} @ inputs: {
     # Used with `nixos-rebuild --flake .#<hosts>`
     # nixosConfigurations."<hosts>".config.system.build.toplevel must be a derivation
-    hosts = ["nidus" "tetanus" "fowleri"];
-    mkSystem = hostname:
-      nixpkgs.lib.nixosSystem {
+    nixosConfigurations = {
+      nidus = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs;
         };
-        #hostPlatform.system = "x86_64-linux";
         modules = [
-          ./hosts/${hostname}/.
+          ./hosts/nidus/.
           ./home
           inputs.home-manager.nixosModules.home-manager
         ];
       };
-  in {
-    nixosConfigurations = nixpkgs.lib.genAttrs hosts mkSystem;
+
+      tetanus = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs;
+        };
+        modules = [
+          ./hosts/tetanus/.
+          ./home
+          inputs.home-manager.nixosModules.home-manager
+        ];
+      };
+
+      fowleri = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs;
+        };
+        modules = [
+          ./overlays/lix.nix
+          ./overlays/unstable.nix
+          ./hosts/fowleri/.
+        ];
+      };
+    };
   };
 }

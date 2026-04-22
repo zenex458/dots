@@ -22,7 +22,7 @@
     firewall = {
       allowedUDPPorts = [9];
     };
-    hostName = "notbuffy";
+    hostName = "fowleri";
     interfaces = {
       enp0s31f6 = {
         wakeOnLan.enable = true;
