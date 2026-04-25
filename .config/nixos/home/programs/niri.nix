@@ -94,11 +94,11 @@
       };
       animations.enable = false;
       layout = {
-        default-column-width = {proportion = 0.5;};
+        default-column-width = {proportion = 1.0;};
         preset-column-widths = [
-          {proportion = 1. / 4.;}
+          # {proportion = 1. / 4.;}
           {proportion = 1. / 2.;}
-          {proportion = 2. / 3.;}
+          # {proportion = 2. / 3.;}
         ];
         border = {
           enable = true;
