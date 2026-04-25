@@ -117,7 +117,7 @@
     };
 
     tailscale = {
-      enable = false;
+      enable = true;
       useRoutingFeatures = "both";
     };
     udev.packages = [
