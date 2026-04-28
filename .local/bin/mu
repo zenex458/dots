@@ -20,7 +20,7 @@ mu() {
 	fi
 	$mpdstartcmd
   # kitty -T ncmpcpp ncmpcpp >/dev/null &
-  footclient -T ncmpcpp ncmpcpp >/dev/null &
+  foot -T ncmpcpp ncmpcpp >/dev/null &
 }
 
 _help() {

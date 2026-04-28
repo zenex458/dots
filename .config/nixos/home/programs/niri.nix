@@ -229,7 +229,7 @@
           "Mod+Tab".action = spawn "show.sh";
           # "Mod+Return".action = spawn "${lib.getExe pkgs.kitty}" "${lib.getExe pkgs.tmux}";
           # "Mod+Return".action = spawn "${pkgs.foot}/bin/footclient" "${lib.getExe pkgs.tmux}";
-          "Mod+T".action = spawn "${pkgs.foot}/bin/footclient" "${lib.getExe pkgs.zsh}";
+          "Mod+T".action = spawn "${lib.getExe pkgs.foot}" "${lib.getExe pkgs.zsh}";
           "Mod+P".action = sh ''com="$(${pkgs.bemenu}/bin/bemenu-run)"; niri msg action spawn -- "$com"''; # this opens new programs in its own namespace
           "Mod+Shift+Q".action = close-window;
           "Mod+H".action = focus-column-left;
