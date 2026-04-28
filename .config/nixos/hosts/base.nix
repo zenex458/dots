@@ -4,7 +4,8 @@
   lib,
   config,
   ...
-}: {
+}:
+{
   imports = [
     inputs.home-manager.nixosModules.home-manager
     inputs.disko.nixosModules.disko
@@ -49,7 +50,7 @@
       LC_TIME = "en_GB.UTF-8";
     };
   };
-  users.extraGroups.vboxusers.members = ["zenex"];
+  users.extraGroups.vboxusers.members = [ "zenex" ];
   virtualisation = {
     libvirtd.enable = false;
     virtualbox.host.enable = true;
@@ -150,7 +151,7 @@
       '';
     };
 
-    printing.enable = false; #enable for printing
+    printing.enable = false; # enable for printing
     # printing.drivers = [
     #   # pkgs.gutenprint
     #   pkgs.gutenprintBin
@@ -167,7 +168,7 @@
     dbus.enable = true;
     libinput.enable = true;
     opensnitch.enable = false;
-    ntp.enable = false; #disable the systemd-timesyncd
+    ntp.enable = false; # disable the systemd-timesyncd
     chrony = {
       enable = true;
       initstepslew.enabled = true;
@@ -197,7 +198,7 @@
 
   security = {
     pam = {
-      services.swaylock = {};
+      services.swaylock = { };
       u2f = {
         enable = true;
         settings = {
@@ -214,7 +215,6 @@
     #    audit.rules = ["-a exit,always -F arch=b64 -S execve"];
     chromiumSuidSandbox.enable = true;
     rtkit.enable = true;
-    polkit.enable = true;
     # sudo = {
     #   execWheelOnly = true;
     #   extraConfig = ''
@@ -265,8 +265,14 @@
       # allowedTCPPorts = [631 5353]; # printing
       # allowedUDPPorts = [631 5353]; # printing
 
-      allowedTCPPorts = [33573 6969];
-      allowedUDPPorts = [33573 6969];
+      allowedTCPPorts = [
+        33573
+        6969
+      ];
+      allowedUDPPorts = [
+        33573
+        6969
+      ];
 
       #allowedTCPPortRanges = [
       #  {
@@ -294,12 +300,15 @@
   };
   nix = {
     package = pkgs.lix;
-    nixPath = ["nixpkgs=${inputs.nixpkgs}"];
+    nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
     registry.nixpkgs.flake = inputs.nixpkgs;
     settings = {
-      experimental-features = ["nix-command" "flakes"];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       auto-optimise-store = true;
-      allowed-users = ["@wheel"];
+      allowed-users = [ "@wheel" ];
       trusted-users = config.nix.settings.allowed-users;
       # download-buffer-size = 524288000;
     };

@@ -4,10 +4,9 @@
   lib,
   config,
   ...
-}: {
-  imports = [
-    inputs.niri.nixosModules.niri
-  ];
+}:
+{
+  imports = [ inputs.niri.nixosModules.niri ];
 
   fonts = {
     packages = with pkgs; [
@@ -19,9 +18,9 @@
     ];
     fontconfig = {
       defaultFonts = {
-        monospace = ["Iosevka"];
-        sansSerif = ["Iosevka"];
-        serif = ["Iosevka"];
+        monospace = [ "Iosevka" ];
+        sansSerif = [ "Iosevka" ];
+        serif = [ "Iosevka" ];
       };
     };
   };
@@ -53,9 +52,20 @@
       #   mode = "0644";
       # };
     };
-    defaultPackages = lib.mkForce [];
-    systemPackages = with pkgs; [git vim emacs-nox tmux sbctl];
-    pathsToLink = ["/share/bash-completion" "/share/xdg-desktop-portal" "/share/applications" "/share/zsh"];
+    defaultPackages = lib.mkForce [ ];
+    systemPackages = with pkgs; [
+      git
+      vim
+      emacs-nox
+      tmux
+      sbctl
+    ];
+    pathsToLink = [
+      "/share/bash-completion"
+      "/share/xdg-desktop-portal"
+      "/share/applications"
+      "/share/zsh"
+    ];
   };
 
   services = {
@@ -85,15 +95,21 @@
       package = pkgs.plocate;
       output = /var/cache/locate/locatedb;
       interval = "hourly";
-      pruneNames = [".bzr" ".cache" ".git" ".hg" ".svn" ".ccls-cache" "*env*"];
+      pruneNames = [
+        ".bzr"
+        ".cache"
+        ".git"
+        ".hg"
+        ".svn"
+        ".ccls-cache"
+        "*env*"
+      ];
     };
   };
 
   niri-flake.cache.enable = false;
   programs = {
     fuse.userAllowOther = true;
-    noisetorch.enable = true;
-    gamemode.enable = true;
     gamescope.enable = true;
     steam = {
       enable = true;
@@ -113,7 +129,15 @@
     };
     nix-ld = {
       enable = true;
-      libraries = [pkgs.libpthread-stubs pkgs.ell pkgs.xorg.libxshmfence pkgs.xorg.libXScrnSaver pkgs.xprintidle-ng pkgs.libGL pkgs.pipewire];
+      libraries = [
+        pkgs.libpthread-stubs
+        pkgs.ell
+        pkgs.xorg.libxshmfence
+        pkgs.xorg.libXScrnSaver
+        pkgs.xprintidle-ng
+        pkgs.libGL
+        pkgs.pipewire
+      ];
     };
     obs-studio.enable = true;
     virt-manager.enable = true;

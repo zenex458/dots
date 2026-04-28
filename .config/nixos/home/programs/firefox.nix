@@ -1,4 +1,5 @@
-{lib, ...}: {
+{ lib, ... }:
+{
   programs.firefox = {
     enable = true;
     policies = {
@@ -25,35 +26,39 @@
         TabGroups = false;
       };
 
-      ExtensionSettings = let
-        moz = short: "https://addons.mozilla.org/firefox/downloads/latest/${short}/latest.xpi";
-      in {
-        "*".installation_mode = "blocked";
+      ExtensionSettings =
+        let
+          moz = short: "https://addons.mozilla.org/firefox/downloads/latest/${short}/latest.xpi";
+        in
+        {
+          "{9b84b6b4-07c4-4b4b-ba21-394d86f6e9ee}" = {
+            install_url = moz "black21";
+            installation_mode = "allowed";
+            updates_disabled = true;
+            private_browsing = true;
+          };
 
-        "{9b84b6b4-07c4-4b4b-ba21-394d86f6e9ee}" = {
-          install_url = moz "black21";
-          installation_mode = "force_installed";
-          updates_disabled = true;
-        };
+          "vimium-c@gdh1995.cn" = {
+            install_url = moz "vimium-c";
+            installation_mode = "allowed";
+            updates_disabled = true;
+            private_browsing = true;
+          };
 
-        "vimium-c@gdh1995.cn" = {
-          install_url = moz "vimium-c";
-          installation_mode = "force_installed";
-          updates_disabled = true;
-        };
+          "addon@darkreader.org" = {
+            install_url = moz "darkreader";
+            installation_mode = "allowed";
+            updates_disabled = true;
+            private_browsing = true;
+          };
 
-        "addon@darkreader.org" = {
-          install_url = moz "darkreader";
-          installation_mode = "force_installed";
-          updates_disabled = true;
+          "uBlock0@raymondhill.net" = {
+            install_url = moz "ublock-origin";
+            installation_mode = "allowed";
+            updates_disabled = true;
+            private_browsing = true;
+          };
         };
-
-        "uBlock0@raymondhill.net" = {
-          install_url = moz "ublock-origin";
-          installation_mode = "force_installed";
-          updates_disabled = true;
-        };
-      };
 
       "3rdparty".Extensions = {
         "uBlock0@raymondhill.net".adminSettings = {
@@ -133,15 +138,15 @@
         "ebay.co.uk".metaData.hidden = true;
         "Duckduckgohtml" = {
           name = "Duckduckgohtml";
-          urls = [{template = "https://html.duckduckgo.com/html?q={searchTerms}";}];
+          urls = [ { template = "https://html.duckduckgo.com/html?q={searchTerms}"; } ];
           iconMapObj."16" = "https://duckduckgo.com/favicon.ico";
-          definedAliases = ["@ddgh"];
+          definedAliases = [ "@ddgh" ];
         };
         "noaiduckduckgo" = {
           name = "noaiduckduckgo";
-          urls = [{template = "https://noai.duckduckgo.com/?q={searchTerms}&noai=1";}];
+          urls = [ { template = "https://noai.duckduckgo.com/?q={searchTerms}&noai=1"; } ];
           iconMapObj."16" = "https://noai.duckduckgo.com/favicon.ico";
-          definedAliases = ["@ddg"];
+          definedAliases = [ "@ddg" ];
         };
         "esearx" = {
           urls = [
@@ -157,7 +162,7 @@
           ];
           iconMapObj."16" = "https://searx.tiekoetter.com/static/themes/simple/img/favicon.png";
           updateInterval = 24 * 60 * 60 * 1000; # every day
-          definedAliases = ["@es"];
+          definedAliases = [ "@es" ];
         };
         "searx" = {
           urls = [
@@ -173,7 +178,7 @@
           ];
           iconMapObj."16" = "https://searx.local/static/themes/simple/img/favicon.png";
           updateInterval = 24 * 60 * 60 * 1000; # every day
-          definedAliases = ["@s"];
+          definedAliases = [ "@s" ];
         };
         "NixosPackage" = {
           urls = [
@@ -191,7 +196,7 @@
           # icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
           iconMapObj."16" = "https://wiki.nixos.org/favicon.ico";
           # updateInterval = 24 * 60 * 60 * 1000; # every day
-          definedAliases = ["@np"];
+          definedAliases = [ "@np" ];
         };
         "NixosOption" = {
           urls = [
@@ -208,15 +213,15 @@
           # iconUpdateURL = "https://search.nixos.org/favicon.png";
           iconMapObj."16" = "https://wiki.nixos.org/favicon.ico";
           # updateInterval = 24 * 60 * 60 * 1000; # every day
-          definedAliases = ["@no"];
+          definedAliases = [ "@no" ];
         };
 
         "NixosWiki" = {
-          urls = [{template = "https://wiki.nixos.org/w/index.php?search={searchTerms}";}];
+          urls = [ { template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; } ];
           # iconUpdateURL = "https://wiki.nixos.org/favicon.ico";
           iconMapObj."16" = "https://wiki.nixos.org/favicon.ico";
           # updateInterval = 24 * 60 * 60 * 1000; # every day
-          definedAliases = ["@nw"];
+          definedAliases = [ "@nw" ];
         };
 
         "HomemanagerSearch" = {
@@ -228,7 +233,7 @@
           # iconUpdateURL = "https://home-manager-options.extranix.com/images/favicon.png";
           iconMapObj."16" = "https://wiki.nixos.org/favicon.ico";
           # updateInterval = 24 * 60 * 60 * 1000; # every day
-          definedAliases = ["@hs"];
+          definedAliases = [ "@hs" ];
         };
       };
       search.force = true;
@@ -411,7 +416,7 @@
         "extensions.formautofill.creditCards.available" = false;
         "extensions.formautofill.creditCards.enabled" = false;
         "extensions.formautofill.heuristics.enabled" = false;
-        "extensions.getAddons.showPane" = false; #disable recommendation pane in about:addons (uses Google Analytics)
+        "extensions.getAddons.showPane" = false; # disable recommendation pane in about:addons (uses Google Analytics)
         "extensions.htmlaboutaddons.recommendations.enabled" = false;
         "extensions.quarantinedDomain=.list" = "";
         "extensions.quarantinedDomains.enabled" = true;
@@ -439,7 +444,7 @@
         "network.connectivity-service.enabled" = false;
         "network.dnsCacheEntries" = 0;
         "network.gio.supported-protocols" = "";
-        "network.trr.mode" = 1; #3 for on
+        "network.trr.mode" = 1; # 3 for on
         # "network.trr.uri" = "https://all.dns.mullvad.net/dns-query";
         "nglayout.enable_drag_images" = false;
         "pdfjs.enableScripting" = false;
@@ -521,7 +526,7 @@
 
         # PREF: Disable Location-Aware Browsing (geolocation)
         # https://www.mozilla.org/en-US/firefox/geolocation/
-        "geo.enabled" = false; #https://wiki.mozilla.org/Privacy/Privacy_Task_Force/firefox_about_config_privacy_tweeks
+        "geo.enabled" = false; # https://wiki.mozilla.org/Privacy/Privacy_Task_Force/firefox_about_config_privacy_tweeks
 
         # PREF: When geolocation is enabled, use Mozilla geolocation service instead of Google
         # https://bugzilla.mozilla.org/show_bug.cgi?id=689252
@@ -682,9 +687,9 @@
         "javascript.options.wasm" = false; # enable if too slow
 
         /**
-         ****************************************************************************
-        * SECTION: Misc                                                              *
-        *****************************************************************************
+           ****************************************************************************
+          * SECTION: Misc                                                              *
+          *****************************************************************************
         */
 
         # PREF: Disable face detection
@@ -850,9 +855,9 @@
         "network.protocol-handler.expose.data" = true;
 
         /**
-         ****************************************************************************
-        * SECTION: Extensions / plugins                                                       *
-        *****************************************************************************
+           ****************************************************************************
+          * SECTION: Extensions / plugins                                                       *
+          *****************************************************************************
         */
 
         # PREF: Ensure you have a security delay when installing add-ons (milliseconds)
@@ -918,7 +923,8 @@
 
         # PREF: Decrease system information leakage to Mozilla blocklist update servers
         # https://trac.torproject.org/projects/tor/ticket/16931
-        "extensions.blocklist.url" = "https://blocklist.addons.mozilla.org/blocklist/3/%APP_ID%/%APP_VERSION%/";
+        "extensions.blocklist.url" =
+          "https://blocklist.addons.mozilla.org/blocklist/3/%APP_ID%/%APP_VERSION%/";
 
         # PREF: Disable system add-on updates (hidden & always-enabled add-ons from Mozilla)
         # https://firefox-source-docs.mozilla.org/toolkit/mozapps/extensions/addon-manager/SystemAddons.html
@@ -929,9 +935,9 @@
         "extensions.systemAddon.update.enabled" = false;
 
         /**
-         ****************************************************************************
-        * SECTION: Firefox (anti-)features / components                              *                            *
-        *****************************************************************************
+           ****************************************************************************
+          * SECTION: Firefox (anti-)features / components                              *                            *
+          *****************************************************************************
         */
 
         # PREF: Disable Extension recommendations (Firefox >= 65)
@@ -1130,9 +1136,9 @@
         "browser.newtabpage.activity-stream.showWeather" = false;
 
         /**
-         ****************************************************************************
-        * SECTION: Automatic connections                                             *
-        *****************************************************************************
+           ****************************************************************************
+          * SECTION: Automatic connections                                             *
+          *****************************************************************************
         */
 
         # PREF: Limit the connection keep-alive timeout to 15 seconds (disabled)
@@ -1208,9 +1214,9 @@
         "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
 
         /**
-         ****************************************************************************
-        * SECTION: HTTP                                                              *
-        *****************************************************************************
+           ****************************************************************************
+          * SECTION: HTTP                                                              *
+          *****************************************************************************
         */
 
         # PREF: Disallow NTLMv1
@@ -1256,7 +1262,7 @@
         # https://feeding.cloud.geek.nz/posts/tweaking-referrer-for-privacy-in-firefox/
         # https://wiki.mozilla.org/Privacy/Privacy_Task_Force/firefox_about_config_privacy_tweeks
         # NOTICE: Blocking referers across same eTLD sites breaks some login flows relying on them, consider lowering this pref to 1
-        "network.http.referer.XOriginPolicy" = 2; #https://wiki.mozilla.org/Privacy/Privacy_Task_Force/firefox_about_config_privacy_tweeks
+        "network.http.referer.XOriginPolicy" = 2; # https://wiki.mozilla.org/Privacy/Privacy_Task_Force/firefox_about_config_privacy_tweeks
 
         # PREF: Trim HTTP referer headers to only send the scheme, host, and port
         # https://wiki.mozilla.org/Privacy/Privacy_Task_Force/firefox_about_config_privacy_tweeks
@@ -1264,7 +1270,7 @@
 
         # PREF: When sending Referer across domains, only send scheme, host, and port in the Referer header
         # https://wiki.mozilla.org/Privacy/Privacy_Task_Force/firefox_about_config_privacy_tweeks
-        "network.http.referer.XOriginTrimmingPolicy" = 2; #control the amount of cross-origin information to send. 0=send full URI (default), 1=scheme+host+port+path, 2=scheme+host+port
+        "network.http.referer.XOriginTrimmingPolicy" = 2; # control the amount of cross-origin information to send. 0=send full URI (default), 1=scheme+host+port+path, 2=scheme+host+port
 
         # PREF: Accept Only 1st Party Cookies
         # https://kb.mozillazine.org/Network.cookie.cookieBehavior#1
@@ -1294,9 +1300,9 @@
         #"general.oscpu.override" = 				"Windows NT 6.1";
 
         /**
-         *****************************************************************************
-        * SECTION: Caching                                                            *
-        *****************************************************************************
+           *****************************************************************************
+          * SECTION: Caching                                                            *
+          *****************************************************************************
         */
 
         # PREF: Permanently enable private browsing mode
@@ -1406,7 +1412,7 @@
         # Store extra session data for unencrypted (non-HTTPS) sites only.
         # CIS Version 1.2.0 October 21st, 2011 2.5.7
         # NOTE: CIS says 1, we use 2
-        "browser.sessionstore.privacy_level" = 2; ## disable storing extra session data such as form content, cookies and POST data 0=everywhere, 1=unencrypted sites, 2=nowhere
+        "browser.sessionstore.privacy_level" = 2; # # disable storing extra session data such as form content, cookies and POST data 0=everywhere, 1=unencrypted sites, 2=nowhere
 
         # PREF: Delete temporary files on exit
         # https://bugzilla.mozilla.org/show_bug.cgi?id=238789
@@ -1420,7 +1426,7 @@
         # PREF: Don't fetch and permanently store favicons for Windows .URL shortcuts created by drag and drop
         # NOTICE: .URL shortcut files will be created with a generic icon
         # Favicons are stored as .ico files in $profile_dir\shortcutCache
-        "browser.shell.shortcutFavicons" = true; #this is enabled
+        "browser.shell.shortcutFavicons" = true; # this is enabled
 
         # PREF: Disable bookmarks backups (default: 15)
         # https://kb.mozillazine.org/Browser.bookmarks.max_backups
@@ -1435,12 +1441,12 @@
         # https://github.com/jonasstrehle/supercookie
         # https://kb.mozillazine.org/Browser.chrome.site_icons
         # https://blog.mozilla.org/security/2021/01/26/supercookie-protections/
-        "browser.chrome.site_icons" = true; #this is enabled
+        "browser.chrome.site_icons" = true; # this is enabled
 
         /**
-         *****************************************************************************
-        * SECTION: UI related                                                         *
-        ******************************************************************************
+           *****************************************************************************
+          * SECTION: UI related                                                         *
+          ******************************************************************************
         */
 
         # PREF: Enable insecure password warnings (login forms in non-HTTPS pages)
@@ -1546,7 +1552,8 @@
 
         ####sidebar####
         "sidebar.animation.enabled" = false;
-        "sidebar.backupState" = "{\"panelOpen\":false,\"launcherWidth\":50,\"launcherExpanded\":false,\"launcherVisible\":true}";
+        "sidebar.backupState" =
+          "{\"panelOpen\":false,\"launcherWidth\":50,\"launcherExpanded\":false,\"launcherVisible\":true}";
         "sidebar.expandOnHover" = false;
         "sidebar.main.tools" = "history,bookmarks";
         "sidebar.new-sidebar.has-used" = true;
@@ -1584,13 +1591,13 @@
           ];
           iconMapObj."16" = "https://searx.local/static/themes/simple/img/favicon.png";
           updateInterval = 24 * 60 * 60 * 1000; # every day
-          definedAliases = ["@s"];
+          definedAliases = [ "@s" ];
         };
         "noaiduckduckgo" = {
           name = "noaiduckduckgo";
-          urls = [{template = "https://noai.duckduckgo.com/?q={searchTerms}&noai=1";}];
+          urls = [ { template = "https://noai.duckduckgo.com/?q={searchTerms}&noai=1"; } ];
           iconMapObj."16" = "https://noai.duckduckgo.com/favicon.ico";
-          definedAliases = ["@ddg"];
+          definedAliases = [ "@ddg" ];
         };
       };
       search.force = true;
@@ -1726,7 +1733,8 @@
         "sidebar.animation.duration-ms" = 200;
         "sidebar.animation.enabled" = false;
         "sidebar.animation.expand-on-hover.duration-ms" = 400;
-        "sidebar.backupState" = "{\"panelOpen\":false,\"launcherWidth\":50,\"launcherExpanded\":false,\"launcherVisible\":true}";
+        "sidebar.backupState" =
+          "{\"panelOpen\":false,\"launcherWidth\":50,\"launcherExpanded\":false,\"launcherVisible\":true}";
         "sidebar.expandOnHover" = false;
         "sidebar.main.tools" = "history,bookmarks";
         "sidebar.new-sidebar.has-used" = true;

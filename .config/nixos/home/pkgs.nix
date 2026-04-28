@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   home.packages = with pkgs; [
     # android-tools
     # bsdgames
@@ -102,7 +103,6 @@
     ripgrep
     ripgrep-all
     rsync
-    samba4Full
     sbctl
     seclists
     shellcheck
@@ -131,7 +131,10 @@
     unstable.kmscon
     unzip
     usbutils
-    vesktop
+    unstable.gurk-rs
+    tailspin
+    unstable.nchat
+    unstable.vesktop
     virt-viewer
     wakeonlan
     wdisplays
@@ -148,16 +151,25 @@
     zip
     zotero
     wayscriber
-    kdePackages.polkit-kde-agent-1
-    (unstable.cutter.withPlugins (p: with p; [rz-ghidra jsdec sigdb]))
-    (pkgs.wordlists.override {lists = with pkgs; [rockyou seclists];})
+    (unstable.cutter.withPlugins (
+      p: with p; [
+        rz-ghidra
+        jsdec
+        sigdb
+      ]
+    ))
+    (pkgs.wordlists.override {
+      lists = with pkgs; [
+        rockyou
+        seclists
+      ];
+    })
     (aspellWithDicts (
-      dicts:
-        with dicts; [
-          en
-          en-computers
-          en-science
-        ]
+      dicts: with dicts; [
+        en
+        en-computers
+        en-science
+      ]
     ))
   ];
 }

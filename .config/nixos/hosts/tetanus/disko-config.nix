@@ -14,7 +14,7 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = ["umask=0077"];
+                mountOptions = [ "umask=0077" ];
               };
             };
             luks = {
@@ -62,23 +62,26 @@
             size = "8G";
             content = {
               type = "swap";
-              mountOptions = ["discard"];
+              mountOptions = [ "discard" ];
             };
           };
           root = {
             size = "100%";
             content = {
               type = "btrfs";
-              extraArgs = ["-f"];
+              extraArgs = [ "-f" ];
               subvolumes = {
                 "/root" = {
                   mountpoint = "/";
                   #mountOptions = ["compress=zstd" "noatime"];
-                  mountOptions = ["noatime"];
+                  mountOptions = [ "noatime" ];
                 };
                 "/persistent" = {
                   #mountOptions = ["subvol=persistent" "compress=zstd" "noatime"];
-                  mountOptions = ["subvol=persistent" "noatime"];
+                  mountOptions = [
+                    "subvol=persistent"
+                    "noatime"
+                  ];
                   mountpoint = "/persistent";
                 };
                 "/nix" = {
@@ -91,7 +94,7 @@
                 };
                 "/tmp" = {
                   #mountOptions = ["compress=zstd" "noatime"];
-                  mountOptions = ["noatime"];
+                  mountOptions = [ "noatime" ];
                   mountpoint = "/tmp";
                 };
               };

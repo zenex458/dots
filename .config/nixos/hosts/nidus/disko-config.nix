@@ -1,8 +1,9 @@
 let
   # the number of headers to disks is a to one to one map
   headerdevice = "/dev/disk/by-id/usb-Kingston_DataTraveler_3.0_408D5C15CB92E911290E05C5-0:0";
-  header1 = headerdevice + "-part1"; #luks header for nvme
-in {
+  header1 = headerdevice + "-part1"; # luks header for nvme
+in
+{
   disko.devices = {
     disk = {
       disk0 = {
@@ -28,7 +29,7 @@ in {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = ["umask=0077"];
+                mountOptions = [ "umask=0077" ];
               };
             };
           };
@@ -51,9 +52,7 @@ in {
                   #                  "--iter-time 1" # insecure but fast for tests
                   "--pbkdf argon2id -c serpent-xts-plain64 -h blake2b-512 --iter-time 5000"
                 ];
-                extraOpenArgs = [
-                  "--header ${header1}"
-                ];
+                extraOpenArgs = [ "--header ${header1}" ];
                 settings = {
                   header = header1;
                 };
@@ -82,15 +81,22 @@ in {
             size = "100%";
             content = {
               type = "btrfs";
-              extraArgs = ["-f"];
+              extraArgs = [ "-f" ];
               subvolumes = {
                 "/root" = {
                   mountpoint = "/";
-                  mountOptions = ["compress=zstd" "noatime"];
+                  mountOptions = [
+                    "compress=zstd"
+                    "noatime"
+                  ];
                   # mountOptions = ["noatime"];
                 };
                 "/persistent" = {
-                  mountOptions = ["subvol=persistent" "compress=zstd" "noatime"];
+                  mountOptions = [
+                    "subvol=persistent"
+                    "compress=zstd"
+                    "noatime"
+                  ];
                   # mountOptions = ["subvol=persistent" "noatime"];
                   mountpoint = "/persistent";
                 };

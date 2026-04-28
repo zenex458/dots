@@ -4,10 +4,9 @@
   lib,
   config,
   ...
-}: {
-  imports = [
-    inputs.impermanence.nixosModules.impermanence
-  ];
+}:
+{
+  imports = [ inputs.impermanence.nixosModules.impermanence ];
 
   fileSystems."/persistent".neededForBoot = true;
   environment.persistence."/persistent" = {
@@ -47,9 +46,7 @@
       }
     ];
 
-    files = [
-      "/etc/machine-id"
-    ];
+    files = [ "/etc/machine-id" ];
 
     users.zenex = {
       directories = [

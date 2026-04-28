@@ -5,8 +5,9 @@
   config,
   pkgs,
   ...
-}: {
-  imports = [../home/programs/firefox.nix];
+}:
+{
+  imports = [ ../home/programs/firefox.nix ];
   home.stateVersion = "25.11";
   home.file = {
     "dots" = {

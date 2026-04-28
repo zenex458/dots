@@ -1,3 +1,10 @@
-{inputs, ...}: {
-  imports = [./keepassxc.nix ./lix.nix ./niri.nix ./unstable.nix ./iosevka.nix];
+{ inputs, ... }:
+{
+  imports = [
+    ./keepassxc.nix
+    ./lix.nix
+    ./niri.nix
+    ./unstable.nix
+    ./iosevka.nix
+  ];
 }

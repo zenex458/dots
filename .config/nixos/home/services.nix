@@ -1,4 +1,5 @@
-{config, ...}: {
+{ config, ... }:
+{
   services = {
     # services.opensnitch-ui.enable = true;
     ssh-agent.enable = true;

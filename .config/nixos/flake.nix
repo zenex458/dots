@@ -33,42 +33,38 @@
   # For more information about well-known outputs checked by `nix flake check`:
   # https://nixos.org/manual/nix/unstable/command-ref/new-cli/nix3-flake-check.html#evaluation-checks
 
-  outputs = {nixpkgs, ...} @ inputs: {
-    # Used with `nixos-rebuild --flake .#<hosts>`
-    # nixosConfigurations."<hosts>".config.system.build.toplevel must be a derivation
-    nixosConfigurations = {
-      nidus = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs;
+  outputs =
+    { nixpkgs, ... }@inputs:
+    {
+      # Used with `nixos-rebuild --flake .#<hosts>`
+      # nixosConfigurations."<hosts>".config.system.build.toplevel must be a derivation
+      nixosConfigurations = {
+        nidus = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./hosts/nidus/.
+            ./home
+            inputs.home-manager.nixosModules.home-manager
+          ];
         };
-        modules = [
-          ./hosts/nidus/.
-          ./home
-          inputs.home-manager.nixosModules.home-manager
-        ];
-      };
 
-      tetanus = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs;
+        tetanus = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./hosts/tetanus/.
+            ./home
+            inputs.home-manager.nixosModules.home-manager
+          ];
         };
-        modules = [
-          ./hosts/tetanus/.
-          ./home
-          inputs.home-manager.nixosModules.home-manager
-        ];
-      };
 
-      fowleri = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs;
+        fowleri = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./overlays/lix.nix
+            ./overlays/unstable.nix
+            ./hosts/fowleri/.
+          ];
         };
-        modules = [
-          ./overlays/lix.nix
-          ./overlays/unstable.nix
-          ./hosts/fowleri/.
-        ];
       };
     };
-  };
 }

@@ -3,7 +3,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   home.shell.enableFishIntegration = false;
   home.shell.enableZshIntegration = true;
 
@@ -56,7 +57,11 @@
       enable = true;
       enableBashIntegration = true;
       silent = true;
-      config = {whitelist = {prefix = ["~/Dev"];};};
+      config = {
+        whitelist = {
+          prefix = [ "~/Dev" ];
+        };
+      };
       nix-direnv.enable = true;
       # SEE https://github.com/direnv/direnv/wiki/Customizing-cache-location
       # NOTE use this to better integrate with tools that poorly recurse the filesystem
@@ -91,12 +96,18 @@
       defaultKeymap = "emacs";
       history = {
         ignoreAllDups = true;
-        ignorePatterns = ["fg *" "bg *" "wormhole *" "curl *" "git commit *"];
+        ignorePatterns = [
+          "fg *"
+          "bg *"
+          "wormhole *"
+          "curl *"
+          "git commit *"
+        ];
         path = "$ZDOTDIR/.zsh_history";
       };
       autosuggestion = {
         enable = true;
-        strategy = ["completion"];
+        strategy = [ "completion" ];
         highlight = "fg=#bdae93,bg=#060606,bold,underline";
       };
       syntaxHighlighting = {
@@ -184,15 +195,13 @@
         set fish_color_param $fish_color_normal --bold
         set fish_color_error $fish_color_normal --reverse --underline
       '';
-      shellAbbrs =
-        config.programs.bash.shellAliases
-        // {
-          # a space before a command means fish will not show up in history
-          fg = " fg";
-          bg = " bg";
-          wormhole = " wormhole";
-          curl = " curl";
-        };
+      shellAbbrs = config.programs.bash.shellAliases // {
+        # a space before a command means fish will not show up in history
+        fg = " fg";
+        bg = " bg";
+        wormhole = " wormhole";
+        curl = " curl";
+      };
       plugins = [
         {
           name = "grc";
@@ -207,7 +216,7 @@
     bash = {
       enable = true;
       enableCompletion = true;
-      historyControl = ["ignoredups"];
+      historyControl = [ "ignoredups" ];
       historyFile = "$HOME/.local/share/.bash_history";
       historyFileSize = 1000;
       #historySize = 10000;

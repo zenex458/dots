@@ -8,14 +8,15 @@
   pkgs,
   ...
 }:
-with lib; {
+with lib;
+{
   #  security.lockKernelModules = mkDefault true;
 
   #  security.protectKernelImage = mkDefault true;
 
   boot.kernelPackages = mkDefault pkgs.pkgs.linuxPackages_hardened;
 
-  nix.settings.allowed-users = mkDefault ["@wheel"];
+  nix.settings.allowed-users = mkDefault [ "@wheel" ];
 
   #  security.apparmor.enable = mkDefault true;
   #  security.apparmor.packages = [ pkgs.apparmor-utils ];

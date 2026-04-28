@@ -3,7 +3,8 @@
   inputs,
   lib,
   ...
-}: {
+}:
+{
   imports = [
     ./disko-config.nix
     ./hardware-configuration.nix
@@ -20,7 +21,7 @@
 
   networking = {
     firewall = {
-      allowedUDPPorts = [9];
+      allowedUDPPorts = [ 9 ];
     };
     hostName = "fowleri";
     interfaces = {

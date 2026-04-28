@@ -9,22 +9,22 @@
     };
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    home-manager,
-    wrapper-manager,
-    ...
-  } @ inputs: {
-    packages.x86_64-linux.default = self.nixosConfigurations.exampleIso.config.system.build.isoImage;
-    nixosConfigurations = {
-      exampleIso = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs;
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      wrapper-manager,
+      ...
+    }@inputs:
+    {
+      packages.x86_64-linux.default = self.nixosConfigurations.exampleIso.config.system.build.isoImage;
+      nixosConfigurations = {
+        exampleIso = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          system = "x86_64-linux";
+          modules = [ ./iso.nix ];
         };
-        system = "x86_64-linux";
-        modules = [./iso.nix];
       };
     };
-  };
 }

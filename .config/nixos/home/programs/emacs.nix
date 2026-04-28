@@ -3,13 +3,14 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   programs.emacs = {
     enable = true;
-    package = pkgs.emacs-pgtk; #use just `emacs' if you want it the daemon to survive after the gui terminates
+    package = pkgs.emacs-pgtk; # use just `emacs' if you want it the daemon to survive after the gui terminates
     #package = pkgs.emacs;
-    extraPackages = epkgs:
-      with pkgs.unstable.emacs.pkgs; [
+    extraPackages =
+      epkgs: with pkgs.unstable.emacs.pkgs; [
         ace-window
         apheleia
         async
@@ -69,8 +70,8 @@
         slime
         slime-company
         # tree-sitter-langs
-        (treesit-grammars.with-grammars (grammars:
-          with grammars; [
+        (treesit-grammars.with-grammars (
+          grammars: with grammars; [
             tree-sitter-cpp
             tree-sitter-c
             tree-sitter-css
@@ -87,7 +88,8 @@
             tree-sitter-ocaml
             tree-sitter-go
             tree-sitter-java
-          ]))
+          ]
+        ))
       ];
     extraConfig = ''
       (use-package pdf-tools
