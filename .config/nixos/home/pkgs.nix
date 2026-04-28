@@ -18,7 +18,6 @@
     # yewtube
     # moreutils
     age
-    alejandra
     alsa-utils
     amdgpu_top
     anki
@@ -151,6 +150,7 @@
     zip
     zotero
     wayscriber
+    nixfmt
     (unstable.cutter.withPlugins (
       p: with p; [
         rz-ghidra
