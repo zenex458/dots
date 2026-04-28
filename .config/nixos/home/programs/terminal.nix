@@ -4,52 +4,56 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   manual.manpages.enable = true;
   programs = {
     htop = {
       enable = true;
-      settings =
-        {
-          show_cpu_frequency = 1;
-          show_cpu_temperature = 1;
-          color_scheme = 6;
-          highlight_threads = 1;
-          delay = 10;
-          fields = with config.lib.htop.fields; [
-            PID
-            USER
-            # PRIORITY
-            # NICE
-            # M_SIZE
-            # M_RESIDENT
-            # M_SHARE
-            OOM
-            STATE
-            PERCENT_CPU
-            PERCENT_MEM
-            # TIME
-            ELAPSED
-            COMM
-            # IO_RATE
-          ];
-        }
-        // (with config.lib.htop;
-          leftMeters [
-            (bar "CPU")
-            (bar "GPU")
-            (text "Memory")
-            (text "Swap")
-          ])
-        // (with config.lib.htop;
-          rightMeters [
-            (text "Tasks")
-            (text "Uptime")
-            (text "PressureStallCPUSome")
-            (text "PressureStallIOFull")
-            (text "DiskIO")
-            (text "NetworkIO")
-          ]);
+      settings = {
+        show_cpu_frequency = 1;
+        show_cpu_temperature = 1;
+        color_scheme = 6;
+        highlight_threads = 1;
+        delay = 10;
+        fields = with config.lib.htop.fields; [
+          PID
+          USER
+          # PRIORITY
+          # NICE
+          # M_SIZE
+          # M_RESIDENT
+          # M_SHARE
+          OOM
+          STATE
+          PERCENT_CPU
+          PERCENT_MEM
+          # TIME
+          ELAPSED
+          COMM
+          # IO_RATE
+        ];
+      }
+      // (
+        with config.lib.htop;
+        leftMeters [
+          (bar "CPU")
+          (bar "GPU")
+          (text "Memory")
+          (text "Swap")
+        ]
+      )
+      // (
+        with config.lib.htop;
+        rightMeters [
+          (text "Tasks")
+          (text "Uptime")
+          (text "PressureStallCPUSome")
+          (text "PressureStallIOFull")
+          (text "DiskIO")
+          (text "NetworkIO")
+        ]
+      );
     };
 
     nix-index = {
@@ -118,45 +122,6 @@
         };
       };
     };
-    kitty = {
-      enable = true;
-      settings = {
-        enable_audio_bell = "no";
-        cursor_shape = "block";
-        cursor_blink_interval = 1;
-        disable_ligatures = "all always";
-      };
-      font = {
-        name = "Iosevka";
-        size = 10;
-      };
-      extraConfig = ''
-        foreground #bdae93
-        background #060606
-        selection_foreground #060606
-        selection_background #bdae93
-        cursor #bdae93
-        color0 #444444
-        color1 #B33929
-        color2 #75B329
-        color3 #c0c000
-        color4 #2874B2
-        color5 #802caa
-        color6 #6cb2eb
-        color7 #a08a64
-        color8 #666666
-        color9 #f62b5a
-        color10 #47b413
-        color11 #e3c401
-        color12 #24acd4
-        color13 #f2affd
-        color14 #13c299
-        color15 #bdae93
-        url_color #6cb2eb
-        url_style single
-      '';
-    };
-
     tmux = {
       # add new-window -c "#{pane_current_path}"
       # add splitp -c "#{pane_current_path}"
@@ -240,12 +205,16 @@
         default_find_mode = "wrapped";
         display_bitrate = "yes";
       };
-      bindings = [];
+      bindings = [ ];
     };
     fd = {
       enable = true;
       hidden = true;
-      ignores = [".git/" ".ccls-cache/" "*env*"];
+      ignores = [
+        ".git/"
+        ".ccls-cache/"
+        "*env*"
+      ];
     };
     neovim = {
       enable = true;
@@ -279,7 +248,6 @@
           conflictStyle = "zdiff3";
         };
         diff = {
-          # external = "difft --display inline";
           # algorithm = "histogram";
           # interHunkContext = 10;
           # colorMoved = "plain";
