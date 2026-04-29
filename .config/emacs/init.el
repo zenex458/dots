@@ -361,7 +361,7 @@
 	      '("tidy" "-i" "-q" "--tidy-mark" "no"))
   (add-to-list 'apheleia-mode-alist '(html-mode . tidy))
   (setf (alist-get 'nixfmt apheleia-formatters)
-	      '("nixfmt" "-s" "-v" "-f" "--"))
+	      '("nixfmt" "-s" "-v" "--indent=4"  "-f" "--"))
   (add-to-list 'apheleia-mode-alist '(nix-ts-mode . nixfmt))
   (setf (alist-get 'hujson apheleia-formatters)
 	      '("hujsonfmt"))
