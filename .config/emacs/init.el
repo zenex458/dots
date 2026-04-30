@@ -28,10 +28,10 @@
     (require 'cl-lib)
     (let ((visible-frames (cl-remove-if-not 'frame-visible-p (frame-list))))
       (if (> (length visible-frames) 1)
-	        (if (y-or-n-p (format "Are you sure you want to close this frame? "))
-	            (delete-frame)
-	          (save-buffers-kill-emacs))
-	      (save-buffers-kill-emacs))))
+          (if (y-or-n-p (format "Are you sure you want to close this frame? "))
+              (delete-frame)
+            (save-buffers-kill-emacs))
+        (save-buffers-kill-emacs))))
   (setq org-latex-classes
         '(("IEEEtran" "\\documentclass[conference]{IEEEtran}"
            ("\\section{%s}" . "\\section*{%s}")
@@ -48,34 +48,34 @@
 
   (setq treesit-language-source-alist
         '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-	        (c "https://github.com/tree-sitter/tree-sitter-c")
-	        (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-	        (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
-	        (css "https://github.com/tree-sitter/tree-sitter-css")
-	        (haskell "https://github.com/tree-sitter/tree-sitter-haskell")
-	        (html "https://github.com/tree-sitter/tree-sitter-html")
-	        (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-	        (json "https://github.com/tree-sitter/tree-sitter-json")
-	        (make "https://github.com/alemuller/tree-sitter-make")
-	        (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-	        (nix "https://github.com/nix-community/tree-sitter-nix")
-	        (python "https://github.com/tree-sitter/tree-sitter-python")
+          (c "https://github.com/tree-sitter/tree-sitter-c")
+          (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+          (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
+          (css "https://github.com/tree-sitter/tree-sitter-css")
+          (haskell "https://github.com/tree-sitter/tree-sitter-haskell")
+          (html "https://github.com/tree-sitter/tree-sitter-html")
+          (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+          (json "https://github.com/tree-sitter/tree-sitter-json")
+          (make "https://github.com/alemuller/tree-sitter-make")
+          (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+          (nix "https://github.com/nix-community/tree-sitter-nix")
+          (python "https://github.com/tree-sitter/tree-sitter-python")
           (rust "https://github.com/tree-sitter/tree-sitter-rust")
-	        (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+          (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
   (setq major-mode-remap-alist
         '((yaml-mode . yaml-ts-mode)
-	        (bash-mode . bash-ts-mode)
-	        (js2-mode . js-ts-mode)
-	        (typescript-mode . typescript-ts-mode)
-	        (json-mode . json-ts-mode)
-	        (c-mode . c-ts-mode)
-	        (c++-mode . c++-ts-mode)
-	        (csharp-mode . csharp-ts-mode)
-	        (css-mode . css-ts-mode)
-	        (python-mode . python-ts-mode)))
+          (bash-mode . bash-ts-mode)
+          (js2-mode . js-ts-mode)
+          (typescript-mode . typescript-ts-mode)
+          (json-mode . json-ts-mode)
+          (c-mode . c-ts-mode)
+          (c++-mode . c++-ts-mode)
+          (csharp-mode . csharp-ts-mode)
+          (css-mode . css-ts-mode)
+          (python-mode . python-ts-mode)))
 
   (setq browse-url-browser-function 'browse-url-generic
-	      browse-url-generic-program "firefox")
+        browse-url-generic-program "firefox")
   ;; (setq browse-url-generic-args '("-P" "priv"))
   (require 'updnix)
   (require 'upmu)
@@ -181,7 +181,7 @@
          ("C-x v p" . multi-vterm-prev)
          ("C-x v d" . multi-vterm-dedicated-toggle)
          ("C-c u" . upmu-add-entry)
-	       ;;   (global-set-key (kbd "<C-S-D>") 'backward-delete-char) ;;https://www.emacswiki.org/emacs/ShiftedKeys and https://www.emacswiki.org/emacs/TheMysteriousCaseOfShiftedFunctionKeys to fix
+         ;;   (global-set-key (kbd "<C-S-D>") 'backward-delete-char) ;;https://www.emacswiki.org/emacs/ShiftedKeys and https://www.emacswiki.org/emacs/TheMysteriousCaseOfShiftedFunctionKeys to fix
          ("C-;" . comment-or-uncomment-region)
          ([remap dabbrev-expand] . hippie-expand)
          ("C-M-x" . embark-export)
@@ -199,14 +199,14 @@
          ("C-c r" . (lambda ()"reloads emacs config"(interactive)"~/Dev/dots/.config/emacs/init.el"))
          ("C-c t" . (lambda ()"opens todo"(interactive)(find-file "~/Documents/Notes/Org/todo.org")))
          ("C-c C-l" . (lambda ()
-	  		                "Copies the whole line without moving the cursor"
-	  		                (interactive)
-	  		                (save-excursion
-	  		                  (kill-new
-	  		                   (buffer-substring
-	  		                    (line-beginning-position)
-	  		                    (line-end-position))))
-	  		                (message "Line copied.")))))
+                        "Copies the whole line without moving the cursor"
+                        (interactive)
+                        (save-excursion
+                          (kill-new
+                           (buffer-substring
+                            (line-beginning-position)
+                            (line-end-position))))
+                        (message "Line copied.")))))
 
 
 (use-package diminish
@@ -225,9 +225,9 @@
   :after vertico
   :ensure nil
   :bind (:map vertico-map
-	            ("RET" . vertico-directory-enter)
-	            ("DEL" . vertico-directory-delete-char)
-	            ("M-DEL" . vertico-directory-delete-word))
+              ("RET" . vertico-directory-enter)
+              ("DEL" . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word))
   ;; Tidy shadowed file names
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
@@ -249,68 +249,64 @@
          ("C-c i" . consult-info)
          ([remap Info-search] . consult-info)
          ;; C-x bindings in `ctl-x-map'
-         ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
-         ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
-         ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
-         ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
-         ("C-x t b" . consult-buffer-other-tab)    ;; orig. switch-to-buffer-other-tab
-         ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
-         ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
-         ;; Custom M-# bindings for fast register access
+         ("C-x M-:" . consult-complex-command)
+         ("C-x b" . consult-buffer)
+         ("C-x 4 b" . consult-buffer-other-window)
+         ("C-x 5 b" . consult-buffer-other-frame)
+         ("C-x t b" . consult-buffer-other-tab)
+         ("C-x r b" . consult-bookmark)
+         ("C-x p b" . consult-project-buffer)
          ("M-#" . consult-register-load)
-         ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
+         ("M-'" . consult-register-store)
          ("C-M-#" . consult-register)
-         ;; Other custom bindings
-         ("M-y" . consult-yank-pop)                ;; orig. yank-pop
-         ;; M-g bindings in `goto-map'
+         ("M-y" . consult-yank-pop)
          ("M-g e" . consult-compile-error)
-         ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
-         ("M-g g" . consult-goto-line)             ;; orig. goto-line
-         ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
-         ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
+         ("M-g r" . consult-grep-match)
+         ("M-g f" . consult-flymake)
+         ("M-g g" . consult-goto-line)
+         ("M-g M-g" . consult-goto-line)
+         ("M-g o" . consult-outline)
          ("M-g m" . consult-mark)
          ("M-g k" . consult-global-mark)
          ("M-g i" . consult-imenu)
          ("M-g I" . consult-imenu-multi)
-         ;; M-s bindings in `search-map'
-         ("M-s d" . consult-fd)                  ;; Alternative: consult-fd
+         ("M-s d" . consult-find)
          ("M-s c" . consult-locate)
-         ("M-s g" . consult-ripgrep)
+         ("M-s g" . consult-grep)
          ("M-s G" . consult-git-grep)
+         ("M-s r" . consult-ripgrep)
          ("M-s l" . consult-line)
          ("M-s L" . consult-line-multi)
          ("M-s k" . consult-keep-lines)
          ("M-s u" . consult-focus-lines)
-         ;; Isearch integration
          ("M-s e" . consult-isearch-history)
-         :map isearch-mode-map
-         ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
-         ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
-         ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
-         ("M-s L" . consult-line-multi)            ;; needed by consult-line to detect isearch
-         ;; Minibuffer history
+         ("M-e" . consult-isearch-history)
+         ("M-s e" . consult-isearch-history)
+         ("M-s l" . consult-line)
+         ("M-s L" . consult-line-multi)
          :map minibuffer-local-map
-         ("M-s" . consult-history)                 ;; orig. next-matching-history-element
-         ("M-r" . consult-history))                ;; orig. previous-matching-history-element
-
-  :hook (completion-list-mode . consult-preview-at-point-mode)
-  :custom
+         ("M-s" . consult-history)
+         ("M-r" . consult-history))
+  :init
   (advice-add #'register-preview :override #'consult-register-window)
-  (register-preview-delay 0.5)
-  (xref-show-xrefs-function #'consult-xref)
-  (xref-show-definitions-function #'consult-xref)
-  ;; (consult-buffer-sources '(consult--source-hidden-buffer consult--source-modified-buffer
-	;; 						                                            consult--source-buffer
-	;; 						                                            consult--source-file-register
-	;; 						                                            consult--source-bookmark
-	;; 						                                            consult--source-project-buffer-hidden
-	;; 						                                            consult--source-project-root-hidden))
+  (setq register-preview-delay 0.5)
+  (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref)
+  (setq consult-buffer-sources '(consult-source-buffer consult-source-hidden-buffer
+                                                       consult-source-modified-buffer
+                                                       consult-source-other-buffer
+                                                       consult-source-buffer-register
+                                                       consult-source-file-register
+                                                       consult-source-project-buffer-hidden
+                                                       consult-source-project-root-hidden))
   :config
   (consult-customize
    consult-theme :preview-key '(:debounce 0.2 any)
-   consult-ripgrep consult-git-grep consult-grep
+   consult-ripgrep consult-git-grep consult-grep consult-man
    consult-bookmark consult-recent-file consult-xref
-   ;; consult--source-bookmark consult--source-file-register
+   consult-source-bookmark consult-source-file-register
+   consult-source-recent-file consult-source-project-recent-file
+   ;; :preview-key "M-."
    :preview-key '(:debounce 0.4 any))
   (setq consult-narrow-key "<"))
 
@@ -326,7 +322,7 @@
   :config
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
-	             '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
                  nil
                  (window-parameters (mode-line-format . none)))))
 
@@ -336,54 +332,54 @@
 
 (use-package apheleia
   :hook ((prog-mode . apheleia-mode)
-	       (LaTeX-mode . apheleia-mode)
+         (LaTeX-mode . apheleia-mode)
          (bibtex-mode . apheleia-mode))
   :config
   (setq apheleia-remote-algorithm 'local)
   ;; (setf (alist-get 'astyle apheleia-formatters)
-	;;       '("astyle" "--mode=c" "--style=google" "-s2"))
+  ;;       '("astyle" "--mode=c" "--style=google" "-s2"))
   (setf (alist-get 'clang apheleia-formatters)
-	      '("clang-format"))
+        '("clang-format"))
   (add-to-list 'apheleia-mode-alist '(c-ts-mode . clang))
   (add-to-list 'apheleia-mode-alist '(c++-ts-mode . clang))
   (setf (alist-get 'shfmt apheleia-formatters)
-	      '("shfmt"))
+        '("shfmt"))
   (add-to-list 'apheleia-mode-alist '(bash-ts-mode . shfmt))
 
   (setf (alist-get 'cmake apheleia-formatters)
-	      '("cmake-format"))
+        '("cmake-format"))
   (add-to-list 'apheleia-mode-alist '(cmake-mode . cmake))
 
   (setf (alist-get 'ruff apheleia-formatters)
-	      '("ruff format"))
+        '("ruff format"))
   (add-to-list 'apheleia-mode-alist '(python-ts-mode . ruff))
   (setf (alist-get 'tidy apheleia-formatters)
-	      '("tidy" "-i" "-q" "--tidy-mark" "no"))
+        '("tidy" "-i" "-q" "--tidy-mark" "no"))
   (add-to-list 'apheleia-mode-alist '(html-mode . tidy))
   (setf (alist-get 'nixfmt apheleia-formatters)
-	      '("nixfmt" "-s" "-v" "--indent=4"  "-f" "--"))
+        '("nixfmt" "-s" "-v" "--indent=4"  "-f" "--"))
   (add-to-list 'apheleia-mode-alist '(nix-ts-mode . nixfmt))
   (setf (alist-get 'hujson apheleia-formatters)
-	      '("hujsonfmt"))
+        '("hujsonfmt"))
   (add-to-list 'apheleia-mode-alist '(json-ts-mode . nixfmt))
   (setf (alist-get 'typstyle apheleia-formatters)
-	      '("typstyle"))
+        '("typstyle"))
   (add-to-list 'apheleia-mode-alist '(typst-ts-mode . typstyle))
   (setf (alist-get 'gofmt apheleia-formatters)
-	      '("gofmt"))
+        '("gofmt"))
   (add-to-list 'apheleia-mode-alist '(go-ts-mode . gofmt))
   (setf (alist-get 'bibfmt apheleia-formatters)
-	      '("bibtex-tidy"))
+        '("bibtex-tidy"))
   (add-to-list 'apheleia-mode-alist '(bibtex-mode . bibfmt))
   (setf (alist-get 'xmlformat apheleia-formatters)
-	      '("xmlformat"))
+        '("xmlformat"))
   (add-to-list 'apheleia-mode-alist '(nxml-mode . xmlformat))
   (setf (alist-get 'prettier apheleia-formatters)
-	      '("yamlfmt" "--"))
+        '("yamlfmt" "--"))
   (add-to-list 'apheleia-mode-alist '(css-mode . prettier))
   (add-to-list 'apheleia-mode-alist '(yaml-ts-mode . prettier))
   (setf (alist-get 'ormolu apheleia-formatters)
-	      '("ormolu" "--stdin-input-file" "--"))
+        '("ormolu" "--stdin-input-file" "--"))
   (add-to-list 'apheleia-mode-alist '(haskell-mode . ormolu)))
 
 (if (and (eq (file-directory-p (expand-file-name (format "%s%s" user-emacs-directory "tree-sitter/"))) 'nil) (not(string= system-name '"nidus")))
@@ -467,8 +463,8 @@
   (global-corfu-minibuffer
    (lambda ()
      (not (or (bound-and-true-p mct--active)
-	            (bound-and-true-p vertico--input)
-	            (eq (current-local-map) read-passwd-map)))))
+              (bound-and-true-p vertico--input)
+              (eq (current-local-map) read-passwd-map)))))
   :bind
   (:map corfu-map
         ("TAB" . corfu-next)
@@ -489,19 +485,19 @@
   (add-to-list 'completion-at-point-functions #'cape-tex)
   (completion-at-point-functions
    (mapcar #'cape-company-to-capf
-	         (list #'company-files #'company-keywords #'company-dabbrev))))
+           (list #'company-files #'company-keywords #'company-dabbrev))))
 
 (use-package eglot
   :hook ((haskell-mode . eglot-ensure)
-	       (dart-mode . eglot-ensure)
-	       (clojure-mode . eglot-ensure)
-	       (bash-ts-mode . eglot-ensure)
-	       (sh-mode . eglot-ensure)
-	       (c-ts-mode . eglot-ensure)
- 	       (csharp-ts-mode . eglot-ensure)
-	       (python-ts-mode . eglot-ensure)
-	       (LaTeX-mode . eglot-ensure)
-	       (nix-ts-mode . eglot-ensure)
+         (dart-mode . eglot-ensure)
+         (clojure-mode . eglot-ensure)
+         (bash-ts-mode . eglot-ensure)
+         (sh-mode . eglot-ensure)
+         (c-ts-mode . eglot-ensure)
+         (csharp-ts-mode . eglot-ensure)
+         (python-ts-mode . eglot-ensure)
+         (LaTeX-mode . eglot-ensure)
+         (nix-ts-mode . eglot-ensure)
          (typst-ts-mode . eglot-ensure)
          (c++-ts-mode . eglot-ensure)
          (go-ts-mode . eglot-ensure)
@@ -510,22 +506,22 @@
   (eglot-autoshutdown t)
   :config
   (add-to-list 'eglot-server-programs
-    	         `(nix-ts-mode  . ("nixd")))
+               `(nix-ts-mode  . ("nixd")))
   (add-to-list 'eglot-server-programs
-	             `(LaTeX-mode  . ("texlab")))
+               `(LaTeX-mode  . ("texlab")))
   (add-to-list 'eglot-server-programs
-	             `(typst-ts-mode  . ("tinymist"))))
+               `(typst-ts-mode  . ("tinymist"))))
 
 (use-package flymake
   :hook ((emacs-lisp-mode . flymake-mode)
-	       (LaTeX-mode . flymake-mode))
+         (LaTeX-mode . flymake-mode))
   :custom
   (flymake-indicator-type 'fringes))
 
 (use-package yasnippet
   :hook ((prog-mode . yas-minor-mode)
-	       (org-mode . yas-minor-mode)
-	       (LaTeX-mode . yas-minor-mode))
+         (org-mode . yas-minor-mode)
+         (LaTeX-mode . yas-minor-mode))
   :config
   (diminish 'yas-minor-mode))
 
@@ -550,14 +546,14 @@
 (use-package gcmh
   :init
   (setq gcmh-idle-delay 5
-	      gcmh-high-cons-threshold (* 20 1024 1024)) ;;20mb
+        gcmh-high-cons-threshold (* 20 1024 1024)) ;;20mb
   (gcmh-mode 1)
   (diminish 'gcmh-mode))
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
 (use-package hungry-delete
   :bind (([C-backspace] . hungry-delete-backward)
-	       ([C-delete] . hungry-delete-forward)))
+         ([C-delete] . hungry-delete-forward)))
 
 (use-package ace-window
   :bind ("C-x o" . ace-window)
@@ -567,10 +563,10 @@
 
 (use-package multiple-cursors
   :bind (("C-S-c C-S-c" . mc/edit-lines)
-	       ("C->" . mc/mark-next-like-this)
-	       ("C-<" . mc/mark-previous-like-this)
-	       ("C-C C-@" . mc/mark-all-like-this)
-	       ("C-C M-v" . mc/edit-beggineing-of-lines))
+         ("C->" . mc/mark-next-like-this)
+         ("C-<" . mc/mark-previous-like-this)
+         ("C-C C-@" . mc/mark-all-like-this)
+         ("C-C M-v" . mc/edit-beggineing-of-lines))
   :custom
   (mc/always-run-for-all t))
 
@@ -621,6 +617,7 @@
 (use-package forge
   :after magit)
 
+
 (use-package indent-guide
   :hook (python-ts-mode . indent-guide-mode))
 
@@ -657,20 +654,20 @@
 (setq mode-line-position (list " (%l:%C %P %I) "))
 ;;https://www.emacs.dyerdwelling.family/emacs/20230902114449-emacs--my-evolving-modeline/
 (setq-default mode-line-format '((:eval
-				                          (if (and (buffer-file-name) (buffer-modified-p))
-				                              (propertize "**" 'face
-						                                      '(:background "#e20023" :foreground "#000000" :inherit bold)) " "))
-				                         (:eval
-				                          (if (and buffer-read-only (mode-line-window-selected-p))
-				                              (propertize "%%%%" 'face
-						                                      '(:background "#bdae93" :foreground "#000000" :inherit bold)) " "))
-				                         " "
-				                         (:eval
-				                          (if (mode-line-window-selected-p)
-				                              (propertize (buffer-name) 'face '(:foreground "#bdae93" :inherit bold))
-				                            (propertize (buffer-name) 'face '(:foreground "#222222" :inherit bold))))
-				                         mode-line-position
-				                         (vc-mode vc-mode) mode-line-modes mode-line-misc-info mode-line-end-spaces))
+                                  (if (and (buffer-file-name) (buffer-modified-p))
+                                      (propertize "**" 'face
+                                                  '(:background "#e20023" :foreground "#000000" :inherit bold)) " "))
+                                 (:eval
+                                  (if (and buffer-read-only (mode-line-window-selected-p))
+                                      (propertize "%%%%" 'face
+                                                  '(:background "#bdae93" :foreground "#000000" :inherit bold)) " "))
+                                 " "
+                                 (:eval
+                                  (if (mode-line-window-selected-p)
+                                      (propertize (buffer-name) 'face '(:foreground "#bdae93" :inherit bold))
+                                    (propertize (buffer-name) 'face '(:foreground "#222222" :inherit bold))))
+                                 mode-line-position
+                                 (vc-mode vc-mode) mode-line-modes mode-line-misc-info mode-line-end-spaces))
 
 ;;(server-start)
 (provide 'init)
