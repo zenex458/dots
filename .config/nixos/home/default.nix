@@ -2,9 +2,9 @@
 {
     home-manager = {
         extraSpecialArgs = { inherit inputs; };
+        useGlobalPkgs = true;
         users.zenex = {
             imports = [
-                ../overlays
                 ./mimeapps.nix
                 ./pkgs.nix
                 ./programs/emacs.nix
@@ -15,14 +15,6 @@
                 ./programs/terminal.nix
                 ./services.nix
             ];
-            nixpkgs = {
-                # Configure your nixpkgs instance
-                config = {
-                    allowUnfree = true;
-                    # Workaround for https://github.com/nix-community/home-manager/issues/2942
-                    allowUnfreePredicate = _: true;
-                };
-            };
             dconf.settings = {
                 "org/gnome/desktop/interface" = {
                     color-scheme = "prefer-dark";
@@ -105,7 +97,7 @@
                     XDG_CACHE_HOME = "$HOME/.cache";
                     MUPDFHISTFILE = "/tmp/.mupdf.history";
                     DOTNET_CLI_TELEMETRY_OPTOUT = 1;
-                    TERMINAL = "kitty";
+                    TERMINAL = "foot";
                     EDITOR = "emacsclient -c -a emacs";
                     VISUAL = "emacsclient -c -a emacs";
                     LESSHISTFILE = "/tmp/.lesshst";

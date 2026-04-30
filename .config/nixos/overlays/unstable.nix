@@ -4,8 +4,7 @@
         overlays = [
             (final: prev: {
                 unstable = import inputs.nixpkgs-unstable {
-                    inherit prev;
-                    system = prev.system;
+                    localSystem = final.stdenv.hostPlatform;
                     config.allowUnfree = true;
                 };
             })
