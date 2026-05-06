@@ -15,7 +15,6 @@
         apheleia
         async
         auctex
-        bongo
         cape
         consult
         corfu
@@ -44,7 +43,6 @@
         magit
         magit-delta
         markdown-mode
-        mingus
         multi-vterm
         multiple-cursors
         nix-ts-mode

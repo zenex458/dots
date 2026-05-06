@@ -20,8 +20,8 @@
   (define-prefix-command 'vterm-n-map)
   (define-prefix-command 'avy-n-map);; add this? http://yummymelon.com/devnull/announcing-casual-avy.html
   (define-key isearch-mode-map (kbd "<backspace>") 'isearch-del-char)
-  ;; (setq auth-sources (format "%s%s" user-emacs-directory ".authinfo.gpg"))
-  (setq auth-sources '("~/.config/emacs/.authinfo.gpg"))
+  (setq auth-sources (format "%s%s" user-emacs-directory ".authinfo.gpg"))
+  ;; (setq auth-sources '("~/.config/emacs/.authinfo.gpg"))
   (defun close-or-kill-emacs ()
     "Close the current frame if there are multiple visible frames otherwise kill Emacs."
     (interactive)
@@ -351,13 +351,13 @@
   (add-to-list 'apheleia-mode-alist '(cmake-mode . cmake))
 
   (setf (alist-get 'ruff apheleia-formatters)
-        '("ruff format"))
+        '("yapf"))
   (add-to-list 'apheleia-mode-alist '(python-ts-mode . ruff))
   (setf (alist-get 'tidy apheleia-formatters)
         '("tidy" "-i" "-q" "--tidy-mark" "no"))
   (add-to-list 'apheleia-mode-alist '(html-mode . tidy))
   (setf (alist-get 'nixfmt apheleia-formatters)
-        '("nixfmt" "-s" "-v" "--indent=4"  "-f" "--"))
+        '("nixfmt" "-s" "-v" "-f" "--"))
   (add-to-list 'apheleia-mode-alist '(nix-ts-mode . nixfmt))
   (setf (alist-get 'hujson apheleia-formatters)
         '("hujsonfmt"))
