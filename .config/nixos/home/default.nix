@@ -44,10 +44,12 @@
           size = 10;
         };
       };
-      # qt = {
-      #   enable = true;
-      #   style.name = "bb10dark";
-      # };
+      qt = {
+        enable = true;
+        platformTheme.name = "gtk";
+        style.name = "kvantum";
+      };
+
       programs = {
         mpv = {
           enable = true;
@@ -58,10 +60,8 @@
         keepassxc = {
           enable = true;
           settings = {
-            Browser = {
-              Enabled = true;
-              UpdateBinaryPath = false;
-            };
+            Browser.Enabled = true;
+
             GUI = {
               AdvancedSettings = true;
               ApplicationTheme = "dark";
