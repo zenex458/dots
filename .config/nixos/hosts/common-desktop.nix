@@ -148,7 +148,10 @@
     # adb.enable = true;
     localsend.enable = true;
     # ssh.startAgent = true;
-    gnupg.agent.enable = true;
+    gnupg.agent = {
+      enable = true;
+      pinentryPackage = pkgs.pinentry-gnome3;
+    };
     firejail = {
       enable = false;
       wrappedBinaries = {
