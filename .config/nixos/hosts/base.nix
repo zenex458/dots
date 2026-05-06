@@ -197,6 +197,7 @@
   # $ nix search wget
 
   security = {
+    wrappers.su.enable = lib.optionals (config.security.sudo-rs.enable == true) lib.mkForce false;
     pam = {
       services.swaylock = { };
       u2f = {
