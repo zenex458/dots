@@ -41,7 +41,7 @@
           origin = "top-right";
           transparency = 0;
           frame_color = "#bdae93"; # c6c6c6
-          font = "Ttyp0 Bold 10";
+          font = "Iosevka Bold 12";
           vertical_alignment = "center";
           alignment = "center";
           mouse_left_click = "close_current";
