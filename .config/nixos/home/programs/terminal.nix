@@ -8,6 +8,45 @@
 {
   manual.manpages.enable = true;
   programs = {
+    kitty = {
+      enable = true;
+      shellIntegration.mode = "no-cursor";
+      settings = {
+        enable_audio_bell = "no";
+        cursor_shape = "block";
+        cursor_blink_interval = 1;
+        disable_ligatures = "all always";
+      };
+      font = {
+        name = "Iosevka";
+        size = 10;
+      };
+      extraConfig = ''
+        foreground #bdae93
+        background #060606
+        selection_foreground #060606
+        selection_background #bdae93
+        cursor #bdae93
+        color0 #444444
+        color1 #B33929
+        color2 #75B329
+        color3 #c0c000
+        color4 #2874B2
+        color5 #802caa
+        color6 #6cb2eb
+        color7 #a08a64
+        color8 #666666
+        color9 #f62b5a
+        color10 #47b413
+        color11 #e3c401
+        color12 #24acd4
+        color13 #f2affd
+        color14 #13c299
+        color15 #bdae93
+        url_color #6cb2eb
+        url_style single
+      '';
+    };
     htop = {
       enable = true;
       settings = {

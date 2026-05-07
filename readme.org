@@ -4,9 +4,10 @@
 :END:
 This contains all my config files for Linux. It can be installed my =setup.sh= or by using [[https://nixos.org/][NixOS]].
 
+
 | OS       | [[https://nixos.org][NixOS]]   |
 | WM       | [[https://github.com/YaLTeR/niri][niri]]    |
-| Terminal | [[https://codeberg.org/dnkl/foot][foot]]    |
+| Terminal | [[https://sw.kovidgoyal.net/kitty][kitty]]   |
 | Editor   | [[https://www.gnu.org/software/emacs/][Emacs]]   |
 | Shell    | [[https://www.zsh.org/][Zsh]]     |
 | Font     | [[https://typeof.net/Iosevka/][Iosevka]] |
