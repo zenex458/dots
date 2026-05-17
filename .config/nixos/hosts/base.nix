@@ -14,7 +14,7 @@
   ];
   zramSwap.enable = true;
   boot = {
-    kernel.sysctl."vm.swappiness" = 0;
+    kernel.sysctl."vm.swappiness" = 1;
     # supportedFilesystems = ["ntfs"];
     # kernelPackages = pkgs.linuxPackages_latest;
     #loader.systemd-boot.enable = true;
@@ -112,15 +112,6 @@
       ];
     };
     pcscd.enable = true;
-    netbird = {
-      enable = false;
-      package = pkgs.unstable.netbird;
-    };
-
-    tailscale = {
-      enable = true;
-      useRoutingFeatures = "both";
-    };
     udev.packages = [
       # pkgs.android-udev-rules
       pkgs.nitrokey-udev-rules
@@ -225,6 +216,8 @@
     sudo-rs = {
       enable = true;
       execWheelOnly = true;
+      extraConfig = "Defaults !pwfeedback";
+
     };
   };
 
@@ -262,7 +255,7 @@
     };
     firewall = {
       #    nftables.enable = true;
-      enable = false;
+      enable = true;
       #    pingLimit = "--limit 1/minute --limit-burst 5";
       # allowedTCPPorts = [631 5353]; # printing
       # allowedUDPPorts = [631 5353]; # printing
