@@ -17,6 +17,8 @@ with lib;
   boot.kernelPackages = mkDefault pkgs.pkgs.linuxPackages_hardened;
 
   nix.settings.allowed-users = mkDefault [ "@wheel" ];
+  # with hardened profile this is needed otherwise nix will not build
+  services.logrotate.checkConfig = false;
 
   #  security.apparmor.enable = mkDefault true;
   #  security.apparmor.packages = [ pkgs.apparmor-utils ];

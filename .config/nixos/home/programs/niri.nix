@@ -36,7 +36,6 @@
       spawn-at-startup = [
         { command = [ "${lib.getExe pkgs.dunst}" ]; }
         { command = [ "batt.sh" ]; }
-        # {command = ["tailscale-health.sh"];}
         {
           command = [
             "${lib.getExe pkgs.wlsunset}"
@@ -279,7 +278,7 @@
           "Mod+V".action = toggle-window-floating;
           "Mod+Shift+V".action = switch-focus-between-floating-and-tiling;
           "Mod+Shift+Z".action = quit;
-          "Print".action.screenshot = {
+          "Mod+Print".action.screenshot = {
             show-pointer = false;
           };
         }

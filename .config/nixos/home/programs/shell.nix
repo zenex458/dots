@@ -297,13 +297,7 @@
         ns = "kmscon-launch-gui niri-session";
         bfs = "bfs -exclude -name .git -exclude -name .ccls-cache -exclude -name '*env*'";
         locate = "locate -i -d /var/cache/locate/locatedb";
-        rbackup = "restic -r sftp:restic-backup-host:/home/ubuntu/data/Inc_Backup backup ~/Documents ~/.ssh ~/.gnupg ~/Dev";
         dc = "docker compose";
-        ts = "tailscale";
-        tss = "tailscale status";
-        tsu = "tailscale up";
-        tsd = "tailscale down";
-        tsr = "sudo systemctl restart tailscaled.service";
       };
     };
   };

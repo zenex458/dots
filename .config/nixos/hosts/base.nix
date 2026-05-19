@@ -30,12 +30,10 @@
   hardware = {
     amdgpu.opencl.enable = true;
     nitrokey.enable = true;
-    bluetooth = {
-      enable = false;
-    };
+    bluetooth.enable = false;
   };
-  time.timeZone = "Europe/London";
 
+  time.timeZone = "Europe/London";
   i18n = {
     defaultLocale = "en_GB.UTF-8";
     extraLocaleSettings = {
@@ -65,9 +63,7 @@
 
   users = {
     users = {
-      root = {
-        shell = pkgs.bash;
-      };
+      root.shell = pkgs.bash;
       zenex = {
         shell = pkgs.bash;
         isNormalUser = true;
@@ -123,8 +119,6 @@
       #SystemMaxUse=250M
       MaxRetentionSec=1month
     '';
-    #with hardened profile this is needed otherwise nix will not build
-    #    logrotate.checkConfig = false;
     fstrim.enable = true;
     openssh = {
       enable = true;
@@ -179,13 +173,8 @@
         cmdport 0
       '';
     };
-
-    thermald.enable = false;
     gvfs.enable = false;
   };
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
 
   security = {
     wrappers.su.enable = lib.optionals (config.security.sudo-rs.enable == true) lib.mkForce false;
@@ -199,37 +188,17 @@
         };
       };
     };
-    #    apparmor = {
-    #      enable = true;
-    #    };
-    #    auditd.enable = true;
-    #    audit.enable = true;
-    #    audit.rules = ["-a exit,always -F arch=b64 -S execve"];
     chromiumSuidSandbox.enable = true;
     rtkit.enable = true;
-    # sudo = {
-    #   execWheelOnly = true;
-    #   extraConfig = ''
-    #     Defaults lecture = never
-    #   '';
-    # };
     sudo-rs = {
       enable = true;
       execWheelOnly = true;
       extraConfig = "Defaults !pwfeedback";
-
     };
   };
 
   networking = {
     wireguard.enable = true;
-    # nameservers = [
-    #   "9.9.9.9"
-    #   "149.112.112.112"
-    #   "2620:fe::fe"
-    #   "2620:fe::9"
-    #   "1.1.1.1"
-    # ];
     timeServers = [
       "time.cloudflare.com"
       "ntppool1.time.nl"
@@ -244,46 +213,11 @@
           "AddressRandomization" = "once";
           "AddressRandomizationRange" = "nic";
         };
-        Settings = {
-          AutoConnect = true;
-        };
-        Network = {
-          NameResolvingService = "resolvconf";
-          # NameResolvingService = "none";
-        };
+        Settings.AutoConnect = true;
+        Network.NameResolvingService = "resolvconf";
       };
     };
-    firewall = {
-      #    nftables.enable = true;
-      enable = true;
-      #    pingLimit = "--limit 1/minute --limit-burst 5";
-      # allowedTCPPorts = [631 5353]; # printing
-      # allowedUDPPorts = [631 5353]; # printing
-
-      allowedTCPPorts = [
-        33573
-        6969
-      ];
-      allowedUDPPorts = [
-        33573
-        6969
-      ];
-
-      #allowedTCPPortRanges = [
-      #  {
-      #    from = 1714;
-      #    to = 1764;
-      #  }
-      #  # kdeconnect
-      #];
-      #allowedUDPPortRanges = [
-      #  {
-      #    from = 1714;
-      #    to = 1764;
-      #  }
-      #  # kdeconnect
-      #];
-    };
+    firewall.enable = true;
   };
   nixpkgs = {
     config = {

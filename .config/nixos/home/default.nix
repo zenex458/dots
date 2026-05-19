@@ -26,19 +26,9 @@
       };
       gtk = {
         enable = true;
-        theme = {
-          name = "Adwaita";
-        };
-        gtk3 = {
-          extraConfig = {
-            gtk-application-prefer-dark-theme = 1;
-          };
-        };
-        gtk4 = {
-          extraConfig = {
-            gtk-application-prefer-dark-theme = 1;
-          };
-        };
+        theme.name = "Adwaita";
+        gtk3.extraConfig.gtk-application-prefer-dark-theme = 1;
+        gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
         font = {
           name = "Iosevka";
           size = 10;
@@ -51,17 +41,15 @@
       };
 
       programs = {
+        home-manager.enable = true;
         mpv = {
           enable = true;
-          config = {
-            screenshot-directory = "~/Downloads/Images/ss/mpv";
-          };
+          config.screenshot-directory = "~/Downloads/Images/ss/mpv";
         };
         keepassxc = {
           enable = true;
           settings = {
             Browser.Enabled = true;
-
             GUI = {
               AdvancedSettings = true;
               ApplicationTheme = "dark";
@@ -84,7 +72,6 @@
             "<C-q>" = "quit";
           };
         };
-        home-manager.enable = true;
       };
 
       home = {

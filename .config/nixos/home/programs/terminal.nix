@@ -95,10 +95,7 @@
       );
     };
 
-    nix-index = {
-      enable = true;
-      enableFishIntegration = true;
-    };
+    nix-index.enable = true;
 
     delta = {
       enable = true;
@@ -130,9 +127,7 @@
           font = "Iosevka:style=regular:size=10";
           dpi-aware = "no";
         };
-        mouse = {
-          hide-when-typing = "yes";
-        };
+        mouse.hide-when-typing = "yes";
         cursor = {
           style = "block";
           blink = "yes";
@@ -269,44 +264,26 @@
     git = {
       enable = true;
       settings = {
-        core = {
-          compression = 9;
-        };
-        init = {
-          defaultBranch = "main";
-        };
-        status = {
-          showUntrackedFiles = "all";
-        };
+        core.compression = 9;
+        init.defaultBranch = "main";
+        status.showUntrackedFiles = "all";
         delta = {
           navigate = true;
           dark = true;
         };
-        merge = {
-          conflictStyle = "zdiff3";
-        };
-        diff = {
-          # algorithm = "histogram";
-          # interHunkContext = 10;
-          # colorMoved = "plain";
-        };
+        merge.conflictStyle = "zdiff3";
+        # diff = {
+        # algorithm = "histogram";
+        # interHunkContext = 10;
+        # colorMoved = "plain";
+        # };
         # commit = {
         #   verbose = "true"; #enable this if you don't use emacs
         # };
-        url = {
-          "git@github.com:" = {
-            insteadOf = "gh:";
-          };
-        };
-        column = {
-          ui = "auto";
-        };
-        branch = {
-          sort = "committerdate";
-        };
-        help = {
-          autocorrect = "prompt";
-        };
+        url."git@github.com:".insteadOf = "gh:";
+        column.ui = "auto";
+        branch.sort = "committerdate";
+        help.autocorrect = "prompt";
       };
     };
   };

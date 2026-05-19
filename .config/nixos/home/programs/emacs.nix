@@ -7,7 +7,7 @@
 {
   programs.emacs = {
     enable = true;
-    package = pkgs.emacs-pgtk; # use just `emacs' if you want it the daemon to survive after the gui terminates
+    package = pkgs.emacs-pgtk; # use just `emacs' if you want it the daemon to survive after the gui terminates this will use the `lucid toolkit`
     #package = pkgs.emacs;
     extraPackages =
       epkgs: with pkgs.unstable.emacs.pkgs; [
@@ -22,7 +22,7 @@
         dired-subtree
         dockerfile-mode
         docker
-        edwina
+        # edwina
         ocaml-ts-mode
         eglot
         elfeed
@@ -34,12 +34,11 @@
         flymake
         forge
         gcmh
-        uv-mode
-        golden-ratio
+        # golden-ratio
         haskell-mode
         hungry-delete
         indent-guide
-        key-chord
+        # key-chord
         magit
         magit-delta
         markdown-mode
@@ -67,7 +66,6 @@
         cmake-mode
         slime
         slime-company
-        # tree-sitter-langs
         (treesit-grammars.with-grammars (
           grammars: with grammars; [
             tree-sitter-cpp
