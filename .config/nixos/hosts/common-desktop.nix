@@ -127,18 +127,6 @@
       # enableFishIntegration = true;
       enableZshIntegration = true;
     };
-    nix-ld = {
-      enable = true;
-      libraries = [
-        pkgs.libpthread-stubs
-        pkgs.ell
-        pkgs.xorg.libxshmfence
-        pkgs.xorg.libXScrnSaver
-        pkgs.xprintidle-ng
-        pkgs.libGL
-        pkgs.pipewire
-      ];
-    };
     obs-studio.enable = true;
     virt-manager.enable = true;
     niri = {
