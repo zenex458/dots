@@ -15,6 +15,7 @@
       noto-fonts
       noto-fonts-cjk-sans
       aileron
+      uw-ttyp0
     ];
     fontconfig = {
       defaultFonts = {

@@ -124,7 +124,8 @@
       settings = {
         main = {
           term = "xterm-256color";
-          font = "Iosevka:style=regular:size=10";
+          # font = "Iosevka:style=regular:size=10";
+          font = "ttyp0:style=regular:size=12";
           dpi-aware = "no";
         };
         mouse.hide-when-typing = "yes";
