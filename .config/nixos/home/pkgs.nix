@@ -122,7 +122,6 @@
       typst
       typst-live
       typstyle
-
       unzip
       usbutils
       virt-viewer
@@ -139,7 +138,6 @@
       xmlformat
       xwayland-satellite
       yamlfmt
-      yt-dlp
       zip
       zotero
       (aspellWithDicts (
@@ -174,5 +172,6 @@
       simplex-chat-desktop
       vesktop
       kmscon
+      yt-dlp
     ]);
 }
