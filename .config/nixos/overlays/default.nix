@@ -6,5 +6,6 @@
     ./niri.nix
     ./unstable.nix
     ./iosevka.nix
+    ./ttyp0.nix
   ];
 }

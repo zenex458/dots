@@ -1,5 +1,5 @@
-AccStress PApostropheAscii
-PAmComma AccGraveAscii
-Digit0Slashed Digit0
-MTilde AccTildeAscii
-Space SpaceNoBreak
+COPYTO AccStress PApostropheAscii
+COPYTO PAmComma AccGraveAscii
+COPYTO Digit0Slashed Digit0
+COPYTO MTilde AccTildeAscii
+COPYTO Space SpaceNoBreak
