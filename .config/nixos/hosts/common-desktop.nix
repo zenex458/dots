@@ -53,14 +53,7 @@
       #   mode = "0644";
       # };
     };
-    defaultPackages = lib.mkForce [ ];
-    systemPackages = with pkgs; [
-      git
-      vim
-      emacs-nox
-      tmux
-      sbctl
-    ];
+
     pathsToLink = [
       "/share/bash-completion"
       "/share/xdg-desktop-portal"

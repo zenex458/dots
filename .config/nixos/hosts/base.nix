@@ -48,6 +48,16 @@
       LC_TIME = "en_GB.UTF-8";
     };
   };
+  environment = {
+    defaultPackages = lib.mkForce [ ];
+    systemPackages = with pkgs; [
+      git
+      vim
+      emacs-nox
+      tmux
+      sbctl
+    ];
+  };
   users.extraGroups.vboxusers.members = [ "zenex" ];
   virtualisation = {
     libvirtd.enable = false;
@@ -56,7 +66,6 @@
     # virtualbox.host.package = pkgs.unstable.virtualbox;
     docker = {
       enable = true;
-      storageDriver = "btrfs";
       rootless.setSocketVariable = true;
     };
   };

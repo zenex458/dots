@@ -13,6 +13,7 @@
     ../impermance.nix
     ../common-desktop.nix
   ];
+  virtualisation.docker.storageDriver = "btrfs";
   networking.hostName = "nidus";
   services = {
     usbguard = {
