@@ -351,8 +351,11 @@
   (add-to-list 'apheleia-mode-alist '(cmake-mode . cmake))
 
   (setf (alist-get 'pyfmt apheleia-formatters)
-        '("black" "--stdin-filename" filepath "-"))
-  (add-to-list 'apheleia-mode-alist '(python-ts-mode . pyfmt))
+        '("autopep8" "-aa" filepath))
+  (setf (alist-get 'isort apheleia-formatters)
+        '("isort" "--stdout" "-"))
+  (setf (alist-get 'python-ts-mode apheleia-mode-alist)
+        '(pyfmt isort))
 
   (setf (alist-get 'tidy apheleia-formatters)
         '("tidy" "-i" "-q" "--tidy-mark" "no"))
