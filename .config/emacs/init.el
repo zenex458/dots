@@ -350,9 +350,10 @@
         '("cmake-format"))
   (add-to-list 'apheleia-mode-alist '(cmake-mode . cmake))
 
-  (setf (alist-get 'ruff apheleia-formatters)
-        '("yapf"))
-  (add-to-list 'apheleia-mode-alist '(python-ts-mode . ruff))
+  (setf (alist-get 'pyfmt apheleia-formatters)
+        '("black" "--stdin-filename" filepath "-"))
+  (add-to-list 'apheleia-mode-alist '(python-ts-mode . pyfmt))
+
   (setf (alist-get 'tidy apheleia-formatters)
         '("tidy" "-i" "-q" "--tidy-mark" "no"))
   (add-to-list 'apheleia-mode-alist '(html-mode . tidy))
