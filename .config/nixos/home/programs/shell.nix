@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  # osConfig, # used to access vars in `configuration.nix`
   ...
 }:
 {
@@ -252,10 +253,12 @@
         }
       '';
       shellAliases = {
-        upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --sudo --log-format multiline-with-logs";
-        updb = "sudo nixos-rebuild boot --flake ~/Dev/dots/.config/nixos#nidus --sudo --log-format multiline-with-logs";
-        updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --sudo -v --show-trace --log-format multiline-with-logs";
-        updt = "sudo nixos-rebuild test --no-reexec --flake ~/Dev/dots/.config/nixos#nidus --sudo";
+        upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format multiline-with-logs";
+        updb = "sudo nixos-rebuild boot --flake ~/Dev/dots/.config/nixos# --sudo --log-format multiline-with-logs";
+        updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo -v --show-trace --log-format multiline-with-logs";
+        updt = "sudo nixos-rebuild test --no-reexec --flake ~/Dev/dots/.config/nixos# --sudo";
+        updoff = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format multiline-with-logs && sleep 2 && systemctl poweroff";
+        updr = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format multiline-with-logs && sleep 2 && systemctl reboot";
         updf = "nh os switch";
         updflake = "nix flake update --commit-lock-file";
         listnixgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
@@ -265,8 +268,6 @@
         ga = "git add";
         gc = "git commit -m";
         gs = "git status";
-        updoff = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --sudo --log-format multiline-with-logs && sleep 2 && systemctl poweroff";
-        updr = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --sudo --log-format multiline-with-logs && sleep 2 && systemctl reboot";
         grep = "grep -i --colour=auto";
         mkdir = "mkdir -pv";
         mv = "mv -iv";
