@@ -3,6 +3,7 @@
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     useGlobalPkgs = true;
+    backupFileExtension = ".backup";
     users.zenex = {
       imports = [
         ./mimeapps.nix
