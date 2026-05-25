@@ -20,8 +20,7 @@
   (define-prefix-command 'vterm-n-map)
   (define-prefix-command 'avy-n-map);; add this? http://yummymelon.com/devnull/announcing-casual-avy.html
   (define-key isearch-mode-map (kbd "<backspace>") 'isearch-del-char)
-  (setq auth-sources (format "%s%s" user-emacs-directory ".authinfo.gpg"))
-  ;; (setq auth-sources '("~/.config/emacs/.authinfo.gpg"))
+  (add-to-list 'auth-sources (format "%s%s" user-emacs-directory ".authinfo.gpg"))
   (defun close-or-kill-emacs ()
     "Close the current frame if there are multiple visible frames otherwise kill Emacs."
     (interactive)
