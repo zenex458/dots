@@ -55,7 +55,7 @@
     };
     direnv = {
       enable = true;
-      enableBashIntegration = true;
+      enableBashIntegration = false;
       silent = true;
       config = {
         whitelist = {
@@ -255,6 +255,7 @@
         upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --sudo --log-format multiline-with-logs";
         updb = "sudo nixos-rebuild boot --flake ~/Dev/dots/.config/nixos#nidus --sudo --log-format multiline-with-logs";
         updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos#nidus --sudo -v --show-trace --log-format multiline-with-logs";
+        updt = "sudo nixos-rebuild test --no-reexec --flake ~/Dev/dots/.config/nixos#nidus --sudo";
         updf = "nh os switch";
         updflake = "nix flake update --commit-lock-file";
         listnixgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
