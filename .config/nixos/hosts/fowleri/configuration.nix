@@ -19,6 +19,8 @@
     };
   };
 
+  services.logind.settings.Login.HandleLidSwitch = "ignore";
+
   networking = {
     firewall = {
       allowedUDPPorts = [ 9 ];
