@@ -13,8 +13,29 @@
     ../impermance.nix
     ../common-desktop.nix
   ];
-  virtualisation.docker.storageDriver = "btrfs";
-  networking.hostName = "nidus";
+  boot = {
+    # supportedFilesystems = ["ntfs"];
+    kernelPackages = lib.mkForce pkgs.linuxPackages;
+  };
+  services = {
+    pcscd.enable = true;
+    udev.packages = [
+      # pkgs.android-udev-rules
+      pkgs.nitrokey-udev-rules
+    ];
+  };
+  users.extraGroups.vboxusers.members = [ "zenex" ];
+  virtualisation = {
+    libvirtd.enable = lib.mkForce false;
+    virtualbox.host.enable = true;
+    virtualbox.host.enableHardening = false;
+    docker.storageDriver = "btrfs";
+    # virtualbox.host.package = pkgs.unstable.virtualbox;
+  };
+  hardware = {
+    amdgpu.opencl.enable = true;
+    nitrokey.enable = true;
+  };
   services = {
     usbguard = {
       enable = false;

@@ -7,7 +7,52 @@
 }:
 {
   imports = [ inputs.niri.nixosModules.niri ];
+  boot = {
+    # supportedFilesystems = ["ntfs"];
+    kernelPackages = pkgs.linuxPackages_latest;
+  };
 
+  services = {
+    seatd.enable = true;
+    gnome.gnome-keyring.enable = true;
+    journald.extraConfig = ''
+      #SystemMaxUse=250M
+      MaxRetentionSec=1month
+    '';
+    printing.enable = false; # enable for printing
+    # printing.drivers = [
+    #   # pkgs.gutenprint
+    #   pkgs.gutenprintBin
+    #   pkgs.epson-escpr
+    #   pkgs.epson-escpr2
+    #   # pkgs.foomatic-db-ppds-withNonfreeDb
+    #   #      pkgs.foomatic-db-nonfree
+    # ];
+    #avahi = { #needed for printing
+    #  enable = true;
+    #  nssmdns4 = true;
+    #  openFirewall = true;
+    #};
+    dbus.enable = true;
+    libinput.enable = true;
+    opensnitch.enable = false;
+  };
+
+  security = {
+    pam = {
+      services.swaylock = { };
+      u2f = {
+        enable = true;
+        settings = {
+          authfile = "/home/zenex/Documents/u2f_keys";
+          cue = true;
+        };
+      };
+    };
+    chromiumSuidSandbox.enable = true;
+  };
+
+  powerManagement.powertop.enable = true;
   fonts = {
     packages = with pkgs; [
       iosevka

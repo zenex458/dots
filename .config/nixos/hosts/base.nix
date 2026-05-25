@@ -15,8 +15,6 @@
   zramSwap.enable = true;
   boot = {
     kernel.sysctl."vm.swappiness" = 1;
-    # supportedFilesystems = ["ntfs"];
-    # kernelPackages = pkgs.linuxPackages_latest;
     #loader.systemd-boot.enable = true;
     loader.systemd-boot.enable = lib.mkForce false;
     lanzaboote = {
@@ -24,14 +22,10 @@
       pkiBundle = "/etc/secureboot";
     };
     loader.efi.canTouchEfiVariables = true;
-    # tmp.cleanOnBoot = true;
+    tmp.cleanOnBoot = true;
   };
 
-  hardware = {
-    amdgpu.opencl.enable = true;
-    nitrokey.enable = true;
-    bluetooth.enable = false;
-  };
+  hardware.bluetooth.enable = false;
 
   time.timeZone = "Europe/London";
   i18n = {
@@ -58,12 +52,8 @@
       sbctl
     ];
   };
-  users.extraGroups.vboxusers.members = [ "zenex" ];
   virtualisation = {
-    libvirtd.enable = false;
-    virtualbox.host.enable = true;
-    virtualbox.host.enableHardening = false;
-    # virtualbox.host.package = pkgs.unstable.virtualbox;
+    libvirtd.enable = true;
     docker = {
       enable = true;
       rootless.setSocketVariable = true;
@@ -93,7 +83,6 @@
     };
   };
 
-  powerManagement.powertop.enable = true;
   services = {
     fwupd.enable = true;
     smartd.enable = true;
@@ -116,18 +105,6 @@
         }
       ];
     };
-    pcscd.enable = true;
-    udev.packages = [
-      # pkgs.android-udev-rules
-      pkgs.nitrokey-udev-rules
-    ];
-    seatd.enable = true;
-    nscd.enableNsncd = true;
-    gnome.gnome-keyring.enable = true;
-    journald.extraConfig = ''
-      #SystemMaxUse=250M
-      MaxRetentionSec=1month
-    '';
     fstrim.enable = true;
     openssh = {
       enable = true;
@@ -144,24 +121,6 @@
         AllowStreamLocalForwarding no
       '';
     };
-
-    printing.enable = false; # enable for printing
-    # printing.drivers = [
-    #   # pkgs.gutenprint
-    #   pkgs.gutenprintBin
-    #   pkgs.epson-escpr
-    #   pkgs.epson-escpr2
-    #   # pkgs.foomatic-db-ppds-withNonfreeDb
-    #   #      pkgs.foomatic-db-nonfree
-    # ];
-    #avahi = { #needed for printing
-    #  enable = true;
-    #  nssmdns4 = true;
-    #  openFirewall = true;
-    #};
-    dbus.enable = true;
-    libinput.enable = true;
-    opensnitch.enable = false;
     ntp.enable = false; # disable the systemd-timesyncd
     chrony = {
       enable = true;
@@ -186,18 +145,6 @@
   };
 
   security = {
-    wrappers.su.enable = lib.optionals (config.security.sudo-rs.enable == true) lib.mkForce false;
-    pam = {
-      services.swaylock = { };
-      u2f = {
-        enable = true;
-        settings = {
-          authfile = "/home/zenex/Documents/u2f_keys";
-          cue = true;
-        };
-      };
-    };
-    chromiumSuidSandbox.enable = true;
     rtkit.enable = true;
     sudo-rs = {
       enable = true;

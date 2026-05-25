@@ -11,8 +11,11 @@
     ../../overlays/niri.nix
     ../../overlays/unstable.nix
   ];
+  hardware = {
+    amdgpu.opencl.enable = true;
+    nitrokey.enable = true;
+  };
   networking.hostName = "tetanus";
-
   services = {
     usbguard = {
       enable = true;

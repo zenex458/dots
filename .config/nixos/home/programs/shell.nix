@@ -259,7 +259,7 @@
         updt = "sudo nixos-rebuild test --no-reexec --flake ~/Dev/dots/.config/nixos# --sudo";
         updoff = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format multiline-with-logs && sleep 2 && systemctl poweroff";
         updr = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format multiline-with-logs && sleep 2 && systemctl reboot";
-        updf = "nh os switch";
+        updf = "nh os switch -a";
         updflake = "nix flake update --commit-lock-file";
         listnixgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
         remoldgen = "nix-collect-garbage --delete-older-than 2d && sudo nix-collect-garbage --delete-older-than 2d && upd";

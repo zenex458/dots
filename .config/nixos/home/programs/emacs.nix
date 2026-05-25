@@ -1,6 +1,7 @@
 {
   inputs,
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -92,7 +93,7 @@
           :magic ("%PDF" . pdf-view-mode)
           :hook (pdf-view-mode . pdf-view-themed-minor-mode)
           :config
-            (setq pdf-info-epdfinfo-program "${pkgs.emacs.pkgs.pdf-tools}/share/emacs/site-lisp/elpa/pdf-tools-20240429.407/epdfinfo")
+            (setq pdf-info-epdfinfo-program "${pkgs.emacs.pkgs.pdf-tools}/share/emacs/site-lisp/elpa/pdf-tools-${lib.getVersion pkgs.unstable.emacsPackages.pdf-tools}/epdfinfo")
            (pdf-tools-install))
     '';
   };
