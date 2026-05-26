@@ -249,6 +249,14 @@
         "NixosWiki"
       ];
       userChrome = ''
+        #TabsToolbar { visibility: collapse !important; }
+        #titlebar { visibility: collapse; }
+
+        /*
+        #navigator-toolbox:hover #TabsToolbar {
+            visibility: visible;
+         }
+        */
         /* https://gist.github.com/chris-vecchio/d6a47fc733559752cc3a09937381d7ae */
         /* Firefox userChrome.css */
 
