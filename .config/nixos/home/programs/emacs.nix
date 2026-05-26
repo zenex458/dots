@@ -67,6 +67,7 @@
         cmake-mode
         slime
         slime-company
+        darkroom
         (treesit-grammars.with-grammars (
           grammars: with grammars; [
             tree-sitter-cpp
@@ -93,7 +94,7 @@
           :magic ("%PDF" . pdf-view-mode)
           :hook (pdf-view-mode . pdf-view-themed-minor-mode)
           :config
-            (setq pdf-info-epdfinfo-program "${pkgs.emacs.pkgs.pdf-tools}/share/emacs/site-lisp/elpa/pdf-tools-${lib.getVersion pkgs.unstable.emacsPackages.pdf-tools}/epdfinfo")
+            (setq pdf-info-epdfinfo-program "${pkgs.unstable.emacsPackages.pdf-tools}/share/emacs/site-lisp/elpa/pdf-tools-${lib.getVersion pkgs.unstable.emacsPackages.pdf-tools}/epdfinfo")
            (pdf-tools-install))
     '';
   };
