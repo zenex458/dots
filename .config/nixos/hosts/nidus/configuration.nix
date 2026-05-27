@@ -13,6 +13,7 @@
     ../impermance.nix
     ../common-desktop.nix
   ];
+  networking.hostName = "nidus";
   boot = {
     # supportedFilesystems = ["ntfs"];
     kernelPackages = lib.mkForce pkgs.linuxPackages;
