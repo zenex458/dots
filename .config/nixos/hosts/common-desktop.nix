@@ -1,10 +1,4 @@
-{
-  inputs,
-  pkgs,
-  lib,
-  config,
-  ...
-}:
+{ inputs, pkgs, ... }:
 {
   imports = [ inputs.niri.nixosModules.niri ];
   boot = {
