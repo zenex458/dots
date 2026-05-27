@@ -3,6 +3,7 @@
   pkgs,
   lib,
   config,
+  utils,
   ...
 }:
 {
@@ -83,28 +84,43 @@
     };
   };
 
-  boot.initrd.postDeviceCommands = lib.mkAfter ''
-    mkdir /btrfs_tmp
-    mount /dev/pool/root /btrfs_tmp
-    if [[ -e /btrfs_tmp/root ]]; then
-        mkdir -p /btrfs_tmp/old_roots
-        timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/root)" "+%Y-%m-%-d_%H:%M:%S")
-        mv /btrfs_tmp/root "/btrfs_tmp/old_roots/$timestamp"
-    fi
+  #https://github.com/nix-community/impermanence/pull/321
+  boot.initrd.systemd = {
+    enable = true; # Default in 26.05
+    services.wipe-file-systems = {
+      # Specify dependencies explicitly
+      unitConfig.DefaultDependencies = false;
+      # The script needs to run to completion before this service is done
+      serviceConfig.Type = "oneshot";
+      # This service is required for boot to succeed
+      requiredBy = [ "initrd.target" ];
+      # Should complete before any file systems are mounted
+      before = [ "sysroot.mount" ];
 
-    delete_subvolume_recursively() {
-        IFS=$'\n'
-        for i in $(btrfs subvolume list -o "$1" | cut -f 9- -d ' '); do
-            delete_subvolume_recursively "/btrfs_tmp/$i"
+      # Wait for the disk to appear
+      requires = [ "${utils.escapeSystemdPath "/dev/pool/root"}.device" ];
+      after = [
+        "${utils.escapeSystemdPath "/dev/pool/root"}.device"
+        # Allow hibernation to resume before trying to alter any data
+        "local-fs-pre.target"
+      ];
+      script = ''
+        mkdir /btrfs_tmp
+        mount /dev/pool/root /btrfs_tmp
+        if [[ -e /btrfs_tmp/root ]]; then
+            mkdir -p /btrfs_tmp/old_roots
+            timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/root)" "+%Y-%m-%-d_%H:%M:%S")
+            mv /btrfs_tmp/root "/btrfs_tmp/old_roots/$timestamp"
+        fi
+        #https://github.com/nix-community/impermanence/pull/269#issuecomment-4321751859
+        for i in $(find /btrfs_tmp/old_roots/ -mindepth 1 -maxdepth 1 -mtime +30 | sort | head -n -1); do
+            #https://github.com/nix-community/impermanence/pull/271
+            btrfs subvolume delete -R "$1"
         done
-        btrfs subvolume delete "$1"
-    }
 
-    for i in $(find /btrfs_tmp/old_roots/ -maxdepth 1 -mtime +30); do
-        delete_subvolume_recursively "$i"
-    done
-
-    btrfs subvolume create /btrfs_tmp/root
-    umount /btrfs_tmp
-  '';
+        btrfs subvolume create /btrfs_tmp/root
+        umount /btrfs_tmp
+      '';
+    };
+  };
 }
