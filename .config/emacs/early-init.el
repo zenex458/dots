@@ -38,7 +38,7 @@
   (advice-add #'display-startup-echo-area-message :override #'ignore))
 (setq frame-inhibit-implied-resize t)
 
-(if (not(string= system-name '"nidus"))
+(if (or (not(string= system-name '"nidus")) (not(string= system-name '"tetanus"))) ; quick fix for now, todo: interate over a list
     (progn
       (setq use-package-always-ensure t
 	          use-package-expand-minimally t)
