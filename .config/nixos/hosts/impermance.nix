@@ -105,10 +105,8 @@
             timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/root)" "+%Y-%m-%-d_%H:%M:%S")
             mv /btrfs_tmp/root "/btrfs_tmp/old_roots/$timestamp"
         fi
-        #https://github.com/nix-community/impermanence/pull/269#issuecomment-4321751859
-        for i in $(find /btrfs_tmp/old_roots/ -mindepth 1 -maxdepth 1 -mtime +30 | sort | head -n -1); do
-            #https://github.com/nix-community/impermanence/pull/271
-            btrfs subvolume delete -R "$1"
+        for i in $(find /btrfs_tmp/old_roots/ -maxdepth 1 -mtime +30); do
+            btrfs subvolume delete --recursive "$i"
         done
 
         btrfs subvolume create /btrfs_tmp/root
