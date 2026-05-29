@@ -9,6 +9,8 @@
     ../common-desktop.nix
   ];
   networking.hostName = "nidus";
+  security.pki.certificateFiles = [ /var/keys/roots.pem ];
+
   boot = {
     # supportedFilesystems = ["ntfs"];
     kernelPackages = lib.mkForce pkgs.linuxPackages;

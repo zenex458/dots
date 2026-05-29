@@ -7,7 +7,7 @@
           privateBuildPlan = ''
             [buildPlans.Iosevka]
             family = "Iosevka"
-            spacing = "normal"
+            spacing = "fixed"
             serifs = "sans"
             noCvSs = true
             exportGlyphNames = false

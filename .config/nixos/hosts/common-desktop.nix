@@ -68,7 +68,7 @@
   environment = {
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
-      FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
+      # FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
     };
     etc = {
       "firejail/firefox.local".text = ''

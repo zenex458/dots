@@ -253,12 +253,12 @@
         }
       '';
       shellAliases = {
-        upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format multiline-with-logs";
-        updb = "sudo nixos-rebuild boot --flake ~/Dev/dots/.config/nixos# --sudo --log-format multiline-with-logs";
-        updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo -v --show-trace --log-format multiline-with-logs";
-        updt = "sudo nixos-rebuild test --no-reexec --flake ~/Dev/dots/.config/nixos# --sudo";
-        updoff = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format multiline-with-logs && sleep 2 && systemctl poweroff";
-        updr = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format multiline-with-logs && sleep 2 && systemctl reboot";
+        upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format multiline-with-logs --impure";
+        updb = "sudo nixos-rebuild boot --flake ~/Dev/dots/.config/nixos# --sudo --log-format multiline-with-logs --impure";
+        updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo -v --show-trace --log-format multiline-with-logs --impure";
+        updt = "sudo nixos-rebuild test --no-reexec --flake ~/Dev/dots/.config/nixos# --sudo --impure";
+        updoff = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format multiline-with-logs --impure && sleep 2 && systemctl poweroff";
+        updr = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format multiline-with-logs --impure && sleep 2 && systemctl reboot";
         updf = "nh os switch -a";
         updflake = "nix flake update --commit-lock-file";
         listnixgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
