@@ -1,8 +1,10 @@
-{ lib, ... }:
+{ lib, config, ... }:
 {
   programs.firefox = {
     enable = true;
+    configPath = "${config.xdg.configHome}/mozilla/firefox";
     policies = {
+      languagePacks = [ "en-GB" ];
       AutofillCreditCardEnabled = false;
       AppAutoUpdate = false;
       BackgroundAppUpdate = false;
@@ -33,29 +35,28 @@
         {
           "{9b84b6b4-07c4-4b4b-ba21-394d86f6e9ee}" = {
             install_url = moz "black21";
-            installation_mode = "allowed";
-            updates_disabled = true;
+            installation_mode = "normal_installed";
+            # updates_disabled = true;
             private_browsing = true;
           };
 
-          "vimium-c@gdh1995.cn" = {
-            install_url = moz "vimium-c";
-            installation_mode = "allowed";
-            updates_disabled = true;
+          "{d7742d87-e61d-4b78-b8a1-b469842139fa}" = {
+            install_url = moz "vimium-ff";
+            installation_mode = "normal_installed";
+            # updates_disabled = true;
             private_browsing = true;
           };
 
           "addon@darkreader.org" = {
             install_url = moz "darkreader";
-            installation_mode = "allowed";
-            updates_disabled = true;
+            installation_mode = "normal_installed";
+            # updates_disabled = true;
             private_browsing = true;
           };
-
           "uBlock0@raymondhill.net" = {
             install_url = moz "ublock-origin";
-            installation_mode = "allowed";
-            updates_disabled = true;
+            installation_mode = "normal_installed";
+            # updates_disabled = true;
             private_browsing = true;
           };
         };
@@ -183,7 +184,7 @@
         "NixosPackage" = {
           urls = [
             {
-              template = "https://search.nixos.org/packages?channel=25.11&from=0&size=50&sort=relevance&type=packages";
+              template = "https://search.nixos.org/packages?channel=26.05&from=0&size=50&sort=relevance&type=packages";
               params = [
                 {
                   name = "query";
@@ -201,7 +202,7 @@
         "NixosOption" = {
           urls = [
             {
-              template = "https://search.nixos.org/options?channel=25.11&from=0&size=50&sort=relevance&type=packages";
+              template = "https://search.nixos.org/options?channel=26.05&from=0&size=50&sort=relevance&type=packages";
               params = [
                 {
                   name = "query";
@@ -227,7 +228,7 @@
         "HomemanagerSearch" = {
           urls = [
             {
-              template = "https://home-manager-options.extranix.com/?query={searchTerms}&release=release-25.11";
+              template = "https://home-manager-options.extranix.com/?query={searchTerms}&release=release-26.05";
             }
           ];
           # iconUpdateURL = "https://home-manager-options.extranix.com/images/favicon.png";
@@ -1614,6 +1615,8 @@
       settings = {
         # "network.trr.mode" = 3;
         # "network.trr.uri" = "https://all.dns.mullvad.net/dns-query";
+        "browser.startup.homepage_override.mstone" = "ignore";
+        "browser.startup.homepage" = "about:blank";
         "accessibility.force_disabled" = 1;
         "app.normandy.api_url" = "";
         "app.normandy.enabled" = false;

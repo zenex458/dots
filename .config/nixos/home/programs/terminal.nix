@@ -246,7 +246,9 @@
     };
     neovim = {
       enable = true;
-      extraLuaConfig = ''
+      withRuby = false;
+      withPython3 = false;
+      initLua = ''
         vim.wo.number = true
         vim.wo.relativenumber = true
         vim.o.termguicolors = true

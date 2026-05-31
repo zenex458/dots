@@ -20,9 +20,11 @@
         name = "browser";
       };
       workspaces."2" = {
+        open-on-output = "EDP-1";
         name = "emacs";
       };
       workspaces."3" = {
+        open-on-output = "EDP-1";
         name = "misc";
       };
       workspaces."4" = {
@@ -59,9 +61,9 @@
         }
         {
           command = [
-            "${lib.getExe pkgs.light}"
-            "-S"
-            "50"
+            "${lib.getExe pkgs.brightnessctl}"
+            "set"
+            "50%"
           ];
         }
         {
@@ -99,7 +101,8 @@
         hide-when-typing = true;
       };
       outputs = {
-        "eDP-1" = {
+        "1" = {
+          name = "eDP-1";
           scale = 1;
           mode = {
             height = 1920;
@@ -110,9 +113,10 @@
             # x = 0;
             y = 0;
           };
-          # focus-at-startup = true;
+          focus-at-startup = true;
         };
-        "HDMI-A-1" = {
+        "2" = {
+          name = "HDMI-A-1";
           scale = 1;
           mode = {
             height = 1280;
@@ -125,7 +129,8 @@
             y = 0;
           };
         };
-        "DP-1" = {
+        "3" = {
+          name = "DP-1";
           scale = 1;
           mode = {
             height = 1280;
@@ -135,7 +140,6 @@
             x = 0;
             y = 0;
           };
-          focus-at-startup = true;
         };
       };
       animations.enable = false;
@@ -221,15 +225,11 @@
 
       binds =
         with config.lib.niri.actions;
-        let
-          sh = spawn "sh" "-c";
-        in
         {
           "Mod+Tab".action = spawn "show.sh";
-          # "Mod+Return".action = spawn "${pkgs.foot}/bin/footclient" "${lib.getExe pkgs.tmux}";
-          # "Mod+T".action = spawn "${lib.getExe pkgs.kitty}" "${lib.getExe pkgs.zsh}";
           "Mod+T".action = spawn "${lib.getExe pkgs.kitty}" "${lib.getExe pkgs.zsh}";
-          "Mod+P".action = sh ''com="$(${pkgs.bemenu}/bin/bemenu-run)"; niri msg action spawn -- "$com"''; # this opens new programs in its own namespace
+          "Mod+P".action.spawn-sh =
+            ''com="$(${pkgs.bemenu}/bin/bemenu-run)"; niri msg action spawn -- "$com"''; # this opens new programs in its own namespace
           "Mod+Shift+Q".action = close-window;
           "Mod+H".action = focus-column-left;
           "Mod+J".action = focus-window-down;
@@ -248,16 +248,16 @@
           "Mod+Shift+W".action = move-column-to-monitor-left;
           "Mod+Shift+E".action = move-column-to-monitor-right;
           "Mod+U".action = spawn "${pkgs.emacs-pgtk}/bin/emacsclient" "-c" "-a" "emacs";
-          "Mod+A".action = spawn "vol.sh";
+          "Mod+A".action.spawn = "vol.sh";
           # "Mod+C".action = spawn "firejail" "${lib.getExe pkgs.firefox}";
-          "Mod+C".action = spawn "${lib.getExe pkgs.firefox}" "-P" "priv";
           # "Mod+Shift+C".action = spawn "firejail" "${lib.getExe pkgs.firefox}" "-P" "work";
+          "Mod+C".action = spawn "${lib.getExe pkgs.firefox}" "-P" "priv";
           "Mod+Shift+C".action = spawn "${lib.getExe pkgs.firefox}" "-P" "work";
           "Mod+Shift+O".action = spawn "${lib.getExe pkgs.mpc}" "next";
           "Mod+Shift+I".action = spawn "${lib.getExe pkgs.mpc}" "prev";
           "Mod+Shift+P".action = spawn "${lib.getExe pkgs.mpc}" "toggle";
-          "Mod+Shift+Prior".action = spawn "${lib.getExe pkgs.light}" "-A" "2";
-          "Mod+Shift+Next".action = spawn "${lib.getExe pkgs.light}" "-U" "2";
+          "Mod+Shift+Prior".action = spawn "${lib.getExe pkgs.brightnessctl}" "set" "+2%";
+          "Mod+Shift+Next".action = spawn "${lib.getExe pkgs.brightnessctl}" "set" "+2%";
           "Mod+Shift+Home".action = spawn "light.sh";
           "Mod+M".action = spawn "Menu";
           "Mod+Y".action = spawn "clipshow.sh";

@@ -186,7 +186,6 @@
         };
       };
     };
-    light.enable = true;
     dconf.enable = true;
     # fish.enable = true;
     zsh.enable = true;

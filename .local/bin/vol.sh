@@ -1,17 +1,19 @@
 #!/usr/bin/env bash
 
-userarg=$(printf "10\n15\n20\n25\n30\n35\nOther\nToggle" | bemenu -p Volume\ Level\ \("$(amixer get Master | grep -o "[0-9]*%" | head -n 1)"\):)
+tstate=$(wpctl get-volume @DEFAULT_SINK@ | awk '{print $3}')
+currentraw=$(echo "$(wpctl get-volume @DEFAULT_SINK@ | awk '{print $2}') * 100" | bc)
+current=${currentraw%.*}
 
+userarg=$(printf "10\n15\n20\n25\n30\n35\nOther\nToggle" | bemenu -p Volume\ Level\ \("$current"%\)"$tstate":)
 if [ "$userarg" -gt 35 ]; then
     printf "Too loud" | bemenu
 elif [ "$userarg" = "Other" ]; then
-	  userarg=$(printf "" | bemenu -p Custom\ Volume\ Level\ \("$(amixer get Master | grep -o "[0-9]*%" | head -n 1)"\):)
-    amixer sset Master "$userarg"%
-
+	  userarg=$(printf "" | bemenu -p Custom\ Volume\ Level\ \("$current"\):)
+    wpctl set-volume @DEFAULT_SINK@ "$userarg"%
 elif [ "$userarg" = "Toggle" ]; then
-    amixer sset Master toggle
-else
-    amixer sset Master "$userarg"%
+    wpctl set-mute @DEFAULT_SINK@ toggle
+elif [ "$userarg" ]; then
+    wpctl set-volume @DEFAULT_SINK@ "$userarg"%
 fi
 
 

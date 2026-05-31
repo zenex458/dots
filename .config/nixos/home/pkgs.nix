@@ -26,6 +26,7 @@
       aria2
       bc
       bemenu
+      brightnessctl
       bfs
       bibtex-tidy
       binwalk
@@ -65,7 +66,6 @@
       john
       jq
       libnotify
-      libreoffice-fresh
       lsof
       magic-wormhole
       man-pages
@@ -79,8 +79,8 @@
       nixd
       nixfmt
       nmap
-      nodePackages.bash-language-server
-      nodePackages_latest.prettier
+      bash-language-server
+      prettier
       openvpn
       p7zip
       pandoc
@@ -127,6 +127,7 @@
       virt-viewer
       wakeonlan
       wayscriber
+      qemu
       wdisplays
       wireguard-tools
       wl-clip-persist
@@ -173,5 +174,6 @@
       vesktop
       kmscon
       yt-dlp
+      libreoffice-fresh
     ]);
 }

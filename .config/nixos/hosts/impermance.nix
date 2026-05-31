@@ -105,7 +105,7 @@
             timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/root)" "+%Y-%m-%-d_%H:%M:%S")
             mv /btrfs_tmp/root "/btrfs_tmp/old_roots/$timestamp"
         fi
-        for i in $(find /btrfs_tmp/old_roots/ -maxdepth 1 -mtime +30); do
+        for i in $(find /btrfs_tmp/old_roots/ -maxdepth 1 -mtime +2); do
             btrfs subvolume delete --recursive "$i"
         done
 

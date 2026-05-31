@@ -30,7 +30,7 @@
         enable = true;
         theme.name = "Adwaita";
         gtk3.extraConfig.gtk-application-prefer-dark-theme = 1;
-        gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
+        gtk4.theme = null;
         font = {
           name = "Iosevka";
           size = 10;
@@ -138,7 +138,7 @@
             ".local/share/simplex"
             ".local/share/Steam"
             ".local/state/wireplumber"
-            ".mozilla"
+            ".config/mozilla"
             ".steam"
             "Dev"
             "Documents"

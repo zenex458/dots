@@ -2,7 +2,7 @@
 {
   services.swayidle =
     let
-      lock = "${pkgs.swaylock}/bin/swaylock --daemonize";
+      lockcmd = "${pkgs.swaylock}/bin/swaylock --daemonize";
       display = status: "${pkgs.niri}/bin/niri msg action power-${status}-monitors";
     in
     {
@@ -10,7 +10,7 @@
       timeouts = [
         {
           timeout = 1800;
-          command = lock;
+          command = lockcmd;
         }
         {
           timeout = 2100;
@@ -18,24 +18,12 @@
           resumeCommand = display "on";
         }
       ];
-      events = [
-        {
-          event = "before-sleep";
-          command = (display "off") + "; " + lock;
-        }
-        {
-          event = "after-resume";
-          command = display "on";
-        }
-        {
-          event = "lock";
-          command = (display "off") + "; " + lock;
-        }
-        {
-          event = "unlock";
-          command = display "on";
-        }
-      ];
+      events = {
+        "before-sleep" = (display "off") + "; " + lockcmd;
+        "after-resume" = display "on";
+        "lock" = (display "off") + "; " + lockcmd;
+        "unlock" = display "on";
+      };
     };
 
   programs.swaylock = {
