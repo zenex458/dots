@@ -86,25 +86,25 @@
   services = {
     fwupd.enable = true;
     smartd.enable = true;
-    kmscon = {
-      # broken doesn't launch guis https://github.com/NixOS/nixpkgs/issues/385497, unless the service is unstable(as of 02/26), as well as having the unstable package installed
-      enable = true;
-      hwRender = true;
-      package = pkgs.unstable.kmscon;
-      extraConfig = ''
-        xkb-layout=gb
-        xkb-options=altwin:ctrl_alt_win
-        palette=custom
-        palette-foreground=189,174,147
-        palette-background=6,6,6
-      '';
-      fonts = [
-        {
-          name = "Iosevka";
-          package = pkgs.iosevka;
-        }
-      ];
-    };
+    # kmscon = {
+    #   # broken doesn't launch guis https://github.com/NixOS/nixpkgs/issues/385497, unless the service is unstable(as of 02/26), as well as having the unstable package installed
+    #   enable = true;
+    #   hwRender = true;
+    #   package = pkgs.unstable.kmscon;
+    #   extraConfig = ''
+    #     xkb-layout=gb
+    #     xkb-options=altwin:ctrl_alt_win
+    #     palette=custom
+    #     palette-foreground=189,174,147
+    #     palette-background=6,6,6
+    #   '';
+    #   fonts = [
+    #     {
+    #       name = "Iosevka";
+    #       package = pkgs.iosevka;
+    #     }
+    #   ];
+    # };
     fstrim.enable = true;
     openssh = {
       enable = true;
