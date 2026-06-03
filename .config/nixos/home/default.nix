@@ -90,7 +90,7 @@
           XDG_CACHE_HOME = "$HOME/.cache";
           MUPDFHISTFILE = "/tmp/.mupdf.history";
           DOTNET_CLI_TELEMETRY_OPTOUT = 1;
-          TERMINAL = "kitty";
+          TERMINAL = "foot";
           EDITOR = "emacsclient -c -a emacs";
           VISUAL = "emacsclient -c -a emacs";
           LESSHISTFILE = "/tmp/.lesshst";

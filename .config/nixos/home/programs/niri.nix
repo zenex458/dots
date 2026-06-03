@@ -150,6 +150,7 @@
         preset-column-widths = [
           # {proportion = 1. / 4.;}
           { proportion = 1. / 2.; }
+          { proportion = 1. / 1.; }
           # {proportion = 2. / 3.;}
         ];
         border = {
@@ -227,7 +228,7 @@
         with config.lib.niri.actions;
         {
           "Mod+Tab".action = spawn "show.sh";
-          "Mod+T".action = spawn "${lib.getExe pkgs.kitty}" "${lib.getExe pkgs.zsh}";
+          "Mod+T".action = spawn "${lib.getExe pkgs.foot}" "${lib.getExe pkgs.zsh}";
           "Mod+P".action.spawn-sh =
             ''com="$(${pkgs.bemenu}/bin/bemenu-run)"; niri msg action spawn -- "$com"''; # this opens new programs in its own namespace
           "Mod+Shift+Q".action = close-window;

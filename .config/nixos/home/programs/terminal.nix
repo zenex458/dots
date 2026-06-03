@@ -8,8 +8,9 @@
       settings = {
         enable_audio_bell = "no";
         cursor_shape = "block";
-        cursor_blink_interval = 1;
+        cursor_blink_interval = 0.5;
         disable_ligatures = "all always";
+        term = "xterm-256color";
       };
       font = {
         name = "Iosevka";
@@ -118,15 +119,18 @@
       settings = {
         main = {
           term = "xterm-256color";
-          font = "Iosevka:style=regular:size=12";
-          dpi-aware = "no";
+          font = "Iosevka:size=12";
+          initial-window-mode = "maximized";
+        };
+        tweak = {
+          font-monospace-warn = "no";
         };
         mouse.hide-when-typing = "yes";
         cursor = {
           style = "block";
           blink = "yes";
         };
-        colors = {
+        colors-dark = {
           background = "060606";
           foreground = "bdae93";
           regular0 = "444444"; # black
