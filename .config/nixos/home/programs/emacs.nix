@@ -9,6 +9,7 @@
         ace-window
         apheleia
         async
+        jinja2-mode
         auctex
         cape
         consult

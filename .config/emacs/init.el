@@ -624,9 +624,6 @@
 (use-package indent-guide
   :hook (python-ts-mode . indent-guide-mode))
 
-;; (use-package uv-mode
-;;   :hook (python-ts-mode . uv-mode-auto-activate-hook))
-
 (use-package zoxide
   :hook (find-file . zoxide-add)
   :bind
