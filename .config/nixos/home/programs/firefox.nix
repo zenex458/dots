@@ -1558,7 +1558,8 @@
         # PREF: Display a notification bar when websites offer data for offline use
         # https://kb.mozillazine.org/Browser.offline-apps.notify
         "browser.offline-apps.notify" = true;
-
+        browser.urlbar.quicksuggest.enabled = false;
+        browser.urlbar.suggest.quickactions = false;
         ####sidebar####
         "sidebar.animation.enabled" = false;
         "sidebar.backupState" =
@@ -1757,6 +1758,8 @@
         "sidebar.verticalTabs" = true;
         "sidebar.visibility" = "always-show";
         "brower.cache.disk.enable" = false;
+        "browser.urlbar.quicksuggest.enabled" = false;
+        "browser.urlbar.suggest.quickactions" = false;
       };
     };
   };
