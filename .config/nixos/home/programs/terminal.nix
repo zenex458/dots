@@ -10,11 +10,12 @@
         cursor_shape = "block";
         cursor_blink_interval = 0.5;
         disable_ligatures = "all always";
-        term = "xterm-256color";
+        # term = "xterm-256color";
       };
       font = {
-        name = "Iosevka";
-        size = 12;
+        # name = "Iosevka";
+        name = "Fira Code";
+        size = 11;
       };
       extraConfig = ''
         foreground #bdae93
@@ -283,7 +284,10 @@
         # };
         url."git@github.com:".insteadOf = "gh:";
         column.ui = "auto";
-        branch.sort = "committerdate";
+        branch = {
+          sort = "committerdate";
+          autoSetupRemote = "current";
+        };
         help.autocorrect = "prompt";
       };
     };
