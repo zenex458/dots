@@ -7,7 +7,7 @@
           privateBuildPlan = ''
             [buildPlans.Iosevka]
             family = "Iosevka"
-            spacing = "fixed"
+            spacing = "fontconfig-mono"
             serifs = "sans"
             noCvSs = true
             exportGlyphNames = false
@@ -27,9 +27,9 @@
             css = 400
 
             [buildPlans.Iosevka.weights.Bold]
-            shape = 700
-            menu = 700
-            css = 700
+            shape = 800
+            menu = 800
+            css = 800
 
             [buildPlans.Iosevka.slopes.Upright]
             angle = 0
