@@ -76,7 +76,8 @@
           command = [
             "${lib.getExe pkgs.swaybg}"
             "-i"
-            "${config.home.homeDirectory}/Downloads/Images/Dlowsat.png"
+            # "${config.home.homeDirectory}/Downloads/Images/Dlowsat.png"
+            "${config.home.homeDirectory}/Downloads/Images/Drings.png"
           ];
         }
       ];

@@ -133,6 +133,7 @@
       wl-clip-persist
       wl-clipboard
       wl-color-picker
+      pre-commit
       wlr-randr
       wlsunset
       xdg-utils
@@ -172,6 +173,7 @@
       signal-desktop
       simplex-chat-desktop
       vesktop
+      rustdesk-flutter
       kmscon
       yt-dlp
       libreoffice-fresh

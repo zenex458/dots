@@ -13,9 +13,20 @@
 
   boot = {
     # supportedFilesystems = ["ntfs"];
-    kernelPackages = lib.mkForce pkgs.linuxPackages;
+    # kernelPackages = lib.mkForce pkgs.linuxPackages;
   };
   services = {
+    tlp = {
+      enable = true;
+      settings = {
+        CPU_SCALING_GOVERNOR_ON_AC = "performance";
+        CPU_SCALING_GOVERNOR_ON_BAT = "schedutil";
+        PLATFORM_PROFILE_ON_AC = "performance";
+        PLATFORM_PROFILE_ON_BAT = "low-power";
+        START_CHARGE_THRESH_BAT0 = 75;
+        STOP_CHARGE_THRESH_BAT0 = 80;
+      };
+    };
     pcscd.enable = true;
     udev.packages = [
       # pkgs.android-udev-rules
@@ -26,7 +37,7 @@
   virtualisation = {
     libvirtd.enable = lib.mkForce false;
     virtualbox.host.enable = true;
-    virtualbox.host.enableHardening = false;
+    # virtualbox.host.enableHardening = false;
     docker.storageDriver = "btrfs";
     # virtualbox.host.package = pkgs.unstable.virtualbox;
   };

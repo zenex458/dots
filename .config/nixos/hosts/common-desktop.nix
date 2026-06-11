@@ -46,7 +46,7 @@
     chromiumSuidSandbox.enable = true;
   };
 
-  powerManagement.powertop.enable = true;
+  # powerManagement.powertop.enable = true;
   fonts = {
     packages = with pkgs; [
       iosevka
@@ -55,6 +55,7 @@
       noto-fonts-cjk-sans
       aileron
       uw-ttyp0
+      fira-code
     ];
     fontconfig = {
       defaultFonts = {
@@ -109,18 +110,6 @@
       alsa.support32Bit = true;
       pulse.enable = true;
       wireplumber.enable = true;
-    };
-
-    tlp = {
-      enable = true;
-      settings = {
-        CPU_SCALING_GOVERNOR_ON_AC = "performance";
-        CPU_SCALING_GOVERNOR_ON_BAT = "schedutil";
-        PLATFORM_PROFILE_ON_AC = "performance";
-        PLATFORM_PROFILE_ON_BAT = "low-power";
-        START_CHARGE_THRESH_BAT0 = 75;
-        STOP_CHARGE_THRESH_BAT0 = 80;
-      };
     };
 
     locate = {
