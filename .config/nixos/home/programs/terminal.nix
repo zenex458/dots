@@ -1,5 +1,4 @@
-{ config, pkgs, ... }:
-{
+{ config, pkgs, ... }: {
   manual.manpages.enable = true;
   programs = {
     kitty = {
@@ -288,6 +287,7 @@
           sort = "committerdate";
           autoSetupRemote = "current";
         };
+        push.autoSetupRemote = true;
         help.autocorrect = "prompt";
       };
     };
