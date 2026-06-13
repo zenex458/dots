@@ -14,13 +14,14 @@
 @import url("https://refact0r.github.io/midnight-discord/build/midnight.css");
 
 body {
+    --radius-lg: 0px;
     /* font options */
     --font: "Iosevka"; /* change to '' for default discord font */
     --code-font: ""; /* change to '' for default discord font */
     font-weight: 400; /* normal text font weight. DOES NOT AFFECT BOLD TEXT */
 
     /* sizes */
-    --gap: 12px; /* spacing between panels */
+    --gap: 0px; /* spacing between panels */
     --divider-thickness: 4px; /* thickness of unread messages divider and highlighted message borders */
     --border-thickness: 1px; /* thickness of borders around main panels. DOES NOT AFFECT OTHER BORDERS */
 
@@ -39,8 +40,8 @@ body {
     --subtle-top-bar-title: off; /* off: default, on: hide the icon and use subtle text color (like old discord) */
 
     /* window controls */
-    --custom-window-controls: on; /* off: default window controls, on: custom window controls */
-    --window-control-size: 14px; /* size of custom window controls */
+    --custom-window-controls: off; /* off: default window controls, on: custom window controls */
+    --window-control-size: 0px; /* size of custom window controls */
 
     /* dms button options */
     --custom-dms-icon: custom; /* off: use default discord icon, hide: remove icon entirely, custom: use custom icon */
@@ -69,7 +70,7 @@ body {
     --transparency-tweaks: off; /* off: no changes, on: remove some elements for better transparency */
     --remove-bg-layer: off; /* off: no changes, on: remove the base --bg-3 layer for use with window transparency (WILL OVERRIDE BACKGROUND IMAGE) */
     --panel-blur: off; /* off: no changes, on: blur the background of panels */
-    --blur-amount: 12px; /* amount of blur */
+    --blur-amount: 0px; /* amount of blur */
     --bg-floating: var(
         --bg-3
     ); /* set this to a more opaque color if floating panels look too transparent. only applies if panel blur is on  */

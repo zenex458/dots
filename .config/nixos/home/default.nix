@@ -1,5 +1,4 @@
-{ inputs, pkgs, ... }:
-{
+{ inputs, pkgs, ... }: {
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     useGlobalPkgs = true;
@@ -113,8 +112,8 @@
             source = ../../emacs;
             recursive = true;
           };
-          ".config/vesktop/themes/theme.css" = {
-            source = ../../vesktop/themes/theme.css;
+          ".config/Equicord/themes/theme.css" = {
+            source = ../../Equicord/themes/theme.css;
           };
         };
         persistence."/persistent" = {
@@ -130,7 +129,8 @@
             ".config/opensnitch"
             ".config/Signal"
             ".config/simplex"
-            ".config/vesktop"
+            ".config/Equicord"
+            ".config/discord"
             ".config/zotero"
             ".config/zsh"
             ".icons"
@@ -140,6 +140,7 @@
             ".local/state/wireplumber"
             ".config/mozilla"
             ".steam"
+            ".factorio"
             "Dev"
             "Documents"
             "Downloads"

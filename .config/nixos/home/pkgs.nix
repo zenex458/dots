@@ -141,6 +141,8 @@
       yamlfmt
       zip
       zotero
+      go
+      terraform_1
       (aspellWithDicts (
         dicts: with dicts; [
           en
@@ -171,10 +173,13 @@
       nchat
       signal-desktop
       simplex-chat-desktop
-      vesktop
       rustdesk-flutter
       kmscon
       yt-dlp
       libreoffice-fresh
+      (discord.override {
+        withOpenASAR = true;
+        withEquicord = true;
+      })
     ]);
 }
