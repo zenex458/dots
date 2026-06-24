@@ -60,7 +60,6 @@
         writeroom-mode
         slime
         cmake-mode
-        slime
         slime-company
         darkroom
         (treesit-grammars.with-grammars (

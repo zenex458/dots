@@ -137,7 +137,7 @@
   (password-cache-expiry 3600)
   (history-length 2000)
   (dired-kill-when-opening-new-dired-buffer t)
-  (native-comp-async-report-warnings-errors nil)
+  ;; (native-comp-async-report-warnings-errors nil)
   ;; (warning-minimum-level :error)
   (read-file-name-completion-ignore-case t)
   (read-buffer-completion-ignore-case t)
@@ -411,14 +411,9 @@
 
 (use-package nix-ts-mode
   :mode "\\.nix\\'"
-  ;; :hook ((nix-ts-mode . (lambda ()(electric-pair-mode -1))));;surely theres a better way?
+  :hook ((nix-ts-mode . (lambda ()(electric-pair-mode -1))))
   )
 
-(use-package go-ts-mode
-  :mode "\\.go\\'")
-
-(use-package rust-ts-mode
-  :mode "\\.rs\\'")
 
 (use-package envrc
   :hook ((rust-ts-mode . envrc-mode)
@@ -432,9 +427,6 @@
 (use-package pretty-sha-path
   :diminish pretty-sha-path-mode
   :hook (after-init . pretty-sha-path-mode))
-
-(use-package yaml-ts-mode
-  :mode "\\.yaml\\'")
 
 ;; https://github.com/promethial/.emacs.d/blob/c71732112300f1dc294769821533a8627440b282/init.el#L326
 (use-package haskell-mode)
@@ -525,6 +517,7 @@
          (org-mode . yas-minor-mode)
          (LaTeX-mode . yas-minor-mode))
   :config
+  (yas-reload-all)
   (diminish 'yas-minor-mode))
 
 (use-package async
@@ -627,28 +620,6 @@
   :hook (find-file . zoxide-add)
   :bind
   ("M-s z" . zoxide-find-file))
-
-
-;;(use-package golden-ratio
-;;  :hook (after-init . golden-ratio-mode)
-;;  :custom
-;;  (golden-ratio-auto-scale t)
-;;  (add-to-list 'golden-ratio-extra-commands 'ace-window))
-;;
-;;(use-package edwina
-;;  :hook (after-init . edwina-mode)
-;;  :custom
-;;  (display-buffer-base-action '(display-buffer-below-selected))
-;;  (edwina-mode-line-format ""))
-
-;; (use-package evil
-;;   :hook (prog-mode . evil-local-mode))
-
-;; (use-package key-chord
-;;   :hook (evil-local-mode . key-chord-mode)
-;;   :config
-;;   (setq key-chord-two-keys-delay 0.3)
-;;   (key-chord-define evil-insert-state-map "jk" 'evil-normal-state))
 
 (setq mode-line-position (list " (%l:%C %P %I) "))
 ;;https://www.emacs.dyerdwelling.family/emacs/20230902114449-emacs--my-evolving-modeline/
