@@ -1,5 +1,4 @@
-{ inputs, pkgs, ... }:
-{
+{ inputs, pkgs, ... }: {
   imports = [ inputs.niri.nixosModules.niri ];
   boot = {
     # supportedFilesystems = ["ntfs"];

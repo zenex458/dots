@@ -1,5 +1,4 @@
-{ lib, pkgs, ... }:
-{
+{ lib, pkgs, ... }: {
   programs.emacs = {
     enable = true;
     package = pkgs.emacs-pgtk; # use just `emacs' if you want it the daemon to survive after the gui terminates this will use the `lucid toolkit`
@@ -9,6 +8,7 @@
         ace-window
         apheleia
         async
+        fj
         jinja2-mode
         auctex
         cape

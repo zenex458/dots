@@ -14,7 +14,6 @@
   ];
   zramSwap.enable = true;
   boot = {
-    kernel.sysctl."vm.swappiness" = 1;
     #loader.systemd-boot.enable = true;
     loader.systemd-boot.enable = lib.mkForce false;
     lanzaboote = {
@@ -183,7 +182,7 @@
     };
   };
   nix = {
-    package = pkgs.lix;
+    package = pkgs.lixPackageSets.stable.lix;
     nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
     registry.nixpkgs.flake = inputs.nixpkgs;
     settings = {

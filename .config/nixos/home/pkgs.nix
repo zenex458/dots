@@ -143,6 +143,7 @@
       zotero
       go
       terraform_1
+      forgejo-cli
       (aspellWithDicts (
         dicts: with dicts; [
           en
@@ -177,6 +178,7 @@
       kmscon
       yt-dlp
       libreoffice-fresh
+      androidenv.androidPkgs.platform-tools
       (discord.override {
         withOpenASAR = true;
         withEquicord = true;

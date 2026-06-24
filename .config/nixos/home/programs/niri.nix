@@ -209,7 +209,7 @@
           open-on-workspace = "comms";
         }
         {
-          matches = [ { app-id = "^vesktop$"; } ];
+          matches = [ { app-id = "^discord$"; } ];
           # block-out-from = "screen-capture";
           open-on-workspace = "comms";
         }
