@@ -178,36 +178,5 @@
         en-science
       ]
     ))
-    (pkgs.emacsWithPackagesFromUsePackage {
-      config = ../../emacs/init.el;
-      defaultInitFile = true;
-      package = pkgs.emacs-pgtk;
-      alwaysEnsure = true;
-      alwaysTangle = false;
-      extraEmacsPackages =
-        epkgs: with epkgs; [
-          pdf-tools
-          (treesit-grammars.with-grammars (
-            grammars: with grammars; [
-              tree-sitter-cpp
-              tree-sitter-c
-              tree-sitter-css
-              tree-sitter-commonlisp
-              tree-sitter-haskell
-              tree-sitter-javascript
-              tree-sitter-json
-              tree-sitter-nix
-              tree-sitter-python
-              tree-sitter-rust
-              tree-sitter-yaml
-              tree-sitter-bash
-              tree-sitter-typst
-              tree-sitter-ocaml
-              tree-sitter-go
-              tree-sitter-java
-            ]
-          ))
-        ];
-    })
   ];
 }

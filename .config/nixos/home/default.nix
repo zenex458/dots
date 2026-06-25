@@ -8,7 +8,7 @@
       imports = [
         ./mimeapps.nix
         ./pkgs.nix
-        # ./programs/emacs.nix
+        ./programs/emacs.nix
         ./programs/firefox.nix
         ./programs/sway.nix
         ./programs/niri.nix
