@@ -8,7 +8,7 @@
       imports = [
         ./mimeapps.nix
         ./pkgs.nix
-        ./programs/emacs.nix
+        # ./programs/emacs.nix
         ./programs/firefox.nix
         ./programs/sway.nix
         ./programs/niri.nix
@@ -45,7 +45,7 @@
         home-manager.enable = true;
         qutebrowser = {
           enable = true;
-          package = pkgs.unstable.qutebrowser;
+          package = pkgs.qutebrowser;
         };
         mpv = {
           enable = true;

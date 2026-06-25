@@ -4,7 +4,8 @@
     package = pkgs.emacs-pgtk; # use just `emacs' if you want it the daemon to survive after the gui terminates this will use the `lucid toolkit`
     #package = pkgs.emacs;
     extraPackages =
-      epkgs: with pkgs.unstable.emacs.pkgs; [
+      # epkgs: with pkgs.unstable.emacs.pkgs; [ #TODO: change back to unstable
+      epkgs: with pkgs.emacs.pkgs; [
         ace-window
         apheleia
         async
@@ -83,12 +84,13 @@
           ]
         ))
       ];
+    #todo: change back to unstable
     extraConfig = ''
       (use-package pdf-tools
           :magic ("%PDF" . pdf-view-mode)
           :hook (pdf-view-mode . pdf-view-themed-minor-mode)
           :config
-            (setq pdf-info-epdfinfo-program "${pkgs.unstable.emacsPackages.pdf-tools}/share/emacs/site-lisp/elpa/pdf-tools-${lib.getVersion pkgs.unstable.emacsPackages.pdf-tools}/epdfinfo")
+            (setq pdf-info-epdfinfo-program "${pkgs.emacsPackages.pdf-tools}/share/emacs/site-lisp/elpa/pdf-tools-${lib.getVersion pkgs.emacsPackages.pdf-tools}/epdfinfo")
            (pdf-tools-install))
     '';
   };

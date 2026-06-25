@@ -253,7 +253,7 @@
         }
       '';
       shellAliases = {
-        upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format multiline-with-logs --impure";
+        upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format bar-with-logs --impure"; # TODO: change back to multiline with lix works on stable
         updb = "sudo nixos-rebuild boot --flake ~/Dev/dots/.config/nixos# --sudo --log-format multiline-with-logs --impure";
         updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo -v --show-trace --log-format multiline-with-logs --impure";
         updt = "sudo nixos-rebuild test --no-reexec --flake ~/Dev/dots/.config/nixos# --sudo --impure";

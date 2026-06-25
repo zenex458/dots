@@ -1,4 +1,5 @@
 { inputs, pkgs, ... }: {
+
   imports = [ inputs.niri.nixosModules.niri ];
   boot = {
     # supportedFilesystems = ["ntfs"];
@@ -105,8 +106,9 @@
     upower.enable = true;
     pipewire = {
       enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
+      # alsa for some reason needs to compile ffado
+      # alsa.enable = true;
+      # alsa.support32Bit = true;
       pulse.enable = true;
       wireplumber.enable = true;
     };
@@ -138,7 +140,7 @@
     };
     ghidra = {
       enable = true;
-      package = pkgs.unstable.ghidra;
+      package = pkgs.ghidra;
     };
     wireshark.enable = true;
     command-not-found.enable = false;
