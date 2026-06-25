@@ -173,7 +173,6 @@
       gurk-rs
       nchat
       signal-desktop
-      simplex-chat-desktop
       rustdesk-flutter
       kmscon
       yt-dlp

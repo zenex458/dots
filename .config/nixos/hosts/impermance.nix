@@ -1,5 +1,4 @@
-{ inputs, utils, ... }:
-{
+{ inputs, utils, ... }: {
   imports = [ inputs.impermanence.nixosModules.impermanence ];
 
   fileSystems."/persistent".neededForBoot = true;
@@ -17,21 +16,14 @@
       "/etc/docker/key.json"
       "/var/lib/docker/"
       "/var/lib/lxd/"
-      "/var/lib/libvirt/"
+      "/var/lib/libvirt/qemu"
+      "/var/lib/libvirt/images"
+      "/var/lib/libvirt/storage"
+      "/var/lib/libvirt/dnsmasq"
+      "/var/lib/libvirt/hooks"
+      "/var/lib/libvirt/nwfilter"
       "/var/cache/locate/"
 
-      {
-        directory = "/var/lib/tailscale";
-        user = "root";
-        group = "root";
-        mode = "0700";
-      }
-      {
-        directory = "/var/lib/netbird";
-        user = "root";
-        group = "root";
-        mode = "0700";
-      }
       {
         directory = "/var/keys";
         user = "root";
@@ -40,7 +32,11 @@
       }
     ];
 
-    files = [ "/etc/machine-id" ];
+    files = [
+      "/etc/machine-id"
+      "/var/lib/libvirt/network.conf"
+      "/var/lib/libvirt/qemu.conf"
+    ];
 
     users.zenex = {
       directories = [

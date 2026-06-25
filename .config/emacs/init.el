@@ -411,7 +411,7 @@
 
 (use-package nix-ts-mode
   :mode "\\.nix\\'"
-  :hook ((nix-ts-mode . (lambda ()(electric-pair-mode -1))))
+  :hook ((nix-ts-mode . (lambda ()(electric-pair-local-mode -1))))
   )
 
 

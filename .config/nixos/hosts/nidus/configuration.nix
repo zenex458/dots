@@ -1,5 +1,4 @@
-{ pkgs, lib, ... }:
-{
+{ pkgs, lib, ... }: {
   imports = [
     ./disko-config.nix
     ./hardware-configuration.nix
@@ -28,15 +27,12 @@
       };
     };
     pcscd.enable = true;
-    udev.packages = [
-      # pkgs.android-udev-rules
-      pkgs.nitrokey-udev-rules
-    ];
+    udev.packages = [ pkgs.nitrokey-udev-rules ];
   };
   users.extraGroups.vboxusers.members = [ "zenex" ];
   virtualisation = {
-    libvirtd.enable = lib.mkForce false;
-    virtualbox.host.enable = true;
+    # libvirtd.enable = lib.mkForce false;
+    # virtualbox.host.enable = true;
     # virtualbox.host.enableHardening = false;
     docker.storageDriver = "btrfs";
     # virtualbox.host.package = pkgs.unstable.virtualbox;
