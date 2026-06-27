@@ -253,12 +253,12 @@
         }
       '';
       shellAliases = {
-        upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format bar-with-logs --impure"; # TODO: change back to multiline with lix works on stable
-        updb = "sudo nixos-rebuild boot --flake ~/Dev/dots/.config/nixos# --sudo --log-format multiline-with-logs --impure";
-        updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo -v --show-trace --log-format multiline-with-logs --impure";
+        upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format bar-with-logs --impure"; # TODO: change back to "--log-format multiline-with-logs" when lix works on stable
+        updb = "sudo nixos-rebuild boot --flake ~/Dev/dots/.config/nixos# --sudo --log-format bar-with-logs --impure";
+        updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo -v --show-trace --log-format bar-with-logs --impure";
         updt = "sudo nixos-rebuild test --no-reexec --flake ~/Dev/dots/.config/nixos# --sudo --impure";
-        updoff = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format multiline-with-logs --impure && sleep 2 && systemctl poweroff";
-        updr = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format multiline-with-logs --impure && sleep 2 && systemctl reboot";
+        updoff = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format bar-with-logs --impure && sleep 2 && systemctl poweroff";
+        updr = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format bar-with-logs --impure && sleep 2 && systemctl reboot";
         updf = "nh os switch -a";
         updflake = "nix flake update --commit-lock-file";
         listnixgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
