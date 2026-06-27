@@ -54,7 +54,7 @@
       noto-fonts
       noto-fonts-cjk-sans
       aileron
-      uw-ttyp0
+      # uw-ttyp0
       fira-code
     ];
     fontconfig = {
@@ -111,6 +111,7 @@
       # alsa.support32Bit = true;
       pulse.enable = true;
       wireplumber.enable = true;
+      package = pkgs.pipewire.override { bluezSupport = false; };
     };
 
     locate = {

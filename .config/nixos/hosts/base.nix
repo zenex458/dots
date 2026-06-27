@@ -22,6 +22,7 @@
     };
     loader.efi.canTouchEfiVariables = true;
     tmp.cleanOnBoot = true;
+    blacklistedKernelModules = [ "bluetooth" ];
   };
 
   hardware.bluetooth.enable = false;
