@@ -621,6 +621,14 @@
   :bind
   ("M-s z" . zoxide-find-file))
 
+(use-package golden-ratio
+  :hook (after-init . golden-ratio-mode)
+  :custom
+  (golden-ratio-auto-scale t)
+  :config
+  (add-to-list 'golden-ratio-extra-commands 'ace-window)
+  (setq golden-ratio-max-width 120))
+
 (setq mode-line-position (list " (%l:%C %P %I) "))
 ;;https://www.emacs.dyerdwelling.family/emacs/20230902114449-emacs--my-evolving-modeline/
 (setq-default mode-line-format '((:eval

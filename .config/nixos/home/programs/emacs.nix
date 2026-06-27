@@ -31,7 +31,7 @@
         flymake
         forge
         gcmh
-        # golden-ratio
+        golden-ratio
         haskell-mode
         hungry-delete
         indent-guide
