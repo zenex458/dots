@@ -45,7 +45,11 @@
         home-manager.enable = true;
         qutebrowser = {
           enable = true;
-          package = pkgs.qutebrowser;
+          package = pkgs.qutebrowser.override {
+            enableWideVine = true;
+            withPdfReader = false;
+            enableVulkan = true;
+          };
         };
         mpv = {
           enable = true;
