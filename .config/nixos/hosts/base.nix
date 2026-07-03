@@ -68,7 +68,7 @@
         isNormalUser = true;
         description = "zenex";
         extraGroups = [
-          "seatd"
+          "seat"
           "wheel"
           "video"
           "audio"
