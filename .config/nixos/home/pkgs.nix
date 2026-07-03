@@ -154,10 +154,7 @@
     yt-dlp
     libreoffice-fresh
     androidenv.androidPkgs.platform-tools
-    (discord.override {
-      withOpenASAR = true;
-      withEquicord = true;
-    })
+    (discord.override { withVencord = true; })
     (cutter.withPlugins (
       p: with p; [
         rz-ghidra

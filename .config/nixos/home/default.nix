@@ -116,8 +116,8 @@
             source = ../../emacs;
             recursive = true;
           };
-          ".config/Equicord/themes/theme.css" = {
-            source = ../../Equicord/themes/theme.css;
+          ".config/Vencord/themes/theme.css" = {
+            source = ../../Vencord/themes/theme.css;
           };
         };
         persistence."/persistent" = {
@@ -130,7 +130,7 @@
             ".config/nchat"
             ".config/opensnitch"
             ".config/Signal"
-            ".config/Equicord"
+            ".config/Vencord"
             ".config/discord"
             ".config/zotero"
             ".config/zsh"
