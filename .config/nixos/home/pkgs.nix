@@ -148,7 +148,7 @@
     binaryninja-free
     gurk-rs
     nchat
-    signal-desktop
+    #signal-desktop
     rustdesk-flutter
     # kmscon
     yt-dlp
