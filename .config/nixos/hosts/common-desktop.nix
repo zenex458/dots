@@ -33,6 +33,7 @@
   };
 
   security = {
+    polkit.enable = true;
     pam = {
       services.swaylock = { };
       u2f = {
