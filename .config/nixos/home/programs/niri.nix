@@ -253,7 +253,7 @@
           "Mod+A".action.spawn = "vol.sh";
           # "Mod+C".action = spawn "firejail" "${lib.getExe pkgs.firefox}";
           # "Mod+Shift+C".action = spawn "firejail" "${lib.getExe pkgs.firefox}" "-P" "work";
-          "Mod+C".action = spawn "${lib.getExe pkgs.firefox}" "-P" "priv";
+          "Mod+C".action = spawn "${lib.getExe pkgs.firefox}" "-P" "personal";
           "Mod+Shift+C".action = spawn "${lib.getExe pkgs.firefox}" "-P" "work";
           "Mod+Shift+O".action = spawn "${lib.getExe pkgs.mpc}" "next";
           "Mod+Shift+I".action = spawn "${lib.getExe pkgs.mpc}" "prev";
