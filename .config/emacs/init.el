@@ -354,7 +354,7 @@
   (setf (alist-get 'isort apheleia-formatters)
         '("isort" "--stdout" "-"))
   (setf (alist-get 'python-ts-mode apheleia-mode-alist)
-        '(isort pyfmt))
+        '(pyfmt isort))
   (setf (alist-get 'tidy apheleia-formatters)
         '("tidy" "-i" "-q" "--tidy-mark" "no"))
   (add-to-list 'apheleia-mode-alist '(html-mode . tidy))
@@ -533,6 +533,9 @@
   (org-bullets-bullet-list '("*" "+")))
 
 (use-package org-make-toc)
+
+(use-package yaml-ts-mode
+  :magic ("%yml" . yaml-ts-mode))
 
 (use-package markdown-mode
   :magic ("%md" . markdown-mode)
