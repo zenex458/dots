@@ -12,8 +12,9 @@
     inputs.lanzaboote.nixosModules.lanzaboote
     #    ./hardened.nix
   ];
-  zramSwap.enable = true;
+  # zramSwap.enable = true;
   boot = {
+    zswap.enable = true;
     #loader.systemd-boot.enable = true;
     loader.systemd-boot.enable = lib.mkForce false;
     lanzaboote = {

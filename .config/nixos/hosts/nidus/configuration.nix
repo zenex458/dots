@@ -10,6 +10,20 @@
   networking.hostName = "nidus";
   security.pki.certificateFiles = [ /var/keys/roots.pem ];
 
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 10 * 1024; # 16 GiB
+      randomEncryption = {
+        cipher = "serpent-xts-plain64";
+        enable = true;
+        source = "/dev/random";
+        keySize = 512;
+      };
+
+    }
+  ];
+
   boot = {
     # supportedFilesystems = ["ntfs"];
     # kernelPackages = lib.mkForce pkgs.linuxPackages;
