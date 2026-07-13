@@ -67,6 +67,10 @@
             withPdfReader = false;
             enableVulkan = true;
           };
+          settings = {
+            content.private_browsing = true;
+            colors.webpage.darkmode.enabled = true;
+          };
         };
         mpv = {
           enable = true;
