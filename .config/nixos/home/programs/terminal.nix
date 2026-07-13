@@ -120,7 +120,6 @@
         main = {
           term = "xterm-256color";
           font = "Iosevka:size=12";
-          initial-window-mode = "maximized";
         };
         tweak = {
           font-monospace-warn = "no";

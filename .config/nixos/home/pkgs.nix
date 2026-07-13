@@ -154,6 +154,8 @@
     yt-dlp
     libreoffice-fresh
     androidenv.androidPkgs.platform-tools
+    espeak
+    polkit_gnome
     (discord.override { withVencord = true; })
     (cutter.withPlugins (
       p: with p; [
