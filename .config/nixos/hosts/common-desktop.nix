@@ -7,6 +7,7 @@
   };
 
   services = {
+    speechd.enable = true;
     seatd.enable = true;
     gnome.gnome-keyring.enable = true;
     journald.extraConfig = ''
@@ -107,9 +108,8 @@
     upower.enable = true;
     pipewire = {
       enable = true;
-      # alsa for some reason needs to compile ffado
-      # alsa.enable = true;
-      # alsa.support32Bit = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
       pulse.enable = true;
       wireplumber.enable = true;
       package = pkgs.pipewire.override { bluezSupport = false; };
