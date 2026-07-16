@@ -350,9 +350,9 @@
   (add-to-list 'apheleia-mode-alist '(cmake-mode . cmake))
 
   (setf (alist-get 'pyfmt apheleia-formatters)
-        '("autopep8" "-"))
+        '("autopep8" input))
   (setf (alist-get 'isort apheleia-formatters)
-        '("isort" "--stdout" "-"))
+        '("isort" "--stdout" input))
   (setf (alist-get 'python-ts-mode apheleia-mode-alist)
         '(pyfmt isort))
   (setf (alist-get 'tidy apheleia-formatters)
