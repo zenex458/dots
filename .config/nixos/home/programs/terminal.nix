@@ -107,7 +107,7 @@
     };
     man = {
       enable = true;
-      generateCaches = false;
+      generateCaches = true;
     };
     nh = {
       enable = true;

@@ -6,13 +6,14 @@
   ...
 }:
 {
-  home.shell.enableFishIntegration = false;
+  home.shell.enableFishIntegration = true;
   home.shell.enableZshIntegration = true;
 
   programs = {
     starship = {
       enable = true;
       enableZshIntegration = true;
+      enableFishIntegration = true;
       enableBashIntegration = false;
       settings = {
         add_newline = false;
@@ -21,6 +22,7 @@
           "$directory"
           "\\]"
           "$status"
+          "$cmd_duration"
           "$line_break"
           "$character"
         ];
@@ -43,20 +45,26 @@
           not_found_symbol = "";
           sigint_symbol = "";
           signal_symbol = "";
-          format = "[\\[$common_meaning$signal_name$maybe_int\\]]($style)";
+          format = "[\\[$common_meaning$signal_name$maybe_int$signal_number\\]]($style)";
           map_symbol = false;
           recognize_signal_code = false;
           pipestatus = true;
         };
+        cmd_duration = {
+          format = "\\[$duration\\]";
+        };
+
       };
     };
     dircolors = {
       enable = true;
       enableZshIntegration = true;
+      enableFishIntegration = true;
     };
     direnv = {
       enable = true;
       enableBashIntegration = false;
+      enableFishIntegration = true;
       silent = true;
       config = {
         whitelist = {
@@ -123,13 +131,6 @@
           command_error = "fg=#bdae93,underline";
         };
       };
-      plugins = [
-        {
-          name = "zsh-command-time";
-          src = pkgs.zsh-command-time;
-          file = "share/zsh/plugins/command-time/command-time.plugin.zsh";
-        }
-      ];
       initContent = ''
         #https://scottspence.com/posts/speeding-up-my-zsh-shell
         if [ "$(date +'%j')" != "''$(stat -f '%Sm' -t '%j' $HOME/.config/zsh/.zcompdump 2>/dev/null)" ]; then
@@ -178,24 +179,29 @@
     };
 
     fish = {
-      enable = false;
+      enable = true;
       interactiveShellInit = ''
         set fish_greeting
-        function fish_prompt --description 'prompt'
-             set -l suffix 'λ'
-             set -l prompt (echo -n '['(prompt_pwd -D 10)']')
+        # function fish_prompt --description 'prompt'
+        #      set -l suffix 'λ'
+        #      set -l prompt (echo -n '['(prompt_pwd -D 10)']')
 
-             echo -n -s $prompt\n$suffix " "
-        end
+        #      echo -n -s $prompt\n$suffix " "
+        # end
 
         function cd
              builtin cd $argv[1] && ls -A -h --classify=auto --group-directories-first --color=auto
         end
         set fish_color_autosuggestion $fish_color_normal --underline
         set fish_color_valid_path $fish_color_normal
-        set fish_color_param $fish_color_normal --bold
-        set fish_color_error $fish_color_normal --reverse --underline
+        set fish_color_param $fish_color_normal
+        # set fish_color_error $fish_color_normal --reverse --underline
+        set fish_color_error $fish_color_normal --underline
       '';
+      shellAliases = {
+        # grc breaks `ls` when its a abbreviation an alias fixes this, well, it means we give it the flags twice
+        ls = "ls -A -h --classify=auto --group-directories-first --color=auto";
+      };
       shellAbbrs = config.programs.bash.shellAliases // {
         # a space before a command means fish will not show up in history
         fg = " fg";
@@ -207,10 +213,6 @@
         {
           name = "grc";
           src = pkgs.fishPlugins.grc.src;
-        }
-        {
-          name = "done";
-          src = pkgs.fishPlugins.done;
         }
       ];
     };
@@ -300,7 +302,7 @@
         bfs = "bfs -exclude -name .git -exclude -name .ccls-cache -exclude -name '*env*'";
         locate = "locate -i -d /var/cache/locate/locatedb";
         dc = "docker compose";
-        rbackup = "restic -r sftp:restic-backup-host:/home/ubuntu/data/Inc_Backup backup ~/Documents ~/.ssh ~/.gnupg ~/Dev ~/Downloads";
+        rbackup = "restic -r sftp:restic-backup-host:/zpool/data/Inc_Backup backup ~/Documents ~/.ssh ~/.gnupg ~/Dev ~/Downloads --exclude 'Downloads/yyt/' --exclude 'Downloads/iso'";
       };
     };
   };
