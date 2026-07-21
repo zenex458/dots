@@ -5,6 +5,14 @@
   ...
 }:
 {
+  home.packages = [
+    pkgs.xwayland-satellite
+    pkgs.xdg-desktop-portal-gnome
+  ];
+  # finds the first portal is lexicographical order. we should set this properly via
+  # xdg.portal.config or configPackages
+  # xdg.portal.config.common.default = "*";
+  xdg.portal.configPackages = [ pkgs.xdg-desktop-portal-gnome ];
   programs.niri = {
     settings = {
       xwayland-satellite = {
@@ -20,11 +28,11 @@
         name = "browser";
       };
       workspaces."2" = {
-        open-on-output = "EDP-1";
+        open-on-output = "eDP-1";
         name = "emacs";
       };
       workspaces."3" = {
-        open-on-output = "EDP-1";
+        open-on-output = "eDP-1";
         name = "misc";
       };
       workspaces."4" = {
@@ -38,6 +46,14 @@
       spawn-at-startup = [
         { command = [ "${lib.getExe pkgs.dunst}" ]; }
         { command = [ "batt.sh" ]; }
+        {
+          command = [
+            "${lib.getExe pkgs.easyeffects}"
+            "--service-mode"
+            "-p"
+            "~/Downloads/noisesupression.json"
+          ];
+        }
         {
           command = [
             "${lib.getExe pkgs.wlsunset}"
@@ -84,8 +100,8 @@
       environment.DISPLAY = ":0";
       input = {
         keyboard = {
-          # repeat-delay = 300;
-          # repeat-rate = 50;
+          repeat-delay = 300;
+          repeat-rate = 50;
           xkb = {
             layout = "gb";
             options = "altwin:ctrl_alt_win,caps:shift_nocancel,caps:backspace";
@@ -174,6 +190,7 @@
         {
           matches = [ { app-id = "^firefox$"; } ];
           open-on-workspace = "browser";
+
         }
         {
           matches = [ { app-id = "^emacs$"; } ];
@@ -229,7 +246,7 @@
         with config.lib.niri.actions;
         {
           "Mod+Tab".action = spawn "show.sh";
-          "Mod+T".action = spawn "${lib.getExe pkgs.foot}" "${lib.getExe pkgs.zsh}";
+          "Mod+T".action = spawn "${lib.getExe pkgs.foot}" "${lib.getExe pkgs.fish}";
           "Mod+P".action.spawn-sh =
             ''com="$(${pkgs.bemenu}/bin/bemenu-run)"; niri msg action spawn -- "$com"''; # this opens new programs in its own namespace
           "Mod+Shift+Q".action = close-window;
