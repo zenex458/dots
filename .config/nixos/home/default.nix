@@ -41,12 +41,55 @@
           autoconnect = [ "qemu:///system" ];
           uris = [ "qemu:///system" ];
         };
+        "org.gnome.desktop.wm.preferences" = {
+          button-layout = "";
+        };
+
       };
       gtk = {
         enable = true;
         theme.name = "Adwaita";
-        gtk3.extraConfig.gtk-application-prefer-dark-theme = 1;
-        gtk4.theme = null;
+        gtk3 = {
+          extraConfig = {
+            gtk-application-prefer-dark-theme = 1;
+            gtk-dialogs-use-header = false;
+          };
+          extraCss = ''
+            /* No (default) title bar on wayland */
+            headerbar.default-decoration {
+              /* You may need to tweak these values depending on your GTK theme */
+              margin-bottom: 50px;
+              margin-top: -100px;
+            }
+
+            /* rm -rf window shadows */
+            window.csd,             /* gtk4? */
+            window.csd decoration {
+              /* gtk3 */
+              box-shadow: none;
+            }
+          '';
+
+        };
+        gtk4 = {
+          theme = null;
+          extraConfig.gtk-dialogs-use-header = false;
+          extraCss = ''
+            /* No (default) title bar on wayland */
+            headerbar.default-decoration {
+              /* You may need to tweak these values depending on your GTK theme */
+              margin-bottom: 50px;
+              margin-top: -100px;
+            }
+
+            /* rm -rf window shadows */
+            window.csd,             /* gtk4? */
+            window.csd decoration {
+              /* gtk3 */
+              box-shadow: none;
+            }
+          '';
+        };
         font = {
           name = "Iosevka";
           size = 10;
@@ -138,6 +181,9 @@
             recursive = true;
           };
           ".config/Vencord/themes/theme.css" = {
+            source = ../../Vencord/themes/theme.css;
+          };
+          ".config/vesktop/themes/theme.css" = {
             source = ../../Vencord/themes/theme.css;
           };
         };

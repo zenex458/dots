@@ -156,7 +156,9 @@
     androidenv.androidPkgs.platform-tools
     espeak
     polkit_gnome
+    easyeffects
     (discord.override { withVencord = true; })
+    vesktop
     (cutter.withPlugins (
       p: with p; [
         rz-ghidra
