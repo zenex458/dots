@@ -7,7 +7,7 @@ This contains all my config files for Linux. It can be installed my =setup.sh= o
 | WM       | [[https://github.com/YaLTeR/niri][niri]]    |
 | Terminal | [[https://codeberg.org/dnkl/foot][foot]]    |
 | Editor   | [[https://www.gnu.org/software/emacs/][Emacs]]   |
-| Shell    | [[https://www.zsh.org/][Zsh]]     |
+| Shell    | [[https://fishshell.com][fish]]    |
 | Font     | [[https://typeof.net/Iosevka/][Iosevka]] |
 
 * Contents                                                         :noexport:
@@ -64,7 +64,7 @@ Emacs is basically a [[https://en.wikipedia.org/wiki/Lisp_(programming_language)
 *** Can be slow
 Lisp is an interpreted language, which means it is slower than compiled languages. Although, in recent releases Emacs has become faster, thanks to [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Native-Compilation.html][native compliation]], under most circumstances it is still slower than Neovim, but not noticeable to me.
 *** Unintuitive keybinds
-Emacs does have some unintuitive keybinds, for example to save a file you press: =C-x C-s=, which means holding down the control key and pressing the =x= key, then the =s= at the same time without releasing. Also, to split your view you can press =C-x 2= for a horizontal split, and =C-x 3= for a vertical split. These require holding down the control key and pressing the =x= key at the same time, then letting go and pressing =2= or =3=. These are different to Neovim's [[https://en.wikipedia.org/wiki/Vi_(text_editor)#Interface][modal editing]], which is generally more efficient and does not induce [[https://en.wikipedia.org/wiki/Emacs#Emacs_pinky][Emacs pinky]].
+Emacs does have some unintuitive keybinds, for example to save a file you press: =C-x C-s=, which means holding down the control key and pressing the =x= key, then the =s= at the same time without releasing. Also, to split your view you can press =C-x 2= for a horizontal split, and =C-x 3= for a vertical split. These require holding down the control key and pressing the =x= key at the same time, then letting go and pressing =2= or =3=. These are different to Neovim's [[https://en.wikipedia.org/wiki/Vi_(text_editor)#User_experience][modal editing]], which is generally more efficient and does not induce [[https://en.wikipedia.org/wiki/Emacs#Emacs_pinky][Emacs pinky]].
 * Getting Started
 ** Prerequisites
 - [[https://git-scm.com/downloads][Git]]
