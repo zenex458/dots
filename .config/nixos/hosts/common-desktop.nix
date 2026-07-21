@@ -5,6 +5,44 @@
     # supportedFilesystems = ["ntfs"];
     kernelPackages = pkgs.linuxPackages_latest;
   };
+  systemd.user.services.niri-flake-polkit.enable = false;
+  # todo: make a dwl and a niri module for easy switching between the two
+  # programs.dwl = {
+  #   enable = true;
+  #   package = (pkgs.dwl.override { configH = ./dwl-config.h; }).overrideAttrs (oldAttrs: {
+  #     patches = oldAttrs.patches or [ ] ++ [
+  #       ./dwl/pertag.patch
+  #       ./dwl/autostart-0.8.patch
+  #       ./dwl/focusonurgent.patch
+  #       ./dwl/warpcursor.patch
+  #       ./dwl/accessnthmon.patch
+  #     ];
+  #   });
+  # };
+
+  # xdg.portal.enable = true;
+  # xdg.portal.config = {
+  #   common = {
+  #     default = [ "gtk" ];
+  #     "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
+  #     "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
+  #     "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
+  #   };
+  # };
+  # xdg.portal.extraPortals = [
+  #   pkgs.xdg-desktop-portal-wlr
+  #   pkgs.xdg-desktop-portal-gtk
+  # ];
+
+  # xdg.portal.wlr.enable = true;
+  # xdg.portal.wlr.settings = {
+  #   screencast = {
+  #     output_name = "HDMI-A-1";
+  #     max_fps = 30;
+  #     chooser_type = "simple";
+  #     chooser_cmd = "${pkgs.slurp}/bin/slurp -f 'Monitor: %o' -or";
+  #   };
+  # };
 
   services = {
     speechd.enable = true;
@@ -49,12 +87,14 @@
   };
 
   # powerManagement.powertop.enable = true;
+  fonts.enableDefaultPackages = true;
   fonts = {
     packages = with pkgs; [
       iosevka
       vista-fonts
       noto-fonts
       noto-fonts-cjk-sans
+      noto-fonts-color-emoji
       aileron
       # uw-ttyp0
       fira-code
@@ -101,6 +141,7 @@
       "/share/xdg-desktop-portal"
       "/share/applications"
       "/share/zsh"
+      "/share/fish"
     ];
   };
 
