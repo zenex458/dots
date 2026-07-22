@@ -231,6 +231,11 @@
           open-on-workspace = "comms";
         }
         {
+          matches = [ { app-id = "^vesktop$"; } ];
+          # block-out-from = "screen-capture";
+          open-on-workspace = "comms";
+        }
+        {
           matches = [ { app-id = "^nchat$"; } ];
           block-out-from = "screen-capture";
           open-on-workspace = "comms";
