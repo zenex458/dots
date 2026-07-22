@@ -190,7 +190,7 @@
     nix-index = {
       enable = true;
       enableBashIntegration = true;
-      # enableFishIntegration = true;
+      enableFishIntegration = true;
       enableZshIntegration = true;
     };
     obs-studio.enable = true;
@@ -220,7 +220,7 @@
       };
     };
     dconf.enable = true;
-    # fish.enable = true;
+    fish.enable = true;
     zsh.enable = true;
     bash.promptInit = ''
       if [ "$LOGNAME" = root ] || [ "$(id -u)" -eq 0 ]; then
