@@ -23,7 +23,7 @@ body {
     /* sizes */
     --gap: 0px; /* spacing between panels */
     --divider-thickness: 4px; /* thickness of unread messages divider and highlighted message borders */
-    --border-thickness: 1px; /* thickness of borders around main panels. DOES NOT AFFECT OTHER BORDERS */
+    --border-thickness: 0px; /* thickness of borders around main panels. DOES NOT AFFECT OTHER BORDERS */
 
     /* animation/transition options */
     --animations: off; /* off: disable animations/transitions, on: enable animations/transitions */
@@ -43,24 +43,6 @@ body {
     --custom-window-controls: off; /* off: default window controls, on: custom window controls */
     --window-control-size: 0px; /* size of custom window controls */
 
-    /* dms button options */
-    --custom-dms-icon: custom; /* off: use default discord icon, hide: remove icon entirely, custom: use custom icon */
-    --dms-icon-svg-url: url("https://refact0r.github.io/midnight-discord/assets/Font_Awesome_5_solid_moon.svg"); /* icon svg url. MUST BE A SVG. */
-    --dms-icon-svg-size: 90%; /* size of the svg (css mask-size property) */
-    --dms-icon-color-before: var(--icon-secondary); /* normal icon color */
-    --dms-icon-color-after: var(
-        --white
-    ); /* icon color when button is hovered/selected */
-    --custom-dms-background: off; /* off to disable, image to use a background image (must set url variable below), color to use a custom color/gradient */
-    --dms-background-image-url: url(""); /* url of the background image */
-    --dms-background-image-size: cover; /* size of the background image (css background-size property) */
-    --dms-background-color: linear-gradient(
-        70deg,
-        var(--blue-2),
-        var(--purple-2),
-        var(--red-2)
-    ); /* fixed color/gradient (css background property) */
-
     /* background image options */
     --background-image: off; /* off: no background image, on: enable background image (must set url variable below) */
     --background-image-url: url(""); /* url of the background image */
@@ -76,8 +58,8 @@ body {
     ); /* set this to a more opaque color if floating panels look too transparent. only applies if panel blur is on  */
 
     /* chatbar options */
-    --custom-chatbar: off; /* off: default chatbar, separated: chatbar separated from chat */
-    --chatbar-height: 47px; /* height of the chatbar (56px by default, 47px to align with user panel, 56px recommended for separated) */
+    --custom-chatbar: separated; /* off: default chatbar, separated: chatbar separated from chat */
+    --chatbar-height: 56px; /* height of the chatbar (56px by default, 47px to align with user panel, 56px recommended for separated) */
 
     /* other options */
     --small-user-panel: on; /* off: default user panel, on: smaller user panel like in old discord */
@@ -199,5 +181,22 @@ body {
 }
 
 *[class^="nowPlayingColumn"] {
+    display: none;
+}
+.button_e6e74f {
+    /* apps button in the chat box */
+    display: none;
+}
+div.buttonContainer__74017.expression-picker-chat-input-button:nth-of-type(2) {
+    /* gif button in the chat box */
+    display: none;
+}
+
+.button__24af7.stickerButton__74017.button__74017 {
+    /* sticker button in the chat box */
+    display: none;
+}
+div.listItem__650eb:nth-of-type(6) {
+    /* discovery button the sidebar */
     display: none;
 }
