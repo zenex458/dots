@@ -1,4 +1,10 @@
-{ inputs, pkgs, ... }: {
+{
+  inputs,
+  pkgs,
+  config,
+  ...
+}:
+{
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     useGlobalPkgs = true;
@@ -112,7 +118,31 @@
           };
           settings = {
             content.private_browsing = true;
-            colors.webpage.darkmode.enabled = true;
+            colors = {
+              statusbar.private = {
+                bg = "#060606";
+                fg = "#bdae93";
+              };
+              completion = {
+                fg = [
+                  "#bdae93"
+                  "#bdae93"
+                  "#bdae93"
+                ];
+                odd.bg = "#2e2e2e";
+                even.bg = "#060606";
+              };
+              webpage.darkmode.enabled = true;
+            };
+            url = {
+              default_page = "about:blank";
+              start_pages = "about:blank";
+            };
+            tabs = {
+              position = "left";
+              show = "never";
+            };
+            scrolling.bar = "when-searching";
           };
         };
         mpv = {
