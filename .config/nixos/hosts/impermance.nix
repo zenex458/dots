@@ -8,7 +8,6 @@
     directories = [
       "/etc/nixos"
       "/var/log"
-      "/var/tmp"
       "/etc/secureboot"
       "/var/lib/nixos"
       "/var/lib/systemd/coredump"

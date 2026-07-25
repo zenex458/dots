@@ -184,7 +184,7 @@
     };
   };
   nix = {
-    # package = pkgs.lixPackageSets.stable.lix;
+    package = pkgs.lixPackageSets.stable.lix;
     nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
     registry.nixpkgs.flake = inputs.nixpkgs;
     settings = {
