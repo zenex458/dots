@@ -144,6 +144,12 @@
             };
             scrolling.bar = "when-searching";
           };
+          keyBindings = {
+            normal = {
+              ",m" = "spawn mpv {url}";
+              ",M" = "hint links spawn mpv {hint-url}";
+            };
+          };
         };
         mpv = {
           enable = true;

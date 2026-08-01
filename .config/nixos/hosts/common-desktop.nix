@@ -161,6 +161,7 @@
       package = pkgs.plocate;
       output = /var/cache/locate/locatedb;
       interval = "hourly";
+      pruneBindMounts = true;
       pruneNames = [
         ".bzr"
         ".cache"
@@ -168,7 +169,21 @@
         ".hg"
         ".svn"
         ".ccls-cache"
-        "*env*"
+        "env"
+        "Steam"
+        "Music"
+        ".local/share/Steam"
+        ".steam"
+        "target"
+        "build"
+        ".cargo"
+        ".mypy_cache"
+        "undo-fu-session"
+        "elfeed"
+        "eln-cache"
+        "chromium"
+        "discord"
+        "firefox"
       ];
     };
   };

@@ -26,6 +26,39 @@
         LinkPreviews = false;
         TabGroups = false;
       };
+      FirefoxHome = {
+        "Search" = false;
+        "TopSites" = false;
+        "SponsoredTopSites" = false;
+        "Highlights" = false;
+        "Pocket" = false;
+        "Stories" = false;
+        "SponsoredPocket" = false;
+        "SponsoredStories" = false;
+        "Snippets" = false;
+        "Locked" = true;
+      };
+      "Sync" = {
+        "Addons" = false;
+        "Addresses" = false;
+        "Bookmarks" = false;
+        "Enabled" = false;
+        "History" = false;
+        "Locked" = true;
+        "OpenTabs" = false;
+        "Passwords" = false;
+        "PaymentMethods" = false;
+        "Settings" = false;
+      };
+      "UserMessaging" = {
+        "ExtensionRecommendations" = false;
+        "FeatureRecommendations" = false;
+        "UrlbarInterventions" = false;
+        "SkipOnboarding" = true;
+        "MoreFromMozilla" = false;
+        "FirefoxLabs" = false;
+        "Locked" = true;
+      };
 
       ExtensionSettings =
         let
@@ -472,6 +505,10 @@
         "toolkit.telemetry.unified" = false;
         "toolkit.telemetry.updatePing.enabled" = false;
         "webgl.disabled" = false;
+        "devtools.onboarding.telemetry.logged" = false;
+        "toolkit.telemetry.hybridContent.enabled" = false;
+        "toolkit.telemetry.reportingpolicy.firstRun" = false;
+        "datareporting.sessions.current.clean" = true;
       };
     };
     profiles."work" = {
@@ -657,6 +694,10 @@
         "brower.cache.disk.enable" = false;
         "browser.urlbar.quicksuggest.enabled" = false;
         "browser.urlbar.suggest.quickactions" = false;
+        "devtools.onboarding.telemetry.logged" = false;
+        "toolkit.telemetry.hybridContent.enabled" = false;
+        "toolkit.telemetry.reportingpolicy.firstRun" = false;
+        "datareporting.sessions.current.clean" = true;
       };
     };
   };
