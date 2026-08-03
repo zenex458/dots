@@ -117,19 +117,50 @@
             enableVulkan = true;
           };
           settings = {
-            content.private_browsing = true;
+            content = {
+              private_browsing = true;
+              blocking = {
+                method = "both";
+                adblock.lists = [
+                  "https://easylist.to/easylist/easylist.txt"
+                  "https://easylist.to/easylist/easyprivacy.txt"
+                  "https://secure.fanboy.co.nz/fanboy-annoyance.txt"
+                  "https://raw.githubusercontent.com/AdguardTeam/AdguardFilters/refs/heads/master/BaseFilter/sections/adservers.txt"
+                  "https://raw.githubusercontent.com/AdguardTeam/AdguardFilters/refs/heads/master/BaseFilter/sections/adservers_firstparty.txt"
+                  "https://raw.githubusercontent.com/uBlockOrigin/uAssets/refs/heads/master/filters/filters.txt"
+                  "https://raw.githubusercontent.com/uBlockOrigin/uAssets/refs/heads/master/filters/ubol-filters.txt"
+                  "https://raw.githubusercontent.com/uBlockOrigin/uAssets/refs/heads/master/filters/annoyances-others.txt"
+                  "https://raw.githubusercontent.com/uBlockOrigin/uAssets/refs/heads/master/filters/privacy.txt"
+                  "https://raw.githubusercontent.com/brave/adblock-lists/refs/heads/master/brave-lists/brave-firstparty.txt"
+                  "https://adguardteam.github.io/HostlistsRegistry/assets/filter_3.txt"
+                  "https://adguardteam.github.io/HostlistsRegistry/assets/filter_4.txt"
+                  "https://adguardteam.github.io/HostlistsRegistry/assets/filter_7.txt"
+                ];
+              };
+            };
             colors = {
-              statusbar.private = {
-                bg = "#060606";
-                fg = "#bdae93";
+              statusbar = {
+                command.private = {
+                  bg = "#060606";
+                  fg = "#bdae93";
+                };
+                private = {
+                  bg = "#060606";
+                  fg = "#bdae93";
+                };
               };
               completion = {
+                item.selected.bg = "#c0c000";
+                category = {
+                  bg = "#2e2e2e";
+                  fg = "#bdae93";
+                };
                 fg = [
                   "#bdae93"
                   "#bdae93"
                   "#bdae93"
                 ];
-                odd.bg = "#2e2e2e";
+                odd.bg = "#060606";
                 even.bg = "#060606";
               };
               webpage.darkmode.enabled = true;
@@ -238,9 +269,11 @@
             ".config/discord"
             ".config/zotero"
             ".config/zsh"
+            ".config/qutebrowser"
             ".icons"
             ".local/share/Steam"
             ".local/share/fish"
+            ".local/share/qutebrowser"
             ".local/state/wireplumber"
             ".config/mozilla"
             ".steam"
