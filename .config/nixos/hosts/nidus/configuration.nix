@@ -8,7 +8,7 @@
     ../common-desktop.nix
   ];
   networking.hostName = "nidus";
-  security.pki.certificateFiles = [ /var/keys/roots.pem ];
+  security.pki.certificateFiles = [ /etc/ssl/certs/roots.pem ];
 
   swapDevices = [
     {

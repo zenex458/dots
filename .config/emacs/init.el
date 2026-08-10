@@ -154,7 +154,7 @@
   (org-html-validation-link nil)
   (org-enforce-todo-dependencies t)
   (calendar-week-start-day 1)
-  (org-agenda-files '("~/Documents/Notes/Org/todo.org"))
+  (org-agenda-files '("~/Documents/Notes/Org/otdo/todo.org"))
   (org-todo-keywords '((type "TODO" "IN PROGRESS(I!)" "CANCELED(C@/!)" "|" "DONE")))
   (org-todo-keyword-faces
    '(("TODO" .  "#bdae93" )("IN PROGRESS" . "#BD8700") ("CANCELED" . "red")))

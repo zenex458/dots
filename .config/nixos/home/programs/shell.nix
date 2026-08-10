@@ -255,13 +255,13 @@
         }
       '';
       shellAliases = {
-        upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format bar-with-logs --impure"; # TODO: change back to "--log-format multiline-with-logs" when lix works on stable
-        updb = "sudo nixos-rebuild boot --flake ~/Dev/dots/.config/nixos# --sudo --log-format bar-with-logs --impure";
-        updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo -v --show-trace --log-format bar-with-logs --impure";
+        upd = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format multiline-with-logs --impure";
+        updb = "sudo nixos-rebuild boot --flake ~/Dev/dots/.config/nixos# --sudo --log-format multiline-with-logs --impure";
+        updv = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo -v --show-trace --log-format multiline-with-logs --impure";
         updt = "sudo nixos-rebuild test --no-reexec --flake ~/Dev/dots/.config/nixos# --sudo --impure";
-        updoff = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format bar-with-logs --impure && sleep 2 && systemctl poweroff";
-        updr = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format bar-with-logs --impure && sleep 2 && systemctl reboot";
-        updf = "nh os switch -a";
+        updoff = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format multiline-with-logs --impure && sleep 2 && systemctl poweroff";
+        updr = "sudo nixos-rebuild switch --flake ~/Dev/dots/.config/nixos# --sudo --log-format multiline-with-logs --impure && sleep 2 && systemctl reboot";
+        updf = "nh os switch /home/zenex/Dev/dots/.config/nixos -a --impure";
         updflake = "nix flake update --commit-lock-file";
         listnixgen = "sudo nix-env --list-generations --profile /nix/var/nix/profiles/system";
         remoldgen = "nix-collect-garbage --delete-older-than 2d && sudo nix-collect-garbage --delete-older-than 2d && upd";
@@ -270,6 +270,13 @@
         ga = "git add";
         gc = "git commit -m";
         gs = "git status";
+        gp = "git push";
+        gm = "git merge";
+        gl = "git log";
+        glp = "git log -p";
+        grb = "git rebase";
+        gr = "git restore";
+        grs = "git restore --staged";
         grep = "grep -i --colour=auto";
         mkdir = "mkdir -pv";
         mv = "mv -iv";
