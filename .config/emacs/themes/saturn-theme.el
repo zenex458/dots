@@ -267,7 +267,7 @@
    `(orderless-match-face-2 ((t (:foreground ,type))))
    `(orderless-match-face-3 ((t (:foreground ,fg4))))
    `(eglot-mode-line ((t (:foreground ,fg4))))
-   `(eglot-inlay-hint-face ((t (:foreground ,builtin))))
+   `(eglot-inlay-hint-face ((t (:foreground ,comment))))
    `(elisp-shorthand-font-lock-face ((t (:foreground ,fg4))))
    ;;  `(markdown-header-face-6 ((t (:bold t :foreground "#0073e6"))))
    ;; `(sh-quoted-exec ((t (:foreground "#0073e6"))))
