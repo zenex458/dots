@@ -88,11 +88,11 @@ body {
     --message-hover: #444444; /* messages when hovered */
 
     /* accent colors */
-    --accent-1: #bdae93; /* links and other accent text */
+    --accent-1: #2874b2; /* links and other accent text */
     --accent-2: #bdae93; /* small accent elements */
     --accent-3: #bdae93; /* accent buttons */
-    --accent-4: #bdae93; /* accent buttons when hovered */
-    --accent-5: #bdae93; /* accent buttons when clicked */
+    --accent-4: #a08a64; /* accent buttons when hovered */
+    --accent-5: #aa9673; /* accent buttons when clicked */
     --accent-new: var(
         --accent-2
     ); /* stuff that's normally red like mute/deafen buttons */
