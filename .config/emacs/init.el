@@ -196,7 +196,7 @@
          ("C-c e" . (lambda ()"opens init.el"(interactive)(find-file "~/Dev/dots/.config/emacs/init.el")))
          ("C-x K" . (lambda ()"kills curent buffer without confirmation"(interactive)(kill-buffer (current-buffer))))
          ("C-c r" . (lambda ()"reloads emacs config"(interactive)"~/Dev/dots/.config/emacs/init.el"))
-         ("C-c t" . (lambda ()"opens todo"(interactive)(find-file "~/Documents/Notes/Org/todo.org")))
+         ("C-c t" . (lambda ()"opens todo"(interactive)(find-file "~/Documents/Notes/Org/otdo/todo.org")))
          ("C-c C-l" . (lambda ()
                         "Copies the whole line without moving the cursor"
                         (interactive)
@@ -387,7 +387,7 @@
   (add-to-list 'apheleia-mode-alist '(css-mode . prettier))
   (add-to-list 'apheleia-mode-alist '(yaml-ts-mode . prettier))
   (setf (alist-get 'ormolu apheleia-formatters)
-        '("ormolu" "--stdin-input-file" "--"))
+        '("ormolu" "--no-cabal" "--stdin-input-file" "--"))
   (add-to-list 'apheleia-mode-alist '(haskell-mode . ormolu)))
 
 (if (and (eq (file-directory-p (expand-file-name (format "%s%s" user-emacs-directory "tree-sitter/"))) 'nil) (not(string= system-name '"nidus")))
@@ -427,6 +427,7 @@
          (python-ts-mode . envrc-mode)
          (c++-ts-mode . envrc-mode)
          (go-ts-mode . envrc-mode)
+         (haskell-mode . envrc-mode)
          (java-ts-mode . envrc-mode)
          (c-ts-mode . envrc-mode)))
 
@@ -535,7 +536,7 @@
   :custom
   (org-bullets-bullet-list '("*" "+")))
 
-(use-package org-make-toc)
+;; (use-package org-make-toc)
 
 (use-package yaml-ts-mode
   :magic ("%yml" . yaml-ts-mode))
