@@ -145,6 +145,7 @@
     ghidra-extensions.findcrypt
     ghidra-extensions.ghidra-golanganalyzerextension
     ghidra-extensions.ghidraninja-ghidra-scripts
+    nasm
     binaryninja-free
     gurk-rs
     nchat
@@ -157,15 +158,25 @@
     espeak
     polkit_gnome
     easyeffects
-    (discord.override { withVencord = true; })
-    vesktop
-    (cutter.withPlugins (
+    gef
+    metasploit
+    (rizin.withPlugins (
       p: with p; [
         rz-ghidra
         jsdec
         sigdb
       ]
     ))
+    (discord.override { withVencord = true; })
+    vesktop
+    cutter
+    # (cutter.withPlugins (
+    #   p: with p; [
+    #     rz-ghidra
+    #     jsdec
+    #     sigdb
+    #   ]
+    # ))
     (wordlists.override {
       lists = with pkgs; [
         rockyou
