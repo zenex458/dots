@@ -169,12 +169,6 @@
         "ddg".metaData.hidden = true;
         "perplexity".metaData.hidden = true;
         "ebay.co.uk".metaData.hidden = true;
-        "Duckduckgohtml" = {
-          name = "Duckduckgohtml";
-          urls = [ { template = "https://html.duckduckgo.com/html?q={searchTerms}"; } ];
-          iconMapObj."16" = "https://duckduckgo.com/favicon.ico";
-          definedAliases = [ "@ddgh" ];
-        };
         "noaiduckduckgo" = {
           name = "noaiduckduckgo";
           urls = [ { template = "https://noai.duckduckgo.com/?q={searchTerms}&noai=1"; } ];
@@ -270,7 +264,7 @@
         };
       };
       search.force = true;
-      search.default = "Duckduckgohtml";
+      search.default = "noaiduckduckgo";
       search.order = [
         "searx"
         "esearx"
@@ -509,6 +503,7 @@
         "toolkit.telemetry.hybridContent.enabled" = false;
         "toolkit.telemetry.reportingpolicy.firstRun" = false;
         "datareporting.sessions.current.clean" = true;
+        "browser.nova.enabled" = false;
       };
     };
     profiles."work" = {
@@ -698,6 +693,7 @@
         "toolkit.telemetry.hybridContent.enabled" = false;
         "toolkit.telemetry.reportingpolicy.firstRun" = false;
         "datareporting.sessions.current.clean" = true;
+        "browser.nova.enabled" = false;
       };
     };
   };
