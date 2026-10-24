@@ -132,6 +132,7 @@
     wl-color-picker
     pre-commit
     wlr-randr
+    wl-mirror
     wlsunset
     xdg-utils
     xmlformat
@@ -169,6 +170,8 @@
     ))
     (discord.override { withVencord = true; })
     vesktop
+    virtiofsd
+    swift
     cutter
     # (cutter.withPlugins (
     #   p: with p; [
