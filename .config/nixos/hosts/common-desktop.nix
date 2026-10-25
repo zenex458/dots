@@ -214,7 +214,6 @@
       enable = true;
       package = pkgs.niri;
     };
-    # adb.enable = true;
     localsend.enable = true;
     # ssh.startAgent = true;
     gnupg.agent = {

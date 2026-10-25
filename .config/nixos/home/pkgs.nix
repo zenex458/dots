@@ -1,6 +1,6 @@
 { pkgs, ... }: {
   home.packages = with pkgs; [
-    # android-tools
+    # alsa-utils
     # bsdgames
     # entr # run a command when files change
     # fq # jq for binary formats
@@ -16,8 +16,8 @@
     # sigrok-cli
     # yewtube
     # moreutils
+    android-tools
     age
-    # alsa-utils
     amdgpu_top
     anki
     aria2
@@ -155,7 +155,6 @@
     # kmscon
     yt-dlp
     libreoffice-fresh
-    androidenv.androidPkgs.platform-tools
     espeak
     polkit_gnome
     easyeffects
