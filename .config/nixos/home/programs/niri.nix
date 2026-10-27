@@ -251,7 +251,7 @@
         with config.lib.niri.actions;
         {
           "Mod+Tab".action = spawn "show.sh";
-          "Mod+T".action = spawn "${lib.getExe pkgs.foot}" "${lib.getExe pkgs.fish}";
+          "Mod+T".action = spawn "${lib.getExe pkgs.foot}" "${lib.getExe pkgs.tmux}";
           "Mod+P".action.spawn-sh =
             ''com="$(${pkgs.bemenu}/bin/bemenu-run)"; niri msg action spawn -- "$com"''; # this opens new programs in its own namespace
           "Mod+Shift+Q".action = close-window;

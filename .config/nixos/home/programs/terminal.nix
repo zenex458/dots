@@ -156,7 +156,7 @@
       # add new-window -c "#{pane_current_path}"
       # add splitp -c "#{pane_current_path}"
       enable = true;
-      shell = "${pkgs.zsh}/bin/zsh";
+      shell = "${pkgs.fish}/bin/fish";
       aggressiveResize = true;
       prefix = "C-q";
       baseIndex = 0;
