@@ -22,7 +22,7 @@
       "/var/lib/libvirt/hooks"
       "/var/lib/libvirt/nwfilter"
       "/var/cache/locate/"
-
+      "/etc/ssl/certs/"
       {
         directory = "/var/keys";
         user = "root";

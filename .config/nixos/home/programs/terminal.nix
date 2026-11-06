@@ -2,7 +2,7 @@
   manual.manpages.enable = true;
   programs = {
     kitty = {
-      enable = true;
+      enable = false;
       shellIntegration.mode = "no-cursor";
       settings = {
         enable_audio_bell = "no";

@@ -1,4 +1,5 @@
 { pkgs, ... }: {
+  # todo: order pkgs
   home.packages = with pkgs; [
     # alsa-utils
     # bsdgames
@@ -16,25 +17,26 @@
     # sigrok-cli
     # yewtube
     # moreutils
-    android-tools
+    # android-tools
+    # anki
+    # bfs
     age
     amdgpu_top
-    anki
     aria2
     bc
     bemenu
     brightnessctl
-    bfs
     bibtex-tidy
     binwalk
-    burpsuite
+    # burpsuite
     cliphist
-    cmake-format
+    # cmake-format
     cryptsetup
     dig
     exfatprogs
     exif
-    feather
+    exiftool
+    # feather
     ffmpeg-full
     ffmpegthumbnailer
     ffuf
@@ -49,18 +51,18 @@
     gimp3-with-plugins
     grc
     grim
-    hashcat
+    # hashcat
     html-tidy
     htop
-    hujsonfmt
+    # hujsonfmt
     hunspell
     hunspellDicts.en-gb-large
     imagemagick
     imv
     inetutils
-    irssi
-    jmtpfs
-    john
+    # irssi
+    # jmtpfs
+    # john
     jq
     libnotify
     lsof
@@ -68,32 +70,32 @@
     man-pages
     man-pages-posix
     mpc
-    multimon-ng
+    # multimon-ng
     mupdf
     nautilus
     netcat-gnu
-    nitrokey-app2
+    # nitrokey-app2
     nixd
     nixfmt
     nmap
     bash-language-server
-    prettier
+    # prettier
     openvpn
     p7zip
     pandoc
     pciutils
     pcsc-tools
-    picard
-    profanity
+    # picard
+    # profanity
     pulsemixer
     pwntools
-    python313
+    python3
     python313Packages.ipython
     python313Packages.pygments
-    python313Packages.z3-solver
+    # python313Packages.z3-solver
     restic
     ripgrep
-    ripgrep-all
+    # ripgrep-all
     rsync
     sbctl
     seclists
@@ -101,24 +103,24 @@
     shfmt
     slurp
     smartmontools
-    sonic-visualiser
-    spek
-    steghide
-    stegseek
+    # sonic-visualiser
+    # spek
+    # steghide
+    # stegseek
     swaybg
     syncthing
     tailspin
     tarsnap
-    tenacity
+    # tenacity
     texlab
     texliveFull
-    tinymist
+    # tinymist
     traceroute
     trash-cli
     tree
-    typst
-    typst-live
-    typstyle
+    # typst
+    # typst-live
+    # typstyle
     unzip
     usbutils
     virt-viewer
@@ -130,35 +132,35 @@
     wl-clip-persist
     wl-clipboard
     wl-color-picker
-    pre-commit
+    # pre-commit
     wlr-randr
     wl-mirror
     wlsunset
     xdg-utils
-    xmlformat
+    # xmlformat
     xwayland-satellite
     yamlfmt
     zip
     zotero
-    go
-    terraform_1
+    # go
+    # terraform_1
     forgejo-cli
     ghidra-extensions.findcrypt
     ghidra-extensions.ghidra-golanganalyzerextension
     ghidra-extensions.ghidraninja-ghidra-scripts
     nasm
-    binaryninja-free
-    gurk-rs
-    nchat
+    # binaryninja-free
+    OVMF
+    # gurk-rs
+    # nchat
     signal-desktop
-    rustdesk-flutter
+    # rustdesk-flutter
     # kmscon
     yt-dlp
     libreoffice-fresh
-    espeak
+    # espeak
     polkit_gnome
-    easyeffects
-    gef
+    # easyeffects
     metasploit
     (rizin.withPlugins (
       p: with p; [
@@ -170,7 +172,7 @@
     (discord.override { withVencord = true; })
     vesktop
     virtiofsd
-    swift
+    # swift
     cutter
     # (cutter.withPlugins (
     #   p: with p; [

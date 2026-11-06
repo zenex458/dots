@@ -45,7 +45,7 @@
   # };
 
   services = {
-    speechd.enable = true;
+    # speechd.enable = true;
     seatd.enable = true;
     gnome.gnome-keyring.enable = true;
     journald.extraConfig = ''
@@ -95,9 +95,9 @@
       noto-fonts
       noto-fonts-cjk-sans
       noto-fonts-color-emoji
-      aileron
+      # aileron
       # uw-ttyp0
-      fira-code
+      # fira-code
     ];
     fontconfig = {
       defaultFonts = {
@@ -141,7 +141,7 @@
       "/share/xdg-desktop-portal"
       "/share/applications"
       "/share/zsh"
-      "/share/fish"
+      # "/share/fish"
     ];
   };
 
@@ -208,7 +208,7 @@
       enableFishIntegration = true;
       enableZshIntegration = true;
     };
-    obs-studio.enable = true;
+    obs-studio.enable = false;
     virt-manager.enable = true;
     niri = {
       enable = true;
@@ -235,7 +235,7 @@
     };
     dconf.enable = true;
     fish.enable = true;
-    zsh.enable = true;
+    zsh.enable = false;
     bash.promptInit = ''
       if [ "$LOGNAME" = root ] || [ "$(id -u)" -eq 0 ]; then
       	PS1="\[\e[01;31m\]\[\u@\h:\w\n# \]\\[\e[00m\]"

@@ -14,9 +14,11 @@
   ];
   # zramSwap.enable = true;
   boot = {
+    bcache.enable = false;
     zswap.enable = true;
     #loader.systemd-boot.enable = true;
     loader.systemd-boot.enable = lib.mkForce false;
+    loader.timeout = 1;
     lanzaboote = {
       enable = true;
       pkiBundle = "/etc/secureboot";
@@ -25,6 +27,10 @@
     tmp.cleanOnBoot = true;
     blacklistedKernelModules = [ "bluetooth" ];
   };
+
+  systemd.suppressedSystemUnits = [ "systemd-importd.service" ];
+  system.tools.nixos-install.enable = false;
+  system.tools.nixos-enter.enable = false;
 
   hardware.bluetooth.enable = false;
 
@@ -108,7 +114,7 @@
     # };
     fstrim.enable = true;
     openssh = {
-      enable = true;
+      enable = false;
       settings = {
         PasswordAuthentication = false;
         KbdInteractiveAuthentication = true;
@@ -146,6 +152,7 @@
   };
 
   security = {
+    pam.services.su.forwardXAuth = lib.mkForce false;
     rtkit.enable = true;
     sudo-rs = {
       enable = true;

@@ -46,14 +46,14 @@
       spawn-at-startup = [
         { command = [ "${lib.getExe pkgs.dunst}" ]; }
         { command = [ "batt.sh" ]; }
-        {
-          command = [
-            "${lib.getExe pkgs.easyeffects}"
-            "--service-mode"
-            "-p"
-            "~/Downloads/noisesupression.json"
-          ];
-        }
+        # {
+        #   command = [
+        #     "${lib.getExe pkgs.easyeffects}"
+        #     "--service-mode"
+        #     "-p"
+        #     "~/Downloads/noisesupression.json"
+        #   ];
+        # }
         {
           command = [
             "${lib.getExe pkgs.wlsunset}"

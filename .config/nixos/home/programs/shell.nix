@@ -94,7 +94,7 @@
       enableZshIntegration = true;
     };
     zsh = {
-      enable = true;
+      enable = false;
       dotDir = "${config.xdg.configHome}/zsh";
       shellAliases = config.programs.bash.shellAliases;
       sessionVariables = config.home.sessionVariables;
