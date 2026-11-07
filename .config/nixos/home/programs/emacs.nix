@@ -28,6 +28,7 @@
         embark-consult
         envrc
         expreg
+        expand-region
         flymake
         forge
         gcmh

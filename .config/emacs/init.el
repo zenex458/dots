@@ -590,9 +590,14 @@
      "/tmp"
      file-remote-p)))
 
+(use-package expand-region)
 (use-package expreg
-  :bind ("C-@" . expreg-expand)
-  ("C-'" . expreg-contract))
+  :bind (("C-@" . expreg-expand)
+         ("C-'" . expreg-contract)
+         :map LaTeX-mode-map
+         ("C-@" . 'er/expand-region)
+         ("C-'" . 'er/contract-region)))
+
 
 (use-package vlf
   :custom
