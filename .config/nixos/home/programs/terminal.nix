@@ -91,16 +91,6 @@
     };
 
     nix-index.enable = true;
-
-    delta = {
-      enable = true;
-      enableGitIntegration = true;
-      options = {
-        syntax-theme = "base16";
-        line-numbers = "true";
-      };
-    };
-
     bat = {
       enable = true;
       config.theme = "ansi";
@@ -264,13 +254,14 @@
     git = {
       enable = true;
       settings = {
+        alias = {
+          l = "-c diff.external='difft --display inline' log --ext-diff";
+          d = "-c diff.external='difft --display inline' diff";
+          s = "-c diff.external='difft --display inline' show --ext-diff";
+        };
         core.compression = 9;
         init.defaultBranch = "main";
         status.showUntrackedFiles = "all";
-        delta = {
-          navigate = true;
-          dark = true;
-        };
         merge.conflictStyle = "zdiff3";
         # diff = {
         # algorithm = "histogram";

@@ -151,6 +151,7 @@
     nasm
     # binaryninja-free
     OVMF
+    difftastic
     # gurk-rs
     # nchat
     signal-desktop

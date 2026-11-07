@@ -37,7 +37,6 @@
         indent-guide
         # key-chord
         magit
-        magit-delta
         markdown-mode
         multi-vterm
         multiple-cursors

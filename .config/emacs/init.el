@@ -614,14 +614,8 @@
   ("M-s f" . sudo-edit-find-file))
 
 (use-package magit)
-(use-package magit-delta
-  :after magit
-  :hook (magit-mode . magit-delta-mode)
-  :config
-  (setq magit-delta-delta-args '("--max-line-distance" "0.6" "--true-color" "always" "--color-only" "--syntax-theme" "base16" "-n")))
 (use-package forge
   :after magit)
-
 
 (use-package indent-guide
   :hook (python-ts-mode . indent-guide-mode))
