@@ -1,9 +1,15 @@
+{ modulesPath, ... }:
+
 {
   imports = [
     ./disko-config.nix
     ./hardware-configuration.nix
     ../base.nix
+    (modulesPath + "/profiles/minimal.nix")
   ];
+  boot.kernelParams = [ "i915.enable_dpcd_backlight=1" ];
+
+  fonts.fontconfig.enable = false;
   systemd = {
     targets = {
       sleep.enable = false;
