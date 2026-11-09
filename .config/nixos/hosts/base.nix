@@ -52,7 +52,7 @@
   environment = {
     defaultPackages = lib.mkForce [ ];
     systemPackages = with pkgs; [
-      git
+      gitMinimal
       vim
       emacs-nox
       tmux

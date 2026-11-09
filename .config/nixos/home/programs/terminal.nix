@@ -237,18 +237,10 @@
         "*env*"
       ];
     };
-    neovim = {
+    vim = {
       enable = true;
-      withRuby = false;
-      withPython3 = false;
-      initLua = ''
-        vim.wo.number = true
-        vim.wo.relativenumber = true
-        vim.o.termguicolors = true
-        vim.g.mapleader = " "
-        vim.o.statusline = "%<%f%m   %= %R%H%W %l/%L:%c %p%% "
-        vim.o.clipboard = "unnamedplus"
-        vim.keymap.set("i", "jk", [[<ESC>]])
+      extraConfig = ''
+        set clipboard=unnamedplus
       '';
     };
     git = {
@@ -263,11 +255,11 @@
         init.defaultBranch = "main";
         status.showUntrackedFiles = "all";
         merge.conflictStyle = "zdiff3";
-        # diff = {
-        # algorithm = "histogram";
-        # interHunkContext = 10;
-        # colorMoved = "plain";
-        # };
+        diff = {
+          algorithm = "histogram";
+          # interHunkContext = 10;
+          colorMoved = "plain";
+        };
         # commit = {
         #   verbose = "true"; #enable this if you don't use emacs
         # };
