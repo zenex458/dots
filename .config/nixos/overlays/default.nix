@@ -1,7 +1,7 @@
 {
   imports = [
     ./keepassxc.nix
-    # ./lix.nix
+    ./lix.nix
     ./niri.nix
     # ./unstable.nix
     ./iosevka.nix
